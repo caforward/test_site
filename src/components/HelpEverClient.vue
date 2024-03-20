@@ -1,13 +1,13 @@
 <template>
     <div class="container">
-        <div class="headText">Поможем каждому клиенту</div>
-        <div class="flexMain">
-            <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }" class="flex-items">
-                <div class="img-container"><img :src="item.imageUrl" alt="There was a img :( "></div>
-                <div class="flexElements">
+        <div class="upText">Поможем каждому клиенту</div>
+        <div class="flexContainer">
+            <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
+                class="ContentItems">
+                <div class="imgContainer"><img :src="item.imageUrl" alt="There was a img :( "></div>
+                <div class="textElements">
                     <h3>{{ item.textH3 }}</h3>
                     <p>{{ item.textParagr }}</p>
-
                 </div>
                 <div class="wrapButt">
                     <button>Подробнее</button>
@@ -66,27 +66,25 @@ export default defineComponent({
 
 .container {
     margin-top: 143px;
-    max-width: 1338px;
     max-height: 871px;
-    width:auto;
-    color: rgb(46, 46, 46);
+
 }
 
-.headText {
+.upText {
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 36px;
     margin-bottom: 32px;
 }
 
-.flexMain {
+.flexContainer {
     display: flex;
     justify-content: space-between;
     gap: 30px;
     position: relative;
 }
 
-.flex-items {
+.ContentItems {
     padding-left: 40px;
     padding-right: 40px;
     border-radius: 30px;
@@ -110,10 +108,10 @@ h3 {
 p {
     white-space: pre-line;
     font-family: "Montserrat", sans-serif;
-font-size: 16px;
-font-weight: 400;
-line-height: 28px;
-letter-spacing: 0%;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0%;
     padding-bottom: 135px;
 }
 
@@ -131,14 +129,14 @@ letter-spacing: 0%;
 
 }
 
-.flexElements {
+.textElements {
     display: flex;
     align-items: baseline;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.img-container {
+.imgContainer {
     display: flex;
     justify-content: center;
     max-width: 100%;
