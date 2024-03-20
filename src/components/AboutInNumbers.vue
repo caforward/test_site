@@ -45,10 +45,10 @@ export default defineComponent({
     ul {
         max-width: 243px;
         width: 100%;
+        font-family: 'Montserrat', sans-serif;
     }
 
     .upInfo {
-        font-family: 'Montserrat', sans-serif;
         font-weight: 700;
         font-size: 50px;
         line-height: 48%;
@@ -58,7 +58,6 @@ export default defineComponent({
     }
 
     .bottInfo {
-        font-family: 'TT Norms', sans-serif;
         font-weight: 400;
         font-size: 16px;
         color: #2e2e2e;
