@@ -68,16 +68,14 @@ export default defineComponent({
     margin-top: 100px;
     max-width: 1338px;
     max-height: 871px;
-    width: 100%;
-    height: 100%;
+    width:auto;
+    color: rgb(46, 46, 46);
 }
 
 .headText {
     font-family: "Montserrat", sans-serif;
-    ;
     font-weight: 700;
     font-size: 36px;
-    color: #2e2e2e;
     margin-bottom: 32px;
 }
 
@@ -104,7 +102,6 @@ h3 {
     font-size: 28px;
     line-height: 30px;
     letter-spacing: 0%;
-    color: #2e2e2e;
     margin-top: 40px;
     margin-bottom: 20px;
     height: auto;
@@ -117,13 +114,11 @@ font-size: 16px;
 font-weight: 400;
 line-height: 28px;
 letter-spacing: 0%;
-    color: #2e2e2e;
     padding-bottom: 135px;
 }
 
 
 .wrapButt {
-    color: blanchedalmond;
     position: absolute;
     bottom: 23px;
     width: 100%;
