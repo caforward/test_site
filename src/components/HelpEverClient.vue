@@ -44,7 +44,7 @@ export default defineComponent({
                     id: 2,
                     imageUrl: '/src/assets/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
-                    textParagr: "В нашей компании имеются практики  и опыт, которые позволяют нам быстро  и эффективно разблокировать счета  должника. Доверьте свою финансовую  ситуацию нам, и забудьте о проблемах  с приставами!     Если у вас возникла другая проблема,  то просто свяжитесь с нами по  телефону +7 (804) 333‑41‑33 –  консультация наших специалистов  бесплатна!",
+                    textParagr: "В нашей компании имеются практики  и опыт, которые позволяют нам быстро  и эффективно разблокировать счета  должника. Доверьте свою финансовую  ситуацию нам, и забудьте о проблемах  с приставами!\n\nЕсли у вас возникла другая проблема,  то просто свяжитесь с нами по  телефону +7 (804) 333‑41‑33 –  консультация наших специалистов  бесплатна!",
                     background: '#f0f1f9'
                 }, {
                     id: 3,
@@ -102,7 +102,8 @@ h3 {
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 28px;
-    line-height: 107%;
+    line-height: 30px;
+    letter-spacing: 0%;
     color: #2e2e2e;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -112,9 +113,10 @@ h3 {
 p {
     white-space: pre-line;
     font-family: "Montserrat", sans-serif;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 175%;
+font-size: 16px;
+font-weight: 400;
+line-height: 28px;
+letter-spacing: 0%;
     color: #2e2e2e;
     padding-bottom: 135px;
 }
