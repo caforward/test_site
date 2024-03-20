@@ -1,13 +1,19 @@
 <template>
     <div class="container">
-        <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }" class="flex-container">
+        <div class="headText">Поможем каждому клиенту</div>
+        <div class="flexMain">
+        <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }" class="flex-items">
             <div class="img-container"><img :src="item.imageUrl" alt="There was a img :( "></div>
             <div class="flexElements">
                 <h3>{{ item.textH3 }}</h3>
                 <p>{{ item.textParagr }}</p>
-                <div v-bind:class="{ 'buttonItems3' : item.id === 3 }"><button>Подробнее</button></div>
+
             </div>
+            <div class="wrapButt" >
+                    <button>Подробнее</button></div>
         </div>
+        </div>
+        <div>1337</div>
     </div>
 
 </template>
@@ -32,19 +38,19 @@ export default defineComponent({
                     id: 1,
                     imageUrl: '/src/assets/images/HelpEverClient/1img.png',
                     textH3: "Прощение долга",
-                    textParagr: "Не можете выплатить всю сумму\nдолга? ПКО «Форвард» поможет вам\nполностью избавиться от долгов.\nЗаключите договор с нами и получите\nскидку на свой долг. Что это значит?\nЕсли вы начнете сотрудничество с\nнашей компанией, вы сможете\nрассчитывать на прощение части\nвашего долга. Позвоните нам, и мы\nрассчитаем оптимальный для вас\nграфик платежей, который не будет\nобременять вас, но поможет быстро\nрасплатиться с долгами.",
+                    textParagr: "Не можете выплатить всю сумму  долга? ПКО «Форвард» поможет вам  полностью избавиться от долгов.  Заключите договор с нами и получите  скидку на свой долг. Что это значит?  Если вы начнете сотрудничество с  нашей компанией, вы сможете  рассчитывать на прощение части  вашего долга. Позвоните нам, и мы  рассчитаем оптимальный для вас  график платежей, который не будет  обременять вас, но поможет быстро  расплатиться с долгами.",
                     background: '#ecf6e7'
                 }, {
                     id: 2,
                     imageUrl: '/src/assets/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
-                    textParagr: "В нашей компании имеются практики\nи опыт, которые позволяют нам быстро\nи эффективно разблокировать счета\nдолжника. Доверьте свою финансовую\nситуацию нам, и забудьте о проблемах\nс приставами!\n\n Если у вас возникла другая проблема,\nто просто свяжитесь с нами по\nтелефону +7 (804) 333‑41‑33 –\nконсультация наших специалистов\nбесплатна!",
+                    textParagr: "В нашей компании имеются практики  и опыт, которые позволяют нам быстро  и эффективно разблокировать счета  должника. Доверьте свою финансовую  ситуацию нам, и забудьте о проблемах  с приставами!     Если у вас возникла другая проблема,  то просто свяжитесь с нами по  телефону +7 (804) 333‑41‑33 –  консультация наших специалистов  бесплатна!",
                     background: '#f0f1f9'
                 }, {
                     id: 3,
                     imageUrl: '/src/assets/images/HelpEverClient/3img.png',
                     textH3: "Узнать номер вашего договора",
-                    textParagr: "Не знаете номер своего договора?\nОставьте свои контактные данные, и\nнаши специалисты со всем разберутся.\nЕсли вы не можете разобраться в\nюридических сложностях, то не\nбойтесь нам звонить – в ПКО\n«Форвард» работают юристы высокого\nкласса, которые без труда разберутся\nдаже в самой сложной ситуации.",
+                    textParagr: "Не знаете номер своего договора?  Оставьте свои контактные данные, и  наши специалисты со всем разберутся.  Если вы не можете разобраться в  юридических сложностях, то не  бойтесь нам звонить – в ПКО  «Форвард» работают юристы высокого  класса, которые без труда разберутся  даже в самой сложной ситуации.",
                     background: "#eef1f3"
                 }
 
@@ -56,24 +62,36 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '/src/assets/scss/base/mixins.scss';
-
+@import '/src//assets/scss/index.scss';
 
 .container {
     margin-top: 100px;
     max-width: 1338px;
+    max-height: 871px;
+    width: 100%;
+    height: 100%;
+}
+.headText {
+font-family: "Montserrat", sans-serif;;
+font-weight: 700;
+font-size: 36px;
+color: #2e2e2e;
+margin-bottom: 32px;
+}
+.flexMain {
     display: flex;
     justify-content: space-between;
-    gap: 30px
+    gap: 30px;
+    position: relative;
 }
-
-.flex-container {
-    max-width: 426px;
-    max-height: 795px;
-    width: 100%;
+.flex-items {
+    padding-left: 40px;
+    padding-right: 40px;
     border-radius: 30px;
     display: flex;
-  flex-direction: column;
-
+    flex-direction: column;
+    height: auto;
+    width: 100%;
 }
 
 h3 {
@@ -84,35 +102,37 @@ h3 {
     color: #2e2e2e;
     margin-top: 40px;
     margin-bottom: 20px;
+    height: auto;
 }
 
 p {
-
     white-space: pre-line;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 17px;
     line-height: 175%;
     color: #2e2e2e;
+    padding-bottom: 135px;
 }
 
-button {
+ 
+.wrapButt{
+    color:blanchedalmond;
+    position: absolute; 
+    bottom: 23px; 
+    width: 100%; 
+    button {
     @include buttonDetails;
     margin: 20px 0px 40px -7px;
     padding: 15px 0;
-    
 }
-.buttonItems3 {
-        margin-top: 99px;
-    }
-
+   
+}
 
 .flexElements {
     display: flex;
     align-items: baseline;
     flex-direction: column;
-    padding-left: 40px;
-    padding-right: 50px;
     justify-content: space-between;
 }
 
@@ -121,7 +141,7 @@ button {
     justify-content: center;
     max-width: 100%;
     margin-top: 20px;
-    height: auto;
+    max-height: 182px;
 }
 
 
