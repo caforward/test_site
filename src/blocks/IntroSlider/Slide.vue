@@ -8,7 +8,7 @@
                 {{ title }}
             </div>
             <div class="slide-content__text">
-                {{ text }}
+                <div v-html="text"></div>
             </div>
             <div class="slide-content__buttons">
                 <!-- <BaseBlueButton text="Получить консультацию" /> -->
