@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="flex-container">
+        <div class="flexContainer">
             <ul v-for="item in items" :key="item.id">
                 <li class="upInfo">{{ item.upInfo }}</li>
                 <li class="bottInfo">{{ item.bottInfo }}</li>
@@ -33,14 +33,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 @import '/src/assets/scss/index.scss';
+
 .container {
     margin-top: 77px;
     max-width: 1338px;
 }
 
-.flex-container {
+.flexContainer {
     display: flex;
     justify-content: space-between;
 
