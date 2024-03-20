@@ -28,12 +28,17 @@ const props = defineProps(['title', 'text', 'imgSrc'])
 
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 
 * {
     color: #2e2e2e;
 }
-
+img {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .slide__button {
     // @include blue-button;
     

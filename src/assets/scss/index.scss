@@ -1,9 +1,10 @@
-@import './base/mixins';
-@import './base/variables';
-@import './base/animations';
+@import '/src/assets/scss/base/mixins.scss';
+@import '/src/assets/scss/base/variables.scss';
+@import '/src/assets/scss/base/animations';
 
-@import './libs/normalize';
-@import './libs/fonts';
+@import '/src/assets/scss/libs/normalize';
+@import '/src/assets/scss/libs/fonts';
 
-@import './blocks/default';
-@import './blocks/container';
+@import '/src/assets/scss/blocks/default';
+@import '/src/assets/scss/blocks/container';
+
