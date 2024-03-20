@@ -28,9 +28,57 @@
     }
 }
 
+@mixin button {
+    padding: 10px 24px;
+    height: 50px;
+    border-radius: 30px;
+    background-color: #fff;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    &:active {
+        background-color: #e6e6e6;
+    }
+}
+
 @mixin blue-button {
-    color: white;
-    background-color: blue;
+    padding: 10px 24px;
+    height: 50px;
+    border-radius: 30px;
+    color: #fff;
+    background-color: $blue;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: #028fcc;
+    }
+
+    &:active {
+        background-color: #0286be;
+    }
+}
+
+@mixin blue-button-small {
+    border-radius: 30px;
+    padding: 5px 15px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 187%;
+    background-color: $blue;
+    color: #fff;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: #028fcc;
+    }
+
+    &:active {
+        background-color: #0286be;
+    }
 }
 
 @mixin desktop() {
