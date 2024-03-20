@@ -48,6 +48,26 @@
     }
 }
 
+@mixin blue-button-small {
+    border-radius: 30px;
+    padding: 5px 15px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 187%;
+    background-color: $blue;
+    color: #fff;
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: #028fcc;
+    }
+
+    &:active {
+        background-color: #0286be;
+    }
+}
+
 @mixin desktop() {
     @media (max-width: 1230px) {
         @content;
