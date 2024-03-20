@@ -62,7 +62,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '/src/assets/scss/base/mixins.scss';
-@import '/src//assets/scss/index.scss';
+@import '/src/assets/scss/index.scss';
 
 .container {
     margin-top: 100px;

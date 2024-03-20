@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="flexRow">
+        <div class="flexContainer">
             <div class="flexColumn">
                 <h3>Начать исправлять свое финансовое <br> положение и кредитную историю <br> очень просто!</h3>
                 <p>Первое, что вам нужно сделать – связаться с нами по бесплатному<br>телефону +7 (804) 333‑41‑33 или с помощью электронной почты<br>dolg.info@caforward.ru. Далее наши специалисты дадут вам бесплатную<br>консультацию и расскажут, что делать, чтобы начать исправлять<br>свое трудной финансовое положение</p>
@@ -28,21 +28,21 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-@import '/src/assets/scss/index.scss';
-@import '/src/assets/scss/libs/fonts.scss';
 
+@import '/src/assets/scss/base/mixins.scss';
+@import '/src/assets/scss/index.scss';
 .container {
-    margin-top: 62px;
-    max-width: 1320px;
+    max-width: 1338px;
     max-height: 470px;
-    widows: auto;
-    height: auto;
-    border-radius: 30px;
-    background: rgb(232, 239, 244);
+    min-height: 400px;
+    width:auto;
+    margin-top: 62px;
 
 }
-.flexRow {
+.flexContainer {
     display: flex;
+    background: rgb(232, 239, 244);
+    border-radius: 30px;
 
 }
 .flexColumn {
@@ -91,14 +91,15 @@ background: rgb(32, 175, 206);
 .image-container{
     max-width: 457px; 
     max-height: 431px;
-  
 }
 img {
     transform: rotate(2.01deg);
     margin-right: 29px;
     margin-bottom: 35.5px;
     margin-top: -14px;
-    width:100%;
-    height: auto;
+    padding-right: 10px;
+    min-width: 360px;
+    min-height: 370px;
+    width: 100%;
 }
 </style>
