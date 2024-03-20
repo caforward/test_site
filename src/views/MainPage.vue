@@ -6,6 +6,7 @@
     <PigFinance />
     <AboutCompany />
     <AnonimCallVue />
+    <Footer></footer>
 </template>
 
 <script setup>
@@ -16,6 +17,7 @@ import PigFinance from '../components/PigFinance.vue';
 import AboutCompany from '../components/AboutCompany.vue';
 import Header from '../layouts/Header.vue';
 import AnonimCallVue from '../components/AnonimCall.vue';
+import Footer from '../layouts/Footer.vue';
 </script>
 
 <style>

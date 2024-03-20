@@ -53,7 +53,7 @@ export default defineComponent({
 .container {
     margin-top: 100px;
     height: 637px;
-
+    margin-bottom: 150px;
 
 }
 
@@ -132,6 +132,7 @@ img {
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0%;
+    margin-bottom: 150px;
 }
 
 h3 {
