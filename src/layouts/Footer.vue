@@ -39,7 +39,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: "Footer",
+
     data() {
         return {
             footerArr: [
@@ -79,12 +79,13 @@ export default defineComponent({
 @import "/src/assets/scss/index.scss";
 
 footer {
-    background-color: #212121;
+    background: rgb(41, 41, 41);
+    height: 360px;
 }
 
 .container {
     color: rgb(255, 255, 255);
-    height: 360px;
+    
 }
 
 .bottFooterText {
@@ -108,6 +109,7 @@ span {
     display: flex;
     padding-top: 61px;
     justify-content: space-between;
+    padding-bottom: 34px;
 }
 
 .iconContainer {
@@ -147,6 +149,11 @@ li {
     border-radius: 30px;
     background: rgb(245, 245, 245);
     margin-bottom: 14px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+font-size: 14px;
+line-height: 214%;
+color: #212121;
 }
 
 .blueButt {
@@ -155,5 +162,10 @@ li {
     border-radius: 30px;
     background: rgb(0, 150, 216);
     margin-bottom: 30px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+font-size: 14px;
+line-height: 214%;
+color: #fff;
 }
 </style>
