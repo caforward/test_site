@@ -71,7 +71,7 @@
 
 <script setup></script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../assets/scss/index.scss';
 
 section {
