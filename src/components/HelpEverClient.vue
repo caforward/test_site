@@ -2,18 +2,18 @@
     <div class="container">
         <div class="headText">Поможем каждому клиенту</div>
         <div class="flexMain">
-        <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }" class="flex-items">
-            <div class="img-container"><img :src="item.imageUrl" alt="There was a img :( "></div>
-            <div class="flexElements">
-                <h3>{{ item.textH3 }}</h3>
-                <p>{{ item.textParagr }}</p>
+            <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }" class="flex-items">
+                <div class="img-container"><img :src="item.imageUrl" alt="There was a img :( "></div>
+                <div class="flexElements">
+                    <h3>{{ item.textH3 }}</h3>
+                    <p>{{ item.textParagr }}</p>
 
+                </div>
+                <div class="wrapButt">
+                    <button>Подробнее</button>
+                </div>
             </div>
-            <div class="wrapButt" >
-                    <button>Подробнее</button></div>
         </div>
-        </div>
-        <div>1337</div>
     </div>
 
 </template>
@@ -71,19 +71,23 @@ export default defineComponent({
     width: 100%;
     height: 100%;
 }
+
 .headText {
-font-family: "Montserrat", sans-serif;;
-font-weight: 700;
-font-size: 36px;
-color: #2e2e2e;
-margin-bottom: 32px;
+    font-family: "Montserrat", sans-serif;
+    ;
+    font-weight: 700;
+    font-size: 36px;
+    color: #2e2e2e;
+    margin-bottom: 32px;
 }
+
 .flexMain {
     display: flex;
     justify-content: space-between;
     gap: 30px;
     position: relative;
 }
+
 .flex-items {
     padding-left: 40px;
     padding-right: 40px;
@@ -115,18 +119,19 @@ p {
     padding-bottom: 135px;
 }
 
- 
-.wrapButt{
-    color:blanchedalmond;
-    position: absolute; 
-    bottom: 23px; 
-    width: 100%; 
+
+.wrapButt {
+    color: blanchedalmond;
+    position: absolute;
+    bottom: 23px;
+    width: 100%;
+
     button {
-    @include buttonDetails;
-    margin: 20px 0px 40px -7px;
-    padding: 15px 0;
-}
-   
+        @include buttonDetails;
+        margin: 20px 0px 40px -7px;
+        padding: 15px 0;
+    }
+
 }
 
 .flexElements {
@@ -143,6 +148,4 @@ p {
     margin-top: 20px;
     max-height: 182px;
 }
-
-
 </style>
