@@ -38,6 +38,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+interface FooterItem {
+  text: string;
+  fontW?: number;
+  margin?: string;
+}
+
+interface IconSrc {
+  src: string;
+}
 export default defineComponent({
 
     data() {
@@ -62,14 +71,14 @@ export default defineComponent({
                     { text: "Написать на почту", margin: "0 0 15px 0" },
                     { text: "dolg.info@caforward.ru", fontW: 700, margin: "0" },
                 ],
-            ],
+            ] as FooterItem[][],
             iconSrcList: [
                 { src: "/src/assets/images/footer/1.png" },
                 { src: "/src/assets/images/footer/2.png" },
                 { src: "/src/assets/images/footer/3.png" },
                 { src: "/src/assets/images/footer/4.png" },
                 { src: "/src/assets/images/footer/5.png" },
-            ],
+            ] as IconSrc[],
         };
     },
 });
