@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../assets/scss/index';
+@import '/src/assets/scss/index.scss';
 
 .button {
 	@include button;

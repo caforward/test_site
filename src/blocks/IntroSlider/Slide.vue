@@ -39,10 +39,7 @@ img {
     height: 100%;
     object-fit: cover;
 }
-.slide__button {
-    // @include blue-button;
-    
-}
+
 
 .slide {
     &__img {

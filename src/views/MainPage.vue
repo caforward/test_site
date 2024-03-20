@@ -1,4 +1,5 @@
 <template>
+    <Header></header>
     <IntroSlider />
     <AboutInNumbersVue />
     <HelpEverClientVue />
@@ -12,6 +13,7 @@ import HelpEverClientVue from '../components/HelpEverClient.vue';
 import IntroSlider from '../components/IntroSlider.vue';
 import PigFinance from '../components/PigFinance.vue';
 import AboutCompany from '../components/AboutCompany.vue';
+import Header from '../layouts/Header.vue';
 </script>
 
 <style>

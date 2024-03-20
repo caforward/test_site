@@ -65,7 +65,7 @@ export default defineComponent({
 @import '/src/assets/scss/index.scss';
 
 .container {
-    margin-top: 100px;
+    margin-top: 143px;
     max-width: 1338px;
     max-height: 871px;
     width:auto;
