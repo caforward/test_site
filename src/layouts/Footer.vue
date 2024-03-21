@@ -11,7 +11,7 @@
                 </ul>
                 <ul v-for="(listElem, index) in footerArr" :key="index">
                     <li v-for="(footerItem, ind) in listElem" :key="ind" :style="{
-                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,
+                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,  
                     margin: footerItem.margin ? footerItem.margin : '0 0 30px 0',
                 }">
                         {{ footerItem.text }}

@@ -1,21 +1,24 @@
 <template>
-    <div class="container">
-        <div class="upText">Поможем каждому клиенту</div>
-        <div class="flexContainer">
-            <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
-                class="ContentItems">
-                <div class="imgContainer"><img :src="item.imageUrl" alt="There was a img :( "></div>
-                <div class="textElements">
-                    <h3>{{ item.textH3 }}</h3>
-                    <p>{{ item.textParagr }}</p>
-                </div>
-                <div class="wrapButt">
-                    <button>Подробнее</button>
+    <section>
+        <div class="container">
+            <div class="upText">Поможем каждому клиенту</div>
+            <div class="flexContainer">
+                <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
+                    class="ContentItems">
+                    <div class="content">
+                        <div class="imgContainer"><img :src="item.imageUrl" alt="There was a img :( "></div>
+                        <div class="textElements">
+                            <h3>{{ item.textH3 }}</h3>
+                            <p>{{ item.textParagr }}</p>
+                        </div>
+                    </div>
+                    <div class="wrapButt">
+                        <button>Подробнее</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    </section>
 </template>
 
 <script lang="ts">
@@ -64,10 +67,9 @@ export default defineComponent({
 @import '/src/assets/scss/base/mixins.scss';
 @import '/src/assets/scss/index.scss';
 
-.container {
-    margin-top: 143px;
-    max-height: 871px;
-
+section {
+    padding-top: 90px;
+    padding-bottom: 50px;
 }
 
 .upText {
@@ -85,14 +87,19 @@ export default defineComponent({
 }
 
 .ContentItems {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 25px 40px 60px;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     height: auto;
     width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.content {}
 
 h3 {
     font-family: "Montserrat", sans-serif;
@@ -112,18 +119,13 @@ p {
     font-weight: 400;
     line-height: 28px;
     letter-spacing: 0%;
-    padding-bottom: 135px;
+    margin-bottom: 20px;
 }
 
 
 .wrapButt {
-    position: absolute;
-    bottom: 23px;
-    width: 100%;
-
     button {
         @include buttonDetails;
-        margin: 20px 0px 40px -7px;
         padding: 15px 0;
     }
 
@@ -140,7 +142,6 @@ p {
     display: flex;
     justify-content: center;
     max-width: 100%;
-    margin-top: 20px;
     max-height: 182px;
 }
 </style>

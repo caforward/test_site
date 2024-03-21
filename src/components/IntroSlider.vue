@@ -97,8 +97,9 @@ img{
     height: 100%;
     object-fit: cover;
 }
+
 .slider {
-	
+	overflow: hidden;
 	&__container {
 		display: flex;
 		flex-wrap: nowrap;
