@@ -106,6 +106,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/scss/index.scss';
 
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .button {
     @include blue-button-small;
 
@@ -149,11 +153,11 @@ export default {
             align-items: center;
             justify-content: space-between;
         }
-        
+
         &__logo {
             margin-right: 20px;
         }
-        
+
         &__right {
             display: flex;
             align-items: center;
@@ -164,6 +168,10 @@ export default {
             font-weight: 400;
             font-size: 16px;
             margin-right: 20px;
+
+            a {
+                color: #000;
+            }
         }
 
         &-nav {
