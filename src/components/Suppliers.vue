@@ -86,14 +86,22 @@ section {
         display: flex;
         flex-wrap: nowrap;
         transition: transform .2s;
+        width: 100%;
     }
 
     &__slide {
+        flex: 1;
         position: relative;
         z-index: 1;
+        width: calc(100% / 5);
 
         &:not(:last-child) {
             margin-right: 50px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
         }
     }
 
