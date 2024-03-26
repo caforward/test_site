@@ -1,4 +1,5 @@
 <template>
+    <section>
     <div class="container">
         <div class="flexContainer">
             <div class="textContent">
@@ -25,6 +26,7 @@
             </div>
         </div>
     </div>
+</section>
 </template>
 
 <script lang="ts">
@@ -41,8 +43,11 @@ export default defineComponent({
 @import "/src/assets/scss/index.scss";
 @import "/src/assets/scss/base/mixins.scss";
 
+section{
+padding-top:50px;
+}
+
 .container {
-    margin-top: 133px;
     max-height: 588px;
     min-height: 540px;
 }
@@ -52,7 +57,6 @@ export default defineComponent({
     border-radius: 30px;
     background: rgb(243, 247, 250);
     max-height: 588px;
-    height: 100%;
 }
 
 .textContent {

@@ -85,6 +85,7 @@ export default {
 <style scoped lang="scss">
 @import '/src/assets/scss/index.scss';
 
+
 .button {
 	@include button;
 

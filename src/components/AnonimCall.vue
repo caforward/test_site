@@ -1,4 +1,5 @@
 <template>
+    <section>
     <div class="container">
         <div class="flexContainer">
             <div class="textContent">
@@ -28,8 +29,7 @@
         </div>
         <button class="callOrderButt">Заказать звонок</button>
     </div>
-
-
+</section>
 </template>
 
 <script lang="ts">

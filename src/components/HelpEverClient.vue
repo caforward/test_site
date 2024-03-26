@@ -68,9 +68,10 @@ export default defineComponent({
 @import '/src/assets/scss/index.scss';
 
 section {
-    padding-top: 90px;
-    padding-bottom: 50px;
+    padding-bottom: 100px;
+    background-color: #F9FAFB;
 }
+
 
 .upText {
     font-family: "Montserrat", sans-serif;
@@ -93,7 +94,6 @@ section {
     flex-direction: column;
     height: auto;
     width: 100%;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -141,7 +141,11 @@ p {
 .imgContainer {
     display: flex;
     justify-content: center;
-    max-width: 100%;
-    max-height: 182px;
+    
+ 
+    img {
+        max-width: 235px;
+        max-height: 188px;
+    }
 }
 </style>

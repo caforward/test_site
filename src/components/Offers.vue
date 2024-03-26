@@ -76,8 +76,7 @@
 
 section {
     background-color: #F9FAFB;
-    padding-top: 50px;
-    padding-bottom: 30px;
+    padding-bottom: 60px;
 }
 
 .title {

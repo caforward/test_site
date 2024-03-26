@@ -1,4 +1,5 @@
 <template>
+    <section>
     <div class="container">
         <div class="flexContainer">
             <ul v-for="item in items" :key="item.id">
@@ -7,6 +8,7 @@
             </ul>
         </div>
     </div>
+</section>
 </template>
 
 <script lang="ts">
@@ -35,9 +37,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '/src/assets/scss/index.scss';
 
-.container {
-    margin-top: 77px;
-    max-width: 1338px;
+section{
+    padding-bottom: 140px;
+    padding-top:77px;
+    background-color: #F9FAFB;
 }
 
 .flexContainer {
@@ -48,6 +51,7 @@ export default defineComponent({
         max-width: 243px;
         width: 100%;
         font-family: 'Montserrat', sans-serif;
+        
     }
 
     .upInfo {
