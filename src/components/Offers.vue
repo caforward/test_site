@@ -86,16 +86,6 @@ section {
     margin-bottom: 33px;
 }
 
-.button {
-    @include button;
-
-    &_blue {
-        @include blue-button;
-        padding: 10px 50px;
-        height: 50px;
-    }
-}
-
 .form {
     &-inputs {
         margin-bottom: 20px;

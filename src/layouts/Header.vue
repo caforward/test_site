@@ -33,7 +33,7 @@
                                 +7 (499) 702‑01‑56
                             </a>
                         </div>
-                        <button class="button button_blue">
+                        <button class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">

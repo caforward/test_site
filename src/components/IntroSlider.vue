@@ -24,10 +24,10 @@
 								</p>
 							</div>
 							<div class="slide-content__buttons">
-								<button class="slide__button button button_blue">
+								<button class="button button_blue slide__button">
 									Получить консультацию
 								</button>
-								<button class="slide__button button">
+								<button class="button slide__button">
 									Подробнее
 								</button>
 							</div>
@@ -57,19 +57,19 @@ export default {
 		return {
 			sliderData: [
 				{
-					img: 'introSlider/01.png',
+					img: 'introSlider/01.jpg',
 					title: 'Платите столько, сколько можете',
 					content: {
 					}
 				},
 				{
-					img: 'introSlider/02.png',
+					img: 'introSlider/02.jpg',
 					title: 'Отзовем исполнительное производство',
 					content: {
 					}
 				},
 				{
-					img: 'introSlider/03.png',
+					img: 'introSlider/03.jpg',
 					title: 'Улучшите свою кредитную историю',
 					content: {
 					}
@@ -83,16 +83,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '/src/assets/scss/index.scss';
-
-
-.button {
-	@include button;
-
-	&_blue {
-		@include blue-button;
-	}
-}
 img{
 	width: 100%;
     height: 100%;

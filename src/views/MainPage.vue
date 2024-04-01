@@ -1,5 +1,5 @@
 <template>
-    <Header></header>
+    <Header />
     <IntroSlider />
     <AboutInNumbersVue />
     <HelpEverClientVue />
@@ -8,7 +8,7 @@
     <Suppliers />
     <AboutCompany />
     <AnonimCallVue />
-    <Footer></footer>
+    <Footer />
 </template>
 
 <script setup>
