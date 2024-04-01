@@ -9,9 +9,9 @@
                     </li>
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
-                <ul v-for="(listElem, index) in footerArr" :key="index">
+                <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
                     <li v-for="(footerItem, ind) in listElem" :key="ind" :style="{
-                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,  
+                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,
                     margin: footerItem.margin ? footerItem.margin : '0 0 30px 0',
                 }">
                         {{ footerItem.text }}
@@ -28,9 +28,11 @@
             </div>
         </div>
         <hr />
-        <div class="bottFooterText">
-            <span>ООО ПКО "Форвард"</span>
-            <span>Политика конфиденциальности</span>
+        <div class="footer-bottom">
+            <div class="container">
+                <span>ООО ПКО "Форвард"</span>
+                <a href="#" class="footer-bottom__link">Политика конфиденциальности</a>
+            </div>
         </div>
     </footer>
 </template>
@@ -39,13 +41,13 @@
 import { defineComponent } from "vue";
 
 interface FooterItem {
-  text: string;
-  fontW?: number;
-  margin?: string;
+    text: string;
+    fontW?: number;
+    margin?: string;
 }
 
 interface IconSrc {
-  src: string;
+    src: string;
 }
 export default defineComponent({
 
@@ -93,24 +95,24 @@ footer {
 }
 
 .container {
-    color: rgb(255, 255, 255);
-    
+    color: white;
 }
 
-.bottFooterText {
-    max-width: 1338px;
-    padding: 0 15px;
-    margin: 0 auto;
-    color: rgb(255, 255, 255);
+.footer-bottom {
+    padding: 20px 0 30px;
+    color: white;
+    font-size: 14px;
+    line-height: 24px;
+
+    &__link {
+        color: white;
+        margin-left: 25px;
+    }
 }
 
 span {
     display: inline-block;
-    margin: 19.5px 26px 31px 0;
     font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
     letter-spacing: 0%;
 }
 
@@ -145,6 +147,12 @@ li {
     letter-spacing: 0%;
 }
 
+.footer-nav {
+    &>*:not(:last-child) {
+        margin-bottom: 30px;
+    }
+}
+
 .imgForward {
     max-width: 200px;
     max-height: 52px;
@@ -160,9 +168,9 @@ li {
     margin-bottom: 14px;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-font-size: 14px;
-line-height: 214%;
-color: #212121;
+    font-size: 14px;
+    line-height: 214%;
+    color: #212121;
 }
 
 .blueButt {
@@ -173,8 +181,8 @@ color: #212121;
     margin-bottom: 30px;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-font-size: 14px;
-line-height: 214%;
-color: #fff;
+    font-size: 14px;
+    line-height: 214%;
+    color: #fff;
 }
 </style>

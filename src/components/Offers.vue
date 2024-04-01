@@ -75,8 +75,8 @@
 @import '../assets/scss/index.scss';
 
 section {
+    padding: 50px 0 30px;
     background-color: #F9FAFB;
-    padding-bottom: 60px;
 }
 
 .title {

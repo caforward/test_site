@@ -68,7 +68,7 @@ export default defineComponent({
 @import '/src/assets/scss/index.scss';
 
 section {
-    padding-bottom: 100px;
+    padding: 70px 0 50px;
     background-color: #F9FAFB;
 }
 

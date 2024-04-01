@@ -61,8 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 section {
-    padding-top: 100px;
-    padding-bottom: 50px;
+    padding: 100px 0 50px;
 }
 
 .title {

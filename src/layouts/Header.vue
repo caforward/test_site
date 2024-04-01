@@ -17,7 +17,7 @@
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
                         <a href="#">
-                            <img src="/src/assets/images/logo.png" alt="">
+                            <img src="/src/assets/images/logo.svg" alt="">
                         </a>
                     </div>
 
@@ -155,6 +155,7 @@ export default {
         }
 
         &__logo {
+            height: 45px;
             margin-right: 20px;
         }
 

@@ -50,21 +50,19 @@ export default defineComponent({
 @import '/src/assets/scss/index.scss';
 @import '/src/assets/scss/libs/fonts.scss';
 
-.container {
-    margin-top: 100px;
-    height: 637px;
-    margin-bottom: 150px;
+section {
+    padding: 50px 0 150px;
+}
 
+.container {
 }
 
 .flexContainer {
     display: flex;
     justify-content: flex-start;
-
 }
 
 .textContent {
-    width: 652px;
     margin-right: 39px;
 }
 
@@ -104,13 +102,11 @@ export default defineComponent({
 
 .phoneInfo {
     width: 313px;
-    height: 63px;
     margin-right: 32px;
 }
 
 .mailInfo {
     width: 310px;
-    height: 63px;
 }
 
 img {
@@ -132,7 +128,6 @@ img {
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0%;
-    margin-bottom: 150px;
 }
 
 h3 {

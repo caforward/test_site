@@ -38,8 +38,7 @@ export default defineComponent({
 @import '/src/assets/scss/index.scss';
 
 section{
-    padding-bottom: 140px;
-    padding-top:77px;
+    padding:80px 0 70px;
     background-color: #F9FAFB;
 }
 
