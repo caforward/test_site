@@ -176,7 +176,8 @@ section {
 
     &__img {
         margin-top: auto;
-        height: 320px;
+        width: 660px;
+        height: 317px;
     }
 }
 </style>
