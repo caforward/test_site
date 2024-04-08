@@ -146,6 +146,7 @@ export default {
     }
 
     &-bottom {
+        background-color: $white;
         padding: 22px 0;
 
         &__inner {
