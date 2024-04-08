@@ -1,5 +1,6 @@
 <template>
     <section class="">
+        <Breadcrumb />
         <div class="slider">
             <swiper class="swiper" :slides-per-view="1" @swiper="onSwiper">
                 <swiper-slide class="slider__slide">
@@ -190,6 +191,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 
 // swiper style
 import "swiper/css";
+import Breadcrumb from "../blocks/Breadcrumb.vue";
 
 export default {
     name: "IntroSlider",
@@ -197,6 +199,7 @@ export default {
         Slide,
         Swiper,
         SwiperSlide,
+        Breadcrumb
         // Pagination
     },
     props: {},
