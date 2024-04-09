@@ -24,7 +24,9 @@
                     <div class="header-bottom__right">
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name">
-                                <a class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-if="navLink.name === 'Получить консультацию'" class="header-bottom-nav__link"
+                                    :href="navLink.href" @click="showModal">{{ navLink.name }}</a>
+                                <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                             </li>
                         </ul>
 
@@ -33,7 +35,7 @@
                                 +7 (499) 702‑01‑56
                             </a>
                         </div>
-                        <button class="button button_blue button_small">
+                        <button @click="showModalCall" class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -55,13 +57,43 @@
             </div>
         </div>
     </header>
+    <ModalConsultationVue :visible="modalVisible" @close="closeModal">
+
+    </ModalConsultationVue>
+
+    <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
 </template>
 
 <script lang="ts">
+
+import ModalConsultationVue from './ModalConsultation.vue'
+import ModalCall from './ModalCall.vue'
+
 export default {
+    components: {
+        ModalConsultationVue,
+        ModalCall
+    },
+
     name: 'Header',
+    methods: {
+        showModal() {
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+        showModalCall() {
+            this.modalVisibleCall = true;
+        },
+        closeModalCall() {
+            this.modalVisibleCall = false;
+        },
+    },
     data() {
         return {
+            modalVisible: false,
+            modalVisibleCall: false,
             topNav: [
                 {
                     name: 'О компании',
@@ -105,6 +137,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/scss/index.scss';
+
 
 * {
     font-family: 'Montserrat', sans-serif;

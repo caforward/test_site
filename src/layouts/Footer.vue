@@ -90,7 +90,6 @@ export default defineComponent({
 
 footer {
     background: rgb(41, 41, 41);
-    height: 360px;
 }
 
 .container {
@@ -98,7 +97,7 @@ footer {
 }
 
 .footer-bottom {
-    padding: 19.5px 26px 0 20px;
+    padding: 19.5px 26px 31px 20px;
     color: white;
     font-size: 14px;
 
