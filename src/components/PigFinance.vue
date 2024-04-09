@@ -47,6 +47,8 @@ section {
     justify-content: space-between;
     background: rgb(232, 239, 244);
     border-radius: 30px;
+    max-height: 470px;
+
 }
 
 .textContainer {
@@ -92,11 +94,13 @@ button {
     background: rgb(32, 175, 206);
 }
 
-.imageContainer {
-    width: 470px;
+.imageContainer{
+    margin-top: -25px
 }
 
 img {
     transform: rotate(2.01deg);
+    width: 521px;   
+    height: 521px;
 }
 </style>

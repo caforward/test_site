@@ -99,7 +99,9 @@ section {
     justify-content: space-between;
 }
 
-.content {}
+.content {
+
+}
 
 h3 {
     font-family: "Montserrat", sans-serif;
@@ -142,10 +144,5 @@ p {
     display: flex;
     justify-content: center;
     
- 
-    img {
-        max-width: 235px;
-        max-height: 188px;
-    }
 }
 </style>

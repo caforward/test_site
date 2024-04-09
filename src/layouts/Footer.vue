@@ -2,7 +2,7 @@
     <footer>
         <div class="container">
             <div class="flexContainer">
-                <ul>
+                <ul class="leftPart">
                     <li>
                         <img class="imgForward" src="/src/assets/images/footer/forward.png"
                             alt="there was a logo CaForward" />
@@ -10,12 +10,17 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <li v-for="(footerItem, ind) in listElem" :key="ind" :style="{
-                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,
-                    margin: footerItem.margin ? footerItem.margin : '0 0 30px 0',
-                }">
+                    <li v-for="(footerItem, ind) in listElem" :key="ind">
                         {{ footerItem.text }}
                     </li>
+                </ul>
+                <div class="rightContainer">
+                <ul class="feedback"> 
+                    <li>Обратная связь</li>
+                    <li :style="{fontWeight: 700}">+7 (499) 702‑01‑56</li>
+                    <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
+                    <li>Написать на почту</li>
+                    <li :style="{fontWeight: 700}">dolg.info@caforward.ru</li>
                 </ul>
                 <ul>
                     <li><button class="whiteButt">Обратная связь</button></li>
@@ -25,6 +30,7 @@
                             alt="there was a icon from SM " />
                     </div>
                 </ul>
+            </div>
             </div>
         </div>
         <hr />
@@ -65,14 +71,7 @@ export default defineComponent({
                     { text: "Получить рассрочку" },
                     { text: "Получить консультацию" },
                     { text: "Внести платеж" },
-                ],
-                [
-                    { text: "Обратная связь", margin: "0" },
-                    { text: "+7 (499) 702‑01‑56", fontW: 700, margin: "15px 0" },
-                    { text: "пн - вс 8:00-22:00", margin: "0 0 30px 0" },
-                    { text: "Написать на почту", margin: "0 0 15px 0" },
-                    { text: "dolg.info@caforward.ru", fontW: 700, margin: "0" },
-                ],
+                ]
             ] as FooterItem[][],
             iconSrcList: [
                 { src: "/src/assets/images/footer/1.png" },
@@ -91,7 +90,6 @@ export default defineComponent({
 
 footer {
     background: rgb(41, 41, 41);
-    height: 360px;
 }
 
 .container {
@@ -99,10 +97,9 @@ footer {
 }
 
 .footer-bottom {
-    padding: 20px 0 30px;
+    padding: 19.5px 26px 31px 20px;
     color: white;
     font-size: 14px;
-    line-height: 24px;
 
     &__link {
         color: white;
@@ -122,6 +119,10 @@ span {
     justify-content: space-between;
     padding-bottom: 34px;
 }
+.rightContainer {
+    display: flex;
+    gap: 30px;
+}
 
 .iconContainer {
     display: flex;
@@ -130,6 +131,12 @@ span {
     img {
         width: 35px;
         height: 35px;
+    }
+}
+
+.leftPart{
+    li {
+        line-height: 24px;
     }
 }
 
@@ -145,6 +152,15 @@ li {
     font-weight: 500;
     line-height: 17px;
     letter-spacing: 0%;
+}
+.feedback {
+    li {
+        margin-bottom: 30px;
+        line-height: 0px;
+    }
+    .liMonday{
+        padding-bottom: 28px;
+    }
 }
 
 .footer-nav {

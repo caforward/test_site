@@ -29,22 +29,18 @@
 
                     <div class="header-bottom__right">
                         <ul class="header-bottom-nav">
-                            <li
-                                v-for="navLink in bottomNav"
-                                :key="navLink.name"
-                            >
-                                <a
-                                    class="header-bottom-nav__link"
-                                    :href="navLink.href"
-                                    >{{ navLink.name }}</a
-                                >
+
+                            <li v-for="navLink in bottomNav" :key="navLink.name">
+                                <a v-if="navLink.name === 'Получить консультацию'" class="header-bottom-nav__link"
+                                    :href="navLink.href" @click="showModal">{{ navLink.name }}</a>
+                                <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                             </li>
                         </ul>
 
                         <div class="header-bottom__tel">
                             <a href="tel:+74997020156"> +7 (499) 702‑01‑56 </a>
                         </div>
-                        <button class="button button_blue button_small">
+                        <button @click="showModalCall" class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg
                                     width="18"
@@ -74,13 +70,43 @@
             </div>
         </div>
     </header>
+    <ModalConsultationVue :visible="modalVisible" @close="closeModal">
+
+    </ModalConsultationVue>
+
+    <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
 </template>
 
 <script lang="ts">
+
+import ModalConsultationVue from './ModalConsultation.vue'
+import ModalCall from './ModalCall.vue'
+
 export default {
+
     name: "Header",
+    components: {
+        ModalConsultationVue,
+        ModalCall
+    },
+    methods: {
+        showModal() {
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+        showModalCall() {
+            this.modalVisibleCall = true;
+        },
+        closeModalCall() {
+            this.modalVisibleCall = false;
+        },
+    },
     data() {
         return {
+            modalVisible: false,
+            modalVisibleCall: false,
             topNav: [
                 {
                     name: "О компании",
@@ -124,6 +150,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/scss/index.scss";
+
 
 * {
     font-family: "Montserrat", sans-serif;
