@@ -1,4 +1,6 @@
-*, :after, :before {
+*,
+:after,
+:before {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -19,13 +21,29 @@ body {
     font-size: 16px;
 }
 
-h1, h2 {
-    font-weight: 800;
+h1,
+h2 {
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 36px;
+    line-height: 111%;
+}
+
+h2 {
+    font-size: 28px;
+    line-height: 121%;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 167%;
 }
 
 a {
     text-decoration: none;
-    
+
     user-select: none;
     display: inline-block;
 }
@@ -47,7 +65,8 @@ label {
     user-select: none;
 }
 
-input, textarea {
+input,
+textarea {
     outline: none;
     border: none;
 }
