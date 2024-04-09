@@ -9,7 +9,7 @@ import  vSelect from 'vue-select'
 
 
 const routes = [
-    { name: 'Главная', path: "/", component: MainPage },
+    { name: '', path: "/", component: MainPage },
     { name: 'О компании', path: "/about", component: About },
 ];
 

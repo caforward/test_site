@@ -10,7 +10,7 @@
                         помощью электронной почты dolg.info@caforward.ru. Далее наши специалисты дадут вам
                         бесплатную консультацию и расскажут, что делать, чтобы начать исправлять свое трудной
                         финансовое положение</p>
-                    <button>Связаться с нами</button>
+                    <div><button>Связаться с нами</button></div>
                 </div>
                 <div class="imageContainer"><img src="/src/assets/images/PigImg/1img.png" alt="there was a pig :(">
                 </div>

@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
-                        <a href="#">
+                        <a href="/">
                             <img src="/src/assets/images/logo.svg" alt="" />
                         </a>
                     </div>
@@ -114,7 +114,7 @@ export default {
                 },
                 {
                     name: "Контакты",
-                    href: "#",
+                    href: "#contacts",
                 },
                 {
                     name: "Партнёрам",
@@ -140,7 +140,7 @@ export default {
                 },
                 {
                     name: "Внести платёж",
-                    href: "#",
+                    href: "#payment",
                 },
             ],
         };

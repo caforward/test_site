@@ -1,5 +1,5 @@
-<template>
-    <section>
+<template >
+    <section id="payment">
         <div class="container">
             <h2 class="title">
                 Попрощайтесь с долгами онлайн <br> на своих условиях

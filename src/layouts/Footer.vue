@@ -1,26 +1,26 @@
 <template>
-    <footer>
+    <footer id="contacts">
         <div class="container">
             <div class="flexContainer">
                 <ul class="leftPart">
-                    <li>
+                    <a href="/">
                         <img class="imgForward" src="/src/assets/images/footer/forward.png"
                             alt="there was a logo CaForward" />
-                    </li>
+                    </a>
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <li v-for="(footerItem, ind) in listElem" :key="ind">
+                    <a :href="footerItem.href" v-for="(footerItem, ind) in listElem" :key="ind">
                         {{ footerItem.text }}
-                    </li>
+                    </a>
                 </ul>
                 <div class="rightContainer">
                 <ul class="feedback"> 
                     <li>Обратная связь</li>
-                    <li :style="{fontWeight: 700}">+7 (499) 702‑01‑56</li>
+                    <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
                     <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
                     <li>Написать на почту</li>
-                    <li :style="{fontWeight: 700}">dolg.info@caforward.ru</li>
+                    <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
                 </ul>
                 <ul>
                     <li><button class="whiteButt">Обратная связь</button></li>
@@ -61,23 +61,20 @@ export default defineComponent({
         return {
             footerArr: [
                 [
-                    { text: "О Компании" },
-                    { text: "Контакты" },
-                    { text: "Вакансии" },
-                    { text: "Партнёрам" },
+                    { text: "О Компании", href: "/about" },
+                    { text: "Контакты", href: "" },
+                    { text: "Вакансии", href: ""  },
+                    { text: "Партнёрам", href: ""  },
                 ],
                 [
-                    { text: "Я не должник" },
-                    { text: "Получить рассрочку" },
-                    { text: "Получить консультацию" },
-                    { text: "Внести платеж" },
+                    { text: "Я не должник", href: ""  },
+                    { text: "Получить рассрочку", href: ""  },
+                    { text: "Получить консультацию", href: ""  },
+                    { text: "Внести платеж", href: "#payment"  },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
                 { src: "/src/assets/images/footer/1.png" },
-                { src: "/src/assets/images/footer/2.png" },
-                { src: "/src/assets/images/footer/3.png" },
-                { src: "/src/assets/images/footer/4.png" },
                 { src: "/src/assets/images/footer/5.png" },
             ] as IconSrc[],
         };
@@ -88,6 +85,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "/src/assets/scss/index.scss";
 
+a{
+    display: block;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+}
 footer {
     background: rgb(41, 41, 41);
 }
@@ -127,7 +130,7 @@ span {
 .iconContainer {
     display: flex;
     gap: 7px;
-
+    justify-content: center;
     img {
         width: 35px;
         height: 35px;
@@ -136,6 +139,9 @@ span {
 
 .leftPart{
     li {
+        line-height: 24px;
+    }
+    a {
         line-height: 24px;
     }
 }
@@ -153,7 +159,20 @@ li {
     line-height: 17px;
     letter-spacing: 0%;
 }
+a{
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0%;
+}
 .feedback {
+    a{
+        margin-bottom: 30px;
+        line-height: 0px;
+        cursor: pointer;
+        color: white;
+    }
     li {
         margin-bottom: 30px;
         line-height: 0px;
@@ -201,4 +220,5 @@ li {
     line-height: 214%;
     color: #fff;
 }
+
 </style>

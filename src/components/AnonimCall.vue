@@ -16,32 +16,44 @@
                 </p>
                 <div class="phoneEmailContainer">
                     <div class="phoneInfo">
-                        <div class="phone">+7 (804) 333-41-33</div>
+                        <a href="tel:78043334133" class="phone">+7 (804) 333-41-33</a>
                         <p class="bottParagraph">Ежедневно с 7:00 до 20:00 Мск</p>
                     </div>
                     <div class="mailInfo">
-                        <div class="mail">dolg.info@caforward.ru</div>
+                        <a href="mailto:dolg.info@caforward.ru" class="mail">dolg.info@caforward.ru</a>
                         <p class="bottParagraph">или напишите нам на почту</p>
                     </div>
                 </div>
             </div>
             <div class="imgContent"><img src="/src/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
         </div>
-        <button class="callOrderButt">Заказать звонок</button>
+        <button @click="showModalCall" class="callOrderButt">Заказать звонок</button>
     </div>
+    <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
 </section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-
+import ModalCall from '../layouts/ModalCall.vue';
 
 
 export default defineComponent({
+    components: {
+        ModalCall
+    },
     data() {
         return {
-
+            modalVisibleCall: false,
         }
+    },
+    methods: {
+        showModalCall() {
+            this.modalVisibleCall = true;
+        },
+        closeModalCall() {
+            this.modalVisibleCall = false;
+        },
     }
 })
 </script>
@@ -103,10 +115,20 @@ section {
 .phoneInfo {
     width: 313px;
     margin-right: 32px;
+    a{  
+        display: inline-block;
+        color: #0096D8; 
+    }
+    
 }
 
 .mailInfo {
     width: 310px;
+    a{
+        display: inline-block;
+        color: #0096D8; 
+    }
+    
 }
 
 img {
