@@ -6,7 +6,7 @@
                 <div v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
                     class="ContentItems">
                     <div class="content">
-                        <div class="imgContainer"><img :src="item.imageUrl" alt="There was a img :( "></div>
+                        <div class="imgContainer"><img :src= item.imageUrl  alt="There was a img :( "></div>
                         <div class="textElements">
                             <h3>{{ item.textH3 }}</h3>
                             <p>{{ item.textParagr }}</p>
@@ -39,19 +39,19 @@ export default defineComponent({
             items: [
                 {
                     id: 1,
-                    imageUrl: '/src/assets/images/HelpEverClient/1img.png',
+                    imageUrl: '/assets/images/HelpEverClient/1img.png',
                     textH3: "Прощение долга",
                     textParagr: "Не можете выплатить всю сумму  долга? ПКО «Форвард» поможет вам  полностью избавиться от долгов.  Заключите договор с нами и получите  скидку на свой долг. Что это значит?  Если вы начнете сотрудничество с  нашей компанией, вы сможете  рассчитывать на прощение части  вашего долга. Позвоните нам, и мы  рассчитаем оптимальный для вас  график платежей, который не будет  обременять вас, но поможет быстро  расплатиться с долгами.",
                     background: '#ecf6e7'
                 }, {
                     id: 2,
-                    imageUrl: '/src/assets/images/HelpEverClient/2img.png',
+                    imageUrl: '/assets/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
                     textParagr: "В нашей компании имеются практики  и опыт, которые позволяют нам быстро  и эффективно разблокировать счета  должника. Доверьте свою финансовую  ситуацию нам, и забудьте о проблемах  с приставами!\n\nЕсли у вас возникла другая проблема,  то просто свяжитесь с нами по  телефону +7 (804) 333‑41‑33 –  консультация наших специалистов  бесплатна!",
                     background: '#f0f1f9'
                 }, {
                     id: 3,
-                    imageUrl: '/src/assets/images/HelpEverClient/3img.png',
+                    imageUrl: '/assets/images/HelpEverClient/3img.png',
                     textH3: "Узнать номер вашего договора",
                     textParagr: "Не знаете номер своего договора?  Оставьте свои контактные данные, и  наши специалисты со всем разберутся.  Если вы не можете разобраться в  юридических сложностях, то не  бойтесь нам звонить – в ПКО  «Форвард» работают юристы высокого  класса, которые без труда разберутся  даже в самой сложной ситуации.",
                     background: "#eef1f3"
@@ -64,8 +64,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/scss/base/mixins.scss';
-@import '/src/assets/scss/index.scss';
+@import '/public/assets/scss/base/mixins.scss';
+@import "/public/assets/scss/index.scss";
 
 section {
     padding: 70px 0 50px;

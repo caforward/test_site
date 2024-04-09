@@ -1,5 +1,5 @@
-<template>
-    <section>
+<template >
+    <section id="payment">
         <div class="container">
             <h2 class="title">
                 Попрощайтесь с долгами онлайн <br> на своих условиях
@@ -61,7 +61,7 @@
                         </button>
                     </div>
                     <div class="card__img">
-                        <img src="/src/assets/images/offers/calc.png" alt="">
+                        <img src="/assets/images/offers/calc.png" alt="the was a img">
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
 <script setup></script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/index.scss';
+@import "/public/assets/scss/index.scss";
 
 section {
     padding: 50px 0 30px;

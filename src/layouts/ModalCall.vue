@@ -2,7 +2,7 @@
   <div class="modal" v-if="visible">
     <div class="modal-content">
       <div class="close-button" @click="closeModalCall">
-        <img src="/src/assets/images/close_x/Vector.png" alt="krestik" />
+        <img src="/assets/images/close_x/Vector.png" alt="krestik" />
       </div>
       <h3>Заказать звонок </h3>
       <p>
@@ -52,7 +52,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 @import "vue-select/dist/vue-select.css";
 
 ::placeholder {
