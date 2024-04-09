@@ -6,11 +6,8 @@
                 <swiper-slide class="slider__slide">
                     <div class="container">
                         <div class="slide__img">
-                            <img
-                                :src="
-                                    '/src/assets/images/' + 'introSlider/01.jpg'
-                                "
-                                alt=""
+                            <img :src='"assets/images/" + "introSlider/01.jpg"'
+                                alt="There was img"
                             />
                         </div>
                         <div class="slide-content">
@@ -50,9 +47,9 @@
                     <div class="container">
                         <div class="slide__img">
                             <img
-                                :src="
-                                    '/src/assets/images/' + 'introSlider/03.jpg'
-                                "
+                                :src='
+                                    "assets/images/" + "introSlider/03.jpg"
+                                '
                                 alt=""
                             />
                         </div>
@@ -94,7 +91,7 @@
                         <div class="slide__img">
                             <img
                                 :src="
-                                    '/src/assets/images/' + 'introSlider/02.jpg'
+                                    '/assets/images/' + 'introSlider/02.jpg'
                                 "
                                 alt=""
                             />

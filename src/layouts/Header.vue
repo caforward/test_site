@@ -23,7 +23,7 @@
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
                         <a href="/">
-                            <img src="/src/assets/images/logo.svg" alt="" />
+                            <img src="/assets/images/logo.svg" alt="" />
                         </a>
                     </div>
 
@@ -149,7 +149,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 
 
 * {

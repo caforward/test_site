@@ -21,7 +21,7 @@
                 </div>
                 <div class="about__img">
                     <img
-                        src="../../assets/images/blocks/about/intro/01.png"
+                        src="/assets/images/blocks/about/intro/01.png"
                         alt=""
                     />
                 </div>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 
 section {
     background-color: $gray-light;

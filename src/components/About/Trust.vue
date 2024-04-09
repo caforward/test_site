@@ -26,11 +26,11 @@
 </template>
 
 <script lang="ts">
-import CompaniesSlider from "../../blocks/CompaniesSlider.vue";
+// import CompaniesSlider from "./blocks/CompaniesSlider.vue";
 
 export default {
     name: "Trust",
-    components: "CompaniesSlider",
+    // components: "CompaniesSlider",
 
     data() {
         return {};

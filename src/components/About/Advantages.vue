@@ -11,7 +11,7 @@
                     >
                         <div class="advantages-plates-item__img">
                             <img
-                                :src="'src/assets/images/' + plate.imgSrc"
+                                :src="'assets/images/' + plate.imgSrc"
                                 alt=""
                             />
                         </div>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="advantages__img">
-                    <img src="../../assets/images/blocks/about/advantages/person.png" alt="">
+                    <img src="/assets/images/blocks/about/advantages/person.png" alt="">
                 </div>
             </div>
         </div>

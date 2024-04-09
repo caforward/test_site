@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="imgContent"><img src="/src/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
+            <div class="imgContent"><img src="/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
         </div>
         <button @click="showModalCall" class="callOrderButt">Заказать звонок</button>
     </div>
@@ -59,8 +59,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/scss/index.scss';
-@import '/src/assets/scss/libs/fonts.scss';
+@import "/public/assets/scss/index.scss";
+@import '/public/assets/scss/libs/fonts.scss';
 
 section {
     padding: 50px 0 150px;

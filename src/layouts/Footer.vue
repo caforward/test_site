@@ -4,13 +4,13 @@
             <div class="flexContainer">
                 <ul class="leftPart">
                     <a href="/">
-                        <img class="imgForward" src="/src/assets/images/footer/forward.png"
+                        <img class="imgForward" src="/assets/images/footer/forward.png"
                             alt="there was a logo CaForward" />
                     </a>
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <a :href="footerItem.href" v-for="(footerItem, ind) in listElem" :key="ind">
+                    <a :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind">
                         {{ footerItem.text }}
                     </a>
                 </ul>
@@ -37,7 +37,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <span>ООО ПКО "Форвард"</span>
-                <a href="#" class="footer-bottom__link">Политика конфиденциальности</a>
+                <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
             </div>
         </div>
     </footer>
@@ -48,6 +48,7 @@ import { defineComponent } from "vue";
 
 interface FooterItem {
     text: string;
+    href: string;
     fontW?: number;
     margin?: string;
 }
@@ -74,8 +75,8 @@ export default defineComponent({
                 ]
             ] as FooterItem[][],
             iconSrcList: [
-                { src: "/src/assets/images/footer/1.png" },
-                { src: "/src/assets/images/footer/5.png" },
+                { src: "/assets/images/footer/1.png" },
+                { src: "/assets/images/footer/5.png" },
             ] as IconSrc[],
         };
     },
@@ -83,7 +84,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 
 a{
     display: block;
@@ -114,6 +115,11 @@ span {
     display: inline-block;
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0%;
+    a{
+        display: inline-block;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0%;
+    }
 }
 
 .flexContainer {

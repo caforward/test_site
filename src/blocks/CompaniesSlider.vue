@@ -4,7 +4,7 @@
             <div class="slider__slide" v-for="item in dataSlider" :key="item">
                 <div>
                     <img
-                        :src="'/src/assets/images/' + item.img"
+                        :src="'assets/images/' + item.img"
                         :alt="item.name"
                     />
                 </div>
