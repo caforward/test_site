@@ -12,9 +12,11 @@
     "sass": "^1.71.1",
     "swiper": "^11.1.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-select": "^4.0.0-beta.6"
   },
   "devDependencies": {
+    "@types/vue-select": "^3.16.8",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.2.2",
     "vite": "^5.1.6",

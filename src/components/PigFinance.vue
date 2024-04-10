@@ -10,9 +10,9 @@
                         помощью электронной почты dolg.info@caforward.ru. Далее наши специалисты дадут вам
                         бесплатную консультацию и расскажут, что делать, чтобы начать исправлять свое трудной
                         финансовое положение</p>
-                    <button>Связаться с нами</button>
+                    <div><button>Связаться с нами</button></div>
                 </div>
-                <div class="imageContainer"><img src="/src/assets/images/PigImg/1img.png" alt="there was a pig :(">
+                <div class="imageContainer"><img src="/assets/images/PigImg/1img.png" alt="there was a pig :(">
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '/src/assets/scss/index.scss';
+@import "/public/assets/scss/index.scss";
 
 section {
     // padding-top:;
@@ -47,6 +47,8 @@ section {
     justify-content: space-between;
     background: rgb(232, 239, 244);
     border-radius: 30px;
+    max-height: 470px;
+
 }
 
 .textContainer {
@@ -92,11 +94,13 @@ button {
     background: rgb(32, 175, 206);
 }
 
-.imageContainer {
-    width: 470px;
+.imageContainer{
+    margin-top: -25px
 }
 
 img {
     transform: rotate(2.01deg);
+    width: 521px;   
+    height: 521px;
 }
 </style>

@@ -48,7 +48,7 @@
 <script setup></script>
 
 <style lang="scss" scoped>
-@import "../../assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 
 section {
     padding: 80px 0 40px;

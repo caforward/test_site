@@ -15,6 +15,7 @@
 export default {
     name: "Breadcrumb",
     data () {
+        console.log(this.$route)
         return{}
     }
 }

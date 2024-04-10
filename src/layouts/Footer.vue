@@ -1,21 +1,26 @@
 <template>
-    <footer>
+    <footer id="contacts">
         <div class="container">
             <div class="flexContainer">
-                <ul>
-                    <li>
-                        <img class="imgForward" src="/src/assets/images/footer/forward.png"
+                <ul class="leftPart">
+                    <a href="/">
+                        <img class="imgForward" src="/assets/images/footer/forward.png"
                             alt="there was a logo CaForward" />
-                    </li>
+                    </a>
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <li v-for="(footerItem, ind) in listElem" :key="ind" :style="{
-                    fontWeight: footerItem.fontW ? footerItem.fontW : 500,
-                    margin: footerItem.margin ? footerItem.margin : '0 0 30px 0',
-                }">
+                    <a :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind">
                         {{ footerItem.text }}
-                    </li>
+                    </a>
+                </ul>
+                <div class="rightContainer">
+                <ul class="feedback"> 
+                    <li>Обратная связь</li>
+                    <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
+                    <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
+                    <li>Написать на почту</li>
+                    <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
                 </ul>
                 <ul>
                     <li><button class="whiteButt">Обратная связь</button></li>
@@ -26,12 +31,13 @@
                     </div>
                 </ul>
             </div>
+            </div>
         </div>
         <hr />
         <div class="footer-bottom">
             <div class="container">
                 <span>ООО ПКО "Форвард"</span>
-                <a href="#" class="footer-bottom__link">Политика конфиденциальности</a>
+                <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
             </div>
         </div>
     </footer>
@@ -42,6 +48,7 @@ import { defineComponent } from "vue";
 
 interface FooterItem {
     text: string;
+    href: string;
     fontW?: number;
     margin?: string;
 }
@@ -55,31 +62,21 @@ export default defineComponent({
         return {
             footerArr: [
                 [
-                    { text: "О Компании" },
-                    { text: "Контакты" },
-                    { text: "Вакансии" },
-                    { text: "Партнёрам" },
+                    { text: "О Компании", href: "/about" },
+                    { text: "Контакты", href: "" },
+                    { text: "Вакансии", href: ""  },
+                    { text: "Партнёрам", href: ""  },
                 ],
                 [
-                    { text: "Я не должник" },
-                    { text: "Получить рассрочку" },
-                    { text: "Получить консультацию" },
-                    { text: "Внести платеж" },
-                ],
-                [
-                    { text: "Обратная связь", margin: "0" },
-                    { text: "+7 (499) 702‑01‑56", fontW: 700, margin: "15px 0" },
-                    { text: "пн - вс 8:00-22:00", margin: "0 0 30px 0" },
-                    { text: "Написать на почту", margin: "0 0 15px 0" },
-                    { text: "dolg.info@caforward.ru", fontW: 700, margin: "0" },
-                ],
+                    { text: "Я не должник", href: ""  },
+                    { text: "Получить рассрочку", href: ""  },
+                    { text: "Получить консультацию", href: ""  },
+                    { text: "Внести платеж", href: "#payment"  },
+                ]
             ] as FooterItem[][],
             iconSrcList: [
-                { src: "/src/assets/images/footer/1.png" },
-                { src: "/src/assets/images/footer/2.png" },
-                { src: "/src/assets/images/footer/3.png" },
-                { src: "/src/assets/images/footer/4.png" },
-                { src: "/src/assets/images/footer/5.png" },
+                { src: "/assets/images/footer/1.png" },
+                { src: "/assets/images/footer/5.png" },
             ] as IconSrc[],
         };
     },
@@ -87,11 +84,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/scss/index.scss";
+@import "/public/assets/scss/index.scss";
 
+a{
+    display: block;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+}
 footer {
     background: rgb(41, 41, 41);
-    height: 360px;
 }
 
 .container {
@@ -99,10 +101,9 @@ footer {
 }
 
 .footer-bottom {
-    padding: 20px 0 30px;
+    padding: 19.5px 26px 31px 20px;
     color: white;
     font-size: 14px;
-    line-height: 24px;
 
     &__link {
         color: white;
@@ -114,6 +115,11 @@ span {
     display: inline-block;
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0%;
+    a{
+        display: inline-block;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0%;
+    }
 }
 
 .flexContainer {
@@ -122,14 +128,27 @@ span {
     justify-content: space-between;
     padding-bottom: 34px;
 }
+.rightContainer {
+    display: flex;
+    gap: 30px;
+}
 
 .iconContainer {
     display: flex;
     gap: 7px;
-
+    justify-content: center;
     img {
         width: 35px;
         height: 35px;
+    }
+}
+
+.leftPart{
+    li {
+        line-height: 24px;
+    }
+    a {
+        line-height: 24px;
     }
 }
 
@@ -145,6 +164,28 @@ li {
     font-weight: 500;
     line-height: 17px;
     letter-spacing: 0%;
+}
+a{
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    letter-spacing: 0%;
+}
+.feedback {
+    a{
+        margin-bottom: 30px;
+        line-height: 0px;
+        cursor: pointer;
+        color: white;
+    }
+    li {
+        margin-bottom: 30px;
+        line-height: 0px;
+    }
+    .liMonday{
+        padding-bottom: 28px;
+    }
 }
 
 .footer-nav {
@@ -185,4 +226,5 @@ li {
     line-height: 214%;
     color: #fff;
 }
+
 </style>

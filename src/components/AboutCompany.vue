@@ -21,8 +21,8 @@
                     <button>Подробнее</button>
                 </div>
                 <div class="imgContainer">
-                    <img src="/src/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />
-                    <img src="/src/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />
+                    <img src="/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />
+                    <img src="/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />
                 </div>
             </div>
         </div>
@@ -40,8 +40,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/src/assets/scss/index.scss";
-@import "/src/assets/scss/base/mixins.scss";
+@import "/public/assets/scss/index.scss";
+@import "/public/assets/scss/base/mixins.scss";
 
 section {
     padding: 50px 0;

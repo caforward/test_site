@@ -1,10 +1,12 @@
-import { createWebHistory, createRouter } from "vue-router";
-import { createApp } from 'vue'
-import './assets/scss/index.scss'
-import App from './App.vue'
-
 import MainPage from "./views/MainPage.vue";
 import About from "./views/About.vue";
+import { createWebHistory, createRouter } from "vue-router";
+import { createApp } from 'vue'
+import 'vue-select/dist/vue-select.css';
+import './assets/scss/index.scss'
+import App from './App.vue'
+import  vSelect from 'vue-select'
+
 
 const routes = [
     { name: 'Главная', path: "/", component: MainPage },
@@ -16,4 +18,8 @@ const router = createRouter({
     routes,
 });
 
-createApp(App).use(router).mount('#app')
+createApp(App)
+  .component("v-select", vSelect)
+  .use(router)
+  .mount('#app')
+

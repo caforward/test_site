@@ -2,7 +2,7 @@
     <div class="slider">
         <swiper class="swiper" :slides-per-view="6" :space-between="50" @swiper="onSwiper">
             <swiper-slide v-for="item in dataSlider" :key="item"> 
-                <img :src="'src/assets/images/' + item.img" alt="">   
+                <img :src="'/assets/images/' + item.img" alt="">   
             </swiper-slide>
         </swiper>
         <div class="slider-nav__wrapper">
