@@ -9,23 +9,9 @@
 @import '/src/assets/scss/blocks/container';
 @import '/src/assets/scss/blocks/button';
 @import '/src/assets/scss/blocks/header';
+@import '/src/assets/scss/blocks/input';
 
 @import 'vue-select/dist/vue-select.css';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .optionsWrap {
     v-select vs--single vs--searchable vSelect {

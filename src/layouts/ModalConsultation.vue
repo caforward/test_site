@@ -24,7 +24,7 @@
         <input type="text" id="mail" placeholder="E-mail*" />
       </div>
       <div class="optionsWrap">
-        <v-select class="vSelect" :options="options" placeholder="Тема обращения*" searchable="false"></v-select>
+        <v-select class="vSelect" :options="options" placeholder="Тема обращения*"></v-select>
       </div>
       <div class="aboveButt">
         Нажимая кнопку «Оплатить», вы соглашаетесь с <a>Договором оферты</a> и
