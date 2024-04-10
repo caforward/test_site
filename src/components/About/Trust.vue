@@ -20,7 +20,7 @@
                 уникальный и взаимовыгодный вариант партнерства.
             </p>
 
-            <!-- <CompaniesSlider /> -->
+            <CompaniesSlider />
         </div>
     </section>
 </template>
@@ -30,8 +30,9 @@ import CompaniesSlider from "../../blocks/CompaniesSlider.vue";
 
 export default {
     name: "Trust",
-    components: "CompaniesSlider",
-
+    components: { 
+        CompaniesSlider
+    },
     data() {
         return {};
     },

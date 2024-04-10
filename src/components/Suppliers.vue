@@ -10,22 +10,19 @@
                 ценности: для нас важен не только постоянный рост и высокая эффективность бизнеса, но и человеческий
                 подход, когда каждый клиент ценен и важен.
             </p>
-            <div class="slider">
-                <div class="slider__container">
-                    <div class="slider__slide" v-for="item in dataSlider" :key="item">
-                        <div>
-                            <img :src="'/src/assets/images/' + item.img" :alt="item.name">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <CompaniesSlider />
         </div>
     </section>
 </template>
 
 <script>
+import CompaniesSlider from "../blocks/CompaniesSlider.vue";
+
 export default {
     name: 'Suppliers',
+    components: {
+        CompaniesSlider
+    },
     data() {
         return {
             dataSlider: [
