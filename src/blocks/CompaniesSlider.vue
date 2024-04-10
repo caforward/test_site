@@ -1,7 +1,7 @@
 <template>
     <div class="slider">
         <swiper class="swiper" :slides-per-view="6" :space-between="50" @swiper="onSwiper">
-            <swiper-slide v-for="item in dataSlider" :key="item"> 
+            <swiper-slide v-for="(item, idx) in dataSlider" :key="idx"> 
                 <img :src="'/assets/images/' + item.img" alt="">   
             </swiper-slide>
         </swiper>
