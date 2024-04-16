@@ -1,13 +1,13 @@
 <template>
     <section>
         <div class="container">
-            <FormBlock />
+            <FormBlock :inputs=inputs />
         </div>
     </section>
 </template>
 
 <script>
-import FormBlock from "../FormBlock.vue";
+import FormBlock from "../../blocks/FormBlock.vue";
 
 export default {
     name: "FormFooter",
@@ -15,7 +15,30 @@ export default {
         FormBlock,
     },
     data() {
-        return {};
+        return {
+            inputs: [
+                {
+                    type: 'text',
+                    placeholder: 'Имя*'
+                },
+                {
+                    type: 'tel',
+                    placeholder: 'Номер телефона*'
+                },
+                {
+                    type: 'email',
+                    placeholder: 'E-mail*'
+                },
+                {
+                    type: 'text',
+                    placeholder: 'Тема обращения*'
+                },
+                {
+                    tagName: 'textarea',
+                    placeholder: 'Кратко опишите Ваш вопрос*'
+                }
+            ]
+        };
     },
 };
 </script>
