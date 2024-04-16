@@ -122,7 +122,7 @@ export default {
                 },
                 {
                     name: "Вакансии",
-                    href: "#",
+                    href: "/jobs",
                 },
             ],
             bottomNav: [
