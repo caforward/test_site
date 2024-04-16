@@ -63,7 +63,7 @@ export default {
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
     }
 
-    &__form {
+    .form-block__form {
         width: 50%;
     }
 
