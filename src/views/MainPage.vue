@@ -1,13 +1,15 @@
 <template>
     <Header />
-    <IntroSlider />
-    <AboutInNumbersVue />
-    <HelpEverClientVue />
-    <Offers />
-    <PigFinance />
-    <Suppliers />
-    <AboutCompany />
-    <AnonimCallVue />
+    <main>
+        <IntroSlider />
+        <AboutInNumbersVue />
+        <HelpEverClientVue />
+        <Offers />
+        <PigFinance />
+        <Suppliers />
+        <AboutCompany />
+        <AnonimCallVue />
+    </main>
     <Footer />
 </template>
 

@@ -118,7 +118,7 @@ export default {
                 },
                 {
                     name: "Партнёрам",
-                    href: "#",
+                    href: "/for-partners",
                 },
                 {
                     name: "Вакансии",
@@ -126,10 +126,10 @@ export default {
                 },
             ],
             bottomNav: [
-                {
-                    name: "Я не должник",
-                    href: "#",
-                },
+                // {
+                //     name: "Я не должник",
+                //     href: "#",
+                // },
                 {
                     name: "Получить рассрочку",
                     href: "#",

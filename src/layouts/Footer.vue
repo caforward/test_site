@@ -65,10 +65,10 @@ export default defineComponent({
                     { text: "О Компании", href: "/about" },
                     { text: "Контакты", href: "" },
                     { text: "Вакансии", href: ""  },
-                    { text: "Партнёрам", href: ""  },
+                    { text: "Партнёрам", href: "/for-partners"  },
                 ],
                 [
-                    { text: "Я не должник", href: ""  },
+                    // { text: "Я не должник", href: ""  },
                     { text: "Получить рассрочку", href: ""  },
                     { text: "Получить консультацию", href: ""  },
                     { text: "Внести платеж", href: "#payment"  },
