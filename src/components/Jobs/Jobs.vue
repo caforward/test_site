@@ -1,5 +1,37 @@
 <template>
+    <section class="previewSection">
+        <div class="previewContent container">
+            <div class="textContent">
+                <h1>Будь в команде мечты <br> Развивайся и покоряй высоты</h1>
+                <p>На данный момент в ООО Форвард открыты следующие вакансии. <br>
+                    Если вы хотите работать в современной и перспективной финансовой
+                    компании – свяжитесь с нами.</p>
+                <button class="checkJobsBtn"> <a href="">Смотреть вакансии</a></button>
+            </div>
+            <div><img src="/images/jobs/img1.png" alt="there was a img"></div>
+        </div>
+    </section>
+    <section class="jobsSection container">
+        <h2>Вакансии</h2>
+        <div class="wrapJobs" v-for="(item, index) in displayedItems" :key="index">
+            <div class="jobsContent">
+                <h3>{{ item.title }}</h3>
+                <div class="descriptionContent">
+                    <p>{{ item.description }} </p>
+                    <button class="jobsBtn"><a href="">Подробнее</a> <img src="/images/jobs/img2.png"
+                            alt="there was a img"></button>
+                </div>
+                <div class="iconContainer">
+                    <p><img src="/images/jobs/img3.png" alt="there was a img">{{ item.schedule }} </p>
+                    <p><img src="/images/jobs/img4.png" alt="there was a img"> {{ item.salary }} </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <button @click="showMore" class="moreBtn"><img src="/images/jobs/img5.png" alt="there was a img"> {{ btnText }}</button>
+    <div class="container"><img class=" lineImg" src="/images/jobs/img6.png" alt="img"></div>
     <section>
+    
 
     </section>
 </template>
@@ -10,16 +42,244 @@ import { defineComponent } from "vue"
 export default defineComponent({
 
     data() {
-    return {
-
-    };
-  },
+        return {
+            btnText: "Смотреть ещё вакансии",
+            currentIndex: 0,
+            items: [
+                {
+                    title: "Операционист в юридический отдел",
+                    description: "Мы ищем человека, который будет взаимодействовать с ФССП: собирать и формировать пакет документов, отправлять заявления о возбуждении, а также ходатайства, запросы и ответы на них. Кроме того, вам нужно будет собирать необходимую информацию на сайтах ФССП, федеральных и мировых судов.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Специалист 2 линии поддержки",
+                    description: "Мы ищем человека, который будет заниматься поддержкой наших клиентов: проводить диагностику их проблем, искать и предоставлять решения, оказывать индивидуальное сопровождение. Кроме того, от вас потребуется настраивать техническую стратегию, консультировать операторов по возврату средств и урегулированию задолженности, а также участвовать в подготовке отчетности о работе отдела.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Бухгалтер-экономист",
+                    description: "Мы ищем человека, который будет вести расходы компании и анализировать их, работать с первичной документации, контролировать и сопровождать платежи, разносить затраты по статьям и категориям учета, готовить бюджет и финансовую отчетность",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Специалист по документообороту (Исполнительное производство)",
+                    description: "Мы ищем человека, который будет работать со входящей и исходящей корреспонденцией: сортировать, сканировать, регистрировать, а также сверять документы с реестром, работать с Почтой России, формировать акты передачи по проданным портфелям и вести отчет по документообороту.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Специалист 2 линии поддержки",
+                    description: "Мы ищем человека, который будет заниматься поддержкой наших клиентов: проводить диагностику их проблем, искать и предоставлять решения, оказывать индивидуальное сопровождение. Кроме того, от вас потребуется настраивать техническую стратегию, консультировать операторов по возврату средств и урегулированию задолженности, а также участвовать в подготовке отчетности о работе отдела.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Специалист 2 линии поддержки",
+                    description: "Мы ищем человека, который будет заниматься поддержкой наших клиентов: проводить диагностику их проблем, искать и предоставлять решения, оказывать индивидуальное сопровождение. Кроме того, от вас потребуется настраивать техническую стратегию, консультировать операторов по возврату средств и урегулированию задолженности, а также участвовать в подготовке отчетности о работе отдела.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Бухгалтер-экономист",
+                    description: "Мы ищем человека, который будет вести расходы компании и анализировать их, работать с первичной документации, контролировать и сопровождать платежи, разносить затраты по статьям и категориям учета, готовить бюджет и финансовую отчетность",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+                {
+                    title: "Операционист в юридический отдел",
+                    description: "Мы ищем человека, который будет взаимодействовать с ФССП: собирать и формировать пакет документов, отправлять заявления о возбуждении, а также ходатайства, запросы и ответы на них. Кроме того, вам нужно будет собирать необходимую информацию на сайтах ФССП, федеральных и мировых судов.",
+                    schedule: "Полная занятость, полный день",
+                    salary: "от 50 000 - 60 000 ₽",
+                },
+            ]
+        };
+    },
+    computed: {
+        displayedItems() {
+            return this.items.slice(0, this.currentIndex + 5);
+        }
+    },
+    methods: {
+        showMore() {
+            const nextIndex = this.currentIndex + 5; 
+            if (nextIndex >= this.items.length) {
+                this.btnText = "Вакансии закончились"; 
+            }
+            this.currentIndex = nextIndex; 
+        }
+    }
 
 });
 </script>
 
 <style lang="scss" scoped>
 @import "/public/assets/scss/index.scss";
+
+.previewSection {
+    background: rgb(243, 247, 250);
+    margin-bottom: 74px;
+    
+    .previewContent {
+    display: flex;
+}
+
+.textContent {
+    padding-top: 117px;
+    padding-right: 17px;
+
+    h1 {
+        margin-bottom: 21px;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: 0%;
+    }
+
+    p {
+        max-width: 652px;
+        width: 100%;
+        margin-bottom: 31px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 30px;
+        letter-spacing: 0%;
+    }
+}
+.checkJobsBtn {
+    margin-bottom: 171px;
+    border-radius: 30px;
+    background: rgb(0, 150, 216);
+    padding: 10px 30px 10px 30px;
+    width: 225px;
+    height: 50px;
+}
+
+}
+
+
+.jobsSection {
+    h2 {
+        color: rgb(46, 46, 46);
+        padding-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 34px;
+        letter-spacing: 0%;
+
+    }
+
+    .jobsContent {
+    padding: 32px 86px 35px 80px;
+
+    img {
+        width: 24px;
+        height: 24px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 30px;
+            letter-spacing: 0%;
+            margin-bottom: 13px;
+        }
+
+    }
+
+    .jobsBtn {
+        border-radius: 30px;
+        background: rgb(0, 150, 216);
+        width: 181px;
+        height: 50px;
+        padding: 10px 30px 10px 30px;
+
+    }
+
+    .descriptionContent {
+        display: flex;
+        align-items: flex-start;
+        gap: 77px;
+
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 30px;
+            margin-bottom: 23px;
+            width: 914px;
+        }
+
+        a {
+            margin-right: 7px;
+        }
+    }
+}
+
+.iconContainer {
+    display: flex;
+    justify-content: flex-start;
+
+    p {
+        display: flex;
+        align-items: center;
+        margin-right: 70px;
+    }
+
+    img {
+        margin-right: 5px;
+    }
+}
+
+.wrapJobs {
+    display: flex;
+    border-radius: 30px;
+    background: rgb(249, 250, 252);
+    margin-bottom: 30px;
+
+}
+
+}
+.moreBtn {
+
+
+    img{
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+    margin: 0 auto;
+    box-sizing: border-box;
+border: 1px solid rgb(217, 217, 217);
+border-radius: 30px;
+padding: 10px 30px 10px 30px;
+font-size: 16px;
+font-weight: 500;
+line-height: 30px;
+letter-spacing: 0%;
+color: rgb(152, 152, 152);
+margin-bottom: 90px;
+
+}
+
+
+a {
+    color: rgb(255, 255, 255);
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0%;
+}
+
+.lineImg {
+    max-width: 1338px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+}
 
 
 </style>
