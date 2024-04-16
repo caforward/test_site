@@ -1,12 +1,14 @@
 <template>
     <Header />
-    <Intro />
-    <AboutInNumbersVue />
-    <Info />
-    <Advantages />
-    <Trust />
-    <Faq />
-    <FormFooter />
+    <main>
+        <Intro />
+        <AboutInNumbersVue />
+        <Info />
+        <Advantages />
+        <Trust />
+        <Faq />
+        <FormFooter />
+    </main>
     <Footer />
 </template>
 
