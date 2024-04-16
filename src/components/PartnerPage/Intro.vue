@@ -5,25 +5,24 @@
                 <template v-slot:content>
                     <div class="intro-content">
                         <Breadcrumb class="breadcrumb" />
-                        <h1 class="intro-content__title">ООО ПКО «Форвард»</h1>
+                        <h1 class="intro-content__title">Партнерам</h1>
                         <h3 class="intro-content__subtitle">
-                            Коллекторское агентство, осуществляющее деятельность по
-                            возврату просроченной задолженности в качестве основного
-                            вида деятельности.
+                            ООО ПКО «Форвард» разместил коммерческие облигации бездокументарные с централизованным
+                            учетом прав серии КО-П03 на общую сумму 200 млн рублей. Срок обращения облигаций составляет
+                            2 года с офертой через один год после даты размещения. 
                         </h3>
                         <p class="intro-content__text">
-                            Компания действует в соответствии с действующим
-                            законодательством и договорами, заключенными с
-                            кредитными и иными организациями.
+                            Несмотря на текущую макроэкономическую ситуацию, сделка вызвала интерес у инвесторов, и
+                            купонная ставка по итогам размещения составила 10,1% годовых. 
                         </p>
                         <button class="button button_blue">
-                            Получить консультацию
+                            Стать партнером
                         </button>
                     </div>
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/assets/images/blocks/about/intro/01.png" alt="" />
+                        <img src="/assets/images/blocks/partners/intro/01.png" alt="" />
                     </div>
                 </template>
             </IntroBlock>
@@ -51,7 +50,7 @@ export default {
 @import "/public/assets/scss/index.scss";
 
 section {
-    background-color: $gray-light;
+    background-color: $light-green;
 }
 
 .container {
@@ -63,7 +62,7 @@ section {
     font-size: 14px;
     line-height: 143%;
     color: $gray-dark;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .intro {
@@ -77,17 +76,17 @@ section {
         width: 50%;
 
         &__title {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         &__subtitle {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         &__text {
             font-size: 16px;
             line-height: 167%;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
     }
 }
