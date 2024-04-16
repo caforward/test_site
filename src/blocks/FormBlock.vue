@@ -1,22 +1,6 @@
 <template>
     <div class="form-block">
-        <div class="form-block__info">
-            <h2 class="title">
-                Остались вопросы?<br />
-                Напишите нам, и мы свяжемся с вами. 
-            </h2>
-            <p class="text">
-                Наши специалисты получают все заявки на обратную связь и
-                отвечают на них максимально быстро. <br /><br />
-                Просто введите свои контактные данные и ФИО, кратко опишите
-                проблему и ждите, когда сотрудник ПКО «Форвард» свяжется с вами,
-                чтобы проконсультировать по вашей финансовой ситуации. С этого
-                начнется ваш путь к чистой кредитной истории
-            </p>
-            <span class="text text_meta">
-                * поле для обязательного заполнения
-            </span>
-        </div>
+        <slot name="info"></slot>
         <form action="" class="form-block__form">
             <div class="form-block__inputs">
                 <component v-for="(inputIter, idx) in inputs" :key="idx"
@@ -62,7 +46,7 @@ export default {
     padding: 70px 85px 60px;
     color: #fff;
     display: flex;
-    grid-gap: 60px;
+    grid-gap: 40px;
     position: relative;
     z-index: 1;
     overflow: hidden;
@@ -77,10 +61,6 @@ export default {
         aspect-ratio: 1 / 1;
         // background: radial-gradient(circle, $blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
-    }
-
-    &__info {
-        flex: 1;
     }
 
     &__form {
@@ -123,10 +103,6 @@ export default {
     }
 }
 
-.title {
-    margin-bottom: 25px;
-}
-
 .input {
     &:not(:last-child) {
         margin-bottom: 15px;
@@ -135,16 +111,5 @@ export default {
 
 textarea {
     height: 100px;
-}
-
-.text {
-    line-height: 175%;
-    margin-bottom: 50px;
-
-    &_meta {
-        font-size: 14px;
-        line-height: 171%;
-        color: rgba(255, 255, 255, 0.5);
-    }
 }
 </style>

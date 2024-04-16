@@ -1,0 +1,79 @@
+<template>
+    <section>
+        <div class="container">
+            <FormBlock :inputs=inputs>
+                <template v-slot:info>
+                    <div class="form-block-info">
+                        <h2 class="form-block-info__title">
+                            Стать партнером
+                        </h2>
+                        <p class="form-block-info__text">
+                            Если вас заинтересовало сотрудничество с ПКО «Форвард» – свяжитесь с нами любым удобным
+                            способом, и мы предложим вам уникальный и взаимовыгодный вариант партнерства.
+                        </p>
+                        <span class="form-block-info__text form-block-info__text_meta">
+                            * поле для обязательного заполнения
+                        </span>
+                    </div>
+                </template>
+            </FormBlock>
+        </div>
+    </section>
+</template>
+
+<script>
+import FormBlock from '../../blocks/FormBlock.vue';
+
+export default {
+    name: "FormFooter",
+    components: {
+        FormBlock,
+    },
+    data() {
+        return {
+            inputs: [
+                {
+                    type: 'text',
+                    placeholder: 'Наименование компании*'
+                },
+                {
+                    type: 'text',
+                    placeholder: 'Имя*'
+                },
+                {
+                    type: 'tel',
+                    placeholder: 'Номер телефона*'
+                }
+            ]
+        };
+    },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "/public/assets/scss/index.scss";
+
+section {
+    padding: 35px 0 110px;
+    background-color: $gray-white;
+}
+
+.form-block-info {
+    flex: 1;
+
+    &__title {
+        margin-bottom: 5px;
+    }
+
+    &__text {
+        line-height: 187%;
+        margin-bottom: 25px;
+
+        &_meta {
+            font-size: 14px;
+            line-height: 171%;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+</style>

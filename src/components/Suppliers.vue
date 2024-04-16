@@ -25,32 +25,6 @@ export default {
     },
     data() {
         return {
-            dataSlider: [
-                {
-                    name: 'alpha-bank',
-                    img: 'suppliers/alpha.png'
-                },
-                {
-                    name: 'mdm-bank',
-                    img: 'suppliers/mdm.png'
-                },
-                {
-                    name: 'vtb-bank',
-                    img: 'suppliers/vtb.png'
-                },
-                {
-                    name: 'expo-bank',
-                    img: 'suppliers/expo.png'
-                },
-                {
-                    name: 'home-credit',
-                    img: 'suppliers/home.png'
-                },
-                {
-                    name: 'sberbank',
-                    img: 'suppliers/sber.png'
-                },
-            ]
         }
     }
 }
