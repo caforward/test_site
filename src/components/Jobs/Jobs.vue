@@ -34,7 +34,7 @@
         }}</button>
     <div class="container"><img class=" lineImg" src="/images/jobs/img6.png" alt="img"></div>
 
-    <section>
+    <section class="cards-section">
         <div class="container">
             <div class="flexContainer">
                 <div class="card-wrap">
@@ -402,13 +402,19 @@ a {
     }
 }
 
+.cards-section {
+    margin-bottom: 40px;
+}
 .form-block {
     flex-direction: column;
     padding:85px 82px 85px 82px;
     
     
 }
-.form-block__form {
+.form-block__bottom {
+    flex-direction: column;
+}
+.__form {
         width: 100%;
     }
 

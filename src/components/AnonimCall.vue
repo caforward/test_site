@@ -27,7 +27,7 @@
             </div>
             <div class="imgContent"><img src="/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
         </div>
-        <button @click="showModalCall" class="callOrderButt">Заказать звонок</button>
+        <button @click="showModalCall" class="button_blue callOrderButt">Заказать звонок</button>
     </div>
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
 </section>
@@ -150,6 +150,7 @@ img {
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0%;
+    
 }
 
 h3 {

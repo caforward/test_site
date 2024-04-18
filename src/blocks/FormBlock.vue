@@ -64,7 +64,7 @@ export default {
     }
 
     .form-block__form {
-        width: 50%;
+        max-width: 50%;
     }
 
     &__inputs {

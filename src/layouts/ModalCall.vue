@@ -23,7 +23,7 @@
                 <a href="#">Договором оферты</a> и
                 <a href="#">политикой конфиденциальности.</a>
             </div>
-            <button @click="closeModalCall">Оплатить</button>
+            <button class="button_blue" @click="closeModalCall">Оплатить</button>
         </div>
     </div>
 </template>

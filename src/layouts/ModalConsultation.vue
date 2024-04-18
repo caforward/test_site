@@ -30,7 +30,7 @@
         Нажимая кнопку «Оплатить», вы соглашаетесь с <a>Договором оферты</a> и
         <a>политикой конфиденциальности.</a>
       </div>
-      <button @click="closeModal">Оплатить</button>
+      <button class="button_blue" @click="closeModal">Оплатить</button>
     </div>
   </div>
 </template>
@@ -50,10 +50,10 @@ export default defineComponent({
   data() {
     return {
       options: [
-        "Списать долг1",
-        "Списать долг2",
-        "Списать долг3",
-        "Списать долг4",
+        "Узнать номер договора",
+        "Разблокировать счет",
+        "Рассрочка",
+        "Другое",
       ],
       selectedOption: null,
     };
@@ -82,12 +82,13 @@ export default defineComponent({
 }
 
 .modal {
+  padding-top: 2px;
   position: fixed;
   z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -100,13 +101,13 @@ export default defineComponent({
   border-radius: 30px;
   background: rgb(255, 255, 255);
   width: 768px;
-  height: 836px;
-  padding: 61px 83px 60px 83px;
+  padding: 45px 83px 30px 83px;
+  margin: auto 0;
 }
 
 .close-button {
   position: absolute;
-  top: 40px;
+  top: 35px;
   right: 40px;
   cursor: pointer;
 }
@@ -124,7 +125,7 @@ export default defineComponent({
 }
 
 .optionsWrap {
-  padding-bottom: 155px;
+  padding-bottom: 138px;
 }
 
 .vSelect {
@@ -158,6 +159,7 @@ button {
   fill: rgb(0, 150, 216);
   padding: 10px 50px 10px 50px;
   color: rgb(255, 255, 255);
+
 }
 
 h3 {

@@ -2,7 +2,7 @@ import MainPage from "./views/MainPage.vue";
 import About from "./views/About.vue";
 import Jobs from "./views/Jobs.vue"
 import PartnerPage from "./views/PartnerPage.vue";
-import { createWebHistory, createRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { createApp } from 'vue'
 import 'vue-select/dist/vue-select.css';
 import './assets/scss/index.scss'
