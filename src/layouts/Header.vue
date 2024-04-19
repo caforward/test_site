@@ -161,7 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 
 
 * {

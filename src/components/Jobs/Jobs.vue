@@ -175,7 +175,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 
 .previewSection {
     background: rgb(243, 247, 250);

@@ -35,8 +35,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
-
 section{
     padding:80px 0 70px;
     background-color: #F9FAFB;

@@ -52,7 +52,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 @import "vue-select/dist/vue-select.css";
 
 ::placeholder {
