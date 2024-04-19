@@ -24,7 +24,7 @@
         <input type="text" id="mail" placeholder="E-mail*" />
       </div>
       <div class="optionsWrap">
-        <v-select class="vSelect" :options="options" placeholder="Тема обращения*"></v-select>
+        <v-select class="vSelect" v-model="selectedOption" :options="options" placeholder="Тема обращения*"></v-select>
       </div>
       <div class="aboveButt">
         Нажимая кнопку «Оплатить», вы соглашаетесь с <a>Договором оферты</a> и
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   components: {},
@@ -55,7 +55,7 @@ export default defineComponent({
         "Рассрочка",
         "Другое",
       ],
-      selectedOption: null,
+      selectedOption: ref(null),
     };
   },
   methods: {
