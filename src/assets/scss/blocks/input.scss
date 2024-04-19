@@ -21,4 +21,7 @@
     &:checked {
         background-blend-mode: normal;
     }
+    &:hover {
+        cursor: pointer;
+    }
 }

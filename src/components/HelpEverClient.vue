@@ -99,10 +99,6 @@ section {
     justify-content: space-between;
 }
 
-.content {
-
-}
-
 h3 {
     font-family: "Montserrat", sans-serif;
     font-weight: 600;

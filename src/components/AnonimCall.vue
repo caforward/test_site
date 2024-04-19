@@ -64,9 +64,6 @@ section {
     padding: 50px 0 150px;
 }
 
-.container {
-}
-
 .flexContainer {
     display: flex;
     justify-content: flex-start;
