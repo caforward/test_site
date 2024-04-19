@@ -57,12 +57,10 @@
 </template>
 
 <script lang="ts">
-
 import ModalConsultationVue from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 
 export default {
-
     name: "Header",
     components: {
         ModalConsultationVue,
