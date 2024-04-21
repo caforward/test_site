@@ -72,7 +72,9 @@ import ModalConsultationVue from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 
 export default {
-
+    updated() {
+        console.log(1337!!)
+    },
     name: "Header",
     components: {
         ModalConsultationVue,
