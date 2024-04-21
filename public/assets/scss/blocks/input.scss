@@ -5,3 +5,24 @@
     border-radius: 5px;
     font-size: 14px;
 }
+
+.checkbox {
+    appearance: none;
+    background-color: $white;
+    width: 30px;
+    height: 30px;
+    flex: none;
+    border-radius: 100%;
+    background-image: url('/assets/images/utility/check.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-blend-mode: luminosity;
+
+    &:checked {
+        background-blend-mode: normal;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}

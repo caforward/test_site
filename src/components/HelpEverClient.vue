@@ -64,8 +64,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '/public/assets/scss/base/mixins.scss';
-@import "/public/assets/scss/index.scss";
+
+
 
 section {
     padding: 70px 0 50px;
@@ -97,10 +97,6 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.content {
-
 }
 
 h3 {

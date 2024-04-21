@@ -1,10 +1,12 @@
 <template>
-    <router-view></router-view>
-    <!-- <MainPage /> -->
+    <Header />
+    <router-view />
+    <Footer />
 </template>
 
 <script setup lang="ts">
-// import MainPage from "./views/MainPage.vue";
+import Header from "./layouts/Header.vue";
+import Footer from "./layouts/Footer.vue";
 </script>
 
 <style>
