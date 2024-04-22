@@ -6,7 +6,7 @@
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Платите столько, сколько можете
+                                Платите столько, <br> сколько можете
                             </div>
                             <div class="slide-content__text">
                                 <p>
@@ -42,7 +42,7 @@
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Отзовем исполнительное производство
+                                Отзовем<br> исполнительное <br>производство
                             </div>
                             <div class="slide-content__text">
                                 <p>
@@ -256,12 +256,10 @@ img {
         width: 100%;
         height: 100%;
         z-index: -1;
+        background-color: $white-blue;
     }
 
-    &__button {}
-
     &-content {
-        width: 540px;
 
         &__title {
             font-weight: 700;
@@ -271,6 +269,7 @@ img {
         }
 
         &__text {
+            width: 540px;
             font-size: 16px;
             line-height: 175%;
             margin-bottom: 33px;
@@ -291,15 +290,32 @@ img {
 }
 
 @include desktop {
+    .slider {
+        &__slide {
+            height: 750px;
+        }
+        &-nav {
+            &__wrapper {
+                bottom: 30px;
+            }
+        }
+    }
     .slide {
+        &__img {
+            img {
+                object-position: 47%;
+            }
+        }
         &-content {
             &__title {
                 font-size: 44px;
             }
+
             &__text {
+                width: 363px;
                 font-size: 14px;
-                width: 77%;
             }
+
             &__buttons {
                 &>*:not(:last-child) {
                     margin-right: 15px;
@@ -310,51 +326,89 @@ img {
 }
 
 @include laptop {
+    section {
+        margin-top: -80px;
+    }
+    .slider {
+        &__slide {
+            padding-top: 80px;
+        }
+    }
     .slide {
+        &__img {
+            img {
+                object-position: 54%;
+            }
+        }
         &-content {
-            width: 285px;
             &__title {
                 font-size: 30px;
+                margin-bottom: 10px;
             }
+            
             &__text {
-                width: 95%;
+                width: 279px;
+                line-height: 171%;
+                margin-bottom: 25px;
+            }
+        }
+    }
+}
+
+@include mobile {
+    .slider {
+        &__slide {
+            align-items: start;
+            height: unset;
+            padding-bottom: 240px;
+        }
+        &-nav {
+            &__wrapper {
+                bottom: 20px;
+            }
+        }
+    }
+
+    .slide {
+        &__img {
+            padding-top: 260px;
+            img {
+                object-position: 80%;
+            }
+        }
+
+        &-content {
+            &__text {
+                display: none;
+            }
+
+            &__buttons {
+                flex-wrap: wrap;
+                gap: 10px;
+
+                &>* {
+                    width: fit-content;
+
+                    &:not(:last-child) {
+                        margin: 0;
+                    }
+                }
             }
         }
     }
 }
 
 @include mobileS {
-    .slider {
-        &__slide {
-            align-items: start;
-            height: unset;
-        }
-    }
     .slide {
         &__img {
-            position: static;
+            padding-top: 300px;
             img {
-                // margin: 0 -15px;
-                margin-right: -15px;
-                margin-left: -15px;
+                object-position: 90%;
             }
         }
         &-content {
-            width: 280px;
             &__title {
                 font-size: 20px;
-            }
-            &__text {
-                display: none;
-            }
-            &__buttons {
-                flex-direction: column;
-                &>* {
-                    width: fit-content;
-                    &:not(:last-child) {
-                        margin: 0 0 10px 0;
-                    }
-                }
             }
         }
     }
