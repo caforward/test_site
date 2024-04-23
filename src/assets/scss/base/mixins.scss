@@ -11,7 +11,7 @@
     height: 50px;
     background: #fff;
 }
-
+ 
 
 @mixin modal {
     // display: none;
@@ -42,6 +42,12 @@
     }
 }
 
+@mixin desktopXl() {
+    @media (max-width: 1440px) {
+        @content;
+    }
+}
+
 @mixin desktop() {
     @media (max-width: 1230px) {
         @content;
@@ -62,6 +68,12 @@
 
 @mixin mobile() {
     @media (max-width: 606px) {
+        @content;
+    }
+}
+
+@mixin mobileS() {
+    @media (max-width: 375px) {
         @content;
     }
 }

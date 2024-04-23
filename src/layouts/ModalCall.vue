@@ -53,7 +53,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-@import "vue-select/dist/vue-select.css";
+// @import "vue-select/dist/vue-select.css";
 
 ::placeholder {
     color: rgba(0, 0, 0, 0.5);

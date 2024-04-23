@@ -1,36 +1,37 @@
 <template>
     <section>
-    <div class="container">
-        <div class="flexContainer">
-            <div class="textContent">
-                <h3>Анонимный звонок</h3>
-                <p class="upParagraph">Мы понимаем всю тяжесть финансового положения наших потенциальных <br> клиентов,
-                    поэтому гарантируем полную анонимность каждому, кто<br> обратится к нам. В частности, вы можете
-                    абсолютно анонимно и бесплатно<br> получить консультацию по любому вопросу, связанному с
-                    погашением<br> вашей задолженности. Просто позвоните нам, опишите свою ситуацию, и мы<br> подскажем,
-                    что нужно делать, чтобы получить рассрочку с прощением части <br>долга. 
-                    <br><br>Сотрудничество с ПКО «Форвард» – это абсолютно безопасно. На этапе<br> звонка мы не собираем
-                    данных, а значит, вы можете не бояться утечки на<br> третью сторону или того, что кто-то из близких
-                    узнает о вашем тяжелом <br>положении. С нами вы можете быть уверены, что эффективная и
-                    <br>современная помощь будет еще и максимально этичной <br>и корректной.
-                </p>
-                <div class="phoneEmailContainer">
-                    <div class="phoneInfo">
-                        <a href="tel:78043334133" class="phone">+7 (804) 333-41-33</a>
-                        <p class="bottParagraph">Ежедневно с 7:00 до 20:00 Мск</p>
+        <div class="container">
+            <div class="flexContainer">
+                <div class="textContent">
+                    <h3>Анонимный звонок</h3>
+                    <p class="upParagraph">Мы понимаем всю тяжесть финансового положения наших потенциальных клиентов,
+                        поэтому гарантируем полную анонимность каждому, кто обратится к нам. В частности, вы можете
+                        абсолютно анонимно и бесплатно получить консультацию по любому вопросу, связанному с
+                        погашением вашей задолженности. Просто позвоните нам, опишите свою ситуацию, и мы подскажем,
+                        что нужно делать, чтобы получить рассрочку с прощением части долга. 
+                        <br><br>Сотрудничество с ПКО «Форвард» – это абсолютно безопасно. На этапе звонка мы не собираем
+                        данных, а значит, вы можете не бояться утечки на третью сторону или того, что кто-то из близких
+                        узнает о вашем тяжелом положении. С нами вы можете быть уверены, что эффективная и
+                        современная помощь будет еще и максимально этичной и корректной.
+                    </p>
+                    <div class="phoneEmailContainer">
+                        <div class="phoneInfo">
+                            <a href="tel:78043334133" class="phone">+7 (804) 333-41-33</a>
+                            <p class="bottParagraph">Ежедневно с 7:00 до 20:00 Мск</p>
+                        </div>
+                        <div class="mailInfo">
+                            <a href="mailto:dolg.info@caforward.ru" class="mail">dolg.info@caforward.ru</a>
+                            <p class="bottParagraph">или напишите нам на почту</p>
+                        </div>
                     </div>
-                    <div class="mailInfo">
-                        <a href="mailto:dolg.info@caforward.ru" class="mail">dolg.info@caforward.ru</a>
-                        <p class="bottParagraph">или напишите нам на почту</p>
-                    </div>
+                    <button @click="showModalCall" class="button_blue callOrderButt">Заказать звонок</button>
                 </div>
+                <div class="imgContent"><img src="/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
             </div>
-            <div class="imgContent"><img src="/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
+
         </div>
-        <button @click="showModalCall" class="button_blue callOrderButt">Заказать звонок</button>
-    </div>
-    <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
-</section>
+        <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
+    </section>
 </template>
 
 <script lang="ts">
@@ -59,7 +60,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 section {
     padding: 50px 0 150px;
 }
@@ -67,10 +67,8 @@ section {
 .flexContainer {
     display: flex;
     justify-content: flex-start;
-}
-
-.textContent {
-    margin-right: 39px;
+    gap: 42px;
+    align-items: flex-start;
 }
 
 .phoneEmailContainer {
@@ -108,30 +106,28 @@ section {
 }
 
 .phoneInfo {
-    width: 313px;
-    margin-right: 32px;
-    a{  
+    margin-right: 42px;
+
+    a {
         display: inline-block;
-        color: #0096D8; 
+        color: #0096D8;
     }
-    
+
 }
 
 .mailInfo {
-    width: 310px;
-    a{
+
+    a {
         display: inline-block;
-        color: #0096D8; 
+        color: #0096D8;
     }
-    
+
 }
 
-img {
-    max-width: 647px;
-    max-height: 595px;
-    min-width: 590px;
-    min-height: 540px;
-    width: 100%;
+img {}
+
+.textContent {
+    width: 57%
 }
 
 .callOrderButt {
@@ -145,7 +141,7 @@ img {
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0%;
-    
+
 }
 
 h3 {
@@ -167,4 +163,104 @@ h3 {
     color: rgb(46, 46, 46);
     margin-bottom: 32px;
 }
+
+.imgContent {
+    box-sizing: content-box;
+}
+
+@media screen and (max-width: 1370px) and (min-width: 1025px) {
+    h3 {
+        font-size: 30px;
+        margin-bottom: 14px;
+    }
+
+    .upParagraph {
+        font-size: 14px;
+        margin-bottom: 23px;
+    }
+
+    .phoneInfo {
+        margin-right: 37px;
+
+        .phone {
+            font-size: 16px;
+        }
+    }
+
+    .mailInfo {
+        .mail {
+            font-size: 16px;
+        }
+    }
+
+    .phoneEmailContainer {
+        gap: 19px;
+        width: 120%;
+
+        .bottParagraph {
+            font-size: 14px;
+        }
+    }
+
+    .callOrderButt {
+        font-size: 14px;
+        width: 181px;
+        height: 50px;
+    }
+
+    .flexContainer {
+        gap: 29px;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+    h3 {
+        font-size: 28px;
+font-weight: 700;
+margin-bottom: 12px;
+    }
+
+    .upParagraph {
+        font-size: 14px;
+font-weight: 400;
+        margin-bottom: 24px;
+    }
+    .textContent {
+    width: 100%;
+}
+    .phoneInfo {
+        margin-right: 37px;
+
+        .phone {
+            font-size: 16px;
+        }
+    }
+
+    .mailInfo {
+        .mail {
+            font-size: 16px;
+        }
+    }
+
+    .phoneEmailContainer {
+        gap: 90px;
+
+        margin-bottom: 23px;
+        .bottParagraph {
+            font-size: 14px;
+        }
+    }
+
+    .callOrderButt {
+        font-size: 14px;
+        width: 181px;
+        height: 50px;
+    }
+
+    .flexContainer {
+        gap: 29px;
+    }
+    img {display: none;}
+}
+
 </style>

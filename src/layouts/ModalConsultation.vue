@@ -89,7 +89,6 @@ export default defineComponent({
 
         if (response.ok) {
           console.log("Сообщение успешно отправлено");
-          // Сбросить данные формы после успешной отправки
           this.resetFormData();
         } else {
           console.error("Ошибка при отправке сообщения");
@@ -112,7 +111,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-@import "vue-select/dist/vue-select.css";
+// @import "vue-select/dist/vue-select.css";
 
 
 ::placeholder {

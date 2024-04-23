@@ -1,14 +1,14 @@
 .container {
     max-width: 1370px;
     width: 100%;
-    padding: 0 15px;
+    padding: 0 25px;
     margin: 0 auto;
     color: rgb(46, 46, 46);
 }
 
 @include desktop {
     .container {
-        max-width: 1022px;
+        max-width: 1070px;
     }
 }
 
@@ -20,7 +20,8 @@
 
 @include tablet {
     .container {
-        max-width: 606px;
+        max-width: 620px;
+        padding: 0 15px;
     }
 }
 

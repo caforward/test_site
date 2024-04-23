@@ -1,7 +1,8 @@
 <template>
     <footer id="contacts">
-        <div class="container">
-            <div class="flexContainer">
+        <div class="container"> 
+
+            <div v-if="isMobile === false" class="flexContainer">
                 <ul class="leftPart">
                     <a href="/">
                         <img class="imgForward" src="/assets/images/footer/forward.png"
@@ -24,12 +25,75 @@
                 </ul>
                 <ul>
                     <li><button class="whiteButt">Обратная связь</button></li>
-                    <li><button class="blueButt">Онлайн чат</button></li>
+                    <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
                     <div class="iconContainer">
                         <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
                             alt="there was a icon from SM " />
                     </div>
                 </ul>
+            </div>
+            </div>
+
+
+
+            <div v-if="isMobile" class="flexContainer">
+                <div class="left-side">
+                <ul class="leftPart">
+                    <a href="/">
+                        <img class="imgForward" src="/assets/images/footer/forward.png"
+                            alt="there was a logo CaForward" />
+                    </a>
+                </ul>
+                <ul class="footer-nav">
+                    <a href="/about" >
+                       О компании
+                    </a>
+                </ul>
+                <ul class="footer-nav">
+                    <a href="/jobs" >
+                       Вакансии
+                    </a>
+                </ul>
+                <ul class="footer-nav partners">
+                    <a target="_blank" href="/for-partners" >
+                       Партнёрам
+                    </a>
+                </ul>
+                <ul class="feedback"> 
+                    <li>Обратная связь</li>
+                    <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
+                    <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
+                    <li>Написать на почту</li>
+                    <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
+                </ul>
+                </div>
+                <div class="rightContainer">
+                    <ul class="footer-nav">
+                    <a target="_blank" href="" >
+                       Получить рассрочку
+                    </a>
+                </ul>
+                <ul class="footer-nav">
+                    <a target="_blank" href="" >
+                       Получить консультацию
+                    </a>
+                </ul>
+                <ul class="footer-nav">
+                    <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" >
+                       Внести платёж
+                    </a>
+                </ul>
+                <ul>
+                    <li><button class="whiteButt">Обратная связь</button></li>
+                    <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
+                    <div class="iconContainer">
+                        <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
+                            alt="there was a icon from SM " />
+                    </div>
+                </ul>
+                <ul class="after-icon">
+                        <li>г. Новосибирск,<br /> <br>ул.  Урицкого, д. 21, этаж 3</li>
+                    </ul>
             </div>
             </div>
         </div>
@@ -60,18 +124,18 @@ export default defineComponent({
 
     data() {
         return {
+            isMobile: false,
             footerArr: [
                 [
                     { text: "О Компании", href: "/about" },
-                    { text: "Контакты", href: "" },
-                    { text: "Вакансии", href: ""  },
+                    { text: "Вакансии", href: "/jobs"  },
                     { text: "Партнёрам", href: "/for-partners"  },
                 ],
                 [
                     // { text: "Я не должник", href: ""  },
                     { text: "Получить рассрочку", href: ""  },
                     { text: "Получить консультацию", href: ""  },
-                    { text: "Внести платеж", href: "#payment"  },
+                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971"  },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
@@ -79,6 +143,18 @@ export default defineComponent({
                 { src: "/assets/images/footer/5.png" },
             ] as IconSrc[],
         };
+    },
+    mounted() {
+        this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
+        window.addEventListener('resize', this.updateIsMobile)
+    },
+    methods: {
+        updateIsMobile() {
+            this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
+        }
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.updateIsMobile)
     },
 });
 </script>
@@ -225,6 +301,42 @@ a{
     font-size: 14px;
     line-height: 214%;
     color: #fff;
+}
+
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+    .flexContainer {
+        flex-direction: row;
+        padding-top: 30px;
+        padding-bottom: 17px; 
+        align-items: center;
+    }
+    .rightContainer {
+        display: flex;
+        flex-direction: column;
+        padding-top: 58px;
+        .after-icon {
+            margin-top: 15px;
+        }
+    }
+    .left-side {
+            ul {
+                margin-bottom: 30px;
+                
+            }
+        }
+        .feedback {
+            margin-top: 45px;
+        }
+            .imgForward {
+                margin-bottom: 0px;
+                width: 159px;
+                height: 42px;
+            }
+            .iconContainer{
+                gap:17px;
+                align-content: flex-start;
+            }
+        
 }
 
 </style>

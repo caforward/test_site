@@ -1,14 +1,10 @@
 <template>
     <section class="">
+
         <div class="slider">
             <swiper class="swiper" :slides-per-view="1" @swiper="onSwiper">
                 <swiper-slide class="slider__slide">
                     <div class="container">
-                        <div class="slide__img">
-                            <img :src='"assets/images/" + "introSlider/01.jpg"'
-                                alt="There was img"
-                            />
-                        </div>
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Платите столько, сколько можете
@@ -30,9 +26,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button
-                                    class="button button_blue slide__button"
-                                >
+                                <button @click="showModal" class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -40,18 +34,13 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="slide__img">
+                            <img :src='"assets/images/" + "introSlider/01.jpg"' alt="There was img" />
+                        </div>
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
                     <div class="container">
-                        <div class="slide__img">
-                            <img
-                                :src='
-                                    "assets/images/" + "introSlider/03.jpg"
-                                '
-                                alt=""
-                            />
-                        </div>
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Отзовем исполнительное производство
@@ -73,9 +62,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button
-                                    class="button button_blue slide__button"
-                                >
+                                <button @click="showModal" class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -83,18 +70,14 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="slide__img">
+                            <img :src='"assets/images/" + "introSlider/03.jpg"
+                ' alt="" />
+                        </div>
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
                     <div class="container">
-                        <div class="slide__img">
-                            <img
-                                :src="
-                                    '/assets/images/' + 'introSlider/02.jpg'
-                                "
-                                alt=""
-                            />
-                        </div>
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Отзовем исполнительное производство
@@ -117,9 +100,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button
-                                    class="button button_blue slide__button"
-                                >
+                                <button @click="showModal" class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -127,61 +108,47 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="slide__img">
+                            <img :src="'/assets/images/' + 'introSlider/02.jpg'
+                " alt="" />
+                        </div>
                     </div>
                 </swiper-slide>
             </swiper>
             <div class="slider-nav__wrapper">
                 <div class="container">
                     <div class="slider-nav">
-                        <button
-                            class="slider-nav__button slider-nav__button_prev"
-                            @click="swiper.slidePrev()"
-                        >
-                            <svg
-                                width="7"
-                                height="12"
-                                viewBox="0 0 7 12"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
+                        <button class="slider-nav__button slider-nav__button_prev" @click="swiper.slidePrev()">
+                            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M0.259642 0.251051C0.605832 -0.0836838 1.16712 -0.0836838 1.51331 0.251051L6.67545 5.24239C7.10818 5.6608 7.10819 6.33919 6.67545 6.75761L1.51331 11.7489C1.16712 12.0837 0.605832 12.0837 0.259642 11.7489C-0.0865475 11.4142 -0.0865475 10.8715 0.259642 10.5368L4.95166 6L0.259642 1.46323C-0.0865475 1.1285 -0.0865475 0.585786 0.259642 0.251051Z"
-                                    fill="white"
-                                />
+                                    fill="white" />
                             </svg>
                         </button>
-                        <button
-                            class="slider-nav__button slider-nav__button_next"
-                            @click="swiper.slideNext()"
-                        >
-                            <svg
-                                width="7"
-                                height="12"
-                                viewBox="0 0 7 12"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
+                        <button class="slider-nav__button slider-nav__button_next" @click="swiper.slideNext()">
+                            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M0.259642 0.251051C0.605832 -0.0836838 1.16712 -0.0836838 1.51331 0.251051L6.67545 5.24239C7.10818 5.6608 7.10819 6.33919 6.67545 6.75761L1.51331 11.7489C1.16712 12.0837 0.605832 12.0837 0.259642 11.7489C-0.0865475 11.4142 -0.0865475 10.8715 0.259642 10.5368L4.95166 6L0.259642 1.46323C-0.0865475 1.1285 -0.0865475 0.585786 0.259642 0.251051Z"
-                                    fill="white"
-                                />
+                                    fill="white" />
                             </svg>
                         </button>
                     </div>
                     <!-- <Pagination /> -->
                 </div>
             </div>
+
         </div>
+   
     </section>
+    <ModalConsultation :visible="modalVisible" @close="closeModal"/>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
 import Slide from "../blocks/IntroSlider/Slide.vue";
+import ModalConsultation from "../layouts/ModalConsultation.vue"
 import { Swiper, SwiperSlide } from "swiper/vue";
 // import { Pagination } from "swiper/modules";
 
@@ -191,14 +158,17 @@ import "swiper/css";
 export default {
     name: "IntroSlider",
     components: {
+        ModalConsultation,
         Slide,
         Swiper,
         SwiperSlide,
         // Pagination
     },
+
     props: {},
     data() {
         return {
+            modalVisible: false,
             sliderData: [
                 {
                     img: "introSlider/01.jpg",
@@ -218,6 +188,14 @@ export default {
             ],
         };
     },
+    methods: {
+        showModal() {
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+    },
     setup() {
         const swiper = ref();
         return {
@@ -229,6 +207,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+section {
+    margin-top: -130px;
+}
+
 img {
     width: 100%;
     height: 100%;
@@ -261,12 +243,14 @@ img {
     &-nav {
         display: flex;
         gap: 10px;
+
         &__wrapper {
             position: absolute;
             bottom: 70px;
             width: 100%;
             z-index: 1;
         }
+
         &__button {
             border: 2px solid #fff;
             border-radius: 30px;
@@ -290,8 +274,7 @@ img {
         z-index: -1;
     }
 
-    &__button {
-    }
+    &__button {}
 
     &-content {
         width: 540px;
@@ -316,8 +299,90 @@ img {
         &__buttons {
             display: flex;
 
-            & > *:not(:last-child) {
+            &>*:not(:last-child) {
                 margin-right: 30px;
+            }
+        }
+    }
+}
+
+@include desktop {
+    .slide {
+        &-content {
+            &__title {
+                font-size: 44px;
+            }
+
+            &__text {
+                font-size: 14px;
+                width: 77%;
+            }
+
+            &__buttons {
+                &>*:not(:last-child) {
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+}
+
+@include laptop {
+    .slide {
+        &-content {
+            width: 285px;
+
+            &__title {
+                font-size: 30px;
+            }
+
+            &__text {
+                width: 95%;
+            }
+        }
+    }
+}
+
+@include mobileS {
+    .slider {
+        &__slide {
+            align-items: start;
+            height: unset;
+        }
+    }
+
+    .slide {
+        &__img {
+            position: static;
+
+            img {
+                // margin: 0 -15px;
+                margin-right: -15px;
+                margin-left: -15px;
+            }
+        }
+
+        &-content {
+            width: 280px;
+
+            &__title {
+                font-size: 20px;
+            }
+
+            &__text {
+                display: none;
+            }
+
+            &__buttons {
+                flex-direction: column;
+
+                &>* {
+                    width: fit-content;
+
+                    &:not(:last-child) {
+                        margin: 0 0 10px 0;
+                    }
+                }
             }
         }
     }
