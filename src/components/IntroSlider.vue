@@ -1,6 +1,5 @@
 <template>
     <section class="">
-
         <div class="slider">
             <swiper class="swiper" :slides-per-view="1" @swiper="onSwiper">
                 <swiper-slide class="slider__slide">
@@ -26,7 +25,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button @click="showModal" class="button button_blue slide__button">
+                                <button class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -62,7 +61,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button @click="showModal" class="button button_blue slide__button">
+                                <button class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -72,7 +71,7 @@
                         </div>
                         <div class="slide__img">
                             <img :src='"assets/images/" + "introSlider/03.jpg"
-                ' alt="" />
+                                ' alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -96,7 +95,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button @click="showModal" class="button button_blue slide__button">
+                                <button class="button button_blue slide__button">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -106,7 +105,7 @@
                         </div>
                         <div class="slide__img">
                             <img :src="'/assets/images/' + 'introSlider/02.jpg'
-                " alt="" />
+                                " alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -134,17 +133,13 @@
                     <!-- <Pagination /> -->
                 </div>
             </div>
-
         </div>
-   
     </section>
-    <ModalConsultation :visible="modalVisible" @close="closeModal"/>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
 import Slide from "../blocks/IntroSlider/Slide.vue";
-import ModalConsultation from "../layouts/ModalConsultation.vue"
 import { Swiper, SwiperSlide } from "swiper/vue";
 // import { Pagination } from "swiper/modules";
 
@@ -154,17 +149,14 @@ import "swiper/css";
 export default {
     name: "IntroSlider",
     components: {
-        ModalConsultation,
         Slide,
         Swiper,
         SwiperSlide,
         // Pagination
     },
-
     props: {},
     data() {
         return {
-            modalVisible: false,
             sliderData: [
                 {
                     img: "introSlider/01.jpg",
@@ -183,14 +175,6 @@ export default {
                 },
             ],
         };
-    },
-    methods: {
-        showModal() {
-            this.modalVisible = true;
-        },
-        closeModal() {
-            this.modalVisible = false;
-        },
     },
     setup() {
         const swiper = ref();
@@ -348,6 +332,7 @@ img {
     .slider {
         &__slide {
             padding-top: 120px;
+
             &_fix {
                 padding-top: 20px;
             }
@@ -362,8 +347,6 @@ img {
         }
 
         &-content {
-            width: 285px;
-
             &__title {
                 font-size: 30px;
                 margin-bottom: 10px;
@@ -384,6 +367,7 @@ img {
             align-items: start;
             height: unset;
             padding-bottom: 240px;
+
             &_fix {
                 padding-top: 120px;
             }
@@ -398,7 +382,6 @@ img {
 
     .slide {
         &__img {
-            position: static;
             padding-top: 260px;
 
             img {
@@ -407,8 +390,6 @@ img {
         }
 
         &-content {
-            width: 280px;
-
             &__title {
                 margin-bottom: 25px;
             }
@@ -418,7 +399,6 @@ img {
             }
 
             &__buttons {
-                flex-direction: column;
                 flex-wrap: wrap;
                 gap: 10px;
 
