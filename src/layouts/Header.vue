@@ -4,12 +4,15 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <a class="header-top-nav__link" :href="navLink.href" @click="handleNavLink($event, navLink)">{{
-                            navLink.name
-                            }}</a>
-                    </li>
-                    <li>
-                        <a class="header-top-nav__link " href="#" >Получить справку</a>
+                        <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link"
+                            exact>
+                            {{ navLink.name }}
+                        </router-link>
+
+                        <a v-else class="header-top-nav__link" :href="navLink.href"
+                            @click="handleNavLink($event, navLink)">
+                            {{ navLink.name }}
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -27,11 +30,15 @@
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
+                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href"
+                                    class="header-bottom-nav__link">
+                                    {{ navLink.name }}
+                                </router-link>
 
-                                <a v-if="navLink.name == 'Получить консультацию'" @click.stop="showModal($event)"
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall()"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -55,11 +62,11 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a href="https://pay.mandarinbank.com/?m=4971" target="_blank"  class="button button_blue button_small">
+                        <a href="#" class="button button_blue button_small">
                             Внести платёж
                         </a>
                     </div>
-                    <div>
+                    <div class="header-button__menu">
                         <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M0.666748 1C0.666748 0.447715 1.11446 0 1.66675 0H20.3334C20.8857 0 21.3334 0.447715 21.3334 1C21.3334 1.55228 20.8857 2 20.3334 2H1.66675C1.11446 2 0.666748 1.55228 0.666748 1ZM0.666748 8C0.666748 7.44772 1.11446 7 1.66675 7H20.3334C20.8857 7 21.3334 7.44772 21.3334 8C21.3334 8.55228 20.8857 9 20.3334 9H1.66675C1.11446 9 0.666748 8.55228 0.666748 8ZM0.666748 15C0.666748 14.4477 1.11446 14 1.66675 14H20.3334C20.8857 14 21.3334 14.4477 21.3334 15C21.3334 15.5523 20.8857 16 20.3334 16H1.66675C1.11446 16 0.666748 15.5523 0.666748 15Z"
@@ -89,51 +96,44 @@ export default {
         ModalCall
     },
     methods: {
-        showModal(event: MouseEvent) {
-            event.preventDefault()
+        showModal(event: any) {
+            event.preventDefault();
             this.modalVisible = true;
         },
         closeModal() {
             this.modalVisible = false;
         },
-        showModalCall(event: MouseEvent) {
-            event.preventDefault()
+        showModalCall() {
             this.modalVisibleCall = true;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
         },
         handleNavLink(event: any, navLink: any) {
-            // event.preventDefault() << Навигация >>   для активного класса :class="{ 'is-active': activeLink === navLink.name }"
-            // this.activeLink = navLink.name;   << Навигация >>
             const contacts = document.getElementById('contacts');
 
             if (contacts && navLink.name === 'Контакты') {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
-            } 
-            
-            // else if (navLink.name === "Внести платёж") {
-            //     event.preventDefault();
-            //     this.$router.push({ path: '/' });
-            //     this.$router.afterEach((to) => {
-            //         if (to.path === '/') {
-            //             setTimeout(() => {
-            //                 const payment = document.getElementById('payment');
-            //                 if (payment) {
-            //                     payment.scrollIntoView({ behavior: 'smooth' });
-            //                 }
-            //             }, 50);
-            //         }
-            //     });
-            // }
-
+            } else if (navLink.name === "Внести платёж") {
+                event.preventDefault();
+                this.$router.push({ path: '/' });
+                this.$router.afterEach((to) => {
+                    if (to.path === '/') {
+                        setTimeout(() => {
+                            const payment = document.getElementById('payment');
+                            if (payment) {
+                                payment.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }, 50);
+                    }
+                });
+            }
         },
 
     },
     data() {
         return {
-            activeLink: null,
             modalVisible: false,
             modalVisibleCall: false,
             topNav: [
@@ -153,6 +153,10 @@ export default {
                     name: "Вакансии",
                     href: "/jobs",
                 },
+                {
+                    name: "Получить справку",
+                    href: "#",
+                },
             ],
             bottomNav: [
                 // {
@@ -165,11 +169,11 @@ export default {
                 },
                 {
                     name: "Получить консультацию",
-                    href: "/",
+                    href: "#",
                 },
                 {
                     name: "Заказать звонок",
-                    href: "/",
+                    href: "#",
                 },
                 // {
                 //     name: "Внести платёж",
@@ -184,21 +188,6 @@ export default {
 <style lang="scss">
 
 .header {
-    
-    &-top-nav__link {
-        background-color: transparent; 
-        transition: background-color 0.2s, color 0.3s;
-        &:hover {
-        background-color: white; 
-        color: black; 
-      }
-//       &.is-active {    << НАВИГАЦИЯ Активный класс>>
-//     background-color: white;
-//     border-bottom: 2px solid black; 
-//     color: black; 
-//   }
-      
-    }
     &-top {
         background-color: #292d32;
 
@@ -208,13 +197,13 @@ export default {
 
             &__link {
                 color: #fff;
-                padding: 12px 20px;
+                padding: 10px 20px;
                 font-weight: 400;
                 font-size: 16px;
+                transition: color .2s, background-color .2s;
 
-                &_active {
+                &.router-link-exact-active {
                     color: #000;
-                    padding: 10px 23px;
                     background-color: #fff;
                 }
             }
@@ -271,8 +260,11 @@ export default {
             }
         }
     }
-}
 
+    &-button__menu {
+        display: none;
+    }
+}
 
 @include desktopXl {
     .header {}
@@ -324,6 +316,12 @@ export default {
         &-bottom {
             &__right {
                 display: none;
+            }
+        }
+
+        &-button {
+            &__menu {
+                display: block;
             }
         }
     }

@@ -84,4 +84,15 @@ section {
         }
     }
 }
+
+@include desktop {
+    .title {
+        font-size: 30px;
+        margin-bottom: 25px;
+    }
+    .text {
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+}
 </style>
