@@ -4,9 +4,14 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <a class="header-top-nav__link" :href="navLink.href" @click="handleNavLink($event, navLink)">{{
-                            navLink.name
-                            }}</a>
+                        <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link">
+                            {{ navLink.name }}
+                        </router-link>
+
+                        <a v-else class="header-top-nav__link" :href="navLink.href"
+                            @click="handleNavLink($event, navLink)">
+                            {{ navLink.name }}
+                        </a>
                     </li>
                     <li>
                         <a class="header-top-nav__link header-top-nav__link_active" href="#">Получить справку</a>
@@ -182,7 +187,7 @@ export default {
 
             &__link {
                 color: #fff;
-                padding: 12px 20px;
+                padding: 10px 20px;
                 font-weight: 400;
                 font-size: 16px;
 
@@ -303,6 +308,7 @@ export default {
                 display: none;
             }
         }
+
         &-button {
             &__menu {
                 display: block;
