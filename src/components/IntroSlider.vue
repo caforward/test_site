@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </swiper-slide>
-                <swiper-slide class="slider__slide">
+                <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
@@ -79,23 +79,19 @@
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Отзовем исполнительное производство
+                                Улучшите свою <br> кредитную историю
                             </div>
                             <div class="slide-content__text">
                                 <p>
-                                    Сотрудничество с нами – это возможность
-                                    восстановить положительную кредитную историю
-                                    быстро и эффективно. Если вы начинаете
-                                    платить по составленному специально для вас
-                                    графику, мы готовы заключить мировое
-                                    соглашение на любой стадии производства по
-                                    делу.
+                                    Сотрудничество с нами – это возможность восстановить положительную кредитную историю
+                                    быстро и эффективно. Если вы начинаете платить по составленному специально для вас
+                                    графику, мы готовы заключить мировое соглашение на любой стадии производства по
+                                    делу. 
                                 </p>
                                 <p>
-                                    Таким образом вы сможете списать до 70% от
-                                    суммы основного долга, а по окончании выплат
-                                    получаете полный набор документов, включая
-                                    справку о погашении задолженности. 
+                                    Таким образом вы сможете списать до 70% от суммы основного долга, а по окончании
+                                    выплат получаете полный набор документов, включая справку о погашении
+                                    задолженности. 
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
@@ -294,18 +290,21 @@ img {
         &__slide {
             height: 750px;
         }
+
         &-nav {
             &__wrapper {
                 bottom: 30px;
             }
         }
     }
+
     .slide {
         &__img {
             img {
                 object-position: 47%;
             }
         }
+
         &-content {
             &__title {
                 font-size: 44px;
@@ -329,23 +328,29 @@ img {
     section {
         margin-top: -80px;
     }
+
     .slider {
         &__slide {
-            padding-top: 80px;
+            padding-top: 120px;
+            &_fix {
+                padding-top: 20px;
+            }
         }
     }
+
     .slide {
         &__img {
             img {
                 object-position: 54%;
             }
         }
+
         &-content {
             &__title {
                 font-size: 30px;
                 margin-bottom: 10px;
             }
-            
+
             &__text {
                 width: 279px;
                 line-height: 171%;
@@ -361,7 +366,11 @@ img {
             align-items: start;
             height: unset;
             padding-bottom: 240px;
+            &_fix {
+                padding-top: 120px;
+            }
         }
+
         &-nav {
             &__wrapper {
                 bottom: 20px;
@@ -372,12 +381,17 @@ img {
     .slide {
         &__img {
             padding-top: 260px;
+
             img {
                 object-position: 80%;
             }
         }
 
         &-content {
+            &__title {
+                margin-bottom: 25px;
+            }
+
             &__text {
                 display: none;
             }
@@ -402,10 +416,12 @@ img {
     .slide {
         &__img {
             padding-top: 300px;
+
             img {
                 object-position: 90%;
             }
         }
+
         &-content {
             &__title {
                 font-size: 20px;
