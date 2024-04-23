@@ -32,8 +32,11 @@
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
+                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-bottom-nav__link">
+                                    {{ navLink.name }}
+                                </router-link>
 
-                                <a v-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall()"
