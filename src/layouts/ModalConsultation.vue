@@ -11,31 +11,34 @@
         проконсультировать по вашей финансовой ситуации. С этого начнется ваш
         путь к чистой кредитной истории
       </p>
+      <form  @submit.prevent="submitForm">
       <div class="inputName">
         <label for="name"></label>
-        <input type="text" id="name" placeholder="Имя*" />
+        <input v-model="formData.name" type="text" id="name" placeholder="Имя*" required />
       </div>
       <div class="inputTel">
         <label for="tel"></label>
-        <input type="tel" id="tel" placeholder="Номер телефона*" />
+        <input v-model="formData.tel" type="tel" id="tel" placeholder="Номер телефона*" required />
       </div>
       <div class="inputMail">
         <label for="mail"></label>
-        <input type="text" id="mail" placeholder="E-mail*" />
+        <input v-model="formData.email" type="text" id="mail" placeholder="E-mail*" required />
       </div>
       <div class="optionsWrap">
-        <v-select class="vSelect" v-model="selectedOption" :options="options" placeholder="Тема обращения*"></v-select>
+        <v-select v-model="formData.selectedOption" class="vSelect" :options="options" placeholder="Тема обращения*" required ></v-select>
       </div>
       <div class="aboveButt">
         Нажимая кнопку «Оплатить», вы соглашаетесь с <a>Договором оферты</a> и
         <a>политикой конфиденциальности.</a>
       </div>
-      <button class="button_blue" @click="closeModal">Оплатить</button>
+      <button class="button_blue" type="submit">Оплатить</button>
+    </form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
@@ -46,7 +49,6 @@ export default defineComponent({
       required: true,
     },
   },
-
   data() {
     return {
       options: [
@@ -55,6 +57,13 @@ export default defineComponent({
         "Рассрочка",
         "Другое",
       ],
+      selectedOption: null,
+      formData: {
+        name: '',
+        tel: '',
+        email: '',
+        selectedOption: null,
+      },
       selectedOption: ref(null),
     };
   },
@@ -63,6 +72,40 @@ export default defineComponent({
     closeModal() {
       this.$emit("close");
     },
+    async submitForm() {
+      const formData = new FormData();
+      formData.append("name", this.formData.name);
+      formData.append("tel", this.formData.tel);
+      formData.append("email", this.formData.email);
+      if (this.formData.selectedOption !== null) {
+  formData.append("selectedOption", this.formData.selectedOption);
+}
+
+      try {
+        const response = await fetch("email.php", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("Сообщение успешно отправлено");
+          // Сбросить данные формы после успешной отправки
+          this.resetFormData();
+        } else {
+          console.error("Ошибка при отправке сообщения");
+        }
+      } catch (error) {
+        console.error("Ошибка при отправке сообщения:", error);
+      }
+    },
+    resetFormData() {
+      // Сброс данных формы
+      this.formData.name = '';
+      this.formData.tel = '';
+      this.formData.email = '';
+      this.selectedOption = null;
+    },
+    
   },
 });
 </script>
@@ -70,6 +113,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 
 @import "vue-select/dist/vue-select.css";
+
 
 ::placeholder {
   color: rgba(0, 0, 0, 0.5);
