@@ -4,7 +4,8 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link">
+                        <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link"
+                            exact>
                             {{ navLink.name }}
                         </router-link>
 
@@ -12,9 +13,6 @@
                             @click="handleNavLink($event, navLink)">
                             {{ navLink.name }}
                         </a>
-                    </li>
-                    <li>
-                        <a class="header-top-nav__link header-top-nav__link_active" href="#">Получить справку</a>
                     </li>
                 </ul>
             </div>
@@ -32,7 +30,8 @@
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
-                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-bottom-nav__link">
+                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href"
+                                    class="header-bottom-nav__link">
                                     {{ navLink.name }}
                                 </router-link>
 
@@ -151,6 +150,10 @@ export default {
                     name: "Вакансии",
                     href: "/jobs",
                 },
+                {
+                    name: "Получить справку",
+                    href: "#",
+                },
             ],
             bottomNav: [
                 // {
@@ -180,6 +183,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .header {
     &-top {
         background-color: #292d32;
@@ -193,10 +197,10 @@ export default {
                 padding: 10px 20px;
                 font-weight: 400;
                 font-size: 16px;
+                transition: color .2s, background-color .2s;
 
-                &_active {
+                &.router-link-exact-active {
                     color: #000;
-                    padding: 10px 23px;
                     background-color: #fff;
                 }
             }
