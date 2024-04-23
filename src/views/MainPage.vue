@@ -3,7 +3,7 @@
         <IntroSlider />
         <AboutInNumbersVue />
         <HelpEverClientVue />
-        <Offers />
+        <!-- <Offers /> -->
         <PigFinance />
         <Suppliers />
         <AboutCompany />

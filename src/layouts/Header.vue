@@ -9,7 +9,7 @@
                             }}</a>
                     </li>
                     <li>
-                        <a class="header-top-nav__link header-top-nav__link_active" href="#">Получить справку</a>
+                        <a class="header-top-nav__link " href="#" >Получить справку</a>
                     </li>
                 </ul>
             </div>
@@ -28,10 +28,10 @@
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
 
-                                <a v-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                                <a v-if="navLink.name == 'Получить консультацию'" @click.stop="showModal($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall()"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -55,7 +55,7 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a href="#" class="button button_blue button_small">
+                        <a href="https://pay.mandarinbank.com/?m=4971" target="_blank"  class="button button_blue button_small">
                             Внести платёж
                         </a>
                     </div>
@@ -86,44 +86,51 @@ export default {
         ModalCall
     },
     methods: {
-        showModal(event: any) {
-            event.preventDefault();
+        showModal(event: MouseEvent) {
+            event.preventDefault()
             this.modalVisible = true;
         },
         closeModal() {
             this.modalVisible = false;
         },
-        showModalCall() {
+        showModalCall(event: MouseEvent) {
+            event.preventDefault()
             this.modalVisibleCall = true;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
         },
         handleNavLink(event: any, navLink: any) {
+            // event.preventDefault() << Навигация >>   для активного класса :class="{ 'is-active': activeLink === navLink.name }"
+            // this.activeLink = navLink.name;   << Навигация >>
             const contacts = document.getElementById('contacts');
 
             if (contacts && navLink.name === 'Контакты') {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
-            } else if (navLink.name === "Внести платёж") {
-                event.preventDefault();
-                this.$router.push({ path: '/' });
-                this.$router.afterEach((to) => {
-                    if (to.path === '/') {
-                        setTimeout(() => {
-                            const payment = document.getElementById('payment');
-                            if (payment) {
-                                payment.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }, 50);
-                    }
-                });
-            }
+            } 
+            
+            // else if (navLink.name === "Внести платёж") {
+            //     event.preventDefault();
+            //     this.$router.push({ path: '/' });
+            //     this.$router.afterEach((to) => {
+            //         if (to.path === '/') {
+            //             setTimeout(() => {
+            //                 const payment = document.getElementById('payment');
+            //                 if (payment) {
+            //                     payment.scrollIntoView({ behavior: 'smooth' });
+            //                 }
+            //             }, 50);
+            //         }
+            //     });
+            // }
+
         },
 
     },
     data() {
         return {
+            activeLink: null,
             modalVisible: false,
             modalVisibleCall: false,
             topNav: [
@@ -155,11 +162,11 @@ export default {
                 },
                 {
                     name: "Получить консультацию",
-                    href: "#",
+                    href: "/",
                 },
                 {
                     name: "Заказать звонок",
-                    href: "#",
+                    href: "/",
                 },
                 // {
                 //     name: "Внести платёж",
@@ -172,7 +179,23 @@ export default {
 </script>
 
 <style lang="scss">
+
 .header {
+    
+    &-top-nav__link {
+        background-color: transparent; 
+        transition: background-color 0.2s, color 0.3s;
+        &:hover {
+        background-color: white; 
+        color: black; 
+      }
+//       &.is-active {    << НАВИГАЦИЯ Активный класс>>
+//     background-color: white;
+//     border-bottom: 2px solid black; 
+//     color: black; 
+//   }
+      
+    }
     &-top {
         background-color: #292d32;
 
@@ -246,6 +269,7 @@ export default {
         }
     }
 }
+
 
 @include desktopXl {
     .header {}

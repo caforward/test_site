@@ -10,7 +10,7 @@
                         помощью электронной почты dolg.info@caforward.ru. Далее наши специалисты дадут вам
                         бесплатную консультацию и расскажут, что делать, чтобы начать исправлять свое трудной
                         финансовое положение</p>
-                    <div><button>Связаться с нами</button></div>
+                    <div><button><a href="tel:+74997020156">Связаться с нами</a></button></div>
                 </div>
                 <div class="imageContainer"><img src="/assets/images/PigImg/1img.png" alt="there was a pig :(">
                 </div>
@@ -47,7 +47,6 @@ section {
     justify-content: space-between;
     background: rgb(232, 239, 244);
     border-radius: 30px;
-    max-height: 470px;
 
 }
 
@@ -58,7 +57,7 @@ section {
     padding: 80px;
     padding-top: 53px;
     padding-right: 0;
-    width: 50%;
+    width: 65%;
 }
 
 h3 {
@@ -78,9 +77,16 @@ p {
     line-height: 30px;
     letter-spacing: 0%;
     margin-bottom: 21px;
-    width: 90%;
+    width: 89%;
 }
-
+a {
+    color: rgb(255, 255, 255);
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0%;
+}
 button {
     color: rgb(255, 255, 255);
     font-family: "Montserrat", sans-serif;
@@ -100,7 +106,65 @@ button {
 
 img {
     transform: rotate(2.01deg);
-    width: 521px;   
-    height: 521px;
+}
+
+@media screen and (max-width: 1370px) and (min-width: 1025px) {
+    h3 {
+        font-size: 24px;
+        font-weight: 600px;
+    }
+    p {
+        font-size: 14px;
+        font-weight: 400px;
+        width: 85%;
+    }
+    button {
+        width: 193px;
+        height:50px;
+        font-size: 14px;
+        font-weight: 500px;
+    }
+    .textContainer {
+        padding: 41px 0 42px 50px
+    }
+    .imageContainer{
+        margin-top: 0px;
+        img {
+            width: 447px;
+            height: 447px;
+        }
+    }
+}
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+    h3 {
+        font-size: 22px;
+font-weight: 600;
+    }
+    p {
+        font-size: 14px;
+font-weight: 400;
+        width: 85%;
+    }
+    button {
+        width: 193px;
+        height:50px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .textContainer {
+        padding: 41px 0 40px 29px
+    }
+    .flexContainer{
+        gap: 23px
+    }
+    .imageContainer{
+        padding-top: 153px;
+        padding-right: 31px;
+        margin-top: 0px;
+        img {
+            width: 227px;
+            height: 227px;
+        }
+    }
 }
 </style>
