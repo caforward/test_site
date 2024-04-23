@@ -263,4 +263,61 @@ font-weight: 400;
     img {display: none;}
 }
 
+@media screen and (max-width: 640.5px) {
+    section {
+        padding-top:0px;
+    }
+    h3 {
+        font-size: 24px;
+font-weight: 700;
+margin-bottom: 3px;
+    }
+
+    .upParagraph {
+        font-size: 14px;
+font-weight: 500;
+        margin-bottom: 14px;
+    }
+    .textContent {
+    width: 100%;
+
+}
+    .phoneInfo {
+        margin-right: 37px;
+
+        .phone {
+            font-size: 16px;
+        }
+    }
+
+    .mailInfo {
+        .mail {
+            font-size: 16px;
+        }
+    }
+
+    .phoneEmailContainer {
+        gap: 0px;
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: 13px;
+        .bottParagraph {
+            font-size: 14px;
+            font-weight: 500px;
+        }
+    }
+
+    .callOrderButt {
+        font-size: 14px;
+        width: 181px;
+        height: 40px;
+    }
+
+    .flexContainer {
+        gap: 0;
+    }
+    img {display: none;}
+}
+
 </style>

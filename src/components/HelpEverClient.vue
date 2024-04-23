@@ -3,6 +3,23 @@
         <div class="container">
             <div class="upText">Поможем каждому клиенту</div>
             <div class="flexContainer">
+
+                <div v-if="isMobile === false" v-for="item in items" :key="item.id"
+                    :style="{ backgroundColor: item.background }" class="ContentItems">
+                    <div class="content">
+                        <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
+                        <div class="textElements">
+                            <h3>{{ item.textH3 }}</h3>
+                            <p>{{ item.textParagr }}</p>
+                        </div>
+                        <button @click="unhide" class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
+                                alt="vector"></button>
+                    </div>
+                    <div class="wrapButt">
+                        <button class="button">Подробнее</button>
+                    </div>
+                </div>
+
                 <div v-if="isMobile" v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
                     class="ContentItems">
                     <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
@@ -19,19 +36,7 @@
                     </div>
                 </div>
 
-                <div v-if="isMobile === false" v-for="item in items" :key="item.id"
-                    :style="{ backgroundColor: item.background }" class="ContentItems">
-                    <div class="content">
-                        <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
-                        <div class="textElements">
-                            <h3>{{ item.textH3 }}</h3>
-                            <p>{{ item.textParagr }}</p>
-                        </div>
-                    </div>
-                    <div class="wrapButt">
-                        <button class="button">Подробнее</button>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -93,6 +98,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 section {
     padding: 70px 0 50px;
     background-color: #F9FAFB;
@@ -123,6 +129,7 @@ section {
 }
 
 h3 {
+    color: rgb(46, 46, 46);
     font-weight: 600;
     font-size: 28px;
     line-height: 30px;
@@ -134,7 +141,7 @@ h3 {
 p {
     white-space: pre-line;
     font-size: 16px;
-    font-weight: 400;
+     font-weight: 500;
     line-height: 28px;
     letter-spacing: 0%;
     margin-bottom: 20px;
@@ -174,7 +181,7 @@ p {
 
     p {
         font-size: 14px;
-        font-weight: 400px;
+         font-weight: 500px;
     }
 
     .textElements {
@@ -218,11 +225,11 @@ p {
     .ContentItems {
         flex-direction: row;
         align-items: flex-start;
-        gap: 28px
+        gap: 1px
     }
 
     .content {
-        width: 50%;
+        width: 58%;
     }
 
     .textElements {
@@ -236,7 +243,7 @@ p {
 
     p {
         font-size: 14px;
-        font-weight: 400px;
+         font-weight: 500px;
         margin-bottom: 0px;
     }
 
@@ -253,7 +260,7 @@ p {
     .unhide-btn {
         color: rgb(0, 150, 216);
         font-size: 14px;
-        font-weight: 400;
+         font-weight: 500;
         line-height: 24px;
         display: flex;
         align-items: baseline;
@@ -263,11 +270,19 @@ p {
 
     }
 
+}
 
 @media screen and (max-width: 640.5px) {
     section {
         padding-top: 50px;
+        
     }
+    .flexContainer {
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+    }
+    
 
     .upText {
         font-size: 24px;
@@ -275,15 +290,20 @@ font-weight: 700;
         margin-bottom: 22px;
     }
 
-    .flexContainer {
-        display: flex;
-        flex-direction: column;
-    }
+
 
     .imgContainer {
         margin-top: 0px;
         padding-top: 32px;
+        margin-bottom: 21px;
+        img {
+        min-width: 148px;
+        min-height: 110px;
+        max-width: 268px;
+        max-height: 230px;
     }
+    }
+
 
     .ContentItems {
 
@@ -294,43 +314,45 @@ font-weight: 700;
     }
 
     .textElements {
-        padding: 32px 30px 0px 0px;
+        padding: 0 24px 0px 22px;
     }
 
     h3 {
         font-size: 18px;
-font-weight: 600;
+    font-weight: 600;
+    margin-bottom: 3px;
     }
 
     p {
         font-size: 14px;
-font-weight: 400;
+        font-weight: 500;
         margin-bottom: 0px;
     }
 
     .wrapButt {
-        padding: 0 0 41px 0;
+        padding: 0px 0px 22px 22px;
 
         .button {
             font-size: 14px;
+            font-weight: 500;
             width: 145px;
             height: 50px;
+            line-height: 30px;
         }
     }
 
     .unhide-btn {
         color: rgb(0, 150, 216);
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 24px;
         display: flex;
         align-items: baseline;
         gap: 5px;
-        margin-bottom: 21px;
-        margin-top: 21px;
-
+        margin-bottom: 11px;
+        margin-top: 10px;
+        padding-left: 22px;
     }
     }
 
-}
 </style>

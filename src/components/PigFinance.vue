@@ -167,4 +167,37 @@ font-weight: 400;
         }
     }
 }
+
+@media screen and (max-width: 640.5px) {
+    h3 {
+        font-size: 18px;
+font-weight: 600;
+    }
+    p {
+        font-size: 14px;
+font-weight: 400;
+width:100%;
+margin-bottom: 21px;
+
+    }
+    button {
+        width: 193px;
+        height:50px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .textContainer {
+        width:100%;
+        padding: 15px 23px 30px 23px;
+    }
+    .flexContainer{
+        gap: 23px
+    }
+    .imageContainer{
+        display: none;
+        img {
+            display: none;
+        }
+    }
+}
 </style>
