@@ -39,7 +39,7 @@
 
 <script lang="ts">
 
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   components: {},
@@ -64,6 +64,7 @@ export default defineComponent({
         email: '',
         selectedOption: null,
       },
+      selectedOption: ref(null),
     };
   },
   methods: {
@@ -110,7 +111,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 @import "vue-select/dist/vue-select.css";
 
 

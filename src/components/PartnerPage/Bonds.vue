@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 
 section {
     padding: 50px 0 35px;

@@ -59,14 +59,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
-@import '/public/assets/scss/libs/fonts.scss';
 
 section {
     padding: 50px 0 150px;
-}
-
-.container {
 }
 
 .flexContainer {

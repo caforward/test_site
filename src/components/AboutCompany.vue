@@ -40,8 +40,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
-@import "/public/assets/scss/base/mixins.scss";
 
 section {
     padding: 50px 0;
@@ -71,7 +69,6 @@ section {
 h3 {
     width: 239px;
     height: 44px;
-    font-family: "Montserrat", sans-serif;
     font-size: 36px;
     font-weight: 700;
     line-height: 44px;
@@ -82,7 +79,6 @@ h3 {
 p {
     width: 602px;
     height: 336px;
-    font-family: "Montserrat", sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 28px;

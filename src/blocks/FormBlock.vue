@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/index.scss";
 
 .form-block {
     background-color: $black;
@@ -64,7 +63,7 @@ export default {
     }
 
     .form-block__form {
-        max-width: 50%;
+        flex: 1;
     }
 
     &__inputs {
@@ -73,6 +72,8 @@ export default {
 
     &__bottom {
         display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
     }
 
     &__button {
@@ -82,7 +83,6 @@ export default {
     &-meta {
         display: flex;
         align-items: flex-start;
-        margin-right: 30px;
 
         &__checkbox {
             margin-right: 20px;

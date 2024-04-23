@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "/public/assets/scss/index.scss";
+
 
 section {
     // padding-top:;
