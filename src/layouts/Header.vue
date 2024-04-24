@@ -67,17 +67,21 @@
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M0.666748 1C0.666748 0.447715 1.11446 0 1.66675 0H20.3334C20.8857 0 21.3334 0.447715 21.3334 1C21.3334 1.55228 20.8857 2 20.3334 2H1.66675C1.11446 2 0.666748 1.55228 0.666748 1ZM0.666748 8C0.666748 7.44772 1.11446 7 1.66675 7H20.3334C20.8857 7 21.3334 7.44772 21.3334 8C21.3334 8.55228 20.8857 9 20.3334 9H1.66675C1.11446 9 0.666748 8.55228 0.666748 8ZM0.666748 15C0.666748 14.4477 1.11446 14 1.66675 14H20.3334C20.8857 14 21.3334 14.4477 21.3334 15C21.3334 15.5523 20.8857 16 20.3334 16H1.66675C1.11446 16 0.666748 15.5523 0.666748 15Z"
-                                fill="#4C5866" />
-                        </svg>
+                        <a href="#" @click="openMobileMenu">
+                            <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M0.666748 1C0.666748 0.447715 1.11446 0 1.66675 0H20.3334C20.8857 0 21.3334 0.447715 21.3334 1C21.3334 1.55228 20.8857 2 20.3334 2H1.66675C1.11446 2 0.666748 1.55228 0.666748 1ZM0.666748 8C0.666748 7.44772 1.11446 7 1.66675 7H20.3334C20.8857 7 21.3334 7.44772 21.3334 8C21.3334 8.55228 20.8857 9 20.3334 9H1.66675C1.11446 9 0.666748 8.55228 0.666748 8ZM0.666748 15C0.666748 14.4477 1.11446 14 1.66675 14H20.3334C20.8857 14 21.3334 14.4477 21.3334 15C21.3334 15.5523 20.8857 16 20.3334 16H1.66675C1.11446 16 0.666748 15.5523 0.666748 15Z"
+                                    fill="#4C5866" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <MobileMenu :visible="mobileMenu" @close="closeMobileMenu" />
     <ModalConsultationVue :visible="modalVisible" @close="closeModal" />
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
 </template>
@@ -85,12 +89,14 @@
 <script lang="ts">
 import ModalConsultationVue from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
+import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
     name: "Header",
     components: {
         ModalConsultationVue,
-        ModalCall
+        ModalCall,
+        MobileMenu
     },
     methods: {
         showModal(event: any) {
@@ -105,6 +111,12 @@ export default {
         },
         closeModalCall() {
             this.modalVisibleCall = false;
+        },
+        openMobileMenu() {
+            this.mobileMenu = !this.mobileMenu;
+        },
+        closeMobileMenu() {
+            this.mobileMenu = false;
         },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');
@@ -127,12 +139,12 @@ export default {
                 });
             }
         },
-
     },
     data() {
         return {
             modalVisible: false,
             modalVisibleCall: false,
+            mobileMenu: false,
             topNav: [
                 {
                     name: "О компании",
@@ -183,7 +195,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .header {
     &-top {
         background-color: #292d32;
@@ -319,6 +330,18 @@ export default {
         &-button {
             &__menu {
                 display: block;
+            }
+        }
+    }
+}
+
+@include mobile {
+    .header {
+        &-bottom {
+            padding: 10px 0;
+            &__logo {
+                width: 115px;
+                height: unset;
             }
         }
     }
