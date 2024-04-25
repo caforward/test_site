@@ -3,6 +3,7 @@
         <IntroSlider />
         <AboutInNumbersVue />
         <HelpEverClientVue />
+
         <!-- <Offers /> Временно убрано до подключения Ю-кассы -->
         <PigFinance />
         <Suppliers />

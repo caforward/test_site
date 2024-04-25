@@ -92,6 +92,9 @@ import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
+    updated() {
+        console.log(1337!!)
+    },
     name: "Header",
     components: {
         ModalConsultationVue,
@@ -339,6 +342,7 @@ export default {
     .header {
         &-bottom {
             padding: 10px 0;
+
             &__logo {
                 width: 115px;
                 height: unset;

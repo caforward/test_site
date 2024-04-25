@@ -5,20 +5,20 @@
                 <div class="textContent">
                     <h3>О компании</h3>
                     <p>
-                        ООО ПКО «Форвард» – коллекторское агентство, осуществляющее <br />
-                        деятельность по возврату просроченной задолженности в качестве<br />
+                        ООО ПКО «Форвард» – коллекторское агентство, осуществляющее  
+                        деятельность по возврату просроченной задолженности в качестве 
                         основного вида деятельности. Компания действует в соответствии с
-                        <br />действующим законодательством и договорами, заключенными с<br />
-                        кредитными и иными организациями. «Форвард» законно и <br />правомерно
-                        осуществляет действия, направленные на возврат <br />задолженности на
-                        основании любого из нижеприведенных видов<br />
+                         действующим законодательством и договорами, заключенными с 
+                        кредитными и иными организациями. «Форвард» законно и  правомерно
+                        осуществляет действия, направленные на возврат  задолженности на
+                        основании любого из нижеприведенных видов 
                         договоров в соответствии с Федеральным законом от 03.07.2016 N
-                        <br />230-ФЗ «О защите прав и законных интересов физических лиц при<br />
+                         230-ФЗ «О защите прав и законных интересов физических лиц при 
                         осуществлении деятельности по возврату просроченной
-                        <br />задолженности и о внесении изменений в ФЗ «О микрофинансовой
-                        <br />деятельности и микрофинансовых организациях».
+                         задолженности и о внесении изменений в ФЗ «О микрофинансовой
+                         деятельности и микрофинансовых организациях».
                     </p>
-                    <button>Подробнее</button>
+                    <button class="button">Подробнее</button>
                 </div>
                 <div class="imgContainer">
                     <img src="/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />
@@ -45,29 +45,24 @@ section {
     padding: 50px 0;
 }
 
-.container {
-    max-height: 588px;
-    min-height: 540px;
-}
 
 .flexContainer {
     display: flex;
+    gap: 82px;
     border-radius: 30px;
     background: rgb(243, 247, 250);
-    max-height: 588px;
+    align-items: flex-start;
+    padding: 60px 85px 62px 81px;
 }
 
 .textContent {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 61px;
-    margin-left: 81px;
-    max-height: fit-content;
+    width: 69%;
 }
 
 h3 {
-    width: 239px;
     height: 44px;
     font-size: 36px;
     font-weight: 700;
@@ -77,8 +72,6 @@ h3 {
 }
 
 p {
-    width: 602px;
-    height: 336px;
     font-size: 16px;
     font-weight: 400;
     line-height: 28px;
@@ -88,21 +81,80 @@ p {
 
 button {
     @include buttonDetails;
-    margin-bottom: 62px;
+    
 }
 
 .imgContainer {
     display: flex;
-    margin-left: 82px;
-    margin-top: 60px;
 }
 
 img {
-    margin-right: 15px;
     max-width: 236px;
     max-height: 334px;
-    min-width: 180px;
-    min-height: 240px;
-    width: 100%;
+    min-width: 175px;
+    min-height: 247px;
+}
+
+@media screen and (max-width: 1370px) and (min-width: 1025px) {
+    h3 {
+        font-size: 30px;
+        font-weight: 700px;
+
+    }
+    p {
+        font-size: 14px;
+        font-weight: 400px;
+
+    }
+    .button {
+        width: 145px;
+        height: 50px;
+
+        font-size: 14px;
+
+    }
+    .flexContainer {
+        gap: 51px;
+        padding: 41px 33px 51px 31px;
+    }
+    .textContent {
+        width: 60%;
+    }
+}
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+    h3 {
+        font-size: 28px;
+font-weight: 700;
+        margin-bottom: 14px;
+    }
+    p {
+        font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 25px;
+
+    }
+    .button {
+        width: 145px;
+        height: 50px;
+
+        font-size: 14px;
+
+    }
+
+    .flexContainer {
+        gap: 58px;
+        padding: 32px 40px 41px 41px;
+    }
+    .imgContainer {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .textContent {
+        width: 55%;
+    }
+    img {
+        width:175px;
+        height: 247px;
+    }
 }
 </style>

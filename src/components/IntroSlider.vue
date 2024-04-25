@@ -25,9 +25,9 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button class="button button_blue slide__button">
+                                <a href="#" class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
-                                </button>
+                                </a>
                                 <button class="button slide__button">
                                     Подробнее
                                 </button>
@@ -61,7 +61,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button class="button button_blue slide__button">
+                                <button class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -95,7 +95,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button class="button button_blue slide__button">
+                                <button class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
                                 </button>
                                 <button class="button slide__button">
@@ -135,12 +135,14 @@
             </div>
         </div>
     </section>
+    <ModalConsultation :visible="modalVisible" @close="closeModal" />
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
 import Slide from "../blocks/IntroSlider/Slide.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import ModalConsultation from "../layouts/ModalConsultation.vue";
 // import { Pagination } from "swiper/modules";
 
 // swiper style
@@ -152,11 +154,22 @@ export default {
         Slide,
         Swiper,
         SwiperSlide,
+        ModalConsultation
         // Pagination
     },
     props: {},
+    methods: {
+        showModal(event: any) {
+            event.preventDefault();
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+    },
     data() {
         return {
+            modalVisible: false,
             sliderData: [
                 {
                     img: "introSlider/01.jpg",
@@ -332,6 +345,7 @@ img {
     .slider {
         &__slide {
             padding-top: 120px;
+
             &_fix {
                 padding-top: 20px;
             }
@@ -366,6 +380,7 @@ img {
             align-items: start;
             height: unset;
             padding-bottom: 240px;
+
             &_fix {
                 padding-top: 120px;
             }
