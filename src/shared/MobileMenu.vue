@@ -18,7 +18,7 @@
                     +7 (499) 702‑01‑56
                 </a>
                 <div class="menu-footer__buttons">
-                    <a href="#" class="button button_blue button_small">
+                    <a  href="#" class="button button_blue button_small">
                         <span class="button__icon">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -42,14 +42,22 @@
             </div>
         </div>
     </Modal>
+
+    <ModalConsultation :visible="modalVisible" @close="closeModal" />
+    <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
 </template>
 
 <script>
 import Modal from '../blocks/Modal.vue';
+import ModalConsultationVue from '../layouts/ModalConsultation.vue';
+import ModalCallVue from '../layouts/ModalCall.vue';
+
 
 export default {
     components: {
-        Modal
+        ModalConsultationVue,
+        ModalCallVue,
+        Modal,
     },
     props: {
         visible: {
@@ -59,6 +67,8 @@ export default {
     },
     data() {
         return {
+            modalVisible: false,
+            modalVisibleCall: false,
             links: [
                 // {
                 //     href: '#',
@@ -100,9 +110,25 @@ export default {
         }
     },
     methods: {
+        showModal(event) {
+            alert(1337)
+            event.preventDefault();
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+        showModalCall(event) {
+            alert(1337)
+            event.preventDefault();
+            this.modalVisibleCall = true;
+        },
+        closeModalCall() {
+            this.modalVisibleCall = false;
+        },
         closeMobileMenu() {
             this.$emit('close');
-        }
+        },
     }
 }
 </script>

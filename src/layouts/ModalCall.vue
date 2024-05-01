@@ -6,8 +6,7 @@
             </div>
             <h3>Заказать звонок </h3>
             <p>
-                Просто введите свои контактные данные и ждите, когда сотрудник
-                ПКО «Форвард» свяжется с вами, чтобы проконсультировать по вашей
+                Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами, чтобы проконсультировать по вашей
                 финансовой ситуации.
             </p>
             <div class="inputName">
@@ -20,7 +19,6 @@
             </div>
             <div class="aboveButt">
                 Нажимая кнопку «Оплатить», вы соглашаетесь с
-                <a href="#">Договором оферты</a> и
                 <a href="#">политикой конфиденциальности.</a>
             </div>
             <button class="button_blue" @click="closeModalCall">Оплатить</button>
@@ -159,5 +157,70 @@ select option {
 a {
     color: rgb(0, 150, 216);
     text-decoration: underline;
+}
+
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+
+.modal-content {
+padding: 25px 53px 24px 53px;
+}
+h3 {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+p {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+.aboveButt {
+font-size: 14px;
+
+}
+::placeholder {
+  font-size: 13px;
+}
+.close-button{
+    top: 18px;
+    right: 18px;
+}
+
+}
+@media screen and (max-width: 640.5px) {
+    .close-button{
+    top: 18px;
+    right: 18px;
+}
+.modal-content {
+padding: 31px 24px 26px 31px;
+}
+h3 {
+font-size: 18px;
+font-weight: 600;
+line-height: 29px;
+margin-bottom: 0px;
+padding-bottom: 10px;
+}
+p {
+  font-size: 13px;
+  font-weight: 400;
+  padding-bottom: 13px;
+  margin-bottom: 0;
+ }
+ .input {
+  font-size: 13px;
+}
+.inputText{
+  textarea{
+  font-size: 13px;
+}
+}
+.aboveButt {
+  font-size: 13px;
+}
+::placeholder {
+  font-size: 13px;
+}
+
+
 }
 </style>

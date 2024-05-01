@@ -28,9 +28,9 @@
                                 <a href="#" class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
                                 </a>
-                                <button class="button slide__button">
+                                <!-- <button class="button slide__button">
                                     Подробнее
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="slide__img">
@@ -64,9 +64,9 @@
                                 <button class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
                                 </button>
-                                <button class="button slide__button">
+                                <!-- <button class="button slide__button">
                                     Подробнее
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="slide__img">
@@ -98,9 +98,9 @@
                                 <button class="button button_blue slide__button" @click.stop="showModal($event)">
                                     Получить консультацию
                                 </button>
-                                <button class="button slide__button">
+                                <!-- <button class="button slide__button">
                                     Подробнее
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="slide__img">

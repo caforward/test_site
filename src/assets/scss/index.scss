@@ -23,19 +23,22 @@
     --vs-actions-padding: 4px 12px 0 3px;
     
     .vSelect {
-        
         .vs__clear{
             display: none;
         }
         box-sizing: border-box;
-        border: 1px solid rgb(227, 230, 232);
+        border: 0.5px solid rgb(227, 230, 232);
         border-radius: 5px;
         background: rgb(255, 255, 255);
         ::placeholder {
             color: rgba(0, 0, 0, 0.5);
+            font-size: 14px;
         }
         .vs__dropdown-toggle {
             padding: 9.5px 0;
+            background: #f4f5f6;
+            border: 0.5px
+            
         }
         .vs__search{
             padding-left: 13px;
@@ -43,8 +46,33 @@
     }
     .vs__selected{
         padding-left: 9px;
+        font-size: 14px;
+    }
+    li {
+        font-size: 14px
     }
     ul .vs4__listbox{
         height: 160px;
     }
+}
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+    .optionsWrap {
+        .vs__search {
+            font-size: 13px;
+        }
+        .vSelect {
+            ::placeholder {
+                font-size: 13px;
+            }
+        }
+        .vs__selected  {
+            font-size: 13px;
+        }
+        li {
+            font-size: 13px
+        }
+    }
+
+
+
 }

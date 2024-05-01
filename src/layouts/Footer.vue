@@ -11,21 +11,21 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <a  target="{{ footerItem.target }}" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
+                    <a  target="_self" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
                     @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null">
                         {{ footerItem.text }}
                     </a>
                 </ul>
                 <div class="rightContainer">
                 <ul class="feedback"> 
-                    <li>Обратная связь</li>
+                    <li @click="showModal($event)">Обратная связь</li>
                     <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
                     <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
                     <li>Написать на почту</li>
                     <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
                 </ul>
                 <ul>
-                    <li><button class="whiteButt">Обратная связь</button></li>
+                    <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
                     <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
                     <div class="iconContainer">
                         <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
@@ -46,7 +46,7 @@
                     </a>
                 </ul>
                 <ul class="footer-nav">
-                    <a target="_self" href="/about" >
+                    <a href="/about" target="_self"  >
                        О компании
                     </a>
                 </ul>
@@ -61,7 +61,7 @@
                     </a>
                 </ul>
                 <ul class="feedback"> 
-                    <li>Обратная связь</li>
+                    <li @click="showModal($event)">Обратная связь</li>
                     <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
                     <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
                     <li>Написать на почту</li>
@@ -85,7 +85,7 @@
                     </a>
                 </ul>
                 <ul>
-                    <li><button class="whiteButt">Обратная связь</button></li>
+                    <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
                     <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
                     <div class="iconContainer">
                         <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
@@ -101,8 +101,15 @@
         <hr />
         <div class="footer-bottom">
             <div class="container">
+                <div class="footerFlex">
+                <div>
                 <span>ООО ПКО "Форвард"</span>
                 <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
+            </div>
+            <div>
+                <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source link</a></span>
+            </div>
+        </div>
             </div>
         </div>
     </footer>
@@ -119,7 +126,6 @@ interface FooterItem {
     href: string;
     fontW?: number;
     margin?: string;
-    target?: string;
 }
 
 interface IconSrc {
@@ -186,7 +192,13 @@ a{
 footer {
     background: rgb(41, 41, 41);
 }
-
+.footerFlex {
+    display: flex;
+    justify-content: space-between;
+}
+.freepik {
+    color: #f8f5f80a;
+}
 .container {
     color: white;
 }

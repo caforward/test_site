@@ -7,9 +7,10 @@
       <h3>Заполните поля в форме ниже, и мы свяжемся с вами. </h3>
       <p>
         Просто введите свои контактные данные и ФИО, кратко опишите проблему и
-        ждите, когда сотрудник ПКО «Форвард» свяжется с вами, чтобы
-        проконсультировать по вашей финансовой ситуации. С этого начнется ваш
-        путь к чистой кредитной истории
+        ждите, когда Мы свяжемся с Вами, чтобы
+        проконсультировать по вашей финансовой ситуации. 
+        <!-- С этого начнется ваш
+        путь к чистой кредитной истории -->
       </p>
       <form  @submit.prevent="submitForm">
       <div class="inputName">
@@ -27,9 +28,13 @@
       <div class="optionsWrap">
         <v-select v-model="formData.selectedOption" class="vSelect" :options="options" placeholder="Тема обращения*" required ></v-select>
       </div>
+      <div class="inputText">
+        <label for="text"></label>
+        <textarea class="input" placeholder="Коротко опишите вопрос*"
+         v-model="formData.text" name="text" id="text" cols="3" rows="2" required></textarea>
+      </div>
       <div class="aboveButt">
-        Нажимая кнопку «Оплатить», вы соглашаетесь с <a>Договором оферты</a> и
-        <a>политикой конфиденциальности.</a>
+        Нажимая кнопку «Оплатить», вы соглашаетесь с <a>политикой конфиденциальности.</a>
       </div>
       <button class="button_blue" type="submit">Оплатить</button>
     </form>
@@ -62,6 +67,7 @@ export default defineComponent({
         name: '',
         tel: '',
         email: '',
+        text: '',
         selectedOption: null,
       },
       // selectedOption: ref(null),
@@ -78,6 +84,7 @@ export default defineComponent({
       formData.append("name", this.formData.name);
       formData.append("tel", this.formData.tel);
       formData.append("email", this.formData.email);
+      formData.append("text", this.formData.text);
       if (this.formData.selectedOption !== null) {
   formData.append("selectedOption", this.formData.selectedOption);
 }
@@ -103,6 +110,7 @@ export default defineComponent({
       this.formData.name = '';
       this.formData.tel = '';
       this.formData.email = '';
+      this.formData.text = '';
       this.selectedOption = null;
     },
     
@@ -138,7 +146,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding: 7px 10px;
+  padding: 7px 45px;
 }
 
 .modal-content {
@@ -168,10 +176,19 @@ export default defineComponent({
 .inputMail {
   padding-bottom: 16px;
 }
+.inputText {
+  padding-bottom: 20px;
+  textarea{
+    background: #f4f5f6;
+    resize: none;
+  }
+}
 
 .optionsWrap {
-  padding-bottom: 138px;
+  padding-bottom: 16px;
+
 }
+
 
 .vSelect {
   background-color: rgba(234, 236, 238, 0.5);
@@ -194,6 +211,7 @@ export default defineComponent({
 
 .aboveButt {
   padding-bottom: 16px;
+  font-size: 14px;
 }
 
 button {
@@ -251,5 +269,86 @@ select option {
 a {
   color: rgb(0, 150, 216);
   text-decoration: underline;
+  display: inline;
+}
+
+@media screen and (max-width: 1024px) and (min-width: 641px) {
+
+  .modal-content {
+  padding: 25px 53px 24px 53px;
+}
+.close-button {
+  top: 18px;
+  right: 20px;
+}
+
+  .aboveButt {
+  font-size: 13px;
+}
+
+  h3 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 29px;
+  padding-bottom: 10px;
+}
+ p {
+  font-size: 13px;
+  font-weight: 400;
+  padding-bottom: 13px;
+ }
+ input {
+  font-size: 13px;
+}
+.inputText{
+  textarea{
+  font-size: 13px;
+}
+}
+
+.aboveButt {
+  font-size: 13px;
+}
+::placeholder {
+  font-size: 13px;
+}
+
+}
+@media screen and (max-width: 640.5px) {
+  .close-button {
+  top: 14px;
+    right: 15px;
+}
+  .modal-content {
+  padding: 31px 24px 26px 40px;
+}
+  h3 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 29px;
+  padding-bottom: 10px;
+}
+p {
+  font-size: 13px;
+  font-weight: 400;
+  padding-bottom: 13px;
+ }
+ input {
+  font-size: 13px;
+}
+.inputText{
+  textarea{
+  font-size: 13px;
+}
+}
+
+.aboveButt {
+  font-size: 13px;
+}
+.aboveButt {
+  font-size: 12px;
+}
+
+
 }
 </style>

@@ -8,7 +8,6 @@
                             exact>
                             {{ navLink.name }}
                         </router-link>
-
                         <a v-else class="header-top-nav__link" :href="navLink.href"
                             @click="handleNavLink($event, navLink)">
                             {{ navLink.name }}
