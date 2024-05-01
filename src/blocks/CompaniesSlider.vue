@@ -1,10 +1,12 @@
 <template>
     <div class="slider">
-        <swiper class="swiper" :slides-per-view="1" :space-between="50" @swiper="onSwiper"
+        <swiper class="swiper slider" :slides-per-view="1" :space-between="50" @swiper="onSwiper" :loop="true"
             :breakpoints="{ 1230: { slidesPerView: 6 }, 1022: { slidesPerView: 5 }, 639: { slidesPerView: 4 }, 520: { slidesPerView: 3 } }">
-            <swiper-slide v-for="(item, idx) in dataSlider" :key="idx">
-                <img :src="'/assets/images/' + item.img" alt="">
+
+            <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">
+                <img :src="'/assets/images/' + item.img" :alt=item.name>
             </swiper-slide>
+
         </swiper>
         <div class="slider-nav__wrapper">
             <div class="slider-nav">
@@ -23,6 +25,7 @@
                     </svg>
                 </button>
                 <!-- <Pagination /> -->
+                <!-- <div class="slider-pagination"></div> -->
             </div>
         </div>
     </div>
@@ -79,12 +82,20 @@ export default {
                     img: "suppliers/sber.png",
                 },
                 {
-                    name: "home-credit",
-                    img: "suppliers/home.png",
+                    name: "otp-bank",
+                    img: "suppliers/otp.png",
                 },
                 {
-                    name: "sberbank",
-                    img: "suppliers/sber.png",
+                    name: "rossselhoz-bank",
+                    img: "suppliers/rosselhoz.png",
+                },
+                {
+                    name: "rusfinance-bank",
+                    img: "suppliers/russfinance.png",
+                },
+                {
+                    name: "yuni-bank",
+                    img: "suppliers/uni.png",
                 },
             ],
         };
@@ -105,26 +116,24 @@ export default {
 }
 
 .slider {
-    &__container {
-        display: flex;
-        flex-wrap: nowrap;
-        transition: transform 0.2s;
-        width: 100%;
-    }
-
     &__slide {
-        flex: 1;
-        position: relative;
-        z-index: 1;
-        width: calc(100% / 5);
-
-        &:not(:last-child) {
-            margin-right: 50px;
-        }
+        height: 80px;
 
         img {
+            object-fit: contain;
             width: 100%;
             height: 100%;
+            
+            filter: saturate(0);
+            opacity: .5;
+            transition: opacity .2s, filter .2s;
+        }
+
+        &.swiper-slide-active {
+            img {
+                filter: saturate(1);
+                opacity: 1;
+            }
         }
     }
 

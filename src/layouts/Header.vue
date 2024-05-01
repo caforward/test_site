@@ -45,7 +45,7 @@
                         </ul>
 
                         <div class="header-bottom-tel">
-                            <a href="#" class="button button_blue button_icon header-bottom-tel__button">
+                            <a href="tel:+74997020156" class="button button_blue button_icon header-bottom-tel__button">
                                 <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -91,7 +91,6 @@ import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
-
     name: "Header",
     components: {
         ModalConsultationVue,
