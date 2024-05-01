@@ -39,7 +39,7 @@
 
 <script lang="ts">
 
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {},
@@ -64,7 +64,7 @@ export default defineComponent({
         email: '',
         selectedOption: null,
       },
-      selectedOption: ref(null),
+      // selectedOption: ref(null),
     };
   },
   methods: {
@@ -73,6 +73,7 @@ export default defineComponent({
       this.$emit("close");
     },
     async submitForm() {
+      alert(13377)
       const formData = new FormData();
       formData.append("name", this.formData.name);
       formData.append("tel", this.formData.tel);
@@ -137,6 +138,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   overflow-y: auto;
+  padding: 7px 10px;
 }
 
 .modal-content {

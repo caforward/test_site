@@ -4,7 +4,7 @@
             <div class="upText">Поможем каждому клиенту</div>
             <div class="flexContainer">
 
-                <div v-if="isMobile === false" v-for="item in items" :key="item.id"
+                <div v-if="isLaptop === false" v-for="item in items" :key="item.id"
                     :style="{ backgroundColor: item.background }" class="ContentItems">
                     <div class="content">
                         <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
@@ -12,7 +12,8 @@
                             <h3>{{ item.textH3 }}</h3>
                             <p>{{ item.textParagr }}</p>
                         </div>
-                        <button @click="unhide" class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
+                        <!-- @click="unhide" -->
+                        <button v-if="isMobile"  class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
                                 alt="vector"></button>
                     </div>
                     <div class="wrapButt">
@@ -20,7 +21,7 @@
                     </div>
                 </div>
 
-                <div v-if="isMobile" v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
+                <div v-if="isLaptop" v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
                     class="ContentItems">
                     <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
                     <div class="content">
@@ -28,7 +29,8 @@
                             <h3>{{ item.textH3 }}</h3>
                             <p>{{ item.textParagr }}</p>
                         </div>
-                        <button @click="unhide" class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
+                        <!-- @click="unhide" -->
+                        <button  class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
                                 alt="vector"></button>
                         <div class="wrapButt">
                             <button class="button">Подробнее</button>
@@ -57,6 +59,7 @@ interface ListItems {
 export default defineComponent({
     data() {
         return {
+            isLaptop: false,
             isMobile: false,
             items: [
                 {
@@ -83,16 +86,23 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
+        this.isLaptop = window.innerWidth <= 1024 && window.innerWidth >= 641
         window.addEventListener('resize', this.updateIsMobile)
+
+        this.isMobile = window.innerWidth < 641;
+        window.addEventListener('resize', this.updateIsMobileS)
     },
     methods: {
         updateIsMobile() {
-            this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
-        }
+            this.isLaptop = window.innerWidth <= 1024 && window.innerWidth >= 641
+        },
+        updateIsMobileS() {
+            this.isMobile = window.innerWidth < 641;
+        },
     },
     beforeUnmount() {
-        window.removeEventListener('resize', this.updateIsMobile)
+        window.removeEventListener('resize', this.updateIsMobile);
+        window.removeEventListener('resize', this.updateIsMobileS);
     },
 })
 </script>
@@ -305,13 +315,6 @@ font-weight: 700;
     }
 
 
-    .ContentItems {
-
-    }
-
-    .content {
-
-    }
 
     .textElements {
         padding: 0 24px 0px 22px;

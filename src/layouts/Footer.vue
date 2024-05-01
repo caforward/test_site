@@ -11,7 +11,8 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <a :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind">
+                    <a  target="{{ footerItem.target }}" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
+                    @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null">
                         {{ footerItem.text }}
                     </a>
                 </ul>
@@ -45,17 +46,17 @@
                     </a>
                 </ul>
                 <ul class="footer-nav">
-                    <a href="/about" >
+                    <a target="_self" href="/about" >
                        О компании
                     </a>
                 </ul>
                 <ul class="footer-nav">
-                    <a href="/jobs" >
+                    <a target="_self"  href="/jobs" >
                        Вакансии
                     </a>
                 </ul>
                 <ul class="footer-nav partners">
-                    <a target="_blank" href="/for-partners" >
+                    <a target="_self" href="/for-partners" >
                        Партнёрам
                     </a>
                 </ul>
@@ -74,7 +75,7 @@
                     </a>
                 </ul>
                 <ul class="footer-nav">
-                    <a target="_blank" href="" >
+                    <a @click.stop="showModal($event)"  target="_blank" href="" >
                        Получить консультацию
                     </a>
                 </ul>
@@ -105,25 +106,32 @@
             </div>
         </div>
     </footer>
+    <ModalConsultation :visible="modalVisible" @close="closeModal" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import ModalConsultation from "./ModalConsultation.vue";
+
 
 interface FooterItem {
     text: string;
     href: string;
     fontW?: number;
     margin?: string;
+    target?: string;
 }
 
 interface IconSrc {
     src: string;
 }
 export default defineComponent({
-
+    components: {
+        ModalConsultation
+    },
     data() {
         return {
+            modalVisible: false,
             isMobile: false,
             footerArr: [
                 [
@@ -135,7 +143,7 @@ export default defineComponent({
                     // { text: "Я не должник", href: ""  },
                     { text: "Получить рассрочку", href: ""  },
                     { text: "Получить консультацию", href: ""  },
-                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971"  },
+                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target:"_blank" },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
@@ -149,6 +157,13 @@ export default defineComponent({
         window.addEventListener('resize', this.updateIsMobile)
     },
     methods: {
+        showModal(event: any) {
+            event.preventDefault();
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
         updateIsMobile() {
             this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
         }

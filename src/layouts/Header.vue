@@ -38,7 +38,7 @@
                                 <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall()"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -62,7 +62,7 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a href="#" class="button button_blue button_small">
+                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" class="button button_blue button_small">
                             Внести платёж
                         </a>
                     </div>
@@ -87,9 +87,7 @@ import ModalConsultationVue from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 
 export default {
-    updated() {
-        console.log(1337!!)
-    },
+
     name: "Header",
     components: {
         ModalConsultationVue,
@@ -103,7 +101,8 @@ export default {
         closeModal() {
             this.modalVisible = false;
         },
-        showModalCall() {
+        showModalCall(event: any) {
+            event.preventDefault();
             this.modalVisibleCall = true;
         },
         closeModalCall() {
@@ -115,20 +114,21 @@ export default {
             if (contacts && navLink.name === 'Контакты') {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
-            } else if (navLink.name === "Внести платёж") {
-                event.preventDefault();
-                this.$router.push({ path: '/' });
-                this.$router.afterEach((to) => {
-                    if (to.path === '/') {
-                        setTimeout(() => {
-                            const payment = document.getElementById('payment');
-                            if (payment) {
-                                payment.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }, 50);
-                    }
-                });
-            }
+            } 
+            // else if (navLink.name === "Внести платёж") {
+            //     event.preventDefault();
+            //     this.$router.push({ path: '/' });
+            //     this.$router.afterEach((to) => {
+            //         if (to.path === '/') {
+            //             setTimeout(() => {
+            //                 const payment = document.getElementById('payment');
+            //                 if (payment) {
+            //                     payment.scrollIntoView({ behavior: 'smooth' });
+            //                 }
+            //             }, 50);
+            //         }
+            //     });
+            // }
         },
 
     },
@@ -177,7 +177,7 @@ export default {
                 },
                 // {
                 //     name: "Внести платёж",
-                //     href: "#payment",
+                //     href: "https://pay.mandarinbank.com/?m=4971",
                 // },
             ],
         };

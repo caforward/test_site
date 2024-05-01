@@ -77,6 +77,7 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
     overflow-y: auto;
+    padding: 0 10px;
 }
 
 .modal-content {
