@@ -79,12 +79,14 @@
                                     </div>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
-                                            Нажимая кнопку «Оплатить долг», вы соглашаетесь с
-                                            <a href="#" class="link">Договором оферты</a> и
-                                            <a href="#" class="link">политикой конфиденциальности.</a>
+                                            Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
+                                            телефона
+                                            <a href="tel:+74997020156" class="link link_phone">
+                                                +7 (499) 702-01-56
+                                            </a>
                                         </div>
                                         <button class="button button_blue form-bottom__button" @click="nextStep">
-                                            Оплатить долг
+                                            Далее
                                         </button>
                                     </div>
                                 </div>
@@ -115,7 +117,7 @@
                                     </button>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
-                                            Нажимая кнопку «Оплатить долг», вы соглашаетесь с
+                                            Нажимая кнопку «Оплатить картой», вы соглашаетесь с
                                             <a href="#" class="link">Договором оферты</a> и
                                             <a href="#" class="link">политикой конфиденциальности.</a>
                                         </div>
@@ -275,6 +277,12 @@ export default {
     &:active {
         color: #00b3ff;
     }
+
+    &_phone {
+        display: block;
+        font-weight: 700;
+        text-decoration: none;
+    }
 }
 
 .switcher {
@@ -302,7 +310,8 @@ export default {
     &-tab {
         font-size: 18px;
         line-height: 133%;
-        padding: 15px 30px;
+        padding: 0 30px;
+        height: 55px;
         border-radius: 15px 15px 0 0;
         border: 1px solid #e3e6e8;
         border-bottom: none;
@@ -335,6 +344,7 @@ export default {
         }
 
         &__text {
+            text-align: left;
             font-weight: 500;
             font-size: 16px;
             line-height: 187%;
@@ -342,6 +352,7 @@ export default {
         }
 
         &__number {
+            flex: none;
             margin-right: 30px;
             display: flex;
             align-items: center;
@@ -415,6 +426,7 @@ export default {
 
         &__button {
             flex: none;
+            min-width: 200px;
         }
     }
 
@@ -433,6 +445,121 @@ export default {
             font-weight: 700;
             font-size: 24px;
             line-height: 125%;
+        }
+    }
+}
+
+@include desktopXl {
+    .switcher {
+        &-step {
+            &__text {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .form {
+        &__title {
+            font-size: 14px;
+            line-height: 171%;
+        }
+
+        &-bottom {
+            flex-direction: column;
+            align-items: start;
+            gap: 20px;
+
+            &__metatext {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@include laptop {
+    .link {
+        &_phone {
+            display: inline;
+        }
+    }
+
+    .switcher {
+        &-body {
+            &__wrapper {
+                flex-direction: column;
+
+                &>* {
+                    width: 100%;
+                }
+            }
+        }
+
+        &-tab {
+            font-size: 16px;
+        }
+
+        &-step {
+            &__number {
+                margin-right: 10px;
+            }
+
+            &__text {
+                font-size: 13px;
+                line-height: 154%;
+            }
+        }
+    }
+
+    .form {
+        &__title {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@include mobile {
+    .switcher {
+        &__tabs {
+            margin-bottom: 10px;
+        }
+        
+        &-tab {
+            text-align: left;
+            padding: 0 30px;
+            font-size: 14px;
+            height: 50px;
+        }
+
+        &__steps {
+            flex-direction: column;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        &-step {
+            &__number {
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+            }
+        }
+
+        &-progressbar {
+            margin-bottom: 20px;
+        }
+    }
+
+    .form {
+        &__title {
+            margin-bottom: 15px;
+        }
+
+        &__inputs {
+            margin-bottom: 20px;
+        }
+
+        &-bottom {
+            gap: 15px;
         }
     }
 }
