@@ -62,7 +62,7 @@
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
                         <a target="_blank" href="https://pay.mandarinbank.com/?m=4971"
-                            class="button button_blue button_small">
+                            class="button button_blue button_small header-bottom__payment">
                             Внести платёж
                         </a>
                     </div>
@@ -317,6 +317,9 @@ export default {
         }
 
         &-bottom {
+            &__payment {
+                font-size: 12px;
+            }
             &__logo {
                 width: 130px;
             }
