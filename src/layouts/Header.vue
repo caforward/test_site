@@ -333,7 +333,7 @@ export default {
                     margin-right: 15px;
                 }
                 &__link {
-                    font-size: 14px;
+                    font-size: 13px;
                 }
             }
         }

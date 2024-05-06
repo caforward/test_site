@@ -127,7 +127,23 @@
                         </form>
                     </div>
                     <div class="block__right">
-                        text
+                        <div class="card">
+                            <div class="card__wrapper">
+                                <div class="card__title">
+                                    Рассчитать график платежей
+                                </div>
+                                <div class="card__text">
+                                    Сделать это легко: просто выберите сумму вашего долга, настройте срок погашения – и
+                                    вы увидите, каким будет ежемесячный платеж.
+                                </div>
+                                <button class="button">
+                                    Раcсчитать график платежей
+                                </button>
+                            </div>
+                            <div class="card__img">
+                                <img src="/assets/images/offers/calc.png" alt="the was a img">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,7 +247,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 /* Стили для классов транзиций */
 .switcher-body-item-leave-active {
     position: absolute;
@@ -449,6 +465,56 @@ export default {
     }
 }
 
+.block__right {
+    padding-left: 115px;
+
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 15px 30px 0 rgba(0, 150, 216, 0.05);
+    background-color: #e2e8f0;
+
+    & .card__wrapper {
+        padding-bottom: 15px;
+    }
+
+    &__wrapper {
+        padding: 50px 40px;
+        padding-bottom: 60px;
+    }
+
+    &__title {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 32px;
+        margin-bottom: 15px;
+    }
+
+    &__text {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 24px;
+
+        &>p {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__img {
+        margin-top: -10px;
+        width: 100%;
+        height: 250px;
+
+        img {
+            object-position: bottom;
+        }
+    }
+}
+
 @include desktopXl {
     .switcher {
         &-step {
@@ -473,6 +539,10 @@ export default {
                 width: 100%;
             }
         }
+    }
+
+    .block__right {
+        padding: 0;
     }
 }
 
@@ -522,7 +592,7 @@ export default {
         &__tabs {
             margin-bottom: 10px;
         }
-        
+
         &-tab {
             text-align: left;
             padding: 0 30px;
