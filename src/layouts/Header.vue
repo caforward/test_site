@@ -260,7 +260,7 @@ export default {
                 color: #000;
             }
 
-            &__button {
+            &__button.button {
                 display: none;
             }
         }
