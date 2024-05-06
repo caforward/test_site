@@ -247,7 +247,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 /* Стили для классов транзиций */
 .switcher-body-item-leave-active {
     position: absolute;
@@ -517,6 +517,9 @@ export default {
 }
 
 @include desktopXl {
+    .section {
+        padding-bottom: 120px;
+    }
     .switcher {
         &-step {
             &__text {
@@ -559,6 +562,10 @@ export default {
 }
 
 @include laptop {
+    .section {
+        padding: 55px 0 100px;
+    }
+
     .link {
         &_phone {
             display: inline;
