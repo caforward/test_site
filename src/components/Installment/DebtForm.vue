@@ -563,7 +563,7 @@ export default {
         &_phone {
             display: inline;
         }
-    }2 rt
+    }
 
     .switcher {
         &-body {

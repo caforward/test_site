@@ -144,11 +144,11 @@ section {
     .intro {
         &__img {
             img {
-                bottom: -101px;
+                bottom: -56px;
             }
         }
         &-content {
-            padding-bottom: 145px;
+            padding-bottom: 100px;
         }
     }
 }
