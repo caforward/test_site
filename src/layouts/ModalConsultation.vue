@@ -7,43 +7,84 @@
       <h3>Заполните поля в форме ниже, и мы свяжемся с вами. </h3>
       <p>
         Просто введите свои контактные данные и ФИО, кратко опишите проблему и
-        ждите, когда Мы свяжемся с Вами, чтобы
-        проконсультировать по вашей финансовой ситуации. 
-        <!-- С этого начнется ваш
-        путь к чистой кредитной истории -->
+        ждите, когда Мы свяжемся с Вами, чтобы проконсультировать по вашей
+        финансовой ситуации.
       </p>
-      <form  @submit.prevent="submitForm">
-      <div class="inputName">
-        <label for="name"></label>
-        <input v-model="formData.name" type="text" id="name" placeholder="Имя*" required />
-      </div>
-      <div class="inputTel">
-        <label for="tel"></label>
-        <input v-model="formData.tel" type="tel" id="tel" placeholder="Номер телефона*" required />
-      </div>
-      <div class="inputMail">
-        <label for="mail"></label>
-        <input v-model="formData.email" type="text" id="mail" placeholder="E-mail*" required />
-      </div>
-      <div class="optionsWrap">
-        <v-select v-model="formData.selectedOption" class="vSelect" :options="options" placeholder="Тема обращения*" required ></v-select>
-      </div>
-      <div class="inputText">
-        <label for="text"></label>
-        <textarea class="input" placeholder="Коротко опишите вопрос*"
-         v-model="formData.text" name="text" id="text" cols="3" rows="2" required></textarea>
-      </div>
-      <div class="aboveButt">
-        Нажимая кнопку «Оплатить», вы соглашаетесь с <a>политикой конфиденциальности.</a>
-      </div>
-      <button class="button_blue" type="submit">Оплатить</button>
-    </form>
+      <form @submit.prevent="submitForm">
+        <div class="form-input inputName">
+          <label for="name"></label>
+          <input
+            :class="{ 'valid-input': nameValid == true }"
+            @input="nameBlured"
+            @blur="nameBlured"
+            v-model.trim="formData.name"
+            type="text"
+            id="name"
+            placeholder="Имя*"
+          />
+          <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
+        </div>
+        <div class="form-input inputTel">
+          <label for="tel"></label>
+          <input
+            :class="{ 'valid-input': telValid == true }"
+            @input="telBlured"
+            @blur="telBlured"
+            v-model.trim="formData.tel"
+            type="tel"
+            id="tel"
+            placeholder="Номер телефона*"
+          />
+          <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
+        </div>
+        <div class="form-input inputMail">
+          <label for="mail"></label>
+          <input
+            :class="{ 'valid-input': mailValid == true }"
+            @input="mailBlured"
+            @blur="mailBlured"
+            v-model.trim="formData.email"
+            type="text"
+            id="mail"
+            placeholder="E-mail*"
+          />
+          <span v-if="!mailValid" class="error">{{ errorMsg.mail }}</span>
+        </div>
+        <div class="optionsWrap">
+          <v-select
+            v-model.trim="formData.selectedOption"
+            class="vSelect"
+            :options="options"
+            placeholder="Тема обращения*"
+          ></v-select>
+        </div>
+        <div class="form-input inputText">
+          <label for="text"></label>
+          <textarea
+            :class="{ 'valid-input': textValid == true }"
+            @input="textBlured"
+            @blur="textBlured"
+            class="input"
+            placeholder="Коротко опишите вопрос*"
+            v-model.trim="formData.text"
+            name="text"
+            id="text"
+            cols="3"
+            rows="2"
+          ></textarea>
+          <span v-if="!textValid" class="error">{{ errorMsg.text }}</span>
+        </div>
+        <div class="aboveButt">
+          Нажимая кнопку «Оплатить», вы соглашаетесь с
+          <a>политикой конфиденциальности.</a>
+        </div>
+        <button class="button_blue" type="submit" >Оплатить</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -54,8 +95,20 @@ export default defineComponent({
       required: true,
     },
   },
+
   data() {
     return {
+      nameValid: false,
+      telValid: false,
+      mailValid: false,
+      textValid: false,
+      errorMsg: {
+        name: "",
+        tel: "",
+        mail: "",
+        text: "",
+      },
+
       options: [
         "Узнать номер договора",
         "Разблокировать счет",
@@ -64,64 +117,115 @@ export default defineComponent({
       ],
       selectedOption: null,
       formData: {
-        name: '',
-        tel: '',
-        email: '',
-        text: '',
+        name: "",
+        tel: "",
+        email: "",
+        text: "",
         selectedOption: null,
       },
-      // selectedOption: ref(null),
     };
   },
+  computed: {
+    isFormValid(): boolean {
+      return (
+        this.nameValid && this.telValid && this.mailValid && this.textValid
+      );
+    },
+  },
   methods: {
-
+    nameBlured() {
+      if (this.formData.name === "") {
+        this.errorMsg.name = "заполните поле";
+        this.nameValid = false;
+      } else if (!/^[a-zA-Zа-яА-ЯёЁ\s]+$/.test(this.formData.name)) {
+        this.errorMsg.name = "неверное имя";
+        this.nameValid = false;
+      } else {
+        this.nameValid = true;
+      }
+    },
+    telBlured() {
+      if (this.formData.tel === "") {
+        this.errorMsg.tel = "заполните поле";
+        this.telValid = false;
+      } else if (
+        !/^(?:\+7|7|8)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/.test(
+          this.formData.tel
+        )
+      ) {
+        this.errorMsg.tel = "неверный формат номер телефона";
+        this.telValid = false;
+      } else {
+        this.telValid = true;
+      }
+    },
+    mailBlured() {
+      if (this.formData.email === "") {
+        this.errorMsg.mail = "заполните поле";
+        this.mailValid = false;
+      } else if (
+        !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+          this.formData.email
+        )
+      ) {
+        this.errorMsg.mail = "неверный email";
+        this.mailValid = false;
+      } else {
+        this.mailValid = true;
+      }
+    },
+    textBlured() {
+      if (this.formData.text === "") {
+        this.errorMsg.text = "заполните поле";
+        this.textValid = false;
+      } else {
+        this.textValid = true;
+      }
+    },
     closeModal() {
       this.$emit("close");
     },
     async submitForm() {
-      alert(13377)
-      const formData = new FormData();
-      formData.append("name", this.formData.name);
-      formData.append("tel", this.formData.tel);
-      formData.append("email", this.formData.email);
-      formData.append("text", this.formData.text);
-      if (this.formData.selectedOption !== null) {
-  formData.append("selectedOption", this.formData.selectedOption);
-}
-
-      try {
-        const response = await fetch("email.php", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (response.ok) {
-          console.log("Сообщение успешно отправлено");
-          this.resetFormData();
-        } else {
-          console.error("Ошибка при отправке сообщения");
+      if (this.isFormValid === true) {
+        const formData = new FormData();
+        formData.append("name", this.formData.name);
+        formData.append("tel", this.formData.tel);
+        formData.append("email", this.formData.email);
+        formData.append("text", this.formData.text);
+        if (this.formData.selectedOption !== null) {
+          formData.append("selectedOption", this.formData.selectedOption);
         }
-      } catch (error) {
-        console.error("Ошибка при отправке сообщения:", error);
+        try {
+          const response = await fetch("email.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            console.log("Сообщение успешно отправлено");
+            this.resetFormData();
+          } else {
+            console.error("Ошибка при отправке сообщения");
+          }
+        } catch (error) {
+          console.error("Ошибка при отправке сообщения:", error);
+        }
       }
     },
     resetFormData() {
-      // Сброс данных формы
-      this.formData.name = '';
-      this.formData.tel = '';
-      this.formData.email = '';
-      this.formData.text = '';
+      this.formData.name = "";
+      this.formData.tel = "";
+      this.formData.email = "";
+      this.formData.text = "";
       this.selectedOption = null;
     },
-    
   },
 });
 </script>
 
 <style lang="scss" scoped>
-
-// @import "vue-select/dist/vue-select.css";
-
+@import "vue-select/dist/vue-select.css";
+@import "/src/assets/scss/index.scss";
 
 ::placeholder {
   color: rgba(0, 0, 0, 0.5);
@@ -165,33 +269,120 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.inputName {
-  padding-bottom: 16px;
+.valid-input {
+  background: white;
+  border: 0.5px solid rgb(227, 230, 232);
 }
 
-.inputTel {
+.form-input {
   padding-bottom: 16px;
-}
+  position: relative;
 
-.inputMail {
-  padding-bottom: 16px;
-}
-.inputText {
-  padding-bottom: 20px;
-  textarea{
-    background: #f4f5f6;
-    resize: none;
+  .error {
+    position: absolute;
+    bottom: 13.5px;
+    display: block;
+    width: 100%;
+    padding-left: 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 135%;
+    color: white;
+    background: #ff6464;
+    border-radius: 0 0 5px 5px;
   }
 }
 
-.optionsWrap {
-  padding-bottom: 16px;
+input {
+  border: 1px solid transparent;
 
+  &:focus {
+    border-color: #20afce;
+    border-radius: 5px;
+    background: white;
+  }
 }
 
+.inputText {
+  padding-bottom: 20px;
 
-.vSelect {
-  background-color: rgba(234, 236, 238, 0.5);
+  textarea {
+    background: #f4f5f6;
+    resize: none;
+    padding-left: 14px;
+    border: 1px solid transparent;
+
+    &:focus {
+      border-color: #20afce;
+      border-radius: 5px;
+      background: white;
+    }
+  }
+
+  .error {
+    bottom: 21px;
+    background: #ff6464;
+    border-radius: 0 0 5px 5px;
+    line-height: 180%;
+  }
+
+  .valid-input {
+    background: white;
+    border: 0.5px solid rgb(227, 230, 232);
+  }
+}
+
+:deep(.optionsWrap) {
+  v-select vs--single vs--searchable vSelect {
+    cursor: pointer;
+  }
+
+  --vs-dropdown-option-padding: 0 0 8.5px 16px;
+  --vs-dropdown-option--active-bg: none;
+  --vs-dropdown-option--active-color: rgb(0, 150, 216);
+  --vs-actions-padding: 4px 12px 0 3px;
+  padding-bottom: 16px;
+
+  .vSelect {
+    background-color: rgba(234, 236, 238, 0.5);
+
+    .vs__clear {
+      display: none;
+    }
+
+    box-sizing: border-box;
+    border: 0.5px solid rgb(227, 230, 232);
+    border-radius: 5px;
+    background: rgb(255, 255, 255);
+
+    ::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 14px;
+    }
+
+    .vs__dropdown-toggle {
+      padding: 9.5px 0;
+      background: #ffffff;
+      border: 0.5px;
+    }
+
+    .vs__search {
+      padding-left: 13px;
+    }
+  }
+
+  .vs__selected {
+    padding-left: 9px;
+    font-size: 14px;
+  }
+
+  li {
+    font-size: 14px;
+  }
+
+  ul .vs4__listbox {
+    height: 160px;
+  }
 }
 
 .placeholder {
@@ -222,7 +413,6 @@ button {
   fill: rgb(0, 150, 216);
   padding: 10px 50px 10px 50px;
   color: rgb(255, 255, 255);
-
 }
 
 h3 {
@@ -273,82 +463,110 @@ a {
 }
 
 @media screen and (max-width: 1024px) and (min-width: 641px) {
-
   .modal-content {
-  padding: 25px 53px 24px 53px;
-}
-.close-button {
-  top: 18px;
-  right: 20px;
-}
+    padding: 25px 53px 24px 53px;
+  }
+
+  .close-button {
+    top: 18px;
+    right: 20px;
+  }
 
   .aboveButt {
-  font-size: 13px;
-}
+    font-size: 13px;
+  }
 
   h3 {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 29px;
-  padding-bottom: 10px;
-}
- p {
-  font-size: 13px;
-  font-weight: 400;
-  padding-bottom: 13px;
- }
- input {
-  font-size: 13px;
-}
-.inputText{
-  textarea{
-  font-size: 13px;
-}
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 29px;
+    padding-bottom: 10px;
+  }
+
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    padding-bottom: 13px;
+  }
+
+  input {
+    font-size: 13px;
+  }
+
+  .inputText {
+    textarea {
+      font-size: 13px;
+    }
+  }
+
+  .aboveButt {
+    font-size: 13px;
+  }
+
+  ::placeholder {
+    font-size: 13px;
+  }
+
+  :deep(.optionsWrap) {
+    .vs__search {
+      font-size: 13px;
+    }
+
+    .vSelect {
+      ::placeholder {
+        font-size: 13px;
+      }
+    }
+
+    .vs__selected {
+      font-size: 13px;
+    }
+
+    li {
+      font-size: 13px;
+    }
+  }
 }
 
-.aboveButt {
-  font-size: 13px;
-}
-::placeholder {
-  font-size: 13px;
-}
-
-}
 @media screen and (max-width: 640.5px) {
   .close-button {
-  top: 14px;
+    top: 14px;
     right: 15px;
-}
+  }
+
   .modal-content {
-  padding: 31px 24px 26px 40px;
-}
+    padding: 31px 24px 26px 40px;
+  }
+
   h3 {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 29px;
-  padding-bottom: 10px;
-}
-p {
-  font-size: 13px;
-  font-weight: 400;
-  padding-bottom: 13px;
- }
- input {
-  font-size: 13px;
-}
-.inputText{
-  textarea{
-  font-size: 13px;
-}
-}
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 29px;
+    padding-bottom: 10px;
+  }
 
-.aboveButt {
-  font-size: 13px;
-}
-.aboveButt {
-  font-size: 12px;
-}
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    padding-bottom: 13px;
+  }
 
+  input {
+    font-size: 13px;
+  }
 
+  .inputText {
+    textarea {
+      font-size: 13px;
+    }
+  }
+
+  .aboveButt {
+    font-size: 13px;
+  }
+
+  .aboveButt {
+    font-size: 12px;
+  }
 }
 </style>
