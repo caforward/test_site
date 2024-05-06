@@ -1,5 +1,5 @@
 <template>
-    <Modal v-if="visible">
+    <Modal id="mobile-menu" v-if="visible">
         <div class="menu">
             <!-- <button @click="closeMobileMenu">close</button> -->
             <ul class="menu-links">
@@ -7,6 +7,12 @@
                     <router-link v-if="link.href[0] !== '#'" :to="link.href">
                         {{ link.title }}
                     </router-link>
+
+                    <a v-else-if="link.title === 'Получить консультацию'" @click.stop="showModal($event)"
+                        class="header-bottom-nav__link" :href="link.href">{{ link.title }} </a>
+
+                    <a v-else-if="link.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                        class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
                     <a v-else :href="link.href">
                         {{ link.title }}
@@ -18,7 +24,7 @@
                     +7 (499) 702‑01‑56
                 </a>
                 <div class="menu-footer__buttons">
-                    <a  href="#" class="button button_blue button_small">
+                    <a href="#" class="button button_blue button_small">
                         <span class="button__icon">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -49,14 +55,13 @@
 
 <script>
 import Modal from '../blocks/Modal.vue';
-import ModalConsultationVue from '../layouts/ModalConsultation.vue';
-import ModalCallVue from '../layouts/ModalCall.vue';
-
+import ModalCall from '../layouts/ModalCall.vue';
+import ModalConsultation from '../layouts/ModalConsultation.vue';
 
 export default {
     components: {
-        ModalConsultationVue,
-        ModalCallVue,
+        ModalConsultation,
+        ModalCall,
         Modal,
     },
     props: {
@@ -65,6 +70,7 @@ export default {
             default: false
         }
     },
+    emits: ["close"],
     data() {
         return {
             modalVisible: false,
@@ -111,17 +117,16 @@ export default {
     },
     methods: {
         showModal(event) {
-            alert(1337)
+            console.log(this.modalVisible)
             event.preventDefault();
             this.modalVisible = true;
         },
-        closeModal() {
-            this.modalVisible = false;
-        },
         showModalCall(event) {
-            alert(1337)
             event.preventDefault();
             this.modalVisibleCall = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
@@ -134,7 +139,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal {
+#mobile-menu.modal {
     padding: 0;
     top: 89px;
     width: 320px;
@@ -195,6 +200,12 @@ export default {
 
     .menu {
         height: calc(100% - 54px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .modal {
+        display: none;
     }
 }
 </style>

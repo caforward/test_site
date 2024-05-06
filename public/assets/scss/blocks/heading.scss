@@ -1,0 +1,11 @@
+@include desktop {
+    h1 {
+        font-size: 30px;
+    }
+}
+
+@include tablet {
+    h1 {
+        font-size: 26px;
+    }
+}

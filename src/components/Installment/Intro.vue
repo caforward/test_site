@@ -5,25 +5,25 @@
                 <template v-slot:content>
                     <div class="intro-content">
                         <Breadcrumb class="breadcrumb" />
-                        <h1 class="intro-content__title">ООО ПКО «Форвард»</h1>
-                        <h3 class="intro-content__subtitle">
-                            Коллекторское агентство, осуществляющее деятельность по
-                            возврату просроченной задолженности в качестве основного
-                            вида деятельности.
-                        </h3>
+                        <h1 class="intro-content__title">Получить рассрочку</h1>
                         <p class="intro-content__text">
-                            Компания действует в соответствии с действующим
-                            законодательством и договорами, заключенными с
-                            кредитными и иными организациями.
+                            Рассрочка платежей – один из вариантов взаимодействия с коллекторами, который может стать
+                            для вас решением даже очень сложной финансовой ситуации. Этот формат подразумевает, что вы
+                            сможете погасить долг частями в установленные сроки
                         </p>
-                        <button class="button button_blue intro-content__button">
-                            Получить консультацию
-                        </button>
+                        <div class="intro-content__buttons">
+                            <button class="button button_blue intro-content__button">
+                                Получить консультацию
+                            </button>
+                            <button class="button intro-content__button">
+                                Раcсчитать график платежей
+                            </button>
+                        </div>
                     </div>
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/assets/images/blocks/about/intro/01.png" alt="" />
+                        <img src="/assets/images/blocks/installment/intro/01.png" alt="" />
                     </div>
                 </template>
             </IntroBlock>
@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 section {
-    background-color: $gray-light;
+    background-color: $blue-white;
 }
 
 .container {
@@ -68,6 +68,10 @@ section {
     &__img {
         width: 50%;
         height: 560px;
+
+        img {
+            object-position: bottom;
+        }
     }
 
     &-content {
@@ -90,24 +94,27 @@ section {
             line-height: 167%;
             margin-bottom: 25px;
         }
+
+        &__buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            row-gap: 15px;
+        }
     }
 }
 
 @include desktop {
     .intro {
-        &__img {
-            width: 65%;
-        }
-        
         &-content {
             &__subtitle {
                 font-size: 16px;
                 margin-bottom: 20px;
             }
-            
+
             &__text {
                 font-size: 14px;
-                line-height: 214%;
+                line-height: 171%;
             }
         }
     }
@@ -116,10 +123,12 @@ section {
 @include laptop {
     .intro {
         &__img {
-            padding: 80px 0 60px;
-            width: 50%;
+            position: relative;
+
             img {
-                object-position: top;
+                position: absolute;
+                right: -20%;
+                width: 120%;
             }
         }
 
@@ -127,6 +136,19 @@ section {
             &__title {
                 margin-bottom: 15px;
             }
+        }
+    }
+}
+
+@include tablet {
+    .intro {
+        &__img {
+            img {
+                bottom: -101px;
+            }
+        }
+        &-content {
+            padding-bottom: 145px;
         }
     }
 }
@@ -137,24 +159,32 @@ section {
             width: 100%;
             padding-top: 0;
             height: 305px;
+            
             img {
-                object-position: center;
+                position: static;
+                right: 0;
+                bottom: 0;
+                width: 100%;
             }
         }
 
         &-content {
             padding-bottom: 0;
             width: 100%;
+
             &__title {
                 margin-bottom: 15px;
             }
-            &__subtitle, &__text {
+
+            &__subtitle,
+            &__text {
                 font-size: 14px;
-                line-height: 171%;
             }
+
             &__text {
                 margin-bottom: 15px;
             }
+
             &__button {
                 width: 100%;
                 max-width: 350px;

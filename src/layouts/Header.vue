@@ -45,7 +45,7 @@
                         </ul>
 
                         <div class="header-bottom-tel">
-                            <a href="#" class="button button_blue button_icon header-bottom-tel__button">
+                            <a href="tel:+74997020156" class="button button_blue button_icon header-bottom-tel__button">
                                 <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -61,7 +61,8 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" class="button button_blue button_small">
+                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971"
+                            class="button button_blue button_small header-bottom__payment">
                             Внести платёж
                         </a>
                     </div>
@@ -91,7 +92,6 @@ import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
-
     name: "Header",
     components: {
         ModalConsultationVue,
@@ -125,7 +125,7 @@ export default {
             if (contacts && navLink.name === 'Контакты') {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
-            } 
+            }
             // else if (navLink.name === "Внести платёж") {
             //     event.preventDefault();
             //     this.$router.push({ path: '/' });
@@ -172,11 +172,15 @@ export default {
             bottomNav: [
                 // {
                 //     name: "Я не должник",
-                //     href: "#",
+                //     href: "/installment-plan",
                 // },
                 {
                     name: "Главная",
                     href: "/",
+                },
+                {
+                    name: "Получить рассрочку",
+                    href: "/installment-plan",
                 },
                 {
                     name: "Получить консультацию",
@@ -232,7 +236,13 @@ export default {
 
         &__logo {
             height: 45px;
-            margin-right: 20px;
+            margin-right: 15px;
+            &> a {
+                display: flex;
+                flex: none;
+                height: 100%;
+                align-items: center;
+            }
         }
 
         &__right {
@@ -277,7 +287,18 @@ export default {
 }
 
 @include desktopXl {
-    .header {}
+    .header {
+        &-bottom {
+            &-tel {
+                &__link {
+                    display: none;
+                }
+                &__button {
+                    display: flex;
+                }
+            }
+        }
+    }
 }
 
 @include desktop {
@@ -296,19 +317,21 @@ export default {
         }
 
         &-bottom {
-            &-tel {
-                &__link {
-                    display: none;
-                }
-
-                &__button {
-                    display: flex;
-                }
+            &__payment {
+                font-size: 12px;
             }
-
+            &__logo {
+                width: 130px;
+            }
+            &-tel {
+                margin-right: 10px;
+            }
             &-nav {
-                margin-right: 30px;
+                margin-right: 15px;
 
+                &>li:not(:last-child) {
+                    margin-right: 15px;
+                }
                 &__link {
                     font-size: 14px;
                 }

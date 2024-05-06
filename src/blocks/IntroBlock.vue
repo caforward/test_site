@@ -18,14 +18,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.intro {
+    &-block {
+        &__inner {
+            display: flex;
+            gap: 15px;
+        }
+    }
+}
 
-
-
-
-.intro-block {
-    &__inner {
-        display: flex;
-        gap: 15px;
+@include mobile {
+    .intro {
+        &-block {
+            &__inner {
+                flex-direction: column;
+            }
+        }
     }
 }
 </style>

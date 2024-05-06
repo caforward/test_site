@@ -298,6 +298,13 @@ img {
     }
 }
 
+@include desktopXl {
+    .slider__slide {
+        padding-top: 150px;
+        height: 772px;
+    }
+}
+
 @include desktop {
     .slider {
         &__slide {
