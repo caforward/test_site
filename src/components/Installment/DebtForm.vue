@@ -474,23 +474,24 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     border-radius: 30px;
     box-shadow: 0 15px 30px 0 rgba(0, 150, 216, 0.05);
     background-color: #e2e8f0;
-
-    & .card__wrapper {
-        padding-bottom: 15px;
-    }
+    overflow: hidden;
 
     &__wrapper {
-        padding: 50px 40px;
+        padding: 50px 40px 0 40px;
         padding-bottom: 60px;
+
+        & .button {
+            line-height: normal;
+        }
     }
 
     &__title {
         font-size: 18px;
         font-weight: 600;
-        line-height: 32px;
         margin-bottom: 15px;
     }
 
@@ -505,7 +506,7 @@ export default {
     }
 
     &__img {
-        margin-top: -10px;
+        margin-top: auto;
         width: 100%;
         height: 250px;
 
@@ -544,6 +545,17 @@ export default {
     .block__right {
         padding: 0;
     }
+
+    .card {
+        &__title {
+            font-size: 16px;
+        }
+
+        &__text {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    }
 }
 
 @include laptop {
@@ -551,7 +563,7 @@ export default {
         &_phone {
             display: inline;
         }
-    }
+    }2 rt
 
     .switcher {
         &-body {
@@ -584,6 +596,33 @@ export default {
         &__title {
             margin-bottom: 20px;
         }
+    }
+
+    .card {
+        flex-direction: row;
+
+        &__wrapper {
+            width: 50%;
+            flex: none;
+            padding: 30px;
+            padding-right: 0;
+        }
+
+        &__img {
+            margin-top: unset;
+            height: unset;
+            min-height: 100%;
+
+            img {
+                width: 140%;
+                margin-left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    .button {
+        padding: 0 10px;
     }
 }
 
@@ -630,6 +669,28 @@ export default {
 
         &-bottom {
             gap: 15px;
+        }
+    }
+
+    .card {
+        flex-direction: column;
+
+        &__wrapper {
+            width: 100%;
+            padding: 30px;
+            padding-bottom: 0;
+
+            & .button {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        &__img {
+            height: 210px;
+            img {
+                width: 150%;
+            }
         }
     }
 }
