@@ -127,7 +127,23 @@
                         </form>
                     </div>
                     <div class="block__right">
-                        text
+                        <div class="card">
+                            <div class="card__wrapper">
+                                <div class="card__title">
+                                    Рассчитать график платежей
+                                </div>
+                                <div class="card__text">
+                                    Сделать это легко: просто выберите сумму вашего долга, настройте срок погашения – и
+                                    вы увидите, каким будет ежемесячный платеж.
+                                </div>
+                                <button class="button">
+                                    Раcсчитать график платежей
+                                </button>
+                            </div>
+                            <div class="card__img">
+                                <img src="/assets/images/offers/calc.png" alt="the was a img">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -449,7 +465,61 @@ export default {
     }
 }
 
+.block__right {
+    padding-left: 115px;
+
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    box-shadow: 0 15px 30px 0 rgba(0, 150, 216, 0.05);
+    background-color: #e2e8f0;
+    overflow: hidden;
+
+    &__wrapper {
+        padding: 50px 40px 0 40px;
+        padding-bottom: 60px;
+
+        & .button {
+            line-height: normal;
+        }
+    }
+
+    &__title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    &__text {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 24px;
+
+        &>p {
+            margin-bottom: 15px;
+        }
+    }
+
+    &__img {
+        margin-top: auto;
+        width: 100%;
+        height: 250px;
+
+        img {
+            object-position: bottom;
+        }
+    }
+}
+
 @include desktopXl {
+    .section {
+        padding-bottom: 120px;
+    }
     .switcher {
         &-step {
             &__text {
@@ -474,9 +544,28 @@ export default {
             }
         }
     }
+
+    .block__right {
+        padding: 0;
+    }
+
+    .card {
+        &__title {
+            font-size: 16px;
+        }
+
+        &__text {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    }
 }
 
 @include laptop {
+    .section {
+        padding: 55px 0 100px;
+    }
+
     .link {
         &_phone {
             display: inline;
@@ -515,6 +604,33 @@ export default {
             margin-bottom: 20px;
         }
     }
+
+    .card {
+        flex-direction: row;
+
+        &__wrapper {
+            width: 50%;
+            flex: none;
+            padding: 30px;
+            padding-right: 0;
+        }
+
+        &__img {
+            margin-top: unset;
+            height: unset;
+            min-height: 100%;
+
+            img {
+                width: 140%;
+                margin-left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+
+    .button {
+        padding: 0 10px;
+    }
 }
 
 @include mobile {
@@ -522,7 +638,7 @@ export default {
         &__tabs {
             margin-bottom: 10px;
         }
-        
+
         &-tab {
             text-align: left;
             padding: 0 30px;
@@ -560,6 +676,28 @@ export default {
 
         &-bottom {
             gap: 15px;
+        }
+    }
+
+    .card {
+        flex-direction: column;
+
+        &__wrapper {
+            width: 100%;
+            padding: 30px;
+            padding-bottom: 0;
+
+            & .button {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        &__img {
+            height: 210px;
+            img {
+                width: 150%;
+            }
         }
     }
 }
