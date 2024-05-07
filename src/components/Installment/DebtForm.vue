@@ -9,7 +9,7 @@
                     <button class="switcher-tab switcher-tab_active">
                         Оплата по № договора
                     </button>
-                    <button class="switcher-tab">
+                    <button class="switcher-tab" onclick="window.open('https://pay.mandarinbank.com/?m=4971')" >
                         Оплата по ФИО
                     </button>
                 </div>

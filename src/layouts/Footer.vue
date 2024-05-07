@@ -11,10 +11,11 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <a  target="_self" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
-                    @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null">
-                        {{ footerItem.text }}
-                    </a>
+                    <router-link  :to="footerItem.href" :target="footerItem.target" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
+                    @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null"
+                    :onclick="footerItem.scroll">
+                        {{ footerItem.text }} 
+                    </router-link>
                 </ul>
                 <div class="rightContainer">
                 <ul class="feedback"> 
@@ -126,6 +127,8 @@ interface FooterItem {
     href: string;
     fontW?: number;
     margin?: string;
+    target?: string;
+    scroll?: string;
 }
 
 interface IconSrc {
@@ -141,13 +144,13 @@ export default defineComponent({
             isMobile: false,
             footerArr: [
                 [
-                    { text: "О Компании", href: "/about" },
-                    { text: "Вакансии", href: "/jobs"  },
-                    { text: "Партнёрам", href: "/for-partners"  },
+                    { text: "О Компании", href: "/about", target: '_self', scroll: "window.scrollTo(0,0);" },
+                    { text: "Вакансии", href: "/jobs", target: '_self', scroll: "window.scrollTo(0,0);"  },
+                    { text: "Партнёрам", href: "/for-partners", target: '_self', scroll: "window.scrollTo(0, 0);"  },
                 ],
                 [
                     // { text: "Я не должник", href: ""  },
-                    { text: "Получить рассрочку", href: ""  },
+                    { text: "Получить рассрочку", href: "/installment-plan", target: '_self', scroll: "window.scrollTo(0, 0);"  },
                     { text: "Получить консультацию", href: ""  },
                     { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target:"_blank" },
                 ]
@@ -161,6 +164,7 @@ export default defineComponent({
     mounted() {
         this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
         window.addEventListener('resize', this.updateIsMobile)
+        
     },
     methods: {
         showModal(event: any) {

@@ -4,7 +4,7 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link"
+                        <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link"
                             exact>
                             {{ navLink.name }}
                         </router-link>
@@ -29,7 +29,7 @@
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
-                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href"
+                                <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href"
                                     class="header-bottom-nav__link">
                                     {{ navLink.name }}
                                 </router-link>
@@ -151,6 +151,7 @@ export default {
                 {
                     name: "О компании",
                     href: "/about",
+                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Контакты",
@@ -159,10 +160,12 @@ export default {
                 {
                     name: "Партнёрам",
                     href: "/for-partners",
+                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Вакансии",
                     href: "/jobs",
+                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить справку",
@@ -177,10 +180,12 @@ export default {
                 {
                     name: "Главная",
                     href: "/",
+                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить рассрочку",
                     href: "/installment-plan",
+                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить консультацию",

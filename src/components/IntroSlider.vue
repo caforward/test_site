@@ -224,7 +224,7 @@ img {
     &__slide {
         padding-top: 160px;
         padding-bottom: 70px;
-        height: 960px;
+        height: 760px;
         display: flex;
         align-items: center;
 
@@ -239,7 +239,7 @@ img {
 
         &__wrapper {
             position: absolute;
-            bottom: 70px;
+            bottom: 60px;
             width: 100%;
             z-index: 1;
         }
@@ -260,7 +260,7 @@ img {
 .slide {
     &__img {
         position: absolute;
-        top: 0;
+        top: 17px;
         left: 0;
         width: 100%;
         height: 100%;

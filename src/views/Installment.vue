@@ -2,10 +2,12 @@
     <main>
         <Intro />
         <InstallmentCases />
-        <Agreement />
-        <DebtForm />
         <Calculator />
         <HowToGetVue />
+        <Agreement />
+        <DebtForm />
+
+
     </main>
 </template>
 

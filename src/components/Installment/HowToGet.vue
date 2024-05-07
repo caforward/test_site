@@ -21,7 +21,7 @@
                     <p>Наши специалисты получают все заявки на обратную связь
                         и отвечают на них максимально быстро.</p>
                     <div class="btn">
-                        <bottom class="button">Получить консультацию</bottom>
+                        <button @click.stop="showModal($event)" class="button">Получить консультацию</button>
                     </div>
 
                 </div>
@@ -61,17 +61,20 @@
             </div>
         </div>
     </section>
+    <ModalConsultation :visible="modalVisible" @close="closeModal"></ModalConsultation>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import ModalConsultation from "../../layouts/ModalConsultation.vue";
 
 
 export default defineComponent({
     components: {
-
+        ModalConsultation
     },
     data() {
         return {
+            modalVisible: false,
             contentArr: [
                 {
                     id: 1, pBold: "Снижение процентной ставки",
@@ -104,7 +107,13 @@ export default defineComponent({
     computed: {
     },
     methods: {
-
+        showModal(event: Event) {
+            event.preventDefault();
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
     },
 });
 </script>

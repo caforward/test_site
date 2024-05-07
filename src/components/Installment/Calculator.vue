@@ -1,7 +1,7 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <h2>Рассчитать расрочку</h2>
+  <section  class="section">
+    <div id="calculate" class="container">
+      <h2 >Рассчитать расрочку</h2>
       <div class="flex-container">
         <div class="container-slides">
           <div class="slider">
@@ -268,6 +268,7 @@ p {
 }
 
 .modal-container {
+  
   max-width: 540px;
   padding: 44px 41px 60px 43px;
   border-radius: 30px;
@@ -386,6 +387,7 @@ p {
       }
 
       .checkmark {
+        border: 1px solid #2e2e2e26;
         position: relative;
         height: 30px;
         width: 30px;
@@ -492,6 +494,7 @@ p {
   }
 
   .modal-container {
+    
     width: 50%;
     padding: 44px 29px 60px 30px;
     p {

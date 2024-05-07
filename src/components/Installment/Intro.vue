@@ -12,10 +12,11 @@
                             сможете погасить долг частями в установленные сроки
                         </p>
                         <div class="intro-content__buttons">
-                            <button class="button button_blue intro-content__button">
+                            <button class="button button_blue intro-content__button" 
+                            @click.stop="showModal($event)">
                                 Получить консультацию
                             </button>
-                            <button class="button intro-content__button">
+                            <button class="button intro-content__button" :onclick="scrollToCalculate">
                                 Раcсчитать график платежей
                             </button>
                         </div>
@@ -29,20 +30,38 @@
             </IntroBlock>
         </div>
     </section>
+    <ModalConsultation :visible="modalVisible" @close="closeModal" ></ModalConsultation>
 </template>
-
 <script>
 import Breadcrumb from "../../blocks/Breadcrumb.vue";
 import IntroBlock from "../../blocks/IntroBlock.vue";
-
+import ModalConsultation from "../../layouts/ModalConsultation.vue";
 export default {
     name: "Intro",
     components: {
         Breadcrumb,
-        IntroBlock
+        IntroBlock,
+        ModalConsultation
     },
     data() {
-        return {};
+        return {
+            modalVisible: false,
+        };
+    },
+    methods: {
+        showModal(event) {
+            event.preventDefault();
+            this.modalVisible = true;
+        },
+        closeModal() {
+            this.modalVisible = false;
+        },
+        scrollToCalculate() {
+        const element = document.getElementById('calculate');
+   element.scrollIntoView()
+
+
+        }
     },
 };
 </script>
