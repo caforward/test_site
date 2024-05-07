@@ -78,7 +78,7 @@
           Нажимая кнопку «Оплатить», вы соглашаетесь с
           <a>политикой конфиденциальности.</a>
         </div>
-        <button class="button_blue" type="submit" >Оплатить</button>
+        <button class="button_blue" type="submit" >Отправить</button>
       </form>
     </div>
   </div>

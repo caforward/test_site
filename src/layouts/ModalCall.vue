@@ -43,7 +43,7 @@
           <a href="#">политикой конфиденциальности.</a>
         </div>
         <button type="submit" class="button_blue">
-          Оплатить
+          Отправить
         </button>
       </form>
     </div>
