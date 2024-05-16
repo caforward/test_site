@@ -1,18 +1,10 @@
 <template>
-    <section class="section">
+    <section id="debt-form" class="section">
         <div class="container">
             <h2 class="title">
                 Оплатите задолженность онлайн!
             </h2>
             <div class="switcher">
-                <div class="switcher__tabs">
-                    <button class="switcher-tab switcher-tab_active">
-                        Оплата по № договора
-                    </button>
-                    <button class="switcher-tab" onclick="window.open('https://pay.mandarinbank.com/?m=4971')" >
-                        Оплата по ФИО
-                    </button>
-                </div>
                 <div class="switcher__steps">
                     <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.userData.name"
                         :class="{ 'switcher-step_active': tabs.contract.userData.isActive }">
@@ -25,14 +17,14 @@
                         :class="{ 'switcher-step_active': tabs.contract.payment.isActive }">
                         <div class="switcher-step__number">2</div>
                         <span class="switcher-step__text">
-                            Укажите ваши данные
+                            Укажите сумму платежа
                         </span>
                     </button>
                     <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.debt.name"
                         :class="{ 'switcher-step_active': tabs.contract.debt.isActive }">
                         <div class="switcher-step__number">3</div>
                         <span class="switcher-step__text">
-                            Укажите ваши данные
+                            Оплатите задолженность
                         </span>
                     </button>
                 </div>
@@ -49,10 +41,10 @@
                                         Введите свои данные в поля Фамилия, Имя, Отчество, Дата рождения.
                                     </div>
                                     <div class="form__inputs">
-                                        <input type="text" class="input" placeholder="Фамилия">
-                                        <input type="text" class="input" placeholder="Имя">
-                                        <input type="text" class="input" placeholder="Отчество">
-                                        <input type="text" class="input" placeholder="Дата рождения">
+                                        <input type="text" class="input" placeholder="Фамилия" v-model="userData.lastname">
+                                        <input type="text" class="input" placeholder="Имя" v-model="userData.firstname">
+                                        <input type="text" class="input" placeholder="Отчество" v-model="userData.patronymic">
+                                        <input type="text" class="input" placeholder="Дата рождения" v-model="userData.birthdate">
                                     </div>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
@@ -61,7 +53,7 @@
                                             <a href="#" class="link">политикой конфиденциальности.</a>
                                         </div>
                                         <button class="button button_blue form-bottom__button" @click="nextStep">
-                                            Оплатить долг
+                                            Далее
                                         </button>
                                     </div>
                                 </div>
@@ -70,12 +62,13 @@
                                 <div v-if="tabs.contract.payment.isActive" :id="tabs.contract.payment.name"
                                     class="switcher-body__tab">
                                     <div class="form__title">
-                                        Желаете совершить оплату по договору № <span>55505515550551</span>
+                                        Желаете совершить оплату по договору №  {{ userData.contractId }}
                                     </div>
                                     <div class="form__inputs">
-                                        <input type="tel" class="input" placeholder="+7 - ___ - ___ - __ - __">
-                                        <input type="email" class="input" placeholder="E-mail">
-                                        <input type="text" class="input" placeholder="Сумма">
+                                        <input type="text" class="input" placeholder="Введите ваш № договора" v-model="userData.contractId">
+                                        <input type="tel" class="input" placeholder="+7 - ___ - ___ - __ - __" v-model="userData.phone">
+                                        <input type="email" class="input" placeholder="E-mail" v-model="userData.email">
+                                        <input type="text" class="input" placeholder="Сумма" v-model="userData.repayment">
                                     </div>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
@@ -100,7 +93,7 @@
                                                 Сумма платежа
                                             </div>
                                             <div class="form-data__amount">
-                                                10 000 ₽
+                                                {{ userData.repayment }}
                                             </div>
                                         </div>
                                         <div class="form-data__payment">
@@ -108,13 +101,13 @@
                                                 Итого вместе с комисией
                                             </div>
                                             <div class="form-data__amount">
-                                                10 000 ₽
+                                                {{ userData.totalPayment }}
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="button button_blue form-submit" @click="nextStep">
+                                    <a href="https://pay.mandarinbank.com/?m=4971" class="button button_blue form-submit">
                                         Оплатить картой
-                                    </button>
+                                    </a>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
                                             Нажимая кнопку «Оплатить картой», вы соглашаетесь с
@@ -155,6 +148,17 @@
 export default {
     data() {
         return {
+            userData: {
+                lastname: '',
+                firstname: '',
+                patronymic: '',
+                birthdate: '',
+                phone: '',
+                contractId: '',
+                email: '',
+                repayment: '',
+                totalPayment: ''
+            },
             tabs: {
                 choosenTabs: 'contract',
                 contract: {
@@ -181,6 +185,9 @@ export default {
         }
     },
     methods: {
+        calculatePayment(e) {
+            console.log(e)
+        },
         nextStep(e) {
             e.preventDefault();
 
@@ -221,6 +228,14 @@ export default {
             tabs.activeTab = nextTab.name
             // 
             this.updateSwitcherProgress(tabs)
+
+            if (curTab.name === 'payment') {
+                if (this.userData.repayment === '') {
+                    this.userData.repayment = 0
+                }
+
+                this.userData.totalPayment = this.userData.repayment * 1.025
+            }
         },
         updateSwitcherProgress(tabs) {
             // получаем элементы прогресс бара

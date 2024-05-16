@@ -147,6 +147,7 @@ export default {
             modalVisible: false,
             modalVisibleCall: false,
             mobileMenu: false,
+            paymentDebtFormHref: '/installment-plan#debt-form',
             topNav: [
                 {
                     name: "О компании",
