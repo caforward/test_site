@@ -66,6 +66,7 @@ export default {
     }
     &-title {
         display: flex;
+        align-items: baseline;
         justify-content: space-between;
         padding: 20px 0 25px;
         grid-gap: 60px;
@@ -73,6 +74,9 @@ export default {
             cursor: pointer;
         }
         &__icon {
+            display: flex;
+            align-items: center;
+            height: fit-content;
             transition: rotate .2s;
         }
     }

@@ -39,7 +39,7 @@
           <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
         </div>
         <div class="aboveButt">
-          Нажимая кнопку «Оплатить», вы соглашаетесь с
+          Нажимая кнопку «Отправить», вы соглашаетесь с
           <a href="#">политикой конфиденциальности.</a>
         </div>
         <button type="submit" class="button_blue">
