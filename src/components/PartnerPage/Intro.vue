@@ -48,9 +48,8 @@ export default {
 
 <style lang="scss" scoped>
 
-
 section {
-    background-color: $light-green;
+    background-color: #e7f9f8;
 }
 
 .container {
@@ -62,13 +61,21 @@ section {
     font-size: 14px;
     line-height: 143%;
     color: $gray-dark;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 .intro {
     &__img {
         width: 50%;
-        height: 560px;
+        position: relative;
+        img {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            height: 100%;
+            min-width: 240px;
+            object-position: bottom;
+        }
     }
 
     &-content {
@@ -76,17 +83,94 @@ section {
         width: 50%;
 
         &__title {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         &__subtitle {
-            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 162%;
+            margin-bottom: 25px;
         }
 
         &__text {
             font-size: 16px;
             line-height: 167%;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+        }
+    }
+}
+
+@include desktop {
+    .intro {
+        &__img {
+            width: 65%;
+        }
+        
+        &-content {
+            &__subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            
+            &__text {
+                font-size: 14px;
+                line-height: 214%;
+            }
+        }
+    }
+}
+
+@include laptop {
+    .intro {
+        &__img {
+            padding: 80px 0 60px;
+            width: 50%;
+            img {
+                width: 155%;
+            }
+        }
+
+        &-content {
+            &__title {
+                margin-bottom: 15px;
+            }
+            &__text {
+                line-height: 170%;
+            }
+        }
+    }
+}
+
+@include mobile {
+    .intro {
+        &__img {
+            width: 100%;
+            padding: 0;
+            height: 305px;
+            img {
+                width: 100%;
+                object-position: center bottom;
+            }
+        }
+
+        &-content {
+            padding-bottom: 0;
+            width: 100%;
+            &__title {
+                margin-bottom: 15px;
+            }
+            &__subtitle, &__text {
+                font-size: 14px;
+                line-height: 171%;
+            }
+            &__text {
+                margin-bottom: 15px;
+            }
+            &__button {
+                width: 100%;
+                max-width: 350px;
+            }
         }
     }
 }

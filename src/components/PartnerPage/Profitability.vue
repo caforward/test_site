@@ -31,7 +31,7 @@ export default {
                 },
                 {
                     percentage: '36,4%',
-                    text: "Рентабельность по прибыли <br> до налогов "
+                    text: "Рентабельность по прибыли до налогов "
                 },
                 {
                     percentage: '27,9%',
@@ -44,8 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 section {
     padding: 80px 0 50px;
     background-color: $gray-white;
@@ -62,10 +60,12 @@ section {
 
 .plates {
     display: flex;
+    flex-wrap: wrap;
     gap: 30px;
 
     &-item {
         width: calc(100% /3);
+        flex: 1;
         background-color: $white;
         border-radius: 30px;
         padding: 50px 55px;
@@ -81,6 +81,46 @@ section {
 
         &__text {
             line-height: 175%;
+        }
+    }
+}
+
+@include desktop {
+    .text {
+        font-size: 14px;
+    }
+
+    .plates {
+        &-item {
+            font-size: 14px;
+            padding: 50px 30px;
+
+            &__title {
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+@include laptop {
+    .plates {
+        &-item {
+            padding: 30px 20px;
+            line-height: 143%;
+
+            &__title {
+                font-size: 30px;
+                margin-bottom: 15px;
+            }
+        }
+    }
+}
+
+@include mobile {
+    .plates {
+        &-item {
+            flex: none;
+            width: 100%;
         }
     }
 }

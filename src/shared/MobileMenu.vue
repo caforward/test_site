@@ -120,12 +120,10 @@ export default {
     methods: {
         showModal(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisible = true;
         },
         showModalCall(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisibleCall = true;
         },
         closeModal() {
@@ -146,6 +144,7 @@ export default {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
         }
+        console.log(this.modalVisibleCall)
     },
     beforeMount() {
         const routes = this.$router.getRoutes()

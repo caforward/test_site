@@ -192,11 +192,9 @@ export default defineComponent({
     if (this.visible) {
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = '10px'
-      console.log(this.visible)
     } else {
       document.body.style.paddingRight = ''
       document.body.style.overflow = ''
-      console.log(this.visible)
     }
   },
 });
@@ -208,12 +206,12 @@ export default defineComponent({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.4s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: -100%;
+  opacity: 0;
 }
 
 ::placeholder {

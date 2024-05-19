@@ -1,5 +1,7 @@
 <template>
-    <Jobs />
+    <main>
+        <Jobs />
+    </main>
 </template>
 
 <script setup>
