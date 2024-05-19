@@ -55,4 +55,18 @@ p {
         margin-bottom: 30px;
     }
 }
+
+@include desktop {
+    p {
+        font-size: 14px;
+    }
+}
+@include tablet {
+    h2 {
+        margin-bottom: 15px;
+    }
+    p {
+        margin-bottom: 15px;
+    }
+}
 </style>

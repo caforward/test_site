@@ -66,6 +66,7 @@ export default {
 <style lang="scss" scoped>
 section {
     padding: 70px 0 150px;
+    background-color: #fafbfd;
 }
 
 .form-block-info {
@@ -73,6 +74,7 @@ section {
 
     &__title {
         margin-bottom: 25px;
+        line-height: 133%;
     }
 
     &__text {
@@ -83,6 +85,51 @@ section {
             font-size: 14px;
             line-height: 171%;
             color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+@include laptop {
+    .form {
+        &-block {
+            &>* {
+                flex: none;
+            }
+
+            &-info {
+                &__title {
+                    font-size: 22px;
+                }
+
+                &__text {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@include tablet {
+    section {
+        padding: 25px 0 80px;
+    }
+
+    .form {
+        &-block {
+            padding: 30px 25px;
+            gap: 25px;
+
+            &-info {
+                &__title {
+                    font-size: 18px;
+                    margin-bottom: 15px;
+                }
+
+                &__text {
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                }
+            }
         }
     }
 }
