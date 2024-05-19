@@ -13,6 +13,8 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
+
 import IntroSlider from "../components/IntroSlider.vue";
 import AboutInNumbersVue from "../components/AboutInNumbers.vue";
 import Offers from "../components/Offers.vue";
@@ -21,6 +23,10 @@ import PigFinance from "../components/PigFinance.vue";
 import Suppliers from "../components/Suppliers.vue";
 import AboutCompany from "../components/AboutCompany.vue";
 import AnonimCallVue from "../components/AnonimCall.vue";
+
+onMounted(() => {
+    window.scrollTo(0,0)
+})
 </script>
 
 <style></style>

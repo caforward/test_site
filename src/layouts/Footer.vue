@@ -13,9 +13,9 @@
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
                     <router-link :to="footerItem.href" :target="footerItem.target" :href=footerItem.href
                         v-for="(footerItem, ind) in listElem" :key="ind"
-                        @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null"
+                        @click.stop="footerItem.name === 'Получить консультацию' ? showModal($event) : null"
                         :onclick="footerItem.scroll">
-                        {{ footerItem.text }}
+                        {{ footerItem.name }}
                     </router-link>
                 </ul>
                 <div class="rightContainer">
@@ -46,8 +46,6 @@
                     </ul>
                 </div>
             </div>
-
-
 
             <div v-if="isMobile" class="flexContainer">
                 <div class="left-side">
@@ -145,7 +143,7 @@ import ModalConsultation from "./ModalConsultation.vue";
 
 
 interface FooterItem {
-    text: string;
+    name: string;
     href: string;
     fontW?: number;
     margin?: string;
@@ -166,15 +164,15 @@ export default defineComponent({
             isMobile: false,
             footerArr: [
                 [
-                    { text: "О Компании", href: "/about", target: '_self', scroll: "window.scrollTo(0,0);" },
-                    { text: "Вакансии", href: "/jobs", target: '_self', scroll: "window.scrollTo(0,0);" },
-                    { text: "Партнёрам", href: "/for-partners", target: '_self', scroll: "window.scrollTo(0, 0);" },
+                    { name: "О Компании" },
+                    { name: "Вакансии" },
+                    { name: "Партнёрам" },
                 ],
                 [
                     // { text: "Я не должник", href: ""  },
-                    { text: "Получить рассрочку", href: "/installment-plan", target: '_self', scroll: "window.scrollTo(0, 0);" },
-                    { text: "Получить консультацию", href: "" },
-                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
+                    { name: "Получить рассрочку" },
+                    { name: "Получить консультацию", href: "#" },
+                    { name: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
@@ -203,6 +201,21 @@ export default defineComponent({
     beforeUnmount() {
         window.removeEventListener('resize', this.updateIsMobile)
     },
+    beforeMount() {
+        const routes = this.$router.getRoutes()
+        this.footerArr[0].forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+        this.footerArr[1].forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+    }
 });
 </script>
 

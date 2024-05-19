@@ -43,4 +43,10 @@ section {
     font-size: 16px;
     width: 74%;
 }
+
+@include desktop {
+    .text {
+        width: 100%;
+    }
+}
 </style>

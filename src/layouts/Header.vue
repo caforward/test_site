@@ -34,10 +34,10 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="modalVisible = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="modalVisibleCall = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click="openMobileMenu">
+                        <a href="#" @click="mobileMenu = !mobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -81,44 +81,24 @@
         </div>
     </header>
 
-    <MobileMenu :visible="mobileMenu" @close="closeMobileMenu" />
-    <ModalConsultationVue :visible="modalVisible" @close="closeModal" />
-    <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
+    <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
+    <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
+    <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
 </template>
 
 <script lang="ts">
-import ModalConsultationVue from './ModalConsultation.vue'
+import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
     name: "Header",
     components: {
-        ModalConsultationVue,
+        ModalConsultation,
         ModalCall,
         MobileMenu
     },
     methods: {
-        showModal(event: any) {
-            event.preventDefault();
-            this.modalVisible = true;
-        },
-        closeModal() {
-            this.modalVisible = false;
-        },
-        showModalCall(event: any) {
-            event.preventDefault();
-            this.modalVisibleCall = true;
-        },
-        closeModalCall() {
-            this.modalVisibleCall = false;
-        },
-        openMobileMenu() {
-            this.mobileMenu = !this.mobileMenu;
-        },
-        closeMobileMenu() {
-            this.mobileMenu = false;
-        },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');
 
@@ -126,20 +106,6 @@ export default {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
             }
-            // else if (navLink.name === "Внести платёж") {
-            //     event.preventDefault();
-            //     this.$router.push({ path: '/' });
-            //     this.$router.afterEach((to) => {
-            //         if (to.path === '/') {
-            //             setTimeout(() => {
-            //                 const payment = document.getElementById('payment');
-            //                 if (payment) {
-            //                     payment.scrollIntoView({ behavior: 'smooth' });
-            //                 }
-            //             }, 50);
-            //         }
-            //     });
-            // }
         },
     },
     data() {
@@ -151,8 +117,6 @@ export default {
             topNav: [
                 {
                     name: "О компании",
-                    href: "/about",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Контакты",
@@ -160,13 +124,9 @@ export default {
                 },
                 {
                     name: "Партнёрам",
-                    href: "/for-partners",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Вакансии",
-                    href: "/jobs",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить справку",
@@ -185,7 +145,6 @@ export default {
                 },
                 {
                     name: "Получить рассрочку",
-                    href: "/installment-plan",
                     scroll: "window.scrollTo(0,0);"
                 },
                 {
@@ -203,6 +162,21 @@ export default {
             ],
         };
     },
+    beforeMount() {
+        const routes = this.$router.getRoutes()
+        this.topNav.forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+        this.bottomNav.forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+    }
 };
 </script>
 

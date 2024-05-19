@@ -26,9 +26,14 @@
                         коммерческих банков и микрофинансовых организаций.
                     </p>
                 </div>
-                <div>
-                    <div class="content__img">
-                        <img src="/assets/images/blocks/partners/aboutCompany/01.png" alt="">
+                <div class="content__img">
+                    <div class="content-award">
+                        <div class="content-award__img">
+                            <img src="/assets/images/blocks/partners/aboutCompany/top-18.svg" alt="">
+                        </div>
+                        <span>
+                            коллекторских <br> агентств России 
+                        </span>
                     </div>
                 </div>
             </div>
@@ -107,6 +112,7 @@ section {
 
     &_flex {
         display: flex;
+        flex-wrap: wrap;
         gap: 30px;
     }
 
@@ -116,18 +122,37 @@ section {
     }
 
     &__img {
-        height: 260px;
+        width: 100%;
+        flex: 1;
+    }
+
+    &-award {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 0 25px;
+        padding: 55px 25px 45px;
+        background-color: $gray-light;
+        line-height: 150%;
+        text-align: center;
+
+        &__img {
+            max-width: 280px;
+        }
     }
 }
 
 .plates {
     display: flex;
+    flex-wrap: wrap;
     gap: 150px;
     width: 66%;
     margin-bottom: 20px;
 
     &-item {
         width: 35%;
+        flex: 1;
         font-size: 18px;
         line-height: 167%;
 
@@ -139,6 +164,56 @@ section {
 
         &__text {
             font-size: 16px;
+        }
+    }
+}
+
+@include desktop {
+    .plates {
+        width: 100%;
+    }
+}
+
+@include laptop {
+    .content {
+        &__text {
+            width: 50%;
+        }
+    }
+    .plates {
+        gap: 30px;
+        &-item {
+            width: 50%;
+            &__title {
+                font-size: 16px;
+            }
+            &__text {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@include tablet {
+    .content {
+        font-size: 14px;
+        &__text {
+            width: 100%;
+        }
+        &-award {
+            padding: 20px 30px 25px;
+
+            &__img {
+                img {
+                    width: 140px;
+                }
+            }
+        }
+    }
+    .plates {
+        &-item {
+            width: 100%;
+            flex: none;
         }
     }
 }

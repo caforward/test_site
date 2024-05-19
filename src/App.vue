@@ -1,6 +1,8 @@
 <template>
     <Header />
-    <router-view />
+    <transition name="fade">
+        <router-view />
+    </transition>
     <Footer />
 </template>
 
@@ -9,4 +11,14 @@ import Header from "./layouts/Header.vue";
 import Footer from "./layouts/Footer.vue";
 </script>
 
-<style></style>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

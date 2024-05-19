@@ -1,87 +1,55 @@
 <template>
-  <div class="modal" v-if="visible">
-    <div class="modal-content">
-      <div class="close-button" @click="closeModal">
-        <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+  <transition name="fade">
+    <div class="modal" v-if="visible">
+      <div class="modal-content">
+        <div class="close-button" @click="closeModal">
+          <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+        </div>
+        <h3>Заполните поля в форме ниже, и мы свяжемся с вами. </h3>
+        <p>
+          Просто введите свои контактные данные и ФИО, кратко опишите проблему и
+          ждите, когда Мы свяжемся с Вами, чтобы проконсультировать по вашей
+          финансовой ситуации.
+        </p>
+        <form @submit.prevent="submitForm">
+          <div class="form-input inputName">
+            <label for="name"></label>
+            <input :class="{ 'valid-input': nameValid == true }" @input="nameBlured" @blur="nameBlured"
+              v-model.trim="formData.name" type="text" id="name" placeholder="Имя*" />
+            <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
+          </div>
+          <div class="form-input inputTel">
+            <label for="tel"></label>
+            <input :class="{ 'valid-input': telValid == true }" @input="telBlured" @blur="telBlured"
+              v-model.trim="formData.tel" type="tel" id="tel" placeholder="Номер телефона*" />
+            <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
+          </div>
+          <div class="form-input inputMail">
+            <label for="mail"></label>
+            <input :class="{ 'valid-input': mailValid == true }" @input="mailBlured" @blur="mailBlured"
+              v-model.trim="formData.email" type="text" id="mail" placeholder="E-mail*" />
+            <span v-if="!mailValid" class="error">{{ errorMsg.mail }}</span>
+          </div>
+          <div class="optionsWrap">
+            <v-select v-model.trim="formData.selectedOption" class="vSelect" :options="options"
+              placeholder="Тема обращения*"></v-select>
+          </div>
+          <div class="form-input inputText">
+            <label for="text"></label>
+            <textarea :class="{ 'valid-input': textValid == true }" @input="textBlured" @blur="textBlured" class="input"
+              placeholder="Коротко опишите вопрос*" v-model.trim="formData.text" name="text" id="text" cols="3"
+              rows="2"></textarea>
+            <span v-if="!textValid" class="error">{{ errorMsg.text }}</span>
+          </div>
+          <div class="aboveButt">
+            Нажимая кнопку «Отправить», вы соглашаетесь с
+            <a>политикой конфиденциальности.</a>
+          </div>
+          <button class="button_blue" type="submit">Отправить</button>
+        </form>
       </div>
-      <h3>Заполните поля в форме ниже, и мы свяжемся с вами. </h3>
-      <p>
-        Просто введите свои контактные данные и ФИО, кратко опишите проблему и
-        ждите, когда Мы свяжемся с Вами, чтобы проконсультировать по вашей
-        финансовой ситуации.
-      </p>
-      <form @submit.prevent="submitForm">
-        <div class="form-input inputName">
-          <label for="name"></label>
-          <input
-            :class="{ 'valid-input': nameValid == true }"
-            @input="nameBlured"
-            @blur="nameBlured"
-            v-model.trim="formData.name"
-            type="text"
-            id="name"
-            placeholder="Имя*"
-          />
-          <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
-        </div>
-        <div class="form-input inputTel">
-          <label for="tel"></label>
-          <input
-            :class="{ 'valid-input': telValid == true }"
-            @input="telBlured"
-            @blur="telBlured"
-            v-model.trim="formData.tel"
-            type="tel"
-            id="tel"
-            placeholder="Номер телефона*"
-          />
-          <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
-        </div>
-        <div class="form-input inputMail">
-          <label for="mail"></label>
-          <input
-            :class="{ 'valid-input': mailValid == true }"
-            @input="mailBlured"
-            @blur="mailBlured"
-            v-model.trim="formData.email"
-            type="text"
-            id="mail"
-            placeholder="E-mail*"
-          />
-          <span v-if="!mailValid" class="error">{{ errorMsg.mail }}</span>
-        </div>
-        <div class="optionsWrap">
-          <v-select
-            v-model.trim="formData.selectedOption"
-            class="vSelect"
-            :options="options"
-            placeholder="Тема обращения*"
-          ></v-select>
-        </div>
-        <div class="form-input inputText">
-          <label for="text"></label>
-          <textarea
-            :class="{ 'valid-input': textValid == true }"
-            @input="textBlured"
-            @blur="textBlured"
-            class="input"
-            placeholder="Коротко опишите вопрос*"
-            v-model.trim="formData.text"
-            name="text"
-            id="text"
-            cols="3"
-            rows="2"
-          ></textarea>
-          <span v-if="!textValid" class="error">{{ errorMsg.text }}</span>
-        </div>
-        <div class="aboveButt">
-          Нажимая кнопку «Отправить», вы соглашаетесь с
-          <a>политикой конфиденциальности.</a>
-        </div>
-        <button class="button_blue" type="submit" >Отправить</button>
-      </form>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -220,12 +188,31 @@ export default defineComponent({
       this.selectedOption = null;
     },
   },
+  updated() {
+    if (this.visible) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '10px'
+    } else {
+      document.body.style.paddingRight = ''
+      document.body.style.overflow = ''
+    }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 @import "vue-select/dist/vue-select.css";
 @import "/src/assets/scss/index.scss";
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 ::placeholder {
   color: rgba(0, 0, 0, 0.5);

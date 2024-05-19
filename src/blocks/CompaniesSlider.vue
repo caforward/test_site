@@ -1,6 +1,6 @@
 <template>
     <div class="slider">
-        <swiper class="swiper slider" :slides-per-view="1" :space-between="50" @swiper="onSwiper" :loop="true"
+        <swiper class="swiper slider" :slides-per-view="2" :space-between="50" @swiper="onSwiper" :loop="true"
             :breakpoints="{ 1230: { slidesPerView: 6 }, 1022: { slidesPerView: 5 }, 639: { slidesPerView: 4 }, 520: { slidesPerView: 3 } }">
 
             <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">

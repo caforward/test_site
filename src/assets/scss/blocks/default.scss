@@ -6,6 +6,17 @@
     box-sizing: border-box;
 }
 
+*::-webkit-scrollbar {
+    width: 10px;
+    &-thumb {
+        background-color: $blue;
+        border-radius: 4px;
+    }
+    &-track {
+        background-color: #fff;
+    }
+}
+
 html {
     min-height: 100%;
     min-width: 320px;
