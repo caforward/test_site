@@ -25,9 +25,9 @@ export default defineComponent({
         return {
             items: [
                 { id: 1, upInfo: 'C 2014', bottInfo: 'года на рынке\nвзыскания' },
-                { id: 2, upInfo: 'C 2017', bottInfo: 'года ООО «Форвард»\nсертифицирован в ФССП' },
+                { id: 2, upInfo: 'C 2017', bottInfo: 'года ООО ПКО «Форвард»\nсертифицирован в ФССП' },
                 { id: 3, upInfo: '100 тыс.', bottInfo: 'клиентов исправили\nкредитную историю с нами' },
-                { id: 3, upInfo: 'до 80', bottInfo: 'получают рассрочку\nежедневно' }
+                { id: 3, upInfo: 'до 80', bottInfo: 'клиентов получают рассрочку\nежедневно' }
             ] as ListElem[]
         }
     }

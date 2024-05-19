@@ -75,7 +75,7 @@
           <span v-if="!textValid" class="error">{{ errorMsg.text }}</span>
         </div>
         <div class="aboveButt">
-          Нажимая кнопку «Оплатить», вы соглашаетесь с
+          Нажимая кнопку «Отправить», вы соглашаетесь с
           <a>политикой конфиденциальности.</a>
         </div>
         <button class="button_blue" type="submit" >Отправить</button>

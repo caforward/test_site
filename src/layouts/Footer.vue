@@ -1,6 +1,6 @@
 <template>
     <footer id="contacts">
-        <div class="container"> 
+        <div class="container">
 
             <div v-if="isMobile === false" class="flexContainer">
                 <ul class="leftPart">
@@ -11,106 +11,128 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <router-link  :to="footerItem.href" :target="footerItem.target" :href= footerItem.href v-for="(footerItem, ind) in listElem" :key="ind"
-                    @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null"
-                    :onclick="footerItem.scroll">
-                        {{ footerItem.text }} 
+                    <router-link :to="footerItem.href" :target="footerItem.target" :href=footerItem.href
+                        v-for="(footerItem, ind) in listElem" :key="ind"
+                        @click.stop="footerItem.text === 'Получить консультацию' ? showModal($event) : null"
+                        :onclick="footerItem.scroll">
+                        {{ footerItem.text }}
                     </router-link>
                 </ul>
                 <div class="rightContainer">
-                <ul class="feedback"> 
-                    <li @click="showModal($event)">Обратная связь</li>
-                    <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
-                    <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
-                    <li>Написать на почту</li>
-                    <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
-                </ul>
-                <ul>
-                    <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
-                    <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
-                    <div class="iconContainer">
-                        <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
-                            alt="there was a icon from SM " />
-                    </div>
-                </ul>
-            </div>
+                    <ul class="feedback">
+                        <li @click="showModal($event)">Обратная связь</li>
+                        <li>
+                            <a href="tel:+74997020156" :style="{ fontWeight: 700 }">+7 (499) 702‑01‑56</a>
+                        </li>
+                        <li>
+                            пн - чт 9:00-18:00
+                        </li>
+                        <li style="padding-bottom: 28px">
+                            пт 9:00-16:45
+                        </li>
+                        <li>Написать на почту</li>
+                        <li>
+                            <a href="mailto:dolg.info@caforward.ru"
+                                :style="{ fontWeight: 700 }">dolg.info@caforward.ru</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
+                        <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
+                        <div class="iconContainer">
+                            <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
+                                alt="there was a icon from SM " />
+                        </div>
+                    </ul>
+                </div>
             </div>
 
 
 
             <div v-if="isMobile" class="flexContainer">
                 <div class="left-side">
-                <ul class="leftPart">
-                    <a href="/">
-                        <img class="imgForward" src="/assets/images/footer/forward.png"
-                            alt="there was a logo CaForward" />
-                    </a>
-                </ul>
-                <ul class="footer-nav">
-                    <a href="/about" target="_self"  >
-                       О компании
-                    </a>
-                </ul>
-                <ul class="footer-nav">
-                    <a target="_self"  href="/jobs" >
-                       Вакансии
-                    </a>
-                </ul>
-                <ul class="footer-nav partners">
-                    <a target="_self" href="/for-partners" >
-                       Партнёрам
-                    </a>
-                </ul>
-                <ul class="feedback"> 
-                    <li @click="showModal($event)">Обратная связь</li>
-                    <a href="tel:+74997020156" :style="{fontWeight: 700}">+7 (499) 702‑01‑56</a>
-                    <li :style="{paddingBottom: '28px'}">пн - вс 8:00-22:00</li>
-                    <li>Написать на почту</li>
-                    <a href="mailto:dolg.info@caforward.ru" :style="{fontWeight: 700}">dolg.info@caforward.ru</a>
-                </ul>
+                    <ul class="leftPart">
+                        <a href="/">
+                            <img class="imgForward" src="/assets/images/footer/forward.png"
+                                alt="there was a logo CaForward" />
+                        </a>
+                    </ul>
+                    <ul class="footer-nav">
+                        <a href="/about" target="_self">
+                            О компании
+                        </a>
+                    </ul>
+                    <ul class="footer-nav">
+                        <a target="_self" href="/jobs">
+                            Вакансии
+                        </a>
+                    </ul>
+                    <ul class="footer-nav partners">
+                        <a target="_self" href="/for-partners">
+                            Партнёрам
+                        </a>
+                    </ul>
+                    <ul class="feedback">
+                        <li @click="showModal($event)">Обратная связь</li>
+                        <li>
+                            <a href="tel:+74997020156" :style="{ fontWeight: 700 }">+7 (499) 702‑01‑56</a>
+                        </li>
+                        <li>
+                            пн - чт 9:00-18:00
+                        </li>
+                        <li style="padding-bottom: 28px">
+                            пт 9:00-16:45
+                        </li>
+                        <li>Написать на почту</li>
+                        <li>
+                            <a href="mailto:dolg.info@caforward.ru"
+                                :style="{ fontWeight: 700 }">dolg.info@caforward.ru</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="rightContainer">
                     <ul class="footer-nav">
-                    <a target="_blank" href="" >
-                       Получить рассрочку
-                    </a>
-                </ul>
-                <ul class="footer-nav">
-                    <a @click.stop="showModal($event)"  target="_blank" href="" >
-                       Получить консультацию
-                    </a>
-                </ul>
-                <ul class="footer-nav">
-                    <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" >
-                       Внести платёж
-                    </a>
-                </ul>
-                <ul>
-                    <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
-                    <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
-                    <div class="iconContainer">
-                        <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
-                            alt="there was a icon from SM " />
-                    </div>
-                </ul>
-                <ul class="after-icon">
+                        <a target="_blank" href="">
+                            Получить рассрочку
+                        </a>
+                    </ul>
+                    <ul class="footer-nav">
+                        <a @click.stop="showModal($event)" target="_blank" href="">
+                            Получить консультацию
+                        </a>
+                    </ul>
+                    <ul class="footer-nav">
+                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971">
+                            Внести платёж
+                        </a>
+                    </ul>
+                    <ul>
+                        <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
+                        <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
+                        <div class="iconContainer">
+                            <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
+                                alt="there was a icon from SM " />
+                        </div>
+                    </ul>
+                    <ul class="after-icon">
                         <li>г. Новосибирск,<br /> <br>ул.  Урицкого, д. 21, этаж 3</li>
                     </ul>
-            </div>
+                </div>
             </div>
         </div>
         <hr />
         <div class="footer-bottom">
             <div class="container">
                 <div class="footerFlex">
-                <div>
-                <span>ООО ПКО "Форвард"</span>
-                <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
-            </div>
-            <div>
-                <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source link</a></span>
-            </div>
-        </div>
+                    <div>
+                        <span>ООО ПКО "Форвард"</span>
+                        <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
+                    </div>
+                    <div>
+                        <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source
+                                link</a></span>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
@@ -145,14 +167,14 @@ export default defineComponent({
             footerArr: [
                 [
                     { text: "О Компании", href: "/about", target: '_self', scroll: "window.scrollTo(0,0);" },
-                    { text: "Вакансии", href: "/jobs", target: '_self', scroll: "window.scrollTo(0,0);"  },
-                    { text: "Партнёрам", href: "/for-partners", target: '_self', scroll: "window.scrollTo(0, 0);"  },
+                    { text: "Вакансии", href: "/jobs", target: '_self', scroll: "window.scrollTo(0,0);" },
+                    { text: "Партнёрам", href: "/for-partners", target: '_self', scroll: "window.scrollTo(0, 0);" },
                 ],
                 [
                     // { text: "Я не должник", href: ""  },
-                    { text: "Получить рассрочку", href: "/installment-plan", target: '_self', scroll: "window.scrollTo(0, 0);"  },
-                    { text: "Получить консультацию", href: ""  },
-                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target:"_blank" },
+                    { text: "Получить рассрочку", href: "/installment-plan", target: '_self', scroll: "window.scrollTo(0, 0);" },
+                    { text: "Получить консультацию", href: "" },
+                    { text: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
@@ -164,7 +186,7 @@ export default defineComponent({
     mounted() {
         this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
         window.addEventListener('resize', this.updateIsMobile)
-        
+
     },
     methods: {
         showModal(event: any) {
@@ -185,24 +207,26 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
-
-a{
+a {
     display: block;
     cursor: pointer;
     color: white;
     font-weight: 500;
 }
+
 footer {
     background: rgb(41, 41, 41);
 }
+
 .footerFlex {
     display: flex;
     justify-content: space-between;
 }
+
 .freepik {
     color: #f8f5f80a;
 }
+
 .container {
     color: white;
 }
@@ -222,10 +246,11 @@ span {
     display: inline-block;
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0%;
-    a{
+
+    a {
         display: inline-block;
-    font-family: "Montserrat", sans-serif;
-    letter-spacing: 0%;
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: 0%;
     }
 }
 
@@ -235,6 +260,7 @@ span {
     justify-content: space-between;
     padding-bottom: 34px;
 }
+
 .rightContainer {
     display: flex;
     gap: 30px;
@@ -244,16 +270,18 @@ span {
     display: flex;
     gap: 7px;
     justify-content: center;
+
     img {
         width: 35px;
         height: 35px;
     }
 }
 
-.leftPart{
+.leftPart {
     li {
         line-height: 24px;
     }
+
     a {
         line-height: 24px;
     }
@@ -272,25 +300,25 @@ li {
     line-height: 17px;
     letter-spacing: 0%;
 }
-a{
+
+a {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     font-weight: 500;
     line-height: 17px;
     letter-spacing: 0%;
 }
+
 .feedback {
-    a{
-        margin-bottom: 30px;
-        line-height: 0px;
-        cursor: pointer;
+    a {
         color: white;
     }
+
     li {
-        margin-bottom: 30px;
-        line-height: 0px;
+        margin-bottom: 15px;
     }
-    .liMonday{
+
+    .liMonday {
         padding-bottom: 28px;
     }
 }
@@ -338,100 +366,117 @@ a{
     .flexContainer {
         flex-direction: row;
         padding-top: 30px;
-        padding-bottom: 17px; 
+        padding-bottom: 17px;
         align-items: center;
     }
+
     .rightContainer {
         display: flex;
         flex-direction: column;
         padding-top: 58px;
+
         .after-icon {
             margin-top: 15px;
         }
     }
+
     .left-side {
-            ul {
-                margin-bottom: 30px;
-                
-            }
+        ul {
+            margin-bottom: 30px;
+
         }
-        .feedback {
-            margin-top: 45px;
-        }
-            .imgForward {
-                margin-bottom: 0px;
-                width: 159px;
-                height: 42px;
-            }
-            .iconContainer{
-                gap:17px;
-                align-content: flex-start;
-            }
-        
+    }
+
+    .feedback {
+        margin-top: 45px;
+    }
+
+    .imgForward {
+        margin-bottom: 0px;
+        width: 159px;
+        height: 42px;
+    }
+
+    .iconContainer {
+        gap: 17px;
+        align-content: flex-start;
+    }
+
 }
+
 @media screen and (max-width: 640.5px) {
     .flexContainer {
         flex-direction: column;
         padding-top: 30px;
-        padding-bottom: 17px; 
+        padding-bottom: 17px;
         align-items: center;
         align-items: flex-start;
     }
+
     .rightContainer {
         display: flex;
         flex-direction: column;
+
         .after-icon {
             margin-top: 15px;
         }
     }
-    .leftPart li{
+
+    .leftPart li {
         margin-bottom: 31px;
     }
 
-        .whiteButt {
-            width: 180px;
-            height: 41px;
-        }
-        .feedback {
-            margin-top: 29px;
-            li {
-                margin-bottom: 28px;
-            }
-        }
-            .imgForward {
-                margin-bottom: 19px;
-                width: 159px;
-                height: 42px;
-            }
-            .iconContainer{
-                gap:17px;
-                align-content: flex-start;
-            }
-            .footer-nav[data-v-e4a862c3] > *:not(:last-child) {
-    margin-bottom: 0px;
-}
+    .whiteButt {
+        width: 180px;
+        height: 41px;
+    }
 
-a {
-    margin-bottom: 17px;
-}
-.footer-nav[data-v-e4a862c3][data-v-e4a862c3] > *:not(:last-child) {
-    margin-bottom: 16px;
-} 
+    .feedback {
+        margin-top: 29px;
 
-.footer-bottom__link {
-   
-    margin-left: 0px;
-}
-span {
+        li {
+            margin-bottom: 28px;
+        }
+    }
+
+    .imgForward {
+        margin-bottom: 19px;
+        width: 159px;
+        height: 42px;
+    }
+
+    .iconContainer {
+        gap: 17px;
+        align-content: flex-start;
+    }
+
+    .footer-nav[data-v-e4a862c3]>*:not(:last-child) {
+        margin-bottom: 0px;
+    }
+
+    a {
+        margin-bottom: 17px;
+    }
+
+    .footer-nav[data-v-e4a862c3][data-v-e4a862c3]>*:not(:last-child) {
+        margin-bottom: 16px;
+    }
+
+    .footer-bottom__link {
+
+        margin-left: 0px;
+    }
+
+    span {
         display: block;
         margin-left: 0px;
         margin-bottom: 6px;
     }
+
     .footer-bottom[data-v-e4a862c3] {
-    padding: 19.5px 26px 31px 0px;
+        padding: 19.5px 26px 31px 0px;
+
+    }
 
 }
-        
-}
-
 </style>
