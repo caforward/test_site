@@ -12,7 +12,7 @@ const routes = [
     { path: "/", name: 'Главная', component: MainPage },
     { path: "/jobs", name: 'Вакансии', component: Jobs },
     { path: "/about", name: 'О компании', component: About },
-    { path: "/for-partners", name: 'Партнерам', component: PartnerPage },
+    { path: "/for-partners", name: 'Партнёрам', component: PartnerPage },
     { path: "/installment-plan", name: 'Получить рассрочку', component: Installment },
 ];
 

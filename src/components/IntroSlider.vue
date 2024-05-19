@@ -1,7 +1,7 @@
 <template>
     <section class="">
         <div class="slider">
-            <swiper class="swiper" :slides-per-view="1" @swiper="onSwiper">
+            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :pagination="true">
                 <swiper-slide class="slider__slide">
                     <div class="container">
                         <div class="slide-content">
@@ -113,7 +113,7 @@
             <div class="slider-nav__wrapper">
                 <div class="container">
                     <div class="slider-nav">
-                        <button class="slider-nav__button slider-nav__button_prev" @click="swiper.slidePrev()">
+                        <button class="slider-nav__button slider-nav__button_prev" @click="showSwiper">
                             <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -131,6 +131,7 @@
                         </button>
                     </div>
                     <!-- <Pagination /> -->
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
@@ -138,9 +139,8 @@
     <ModalConsultation :visible="modalVisible" @close="closeModal" />
 </template>
 
-<script lang="ts">
+<script>
 import { ref } from "vue";
-import Slide from "../blocks/IntroSlider/Slide.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import ModalConsultation from "../layouts/ModalConsultation.vue";
 // import { Pagination } from "swiper/modules";
@@ -151,7 +151,6 @@ import "swiper/css";
 export default {
     name: "IntroSlider",
     components: {
-        Slide,
         Swiper,
         SwiperSlide,
         ModalConsultation
@@ -159,7 +158,10 @@ export default {
     },
     props: {},
     methods: {
-        showModal(event: any) {
+        showSwiper (e) {
+            console.log(this.swiper)
+        },
+        showModal(event) {
             event.preventDefault();
             this.modalVisible = true;
         },
@@ -169,6 +171,7 @@ export default {
     },
     data() {
         return {
+            swiper: null,
             modalVisible: false,
             sliderData: [
                 {
@@ -193,7 +196,10 @@ export default {
         const swiper = ref();
         return {
             swiper,
-            onSwiper: (instance: typeof swiper) => (swiper.value = instance),
+            onSwiper: (swiper) => {
+                swiper.value = swiper
+                console.log(swiper)
+            },
         };
     },
 };
@@ -201,7 +207,7 @@ export default {
 
 <style scoped lang="scss">
 section {
-    margin-top: -130px;
+    margin-top: -80px;
 }
 
 img {
@@ -222,9 +228,9 @@ img {
     }
 
     &__slide {
-        padding-top: 160px;
+        padding-top: 80px;
         padding-bottom: 70px;
-        height: 760px;
+        height: 660px;
         display: flex;
         align-items: center;
 
@@ -239,7 +245,7 @@ img {
 
         &__wrapper {
             position: absolute;
-            bottom: 60px;
+            bottom: 45px;
             width: 100%;
             z-index: 1;
         }
@@ -300,8 +306,8 @@ img {
 
 @include desktopXl {
     .slider__slide {
-        padding-top: 150px;
-        height: 772px;
+        padding-top: 80px;
+        height: 660px;
     }
 }
 

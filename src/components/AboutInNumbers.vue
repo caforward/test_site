@@ -1,14 +1,14 @@
 <template>
     <section>
-    <div class="container">
-        <div class="flexContainer">
-            <ul v-for="item in items" :key="item.id">
-                <li class="upInfo">{{ item.upInfo }}</li>
-                <li class="bottInfo">{{ item.bottInfo }}</li>
-            </ul>
+        <div class="container">
+            <div class="numbers">
+                <ul v-for="item in items" :key="item.id" class="numbers-info">
+                    <li class="numbers-info__top">{{ item.upInfo }}</li>
+                    <li class="numbers-info__bottom">{{ item.bottInfo }}</li>
+                </ul>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 </template>
 
 <script lang="ts">
@@ -35,83 +35,74 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-section{
-    padding:80px 0 70px;
+section {
+    padding: 80px 0 70px;
     background-color: #F9FAFB;
 }
 
-.flexContainer {
+.numbers {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
 
-    .upInfo {
-        font-weight: 700;
-        font-size: 50px;
-        line-height: 48%;
-        color: #0096d8;
-        white-space: nowrap;
-        margin-bottom: 17px;
-    }
+    &-info {
+        width: 20%;
 
-    .bottInfo {
-        font-weight: 400;
-        font-size: 16px;
-        color: #2e2e2e;
-        white-space: pre-line;
-    }
+        &__top {
+            font-weight: 700;
+            font-size: 50px;
+            line-height: normal;
+            color: #0096d8;
+            margin-bottom: 10px;
+        }
 
-    
-}
-
-@media screen and (max-width: 1370px) and (min-width: 1025px) {
-    .flexContainer {
-        .upInfo {
-        font-size: 40px;
-    }
-    }
-}
-@media screen and (max-width: 1024px) and (min-width: 641px) {
-
-    .flexContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: space-between;
-    justify-items: flex-start;
-    column-gap: 110px;
-    ul {
-        margin-bottom: 24px;
-    }
-        .upInfo {
-        font-size: 36px;
-        .bottInfo {
-            font-size: 14px;
+        &__bottom {
+            font-weight: 400;
+            font-size: 16px;
+            color: #2e2e2e;
+            line-height: 150%;
         }
     }
 
-    }
+
 }
-@media screen and (max-width: 640.5px) {
-    section {
-        padding: 80px 0 30px;
-    }
-    .flexContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: space-between;
-    justify-items: flex-start;
-    column-gap: 110px;
-    ul {
-        margin-bottom: 54px;
-    }
-        .upInfo {
-        font-size: 24px;
-        .bottInfo {
-            font-size: 12px;
+
+@include desktop {
+    .numbers {
+        &-info {
+            &__top {
+                font-size: 40px;
+            }
         }
     }
-
-    }
-
 }
 
+@include laptop {
+    .numbers {
+        &-info {
+            width: 40%;
+
+            &__top {
+                font-size: 36px;
+            }
+            &__bottom {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@include tablet {
+    .numbers {
+        &-info {
+            &__top {
+                font-size: 24px;
+            }
+            &__bottom {
+                font-size: 12px;
+            }
+        }
+    }
+}
 </style>

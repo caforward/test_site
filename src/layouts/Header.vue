@@ -34,10 +34,10 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="modalVisible = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="modalVisibleCall = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -82,33 +82,25 @@
     </header>
 
     <MobileMenu :visible="mobileMenu" @close="closeMobileMenu" />
-    <ModalConsultationVue :visible="modalVisible" @close="closeModal" />
+    <ModalConsultation :visible="modalVisible" @close="closeModal" />
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
 </template>
 
 <script lang="ts">
-import ModalConsultationVue from './ModalConsultation.vue'
+import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 
 export default {
     name: "Header",
     components: {
-        ModalConsultationVue,
+        ModalConsultation,
         ModalCall,
         MobileMenu
     },
     methods: {
-        showModal(event: any) {
-            event.preventDefault();
-            this.modalVisible = true;
-        },
         closeModal() {
             this.modalVisible = false;
-        },
-        showModalCall(event: any) {
-            event.preventDefault();
-            this.modalVisibleCall = true;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
@@ -151,7 +143,6 @@ export default {
             topNav: [
                 {
                     name: "О компании",
-                    href: "/about",
                     scroll: "window.scrollTo(0,0);"
                 },
                 {
@@ -160,12 +151,10 @@ export default {
                 },
                 {
                     name: "Партнёрам",
-                    href: "/for-partners",
                     scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Вакансии",
-                    href: "/jobs",
                     scroll: "window.scrollTo(0,0);"
                 },
                 {
@@ -185,7 +174,6 @@ export default {
                 },
                 {
                     name: "Получить рассрочку",
-                    href: "/installment-plan",
                     scroll: "window.scrollTo(0,0);"
                 },
                 {
@@ -203,6 +191,21 @@ export default {
             ],
         };
     },
+    beforeMount() {
+        const routes = this.$router.getRoutes()
+        this.topNav.forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+        this.bottomNav.forEach(item => {
+            const eqNameRoute = routes.find(route => route.name === item.name)
+            if (eqNameRoute) {
+                item.href = eqNameRoute.path
+            }
+        })
+    }
 };
 </script>
 

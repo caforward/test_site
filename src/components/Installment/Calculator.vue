@@ -625,7 +625,7 @@ p {
 
   .modal-container {
     width: 100%;
-    padding: 30x 24px 30px 23px;
+    padding: 30px 24px 30px 23px;
 
     p {
         font-weight: 400;
