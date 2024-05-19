@@ -5,11 +5,13 @@
         <div class="close-button" @click="closeModal">
           <img src="/assets/images/close_x/Vector.png" alt="krestik" />
         </div>
-        <h3>Заполните поля в форме ниже, и мы свяжемся с вами. </h3>
+        <h3>Заполните поля в форме ниже, и мы свяжемся с Вами. </h3>
         <p>
-          Просто введите свои контактные данные и ФИО, кратко опишите проблему и
-          ждите, когда Мы свяжемся с Вами, чтобы проконсультировать по вашей
-          финансовой ситуации.
+          Мы гарантируем, что никто не останется без внимания! Наши специалисты получают все заявки на обратную связь и
+          отвечают на них так быстро, насколько это возможно.
+          Просто введите свои контактные данные и ФИО, кратко опишите проблему и ожидайте, когда сотрудник ООО ПКО
+          «Форвард» свяжется с Вами, чтобы проконсультировать по Вашей финансовой ситуации.
+
         </p>
         <form @submit.prevent="submitForm">
           <div class="form-input inputName">
@@ -28,7 +30,6 @@
             <label for="mail"></label>
             <input :class="{ 'valid-input': mailValid == true }" @input="mailBlured" @blur="mailBlured"
               v-model.trim="formData.email" type="text" id="mail" placeholder="E-mail*" />
-            <span v-if="!mailValid" class="error">{{ errorMsg.mail }}</span>
           </div>
           <div class="optionsWrap">
             <v-select v-model.trim="formData.selectedOption" class="vSelect" :options="options"
@@ -43,7 +44,7 @@
           </div>
           <div class="aboveButt">
             Нажимая кнопку «Отправить», вы соглашаетесь с
-            <a>политикой конфиденциальности.</a>
+            <a target="_blank" href="/policy">политикой конфиденциальности.</a>
           </div>
           <button class="button_blue" type="submit">Отправить</button>
         </form>
@@ -61,6 +62,11 @@ export default defineComponent({
     visible: {
       type: Boolean,
       required: true,
+    },
+    defaultOption: {
+      type: String,
+      required: false,
+      default: ''
     },
   },
 
@@ -93,10 +99,17 @@ export default defineComponent({
       },
     };
   },
+  watch: {
+    visible(newVal) {
+      if (newVal && this.defaultOption) {
+        this.formData.selectedOption = this.defaultOption;
+      }
+    },
+  },
   computed: {
     isFormValid(): boolean {
       return (
-        this.nameValid && this.telValid && this.mailValid && this.textValid
+        this.nameValid && this.telValid && this.textValid
       );
     },
   },
@@ -128,19 +141,7 @@ export default defineComponent({
       }
     },
     mailBlured() {
-      if (this.formData.email === "") {
-        this.errorMsg.mail = "заполните поле";
-        this.mailValid = false;
-      } else if (
-        !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-          this.formData.email
-        )
-      ) {
-        this.errorMsg.mail = "неверный email";
-        this.mailValid = false;
-      } else {
-        this.mailValid = true;
-      }
+      this.mailValid = true
     },
     textBlured() {
       if (this.formData.text === "") {

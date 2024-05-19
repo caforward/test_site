@@ -24,10 +24,10 @@ export default defineComponent({
     data() {
         return {
             items: [
-                { id: 1, upInfo: 'C 2014', bottInfo: 'года на рынке\nвзыскания' },
-                { id: 2, upInfo: 'C 2017', bottInfo: 'года ООО ПКО «Форвард»\nсертифицирован в ФССП' },
-                { id: 3, upInfo: '100 тыс.', bottInfo: 'клиентов исправили\nкредитную историю с нами' },
-                { id: 3, upInfo: 'до 80', bottInfo: 'клиентов получают рассрочку\nежедневно' }
+                { id: 1, upInfo: 'С нами надежно', bottInfo: 'с 2014 года\n на рынке взыскания' },
+                { id: 2, upInfo: 'Всё законно', bottInfo: 'с 2017 года \n ООО ПКО «Форвард» сертифицирован в ФССП' },
+                { id: 3, upInfo: 'Нам доверяют', bottInfo: '100 тысяч клиентов \n исправили кредитную историю с нами' },
+                { id: 3, upInfo: 'Мы помогаем', bottInfo: 'до 80 клиентов \n получают рассрочку ежедневно' }
             ] as ListElem[]
         }
     }
@@ -51,10 +51,11 @@ section {
 
         &__top {
             font-weight: 700;
-            font-size: 50px;
+            font-size: 38px;
             line-height: normal;
             color: #0096d8;
             margin-bottom: 10px;
+            white-space: pre-wrap;
         }
 
         &__bottom {
@@ -62,6 +63,7 @@ section {
             font-size: 16px;
             color: #2e2e2e;
             line-height: 150%;
+            white-space: pre-wrap;
         }
     }
 
@@ -84,7 +86,7 @@ section {
             width: 40%;
 
             &__top {
-                font-size: 36px;
+                font-size: 33px;
             }
             &__bottom {
                 font-size: 14px;
@@ -97,7 +99,7 @@ section {
     .numbers {
         &-info {
             &__top {
-                font-size: 24px;
+                font-size: 22px;
             }
             &__bottom {
                 font-size: 12px;

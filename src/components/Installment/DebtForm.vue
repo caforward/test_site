@@ -50,7 +50,7 @@
                                         <div class="form-bottom__metatext">
                                             Нажимая кнопку «Оплатить долг», вы соглашаетесь с
                                             <a href="#" class="link">Договором оферты</a> и
-                                            <a href="#" class="link">политикой конфиденциальности.</a>
+                                            <a target="_blank" href="/policy" class="link">политикой конфиденциальности.</a>
                                         </div>
                                         <button class="button button_blue form-bottom__button" @click="nextStep">
                                             Далее
@@ -112,7 +112,7 @@
                                         <div class="form-bottom__metatext">
                                             Нажимая кнопку «Оплатить картой», вы соглашаетесь с
                                             <a href="#" class="link">Договором оферты</a> и
-                                            <a href="#" class="link">политикой конфиденциальности.</a>
+                                            <a target="_blank" href="/policy" class="link">политикой конфиденциальности.</a>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                     Сделать это легко: просто выберите сумму вашего долга, настройте срок погашения – и
                                     вы увидите, каким будет ежемесячный платеж.
                                 </div>
-                                <button class="button">
+                                <button @click="scrollToCalc" class="button">
                                     Раcсчитать график платежей
                                 </button>
                             </div>
@@ -185,6 +185,9 @@ export default {
         }
     },
     methods: {
+        scrollToCalc() {
+            window.location.href = '/installment-plan#calculate'
+        },
         calculatePayment(e) {
             console.log(e)
         },

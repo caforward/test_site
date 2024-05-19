@@ -4,15 +4,11 @@
             <div class="flexContainer">
                 <div class="textContent">
                     <h3>Анонимный звонок</h3>
-                    <p class="upParagraph">Мы понимаем всю тяжесть финансового положения наших потенциальных клиентов,
-                        поэтому гарантируем полную анонимность каждому, кто обратится к нам. В частности, вы можете
-                        абсолютно анонимно и бесплатно получить консультацию по любому вопросу, связанному с
-                        погашением вашей задолженности. Просто позвоните нам, опишите свою ситуацию, и мы подскажем,
-                        что нужно делать, чтобы получить рассрочку с прощением части долга. 
-                        <br><br>Сотрудничество с ПКО «Форвард» – это абсолютно безопасно. На этапе звонка мы не собираем
-                        данных, а значит, вы можете не бояться утечки на третью сторону или того, что кто-то из близких
-                        узнает о вашем тяжелом положении. С нами вы можете быть уверены, что эффективная и
-                        современная помощь будет еще и максимально этичной и корректной.
+                    <p class="upParagraph">ООО ПКО «Форвард» гарантирует полную анонимность каждому, кто обратится к
+                        нам. В частности, вы можете получить консультацию по любому вопросу, связанному с погашением
+                        задолженности. <br>Просто позвоните нам, опишите ситуацию, и мы подскажем, что нужно
+                        делать, чтобы получить рассрочку с прощением части долга. На этапе звонка мы не собираем данных,
+                        а значит, никто не узнает, что Вы с нами общались.
                     </p>
                     <div class="phoneEmailContainer">
                         <div class="phoneInfo">
@@ -216,18 +212,20 @@ h3 {
 @media screen and (max-width: 1024px) and (min-width: 641px) {
     h3 {
         font-size: 28px;
-font-weight: 700;
-margin-bottom: 12px;
+        font-weight: 700;
+        margin-bottom: 12px;
     }
 
     .upParagraph {
         font-size: 14px;
-font-weight: 400;
+        font-weight: 400;
         margin-bottom: 24px;
     }
+
     .textContent {
-    width: 100%;
-}
+        width: 100%;
+    }
+
     .phoneInfo {
         margin-right: 37px;
 
@@ -246,6 +244,7 @@ font-weight: 400;
         gap: 90px;
 
         margin-bottom: 23px;
+
         .bottParagraph {
             font-size: 14px;
         }
@@ -260,28 +259,34 @@ font-weight: 400;
     .flexContainer {
         gap: 29px;
     }
-    img {display: none;}
+
+    img {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 640.5px) {
     section {
-        padding-top:0px;
+        padding-top: 0px;
     }
+
     h3 {
         font-size: 24px;
-font-weight: 700;
-margin-bottom: 3px;
+        font-weight: 700;
+        margin-bottom: 3px;
     }
 
     .upParagraph {
         font-size: 14px;
-font-weight: 500;
+        font-weight: 500;
         margin-bottom: 14px;
     }
-    .textContent {
-    width: 100%;
 
-}
+    .textContent {
+        width: 100%;
+
+    }
+
     .phoneInfo {
         margin-right: 37px;
 
@@ -302,6 +307,7 @@ font-weight: 500;
         flex-direction: column;
 
         margin-bottom: 13px;
+
         .bottParagraph {
             font-size: 14px;
             font-weight: 500px;
@@ -317,7 +323,9 @@ font-weight: 500;
     .flexContainer {
         gap: 0;
     }
-    img {display: none;}
-}
 
+    img {
+        display: none;
+    }
+}
 </style>

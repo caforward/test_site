@@ -124,7 +124,7 @@
                 <div class="footerFlex">
                     <div>
                         <span>ООО ПКО "Форвард"</span>
-                        <span><a href="#" class="footer-bottom__link">Политика конфиденциальности</a></span>
+                        <span><a target="_blank" href="/policy" class="footer-bottom__link">Политика конфиденциальности</a></span>
                     </div>
                     <div>
                         <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source

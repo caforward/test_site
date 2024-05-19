@@ -41,7 +41,7 @@
         </div>
         <div class="aboveButt">
           Нажимая кнопку «Отправить», вы соглашаетесь с
-          <a href="#">политикой конфиденциальности.</a>
+          <a target="_blank" href="/policy">политикой конфиденциальности.</a>
         </div>
         <button type="submit" class="button_blue">
           Отправить
