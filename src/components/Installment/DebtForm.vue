@@ -1,11 +1,11 @@
 <template>
     <section id="debt-form" class="section">
         <div class="container">
-            <h2 class="title">
+            <!-- <h2 class="title">
                 Оплатите задолженность онлайн!
-            </h2>
+            </h2> -->
             <div class="switcher">
-                <div class="switcher__steps">
+                <div v-if="formVisible" class="switcher__steps">
                     <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.userData.name"
                         :class="{ 'switcher-step_active': tabs.contract.userData.isActive }">
                         <div class="switcher-step__number">1</div>
@@ -30,10 +30,28 @@
                 </div>
                 <div class="switcher-body__wrapper">
                     <div class="block__left">
-                        <div class="switcher-progressbar">
+                        <h2 class="title">
+                            Оплатите задолженность онлайн!
+                        </h2>
+                        <p style="margin-bottom: 20px; line-height: 25px">
+                            После нажатия на кнопку оплатить введите свои данные в форму,
+                            и нажмите кнопку "Перейти к оплате".
+
+                        </p>
+                        <a href="" class="button button_blue" style="margin-bottom: 20px; width: 100%; max-width: 320px">
+                            Оплатить
+                        </a>
+                        <p style="margin-bottom: 20px; font-size: 14px; color: #6c6c6c; line-height: 20px">
+                            <strong>
+                                Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
+                                телефона <a href="tel:+74997020156" class="link">+7 (499) 702‑01‑56</a>
+                            </strong>
+                        </p>
+                        <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
+                        <div v-if="formVisible" class="switcher-progressbar">
                             <span class="switcher-progressbar__thumb"></span>
                         </div>
-                        <form action="" class="switcher-body form">
+                        <form v-if="formVisible" action="" class="switcher-body form">
                             <transition name="switcher-body-item">
                                 <div v-if="tabs.contract.userData.isActive" :id="tabs.contract.userData.name"
                                     class="switcher-body__tab switcher-body__tab_active">
@@ -41,10 +59,13 @@
                                         Введите свои данные в поля Фамилия, Имя, Отчество, Дата рождения.
                                     </div>
                                     <div class="form__inputs">
-                                        <input type="text" class="input" placeholder="Фамилия" v-model="userData.lastname">
+                                        <input type="text" class="input" placeholder="Фамилия"
+                                            v-model="userData.lastname">
                                         <input type="text" class="input" placeholder="Имя" v-model="userData.firstname">
-                                        <input type="text" class="input" placeholder="Отчество" v-model="userData.patronymic">
-                                        <input type="text" class="input" placeholder="Дата рождения" v-model="userData.birthdate">
+                                        <input type="text" class="input" placeholder="Отчество"
+                                            v-model="userData.patronymic">
+                                        <input type="text" class="input" placeholder="Дата рождения"
+                                            v-model="userData.birthdate">
                                     </div>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
@@ -62,13 +83,16 @@
                                 <div v-if="tabs.contract.payment.isActive" :id="tabs.contract.payment.name"
                                     class="switcher-body__tab">
                                     <div class="form__title">
-                                        Желаете совершить оплату по договору №  {{ userData.contractId }}
+                                        Желаете совершить оплату по договору № {{ userData.contractId }}
                                     </div>
                                     <div class="form__inputs">
-                                        <input type="text" class="input" placeholder="Введите ваш № договора" v-model="userData.contractId">
-                                        <input type="tel" class="input" placeholder="+7 - ___ - ___ - __ - __" v-model="userData.phone">
+                                        <input type="text" class="input" placeholder="Введите ваш № договора"
+                                            v-model="userData.contractId">
+                                        <input type="tel" class="input" placeholder="+7 - ___ - ___ - __ - __"
+                                            v-model="userData.phone">
                                         <input type="email" class="input" placeholder="E-mail" v-model="userData.email">
-                                        <input type="text" class="input" placeholder="Сумма" v-model="userData.repayment">
+                                        <input type="text" class="input" placeholder="Сумма"
+                                            v-model="userData.repayment">
                                     </div>
                                     <div class="form-bottom">
                                         <div class="form-bottom__metatext">
@@ -105,7 +129,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="https://pay.mandarinbank.com/?m=4971" class="button button_blue form-submit">
+                                    <a href="https://pay.mandarinbank.com/?m=4971"
+                                        class="button button_blue form-submit">
                                         Оплатить картой
                                     </a>
                                     <div class="form-bottom">
@@ -148,6 +173,7 @@
 export default {
     data() {
         return {
+            formVisible: false,
             userData: {
                 lastname: '',
                 firstname: '',
@@ -259,8 +285,8 @@ export default {
         },
     },
     mounted() {
-        const tabs = this.tabs[this.tabs.choosenTabs]
-        this.updateSwitcherProgress(tabs)
+        // const tabs = this.tabs[this.tabs.choosenTabs]
+        // this.updateSwitcherProgress(tabs)
     }
 }
 </script>
@@ -538,6 +564,7 @@ export default {
     .section {
         padding-bottom: 120px;
     }
+
     .switcher {
         &-step {
             &__text {
@@ -713,6 +740,7 @@ export default {
 
         &__img {
             height: 210px;
+
             img {
                 width: 150%;
             }
