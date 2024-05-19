@@ -2,42 +2,6 @@
     <section class="">
         <div class="slider">
             <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :pagination="true">
-                <swiper-slide class="slider__slide">
-                    <div class="container">
-                        <div class="slide-content">
-                            <div class="slide-content__title">
-                                Платите столько, <br> сколько можете
-                            </div>
-                            <div class="slide-content__text">
-                                <p>
-                                    Сумма платежа рассчитывается, исходя из
-                                    ваших возможностей таким образом, что
-                                    остается комфортной для вас(но не менее 1500
-                                    рублей в месяц)! С нами вам не нужно
-                                    бояться, что весь ваш доход будет уходить на
-                                    погашение долга!
-                                </p>
-                                <p>
-                                    Наши специалисты помогут вам подобрать ту
-                                    сумму, которую вам будет комфортно вносить
-                                    для погашения долга без ущерба для вашего
-                                    бюджета
-                                </p>
-                            </div>
-                            <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.stop="showModal($event)">
-                                    Получить консультацию
-                                </a>
-                                <!-- <button class="button slide__button">
-                                    Подробнее
-                                </button> -->
-                            </div>
-                        </div>
-                        <div class="slide__img">
-                            <img :src='"assets/images/" + "introSlider/01.jpg"' alt="There was img" />
-                        </div>
-                    </div>
-                </swiper-slide>
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
@@ -72,6 +36,42 @@
                         <div class="slide__img">
                             <img :src='"assets/images/" + "introSlider/03.jpg"
                                 ' alt="" />
+                        </div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide class="slider__slide">
+                    <div class="container">
+                        <div class="slide-content">
+                            <div class="slide-content__title">
+                                Платите столько, <br> сколько можете
+                            </div>
+                            <div class="slide-content__text">
+                                <p>
+                                    Сумма платежа рассчитывается, исходя из
+                                    ваших возможностей таким образом, что
+                                    остается комфортной для вас(но не менее 1500
+                                    рублей в месяц)! С нами вам не нужно
+                                    бояться, что весь ваш доход будет уходить на
+                                    погашение долга!
+                                </p>
+                                <p>
+                                    Наши специалисты помогут вам подобрать ту
+                                    сумму, которую вам будет комфортно вносить
+                                    для погашения долга без ущерба для вашего
+                                    бюджета
+                                </p>
+                            </div>
+                            <div class="slide-content__buttons">
+                                <a href="#" class="button button_blue slide__button" @click.stop="showModal($event)">
+                                    Получить консультацию
+                                </a>
+                                <!-- <button class="button slide__button">
+                                    Подробнее
+                                </button> -->
+                            </div>
+                        </div>
+                        <div class="slide__img">
+                            <img :src='"assets/images/" + "introSlider/01.jpg"' alt="There was img" />
                         </div>
                     </div>
                 </swiper-slide>
