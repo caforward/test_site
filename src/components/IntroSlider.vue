@@ -36,7 +36,7 @@
                         </div>
                         <div class="slide__img">
                             <img :src='"assets/images/" + "introSlider/03.jpg"
-                ' alt="" />
+                                ' alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="slide__img">
                             <img :src="'/assets/images/' + 'introSlider/02.jpg'
-                " alt="" />
+                                " alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -115,7 +115,7 @@
             <div class="slider-nav__wrapper">
                 <div class="container">
                     <div class="slider-nav">
-                        <button class="slider-nav__button slider-nav__button_prev" @click="showSwiper">
+                        <button class="slider-nav__button slider-nav__button_prev" @click="this.swiper.slidePrev()">
                             <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -123,7 +123,7 @@
                                     fill="white" />
                             </svg>
                         </button>
-                        <button class="slider-nav__button slider-nav__button_next" @click="swiper.slideNext()">
+                        <button class="slider-nav__button slider-nav__button_next" @click="this.swiper.slideNext()">
                             <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -170,6 +170,9 @@ export default {
         closeModal() {
             this.modalVisible = false;
         },
+        onSwiper(swiper) {
+            this.swiper = swiper;
+        }
     },
     data() {
         return {
@@ -192,16 +195,6 @@ export default {
                     content: {},
                 },
             ],
-        };
-    },
-    setup() {
-        const swiper = ref();
-        return {
-            swiper,
-            onSwiper: (swiper) => {
-                swiper.value = swiper
-                console.log(swiper)
-            },
         };
     },
 };
@@ -230,9 +223,9 @@ img {
     }
 
     &__slide {
-        padding-top: 80px;
-        padding-bottom: 70px;
-        height: 660px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        height: 700px;
         display: flex;
         align-items: center;
 

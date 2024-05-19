@@ -15,6 +15,9 @@
                         <a v-else-if="link.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
+                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal($event)"
+                            class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
+
                         <a v-else :href="link.href">
                             {{ link.name }}
                         </a>
@@ -53,18 +56,21 @@
 
     <ModalConsultation :visible="modalVisible" @close="closeModal" />
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
+    <Requisites :visible="requisitesModal" @close="closeRequisitesModal" />
 </template>
 
 <script>
 import Modal from '../blocks/Modal.vue';
 import ModalCall from '../layouts/ModalCall.vue';
 import ModalConsultation from '../layouts/ModalConsultation.vue';
+import Requisites from '../layouts/Requisites.vue';
 
 export default {
     components: {
         ModalConsultation,
         ModalCall,
         Modal,
+        Requisites,
     },
     props: {
         visible: {
@@ -77,6 +83,7 @@ export default {
         return {
             modalVisible: false,
             modalVisibleCall: false,
+            requisitesModal: false,
             links: [
                 // {
                 //     href: '#',
@@ -108,7 +115,7 @@ export default {
                 },
                 {
                     href: '#',
-                    name: 'Получить справку'
+                    name: 'Реквизиты для оплаты'
                 },
             ]
         }
@@ -124,11 +131,19 @@ export default {
             event.preventDefault();
             this.modalVisibleCall = true;
         },
+        openRequisitesModal(e) {
+            this.closeMobileMenu()
+            e.preventDefault();
+            this.requisitesModal = true
+        },
         closeModal() {
             this.modalVisible = false;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
+        },
+        closeRequisitesModal() {
+            this.requisitesModal = false
         },
         closeMobileMenu() {
             this.$emit('close');

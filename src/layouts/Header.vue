@@ -8,6 +8,8 @@
                             class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
+                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal"
+                            class="header-top-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                         <a v-else class="header-top-nav__link" :href="navLink.href"
                             @click="handleNavLink($event, navLink)">
                             {{ navLink.name }}
@@ -34,9 +36,8 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'"
-                                    @click.stop="openCallModal" class="header-bottom-nav__link"
-                                    :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="openCallModal"
+                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="openConsultationModal"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -85,19 +86,22 @@
     <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
     <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
     <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
+    <Requisites :visible="requisitesModal" @close="requisitesModal = false" />
 </template>
 
 <script lang="ts">
 import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
+import Requisites from './Requisites.vue';
 
 export default {
     name: "Header",
     components: {
         ModalConsultation,
         ModalCall,
-        MobileMenu
+        MobileMenu,
+        Requisites
     },
     methods: {
         openCallModal(e) {
@@ -107,6 +111,10 @@ export default {
         openConsultationModal(e) {
             e.preventDefault()
             this.modalVisibleCall = true
+        },
+        openRequisitesModal(e) {
+            e.preventDefault()
+            this.requisitesModal = true
         },
         openMobileMenu(e) {
             e.preventDefault()
@@ -126,6 +134,7 @@ export default {
             modalVisible: false,
             modalVisibleCall: false,
             mobileMenu: false,
+            requisitesModal: false,
             paymentDebtFormHref: '/installment-plan#debt-form',
             topNav: [
                 {
@@ -142,7 +151,7 @@ export default {
                     name: "Вакансии",
                 },
                 {
-                    name: "Получить справку",
+                    name: "Реквизиты для оплаты",
                     href: "#",
                 },
             ],
@@ -154,11 +163,9 @@ export default {
                 {
                     name: "Главная",
                     href: "/",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить рассрочку",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить консультацию",
