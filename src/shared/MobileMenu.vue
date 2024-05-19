@@ -144,7 +144,6 @@ export default {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
         }
-        console.log(this.modalVisibleCall)
     },
     beforeMount() {
         const routes = this.$router.getRoutes()

@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click="openMobileMenu">
+                        <a href="#" @click="mobileMenu = !mobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -81,9 +81,9 @@
         </div>
     </header>
 
-    <MobileMenu :visible="mobileMenu" @close="closeMobileMenu" />
-    <ModalConsultation :visible="modalVisible" @close="closeModal" />
-    <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
+    <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
+    <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
+    <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
 </template>
 
 <script lang="ts">
@@ -99,18 +99,6 @@ export default {
         MobileMenu
     },
     methods: {
-        closeModal() {
-            this.modalVisible = false;
-        },
-        closeModalCall() {
-            this.modalVisibleCall = false;
-        },
-        openMobileMenu() {
-            this.mobileMenu = !this.mobileMenu;
-        },
-        closeMobileMenu() {
-            this.mobileMenu = false;
-        },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');
 
@@ -118,20 +106,6 @@ export default {
                 event.preventDefault();
                 contacts.scrollIntoView({ behavior: 'smooth' });
             }
-            // else if (navLink.name === "Внести платёж") {
-            //     event.preventDefault();
-            //     this.$router.push({ path: '/' });
-            //     this.$router.afterEach((to) => {
-            //         if (to.path === '/') {
-            //             setTimeout(() => {
-            //                 const payment = document.getElementById('payment');
-            //                 if (payment) {
-            //                     payment.scrollIntoView({ behavior: 'smooth' });
-            //                 }
-            //             }, 50);
-            //         }
-            //     });
-            // }
         },
     },
     data() {
@@ -143,7 +117,6 @@ export default {
             topNav: [
                 {
                     name: "О компании",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Контакты",
@@ -151,11 +124,9 @@ export default {
                 },
                 {
                     name: "Партнёрам",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Вакансии",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить справку",

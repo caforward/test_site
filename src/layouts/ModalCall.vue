@@ -1,5 +1,6 @@
 <template>
-  <div class="modal" v-if="visible">
+  <transition name="fade">
+    <div class="modal" v-if="visible">
     <div class="modal-content">
       <div class="close-button" @click="closeModalCall">
         <img src="/assets/images/close_x/Vector.png" alt="krestik" />
@@ -47,7 +48,8 @@
         </button>
       </form>
     </div>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
