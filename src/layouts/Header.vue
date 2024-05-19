@@ -4,8 +4,8 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href" class="header-top-nav__link"
-                            exact>
+                        <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href"
+                            class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
                         <a v-else class="header-top-nav__link" :href="navLink.href"
@@ -34,10 +34,11 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="modalVisible = true"
-                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Получить консультацию'"
+                                    @click.stop="openCallModal" class="header-bottom-nav__link"
+                                    :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="modalVisibleCall = true"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="openConsultationModal"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -99,6 +100,14 @@ export default {
         MobileMenu
     },
     methods: {
+        openCallModal(e) {
+            e.preventDefault()
+            this.modalVisible = true
+        },
+        openConsultationModal(e) {
+            e.preventDefault()
+            this.modalVisibleCall = true
+        },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');
 
@@ -217,7 +226,8 @@ export default {
         &__logo {
             height: 45px;
             margin-right: 15px;
-            &> a {
+
+            &>a {
                 display: flex;
                 flex: none;
                 height: 100%;
@@ -273,6 +283,7 @@ export default {
                 &__link {
                     display: none;
                 }
+
                 &__button {
                     display: flex;
                 }
@@ -300,18 +311,22 @@ export default {
             &__payment {
                 font-size: 12px;
             }
+
             &__logo {
                 width: 130px;
             }
+
             &-tel {
                 margin-right: 10px;
             }
+
             &-nav {
                 margin-right: 15px;
 
                 &>li:not(:last-child) {
                     margin-right: 15px;
                 }
+
                 &__link {
                     font-size: 13px;
                 }

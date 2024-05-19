@@ -1,0 +1,198 @@
+<template>
+    <section class="section">
+        <div class="container">
+            <IntroBlock>
+                <template v-slot:content>
+                    <div class="intro-content">
+                        <Breadcrumb class="breadcrumb" />
+                        <h1 class="intro-content__title">
+                            Будь в команде мечты Развивайся и покоряй высоты
+                        </h1>
+                        <p class="intro-content__text">
+                            На данный момент в ООО Форвард открыты следующие вакансии. Если вы хотите работать в
+                            современной и перспективной финансовой компании – свяжитесь с нами.
+                        </p>
+                        <button class="button button_blue">
+                            Смотреть вакансии
+                        </button>
+                    </div>
+                </template>
+                <template v-slot:img>
+                    <div class="intro__img">
+                        <img src="/images/jobs/img1.png" alt="" />
+                    </div>
+                </template>
+            </IntroBlock>
+        </div>
+    </section>
+</template>
+
+<script>
+import Breadcrumb from "../../blocks/Breadcrumb.vue";
+import IntroBlock from "../../blocks/IntroBlock.vue";
+
+export default {
+    name: "Intro",
+    components: {
+        Breadcrumb,
+        IntroBlock
+    },
+    data() {
+        return {};
+    },
+};
+</script>
+
+<style lang="scss" scoped>
+section {
+    background-color: #F3F7FA;
+}
+
+.container {
+    min-height: 560px;
+}
+
+.breadcrumb {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 143%;
+    color: $gray-dark;
+    margin-bottom: 30px;
+}
+
+.intro {
+    &-block {
+        height: 560px;
+
+        &>* {
+            height: 100%;
+        }
+    }
+
+    &__img {
+        width: 50%;
+        position: relative;
+
+        img {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            height: 100%;
+            min-width: 240px;
+            object-position: bottom;
+        }
+    }
+
+    &-content {
+        padding: 60px 0 60px;
+        width: 50%;
+
+        &__title {
+            margin-bottom: 25px;
+        }
+
+        &__subtitle {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 162%;
+            margin-bottom: 25px;
+        }
+
+        &__text {
+            font-size: 16px;
+            line-height: 167%;
+            margin-bottom: 25px;
+        }
+    }
+}
+
+@include desktop {
+    .intro {
+        &__img {
+            width: 65%;
+        }
+
+        &-content {
+            &__subtitle {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            &__text {
+                font-size: 14px;
+                line-height: 214%;
+            }
+        }
+    }
+}
+
+@include laptop {
+    .intro {
+        &__img {
+            padding: 80px 0 60px;
+            width: 50%;
+
+            img {
+                width: 130%;
+            }
+        }
+
+        &-content {
+            &__title {
+                margin-bottom: 15px;
+            }
+
+            &__text {
+                line-height: 170%;
+            }
+        }
+    }
+}
+
+@include tablet {
+    .intro {
+        &-block {
+            height: unset;
+        }
+    }
+}
+
+@include mobile {
+    .intro {
+        &__img {
+            width: 100%;
+            padding: 0;
+            height: 305px;
+
+            img {
+                width: 100%;
+                object-position: center bottom;
+            }
+        }
+
+        &-content {
+            padding-bottom: 0;
+            width: 100%;
+
+            &__title {
+                margin-bottom: 15px;
+            }
+
+            &__subtitle,
+            &__text {
+                font-size: 14px;
+                line-height: 171%;
+            }
+
+            &__text {
+                margin-bottom: 15px;
+            }
+
+            &__button {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    }
+}
+</style>
