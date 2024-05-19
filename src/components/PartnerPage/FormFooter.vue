@@ -76,4 +76,42 @@ section {
         }
     }
 }
+
+@include laptop {
+    .form {
+        &-block {
+            & > * {
+                flex: none;
+            }
+            &-info {
+                &__title {
+                    font-size: 22px;
+                }
+                &__text {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@include tablet {
+    .form {
+        &-block {
+            padding: 30px 25px;
+            gap: 25px;
+            &-info {
+                &__title {
+                    font-size: 18px;
+                    margin-bottom: 15px;
+                }
+                &__text {
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+}
+
 </style>

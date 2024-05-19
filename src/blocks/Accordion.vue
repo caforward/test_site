@@ -4,19 +4,10 @@
             <h3 class="accordion-title" @click="accordionOpen">
                 {{ item.title }}
                 <span class="accordion-title__icon">
-                    <svg
-                        width="14"
-                        height="8"
-                        viewBox="0 0 14 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.88388 7.53033C7.39573 8.01848 6.60427 8.01849 6.11612 7.53033L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z"
-                            fill="#0096D8"
-                        />
+                            fill="#0096D8" />
                     </svg>
                 </span>
             </h3>
@@ -59,20 +50,24 @@ export default {
         & .accordion-title__icon {
             rotate: 180deg;
         }
+
         & .accordion__content {
             grid-template-rows: 1fr;
             padding-bottom: 45px;
         }
     }
+
     &-title {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         padding: 20px 0 25px;
         grid-gap: 60px;
+
         &:hover {
             cursor: pointer;
         }
+
         &__icon {
             display: flex;
             align-items: center;
@@ -80,6 +75,7 @@ export default {
             transition: rotate .2s;
         }
     }
+
     &__content {
         line-height: 187%;
         padding-bottom: 0;
@@ -88,8 +84,43 @@ export default {
 
         transition: grid-template-rows 0.2s, padding-bottom 0.2s;
 
-        & > div {
+        &>div {
             overflow: hidden;
+        }
+    }
+}
+
+@include desktop {
+    .accordion {
+        &_opened {
+            & .accordion__content {
+                padding-bottom: 30px;
+            }
+        }
+
+        &-title {
+            font-size: 16px;
+            padding: 15px 0;
+        }
+
+        &__content {
+            font-size: 14px;
+        }
+    }
+}
+
+@include tablet {
+    .accordion {
+        &_opened {
+            & .accordion__content {
+                padding-bottom: 25px;
+            }
+        }
+        &-title {
+            font-size: 14px;
+        }
+        &__content {
+            font-size: 14px;
         }
     }
 }

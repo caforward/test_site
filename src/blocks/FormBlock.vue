@@ -38,17 +38,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form-block {
     background-color: $black;
     border-radius: 20px;
     padding: 70px 85px 60px;
     color: #fff;
-    display: flex;
-    grid-gap: 40px;
+    gap: 40px;
     position: relative;
     z-index: 1;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+
+    &>* {
+        width: 100%;
+        flex: 1;
+    }
 
     &::before {
         content: '';
@@ -74,12 +79,18 @@ export default {
         display: flex;
         flex-wrap: wrap;
         gap: 30px;
+
+        &>* {
+            width: 100%;
+            flex: 1;
+        }
     }
 
     &__button {
-        width: 200px;
+        max-width: 200px;
         flex: none;
     }
+
     &-meta {
         display: flex;
         align-items: flex-start;
@@ -111,5 +122,49 @@ export default {
 
 textarea {
     height: 100px;
+}
+
+@include desktopXl {
+    .form {
+        &-block {
+            &__bottom {
+                &>* {
+                    flex: none;
+                }
+            }
+
+            &__button {
+                max-width: 270px;
+            }
+        }
+    }
+}
+
+@include desktop {
+    .form {
+        &-block {
+            padding: 50px;
+        }
+    }
+}
+
+@include laptop {
+    .form {
+        &-block {
+            padding: 30px;
+        }
+    }
+}
+
+@include tablet {
+    .form {
+        &-block {
+            &-meta {
+                &__checkbox {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
 }
 </style>

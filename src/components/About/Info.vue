@@ -48,8 +48,6 @@
 <script setup></script>
 
 <style lang="scss" scoped>
-
-
 section {
     padding: 80px 0 40px;
 }
@@ -58,40 +56,48 @@ a {
     color: $blue;
     border-bottom: 1px solid $blue;
     transition: color 0.2s, border-color 0.1s;
+
     &:hover {
         color: $blue-light;
         border-color: transparent;
     }
 }
+
 .info {
     &__inner {
         width: 75%;
     }
+
     &__title {
         margin-bottom: 25px;
     }
+
     &__text {
         line-height: 187%;
         margin-bottom: 20px;
-        &:last-child {
-            margin-bottom: 30px;
-        }
+
         &_border {
             font-weight: 500;
             font-size: 18px;
             line-height: 167%;
             border-left: 8px solid $blue;
             padding-left: 30px;
+            margin: 0;
+            margin-top: 30px;
         }
     }
+
     &-list {
         margin-bottom: 20px;
-        & > li {
+
+        &>li {
             position: relative;
             padding-left: 20px;
+
             &:not(:last-child) {
                 margin-bottom: 25px;
             }
+
             &::before {
                 content: "";
                 position: absolute;
@@ -104,6 +110,59 @@ a {
                 width: 5px;
                 height: 5px;
             }
+        }
+    }
+}
+
+@include desktop {
+    .info {
+        &__inner {
+            width: 100%;
+        }
+
+        &__text {
+            font-size: 14px;
+
+            &_border {
+                font-size: 16px;
+            }
+        }
+
+        &-list {
+            font-size: 14px;
+        }
+    }
+}
+
+@include laptop {
+    section {
+        padding: 50px 0 25px;
+    }
+    .info {
+        &__text {
+            margin-bottom: 15px;
+
+            &_border {
+                font-size: 14px;
+                margin-top: 25px;
+            }
+        }
+    }
+}
+
+@include mobile {
+    .info {
+        &__text {
+            margin-bottom: 15px;
+
+            &_border {
+                font-size: 14px;
+                margin-top: 15px;
+            }
+        }
+
+        &-list {
+            margin-bottom: 15px;
         }
     }
 }

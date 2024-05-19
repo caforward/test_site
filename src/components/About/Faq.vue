@@ -248,25 +248,52 @@ export default {
 <style lang="scss" scoped>
 section {
     padding: 80px 0 70px;
+    background-color: #fafbfd;
 }
 
 .faq {
     &__wrapper {
         display: flex;
+        flex-wrap: wrap;
         grid-gap: 30px;
     }
-    &__head {
-        width: 420px;
-        flex-shrink: 0;
-    }
+
+    &__head,
     &__body {
-        width: 100%;
+        width: 50%;
+        flex: 1;
     }
+
     &__title {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
+
     &__text {
         line-height: 187%;
+    }
+}
+
+@include desktop {
+    .faq {
+        &__text {
+            font-size: 14px;
+        }
+    }
+}
+
+@include laptop {
+    section {
+        padding: 50px 0 25px;
+    }
+    .faq {
+        &__wrapper {
+            gap: 10px;
+        }
+        &__head,
+        &__body {
+            width: 100%;
+            flex: none;
+        }
     }
 }
 </style>
