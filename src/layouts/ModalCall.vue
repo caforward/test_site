@@ -1,53 +1,37 @@
 <template>
   <transition name="fade">
     <div class="modal" v-if="visible">
-    <div class="modal-content">
-      <div class="close-button" @click="closeModalCall">
-        <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+      <div class="modal-content">
+        <div class="close-button" @click="closeModalCall">
+          <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+        </div>
+        <h3>Заказать звонок </h3>
+        <p>
+          Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами,
+          чтобы проконсультировать по вашей финансовой ситуации.
+        </p>
+        <form @submit.prevent="submitForm">
+          <div class="form-input inputName">
+            <label for="name"></label>
+            <input :class="{ 'valid-input': nameValid == true }" @input="nameBlured" @blur="nameBlured"
+              v-model.trim="formData.name" type="text" id="name" placeholder="Имя*" class="input" />
+            <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
+          </div>
+          <div class="form-input inputTel">
+            <label for="tel"></label>
+            <input :class="{ 'valid-input': telValid == true }" @input="telBlured" @blur="telBlured"
+              v-model.trim="formData.tel" type="tel" id="tel" placeholder="Номер телефона*" class="input" />
+            <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
+          </div>
+          <div class="aboveButt">
+            Нажимая кнопку «Отправить», вы соглашаетесь с
+            <a href="#">политикой конфиденциальности.</a>
+          </div>
+          <button type="submit" class="button_blue">
+            Отправить
+          </button>
+        </form>
       </div>
-      <h3>Заказать звонок </h3>
-      <p>
-        Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами,
-        чтобы проконсультировать по вашей финансовой ситуации.
-      </p>
-      <form @submit.prevent="submitForm">
-        <div class="form-input inputName">
-          <label for="name"></label>
-          <input
-            :class="{ 'valid-input': nameValid == true }"
-            @input="nameBlured"
-            @blur="nameBlured"
-            v-model.trim="formData.name"
-            type="text"
-            id="name"
-            placeholder="Имя*"
-            class="input"
-          />
-          <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
-        </div>
-        <div class="form-input inputTel">
-          <label for="tel"></label>
-          <input
-            :class="{ 'valid-input': telValid == true }"
-            @input="telBlured"
-            @blur="telBlured"
-            v-model.trim="formData.tel"
-            type="tel"
-            id="tel"
-            placeholder="Номер телефона*"
-            class="input"
-          />
-          <span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
-        </div>
-        <div class="aboveButt">
-          Нажимая кнопку «Отправить», вы соглашаетесь с
-          <a href="#">политикой конфиденциальности.</a>
-        </div>
-        <button type="submit" class="button_blue">
-          Отправить
-        </button>
-      </form>
-    </div>
     </div>
   </transition>
 </template>
@@ -140,6 +124,15 @@ export default defineComponent({
       this.formData.name = "";
       this.formData.tel = "";
     },
+  },
+  updated() {
+    if (this.visible) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '10px'
+    } else {
+      document.body.style.paddingRight = ''
+      document.body.style.overflow = ''
+    }
   },
 });
 </script>
