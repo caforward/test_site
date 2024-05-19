@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->setFrom('site-no-reply@caforward.ru', '');
 
 
-        $mail->addAddress('vlad.panov777@gmail.com');
+        $mail->addAddress('dolg.info@caforward.ru');
 
         $subject = 'Новое сообщение с сайта';
     	$mail->Subject = mb_encode_mimeheader($subject, 'UTF-8');
