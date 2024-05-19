@@ -62,13 +62,13 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971"
+                        <a href="/installment-plan#debt-form"
                             class="button button_blue button_small header-bottom__payment">
                             Внести платёж
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click="mobileMenu = !mobileMenu">
+                        <a href="#" @click="openMobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -107,6 +107,10 @@ export default {
         openConsultationModal(e) {
             e.preventDefault()
             this.modalVisibleCall = true
+        },
+        openMobileMenu(e) {
+            e.preventDefault()
+            this.mobileMenu = !this.mobileMenu
         },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');

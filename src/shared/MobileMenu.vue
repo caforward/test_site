@@ -25,7 +25,7 @@
                         +7 (499) 702‑01‑56
                     </a>
                     <div class="menu-footer__buttons">
-                        <a href="#" class="button button_blue button_small">
+                        <a href="#" @click.stop="showModalCall" class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -83,11 +83,10 @@ export default {
                 //     title: 'Я не должник'
                 // },
                 {
-                    href: '#',
+                    href: '/installment-plan#debt-form',
                     name: 'Внести платёж'
                 },
                 {
-                    href: '#',
                     name: 'Получить рассрочку'
                 },
                 {
@@ -95,11 +94,9 @@ export default {
                     name: 'Получить консультацию'
                 },
                 {
-                    href: '/jobs',
                     name: 'Вакансии'
                 },
                 {
-                    href: '/for-partners',
                     name: 'Партнёрам'
                 },
                 {
@@ -107,7 +104,6 @@ export default {
                     name: 'Контакты'
                 },
                 {
-                    href: '/about',
                     name: 'О компании'
                 },
                 {
@@ -120,10 +116,12 @@ export default {
     methods: {
         showModal(event) {
             this.closeMobileMenu()
+            event.preventDefault();
             this.modalVisible = true;
         },
         showModalCall(event) {
             this.closeMobileMenu()
+            event.preventDefault();
             this.modalVisibleCall = true;
         },
         closeModal() {
