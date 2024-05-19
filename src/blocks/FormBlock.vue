@@ -94,6 +94,7 @@ export default {
     &-meta {
         display: flex;
         align-items: flex-start;
+        min-width: 260px;
 
         &__checkbox {
             margin-right: 20px;
@@ -135,6 +136,10 @@ textarea {
 
             &__button {
                 max-width: 270px;
+            }
+
+            &-meta {
+                min-width: unset;
             }
         }
     }

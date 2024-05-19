@@ -1,75 +1,52 @@
 <template>
-    <section class="previewSection">
-        <div class="previewContent container">
-            <div class="textContent">
-                <h1>Будь в команде мечты <br> Развивайся и покоряй высоты</h1>
-                <p>На данный момент в ООО Форвард открыты следующие вакансии. <br>
-                    Если вы хотите работать в современной и перспективной финансовой
-                    компании – свяжитесь с нами.</p>
-                <button class="checkJobsBtn"> <a href="">Смотреть вакансии</a></button>
-            </div>
-            <div><img src="/images/jobs/img1.png" alt="there was a img"></div>
-        </div>
-    </section>
-    <section class="jobsSection">
+    <section class="vacancy">
         <div class="container">
-            <h2>Вакансии</h2>
-            <div class="wrapJobs" v-for="(item, index) in displayedItems" :key="index">
-                <div class="jobsContent">
-                    <h3>{{ item.title }}</h3>
-                    <div class="descriptionContent">
-                        <p>{{ item.description }} </p>
-                        <button class="jobsBtn"><a href="">Подробнее</a> <img src="/images/jobs/img2.png"
-                                alt="there was a img"></button>
-                    </div>
-                    <div class="iconContainer">
-                        <p><img src="/images/jobs/img3.png" alt="there was a img">{{ item.schedule }} </p>
-                        <p><img src="/images/jobs/img4.png" alt="there was a img"> {{ item.salary }} </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <button @click="showMore" class="moreBtn"><img src="/images/jobs/img5.png" alt="there was a img"> {{ btnText
-        }}</button>
-    <div class="container"><img class=" lineImg" src="/images/jobs/img6.png" alt="img"></div>
-
-    <section class="cards-section">
-        <div class="container">
-            <div class="flexContainer">
-                <div class="card-wrap">
-                    <div class="card-top">
-                        <h2>Кого мы ищем</h2>
-                        <p>От кандидатов нам также нужно умение и опыт работы с большими массивами информации, а также
-                            владение основными офисными компьютерными программами – MS Word, MS Excel и 1С.</p>
-                    </div>
-                    <div class="card-bottom">
-                        <h2>Мы предлагаем кандидатам комфортные условия труда:</h2>
-                        <ul>
-                            <li>Официальное трудоустройство с 1-го дня;</li>
-                            <li>100% белая зарплата дважды в месяц, без задержек;</li>
-                            <li>Все соц.гарантии по ТК РФ;</li>
-                            <li>ДМС со стоматологией после 6 месяцев работы;</li>
-                            <li>Корпоративные обеды;</li>
-                            <li>Офис в Тихом центре Новосибирска – в 7 минутах от метро Площадь Ленина</li>
-                        </ul>
-                    </div>
-                </div>
-                <FormBlock :inputs="inputs">
-                    <template v-slot:info>
-                        <div class="form-block-info">
-                            <h2 class="form-block-info__title">
-                                Станьте частью команды
-                            </h2>
-                            <p class="form-block-info__text">
-                                Заполните данные, а наш HR-менеджер свяжется с вами в ближайшее время
-                            </p>
+            <h2 class="vacancy__title">Вакансии</h2>
+            <div class="vacancy__items">
+                <div class="vacancy-item" v-for="(item, index) in displayedItems" :key="index">
+                    <h3 class="vacancy-item__title">{{ item.title }}</h3>
+                    <div class="vacancy-item__inner">
+                        <div class="vacancy-item-content">
+                            <p class="vacancy-item-content__text">{{ item.description }} </p>
+                            <div class="vacancy-item-content-meta">
+                                <div class="vacancy-item-content-meta__item">
+                                    <div class="vacancy-item-content-meta__img">
+                                        <img src="/images/jobs/img3.png" alt="there was a img">
+                                    </div>
+                                    <p class="vacancy-item-content-meta__text">
+                                        {{ item.schedule }}
+                                    </p>
+                                </div>
+                                <div class="vacancy-item-content-meta__item">
+                                    <div class="vacancy-item-content-meta__img">
+                                        <img src="/images/jobs/img4.png" alt="there was a img">
+                                    </div>
+                                    <p class="vacancy-item-content-meta__text">
+                                        {{ item.salary }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </template>
-                </FormBlock>
+                        <a class="vacancy-item__button button button_blue">
+                            <span>
+                                Подробнее
+                            </span>
+                            <span class="vacancy-item__button_icon">
+                                <img src="/images/jobs/img2.png" alt="there was a img">
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
+            <button @click="showMore" class="vacancy-button button"><img src="/images/jobs/img5.png"
+                    alt="there was a img">
+                {{ btnText }}
+            </button>
         </div>
     </section>
+    <div class="container">
+        <div class="vacancy-section__border"></div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -175,248 +152,215 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
-
-.previewSection {
-    background: rgb(243, 247, 250);
-    margin-bottom: 74px;
-
-    .previewContent {
-        display: flex;
-    }
-
-    .textContent {
-        padding-top: 117px;
-        padding-right: 17px;
-
-        h1 {
-            margin-bottom: 21px;
-            font-size: 36px;
-            font-weight: 600;
-            line-height: 40px;
-            letter-spacing: 0%;
-        }
-
-        p {
-            max-width: 652px;
-            width: 100%;
-            margin-bottom: 31px;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 30px;
-            letter-spacing: 0%;
-        }
-    }
-
-    .checkJobsBtn {
-        margin-bottom: 171px;
-        border-radius: 30px;
-        background: rgb(0, 150, 216);
-        padding: 10px 30px 10px 30px;
-        width: 225px;
-        height: 50px;
-    }
-
+section {
+    padding: 75px 0 90px;
 }
 
-
-.jobsSection {
-    h2 {
-        color: rgb(46, 46, 46);
-        padding-bottom: 25px;
-        font-size: 24px;
-        font-weight: 600;
-        line-height: 34px;
-        letter-spacing: 0%;
-
+.vacancy {
+    &__items {
+        margin-bottom: 50px;
     }
 
-    .jobsContent {
-        padding: 32px 86px 35px 80px;
+    &__title {
+        margin-bottom: 25px;
+    }
 
-        img {
-            width: 24px;
-            height: 24px;
+    &-item {
+        background-color: $gray-white;
+        border-radius: 30px;
+        padding: 30px 70px;
 
-            h3 {
-                font-size: 18px;
-                font-weight: 600;
-                line-height: 30px;
-                letter-spacing: 0%;
-                margin-bottom: 13px;
-            }
-
-        }
-
-        .jobsBtn {
-            border-radius: 30px;
-            background: rgb(0, 150, 216);
-            width: 181px;
-            height: 50px;
-            padding: 10px 30px 10px 30px;
-
-        }
-
-        .descriptionContent {
+        &__inner {
             display: flex;
-            align-items: flex-start;
-            gap: 77px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 70px;
+        }
 
-            p {
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 30px;
-                margin-bottom: 23px;
-                width: 914px;
+        &:not(:last-child) {
+            margin-bottom: 30px;
+        }
+
+        &__title {
+            line-height: 167%;
+            margin-bottom: 15px;
+        }
+
+        &-content {
+            width: 100%;
+            flex: 1;
+
+            &__text {
+                margin-bottom: 25px;
+                line-height: 187%;
             }
 
-            a {
-                margin-right: 7px;
+            &-meta {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 70px;
+
+                &__item {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    flex: 1;
+                }
+
+                &__img {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                    flex: none;
+                }
+
+                &__text {
+                    line-height: 187%;
+                }
+            }
+        }
+
+        &__button {
+            width: 100%;
+            max-width: 180px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &_icon {
+                display: flex;
+                align-items: center;
+                margin-left: 10px;
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
             }
         }
     }
 
-    .iconContainer {
-        display: flex;
-        justify-content: flex-start;
-
-        p {
-            display: flex;
-            align-items: center;
-            margin-right: 70px;
-        }
+    &-button {
+        margin: 0 auto;
+        border: 1px solid #d9d9d9;
+        color: $gray-dark;
+        transition: color .2s, background-color .2s, border-color .2s;
 
         img {
+            width: 20px;
+            height: 20px;
             margin-right: 5px;
         }
-    }
 
-    .wrapJobs {
-        display: flex;
-        border-radius: 30px;
-        background: rgb(249, 250, 252);
-        margin-bottom: 30px;
-
-    }
-
-}
-
-.moreBtn {
-
-
-    img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-    }
-
-    margin: 0 auto;
-    box-sizing: border-box;
-    border: 1px solid rgb(217, 217, 217);
-    border-radius: 30px;
-    padding: 10px 30px 10px 30px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 30px;
-    letter-spacing: 0%;
-    color: rgb(152, 152, 152);
-    margin-bottom: 90px;
-
-}
-
-
-a {
-    color: rgb(255, 255, 255);
-    font-family: Montserrat;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 30px;
-    letter-spacing: 0%;
-}
-
-.lineImg {
-    max-width: 1338px;
-    width: 100%;
-    padding: 0 15px;
-    margin: 0 auto;
-    margin-bottom: 80px;
-}
-
-.flexContainer {
-
-    h2 {
-        font-size: 28px;
-        font-weight: 600;
-        line-height: 34px;
-    }
-
-    gap: 32px;
-    display: flex;
-
-    .card-wrap {
-        flex: none;
-        width: 652px;
-    }
-
-    .card-top {
-        h2 {
-            margin-bottom: 9px;
+        &:hover {
+            border-color: $blue;
         }
-        p {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 30px;
-            color: rgb(46, 46, 46);
-        }
-
-        border-radius: 30px;
-        background: rgb(249, 239, 230);
-        padding: 52px 84px 52px 82px;
-        margin-bottom: 30px;
     }
 
-    .card-bottom {
-        h2 {
-            margin-bottom: 24px;
-        }
-        &>ul {
-            list-style-type: disc;
-            padding-left: 20px;
+    &-section__border {
+        border-bottom: 1px solid #d9d9d9;
+    }
+}
 
-            ::marker {
-                color: rgb(0, 150, 216);
+@include desktop {
+    section {
+        padding: 80px 0 80px;
+    }
+
+    .vacancy {
+        &-item {
+            padding: 20px 30px;
+
+            &__inner {
+                gap: 20px;
             }
 
-            li {
-                font-size: 16px;
-                font-weight: 400;
-                line-height: 30px;
-                color: rgb(46, 46, 46);
-                margin-bottom: 12.5px;
+            &__title {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            &-content {
+                flex: none;
+
+                &__text {
+                    font-size: 14px;
+                }
+
+                &-meta {
+                    &__text {
+                        font-size: 14px;
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@include tablet {
+    section {
+        padding: 60px 0 60px;
+    }
+
+    .vacancy {
+        &__items {
+            margin-bottom: 30px;
+        }
+
+        &-item {
+            padding: 30px 25px;
+
+            &__title {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            &-content {
+                &__text {
+                    line-height: 171%;
+                    margin-bottom: 15px;
+                }
+
+                &-meta {
+                    gap: 15px;
+
+                    &__item {
+                        flex: none;
+                        line-height: 171%;
+                    }
+
+                    &__img {
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include mobile {
+    section {
+        padding: 50px 0 50px;
+    }
+
+    .vacancy {
+        &__items {
+            margin-bottom: 10px;
+        }
+
+        &-item {
+            &__button {
+                max-width: 320px;
             }
         }
 
-        border-radius: 30px;
-        background: rgb(231, 249, 248);
-        padding: 42px 84px 42px 82px;
+        &-button {
+            width: 100%;
+        }
     }
 }
-
-.cards-section {
-    margin-bottom: 40px;
-}
-.form-block {
-    flex-direction: column;
-    padding:85px 82px 85px 82px;
-    
-    
-}
-.form-block__bottom {
-    flex-direction: column;
-}
-.__form {
-        width: 100%;
-    }
-
-
 </style>
