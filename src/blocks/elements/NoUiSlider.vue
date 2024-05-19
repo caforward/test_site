@@ -5,6 +5,12 @@
   <script lang="ts">
   import { defineComponent, onMounted, ref, watch, PropType, inject } from 'vue';
   
+  declare global {
+  interface HTMLElement {
+    noUiSlider?: any;  
+  }
+}
+
   export default defineComponent({
     props: {
       start: {

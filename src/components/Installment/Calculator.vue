@@ -1,6 +1,6 @@
 <template>
-  <section  class="section">
-    <div id="calculate" class="container">
+  <section id="calculate" class="section">
+    <div  class="container">
       <h2 >Рассчитать расрочку</h2>
       <div class="flex-container">
         <div class="container-slides">
@@ -19,24 +19,10 @@
             </div>
           </div>
           <div class="slider">
-            <p>Выберите ежемесячный платеж</p>
-            <div class="current-value">{{ numSplit(currentValue2) }}</div>
-            <NoUiSlider
-              :start="[15700]"
-              :range="{ min: 2300, max: 160000 }"
-              :step="100"
-              @value-changed="handleValueChange2"
-            />
-            <div class="cont-from-to">
-              <div>от 2 300 ₽</div>
-              <div>до 160 000 ₽</div>
-            </div>
-          </div>
-          <div class="slider">
             <p>Срок погашения</p>
             <div class="current-value">{{ currentValue3 }}</div>
             <NoUiSlider
-              :start="[20]"
+              :start="[6]"
               :range="{ min: 1, max: 61 }"
               :step="1"
               @value-changed="handleValueChange3"
@@ -48,18 +34,17 @@
           </div>
         </div>
         <div class="modal-container">
-          <p>Нужно оплатить в итоге</p>
+          <!-- <p>Нужно оплатить в итоге</p>
           <div class="sum-element">
-            {{ numSplit(currentValue2 * currentValue3)}} ₽</div>
-          <p>Сумма к прощению</p>
+            {{ numSplit(currentValue2 * currentValue3)}} ₽</div> -->
+          <p>Ежемесячный платеж</p>
           <div class="sum-element bott-sum-element">
             {{
-              currentValue - currentValue2 * currentValue3 <= 0
-                ? 0
-                : numSplit(currentValue - currentValue2 * currentValue3)
+              numSplit((currentValue / currentValue3).toFixed(0))
             }}
             ₽
           </div>
+          <div class="pre-form">Заполните поле ниже и мы <br> свяжемся с Вами:</div>
           <form @submit.prevent="submitForm">
             <div class="form-input inputName">
               <label for="name"></label>
@@ -99,7 +84,7 @@
               </div>
               <div class="aboveButt">
                 Даю согласие на обработку своих персональных данных
-                <a href="#">политика конфиденциальности.</a>
+                <a target="_blank" href="/policy">политика конфиденциальности.</a>
               </div>
             </div>
 
@@ -148,13 +133,13 @@ export default defineComponent({
             return (num.toString().slice(0,1) + ' ' + num.toString().slice(1, 4) + ' ' + num.toString().slice(-3))
         } else return num
     },
-    handleValueChange(newValue) {
+    handleValueChange(newValue: number) {
       this.currentValue = newValue;
     },
-    handleValueChange2(newValue) {
+    handleValueChange2(newValue: number) {
       this.currentValue2 = newValue;
     },
-    handleValueChange3(newValue) {
+    handleValueChange3(newValue: number) {
       this.currentValue3 = newValue;
     },
     nameBlured() {
@@ -228,6 +213,8 @@ export default defineComponent({
   gap: 30px;
 }
 .container-slides {
+  display: flex;
+  flex-direction: column;
   width: 51%;
 }
 h2 {
@@ -263,6 +250,16 @@ p {
   color: rgba(46, 46, 46, 0.5);
   margin-bottom: -18px;
 }
+.pre-form {
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 160%;
+  color: #2e2e2e;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: Montserrat, sans-serif
+  
+}
 .slider {
   padding-bottom: 31px;
 }
@@ -293,7 +290,7 @@ p {
     margin-bottom: 27px;
   }
   .bott-sum-element {
-    margin-bottom: 51px;
+    margin-bottom: 30px;
   }
 
   .modal {
@@ -398,8 +395,8 @@ p {
         &:after {
           content: "";
           position: absolute;
-          display: none; // Галочка не видима по умолчанию
-          left: 12px; // Смещение вправо
+          display: none; 
+          left: 12px; 
           top: 7px;
           width: 6px;
           height: 12px;
@@ -410,7 +407,7 @@ p {
       }
 
       input:checked ~ .checkmark:after {
-        display: block; // Это правило остается неизменным, так как галочка всегда видима
+        display: block; 
       }
     }
   }
@@ -481,6 +478,9 @@ p {
     font-size: 14px;
     line-height: 214%;
   }
+  .pre-form {
+    font-size: 19px;
+  }
   .current-value {
     font-weight: 700;
     font-size: 24px;
@@ -510,7 +510,8 @@ p {
       line-height: 100%;
     }
     .bott-sum-element {
-      padding-bottom: 21px;
+      // padding-bottom: 21px;
+      margin-bottom: 18px;
     }
     .aboveButt {
       font-weight: 400;
@@ -539,6 +540,12 @@ p {
     font-size: 14px;
     line-height: 214%;
   }
+  .pre-form {
+    font-size: 16px;
+  }
+  a {
+    display: inline;
+  }
   .current-value {
     font-weight: 700;
     font-size: 24px;
@@ -553,8 +560,8 @@ p {
   }
 
   .modal-container {
-    width: 50%;
-    padding: 34px 30px 40px 30px;
+    width: 63%;
+    padding: 30px 20px 30px 20px;
 
     p {
       font-weight: 400;
@@ -572,7 +579,8 @@ p {
       line-height: 100%;
     }
     .bott-sum-element {
-      padding-bottom: 21px;
+      padding-bottom: 0px;
+      margin-bottom: 18px;
     }
     .aboveButt {
       font-weight: 400;
@@ -595,6 +603,9 @@ p {
   }
   .container-slides {
     width: 100%;
+  }
+  .pre-form {
+    font-size: 16px;
   }
 
   h2 {

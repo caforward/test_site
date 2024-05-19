@@ -14,7 +14,7 @@
                     <label for="personal-data-agree-checkbox" class="form-block-meta__label">
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
-                        <a href="#" class="link">политика конфиденциальности</a>
+                        <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
                 <button class="button button_blue form-block__button">Отправить</button>

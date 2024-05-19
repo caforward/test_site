@@ -13,11 +13,11 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <!-- @click="unhide" -->
-                        <button v-if="isMobile"  class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
-                                alt="vector"></button>
+                        <button v-if="isMobile" class="unhide-btn">Развернуть<img
+                                src="/assets/images/HelpEverClient/vector-img.png" alt="vector"></button>
                     </div>
                     <div class="wrapButt">
-                        <button class="button">Подробнее</button>
+                        <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                     </div>
                 </div>
 
@@ -30,22 +30,22 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <!-- @click="unhide" -->
-                        <button  class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
+                        <button class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
                                 alt="vector"></button>
                         <div class="wrapButt">
-                            <button class="button">Подробнее</button>
+                            <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
+        <ModalConsultation :visible="modalVisible" :defaultOption="defaultOption" @close="modalVisible=false"></ModalConsultation>
     </section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import ModalConsultation from '../layouts/ModalConsultation.vue';
 
 interface ListItems {
     id: number;
@@ -53,12 +53,18 @@ interface ListItems {
     textH3: string;
     textParagr: string;
     textButton: string;
-    background: string
+    background: string;
+
 }
 
 export default defineComponent({
+    components: {
+      ModalConsultation
+    },
     data() {
         return {
+            defaultOption: '',
+            modalVisible: false,
             isLaptop: false,
             isMobile: false,
             items: [
@@ -67,19 +73,19 @@ export default defineComponent({
                     imageUrl: '/assets/images/HelpEverClient/1img.png',
                     textH3: "Прощение долга",
                     textParagr: "Наша компания поможет полностью избавиться от долгов. Что это значит? С помощью рассчитанного нами оптимального графика платежей Вы сможете быстро выплатить задолженность, и она не будет обременять Вас",
-                    background: '#ecf6e7'
-                }, {
+                    background: '#ecf6e7',
+                    }, {
                     id: 2,
                     imageUrl: '/assets/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
-                    textParagr: "Наша компания поможет быстро и эффективно разблокировать счета, благодаря чему Вы забудете о проблемах с приставами!\n\nЕсли у вас возникла другая проблема,  то просто свяжитесь с нами по  телефону +7 (804) 333‑41‑33 –  консультация наших специалистов  бесплатна!",
+                    textParagr: "Наша компания поможет быстро и эффективно разблокировать счета, благодаря чему Вы забудете о проблемах с приставами",
                     background: '#f0f1f9'
                 }, {
                     id: 3,
                     imageUrl: '/assets/images/HelpEverClient/3img.png',
                     textH3: "Узнать номер вашего договора",
-                    textParagr: "Не знаете номер своего договора?  Оставьте свои контактные данные, и  наши специалисты со всем разберутся.  Если Вы не можете разобраться в  юридических сложностях, то не  бойтесь нам звонить – в ПКО  «Форвард» работают юристы высокого  класса, которые без труда разберутся  даже в самой сложной ситуации.",
-                    background: "#eef1f3"
+                    textParagr: "Не знаете номер своего договора? Оставьте свои контактные данные, и наши специалисты со всем разберутся. Если Вы не можете разобраться в юридических сложностях, просто позвоните нам – в ООО ПКО «Форвард» работают юристы высокого класса, которые помогут даже в самой сложной ситуации. ",
+                    background: '#EEF1F3'
                 }
 
             ] as ListItems[]
@@ -93,6 +99,17 @@ export default defineComponent({
         window.addEventListener('resize', this.updateIsMobileS)
     },
     methods: {
+        redirectModalPage(id) {
+            if (id === 1) {
+                window.location.href = '/installment-plan#calculate'
+            } else if (id === 2) {
+                this.defaultOption = 'Разблокировать счет';
+                this.modalVisible = true
+            } else if (id === 3) {
+                this.defaultOption = 'Узнать номер договора';
+                this.modalVisible = true
+            }
+        },
         updateIsMobile() {
             this.isLaptop = window.innerWidth <= 1024 && window.innerWidth >= 641
         },
@@ -108,7 +125,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 section {
     padding: 70px 0 50px;
     background-color: #F9FAFB;
@@ -123,7 +139,7 @@ section {
 }
 
 .flexContainer {
-    display: flex; 
+    display: flex;
     justify-content: space-between;
     gap: 30px;
     position: relative;
@@ -151,7 +167,7 @@ h3 {
 p {
     white-space: pre-line;
     font-size: 16px;
-     font-weight: 500;
+    font-weight: 500;
     line-height: 28px;
     letter-spacing: 0%;
     margin-bottom: 20px;
@@ -191,7 +207,7 @@ p {
 
     p {
         font-size: 14px;
-         font-weight: 500px;
+        font-weight: 500px;
     }
 
     .textElements {
@@ -253,7 +269,7 @@ p {
 
     p {
         font-size: 14px;
-         font-weight: 500px;
+        font-weight: 500px;
         margin-bottom: 0px;
     }
 
@@ -270,7 +286,7 @@ p {
     .unhide-btn {
         color: rgb(0, 150, 216);
         font-size: 14px;
-         font-weight: 500;
+        font-weight: 500;
         line-height: 24px;
         display: flex;
         align-items: baseline;
@@ -285,18 +301,19 @@ p {
 @media screen and (max-width: 640.5px) {
     section {
         padding-top: 50px;
-        
+
     }
+
     .flexContainer {
         display: flex;
         flex-direction: column;
-        gap:10px;
+        gap: 10px;
     }
-    
+
 
     .upText {
         font-size: 24px;
-font-weight: 700;
+        font-weight: 700;
         margin-bottom: 22px;
     }
 
@@ -306,12 +323,13 @@ font-weight: 700;
         margin-top: 0px;
         padding-top: 32px;
         margin-bottom: 21px;
+
         img {
-        min-width: 148px;
-        min-height: 110px;
-        max-width: 268px;
-        max-height: 230px;
-    }
+            min-width: 148px;
+            min-height: 110px;
+            max-width: 268px;
+            max-height: 230px;
+        }
     }
 
 
@@ -322,8 +340,8 @@ font-weight: 700;
 
     h3 {
         font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 3px;
+        font-weight: 600;
+        margin-bottom: 3px;
     }
 
     p {
@@ -356,6 +374,5 @@ font-weight: 700;
         margin-top: 10px;
         padding-left: 22px;
     }
-    }
-
+}
 </style>

@@ -6,7 +6,7 @@
                     <h2 class="faq__title">Вопросы и ответы</h2>
                     <p class="faq__text">
                         Для клиентов и их близких наши специалисты подготовили
-                        список ответов на самые популярные вопросы, которые
+                        список ответов на популярные вопросы, которые
                         задают сотрудникам нашего контакт-центра.
                     </p>
                 </div>
@@ -54,185 +54,189 @@ export default {
                 {
                     title: "Почему звонят коллекторы?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Коллекторское агентство может звонить вам по одной из двух причин: <br>
+                           - Банк обратился к компании с просьбой взыскать задолженность <br>
+                           - Банк продал права на требования задолженности коллекторам (цессия) <br>
+                        В обоих случаях сначала агентство свяжется с должником, а уже
+                         потом – с теми, кто указан в кредитном договоре дополнительно.`,
                 },
                 {
                     title: "Я брал кредит в другом банке (компании), почему мне звонят из Компании «Форвард»?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Задолженность возникает из-за того, что заемщик не исполняет 
+                        свои обязательства. По договору цессии к компании «Форвард» перешло право 
+                        требования долга. В частности, к нам переходят права, обеспечивающие исполнение
+                         просроченного обязательства, в т.ч. на неуплаченные проценты. В этом случае,
+                          компания «Форвард» становится по отношению к вам не третьим лицом, а кредитором, 
+                        а значит имеет право требования исполнения обязательств от своего имени и за свой счет.`,
                 },
                 {
                     title: "Почему меня своевременно не известили о возникновении долга?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Вся информация о задолженности поступает заемщику от кредитора, 
+                        например, из банка. Заемщик должен сам контролировать свои 
+                        отношения с кредитором, а значит, самостоятельно отслеживать наличие задолженности.`,
                 },
                 {
-                    title: "В кредитном договоре с банком нет пункта о передаче/уступке/продажи долга \
-                            третьей стороне. Правомерна ли продажа моего долга в коллекторское агентство и последующее \
-                            его истребование без моего согласия?Допустима ли вообще его продажа банком в коллекторское \
-                            агентство (небанковскую организацию)?",
+                    title: `В кредитном договоре с банком нет пункта о передаче/уступке/продаже 
+                    долга третьей стороне. Правомерны ли продажа моего долга в коллекторское
+                     агентство и последующее его истребование без моего согласия?
+                    Допустима ли вообще его продажа банком в коллекторское агентство (небанковскую организацию)?`,
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Да, такие действия правомерны. В соответствии со ст. 
+                        12 ФЗ от 21.12.2013 N 353-ФЗ «О потребительском 
+                        кредите (займе)» кредитор вправе осуществлять уступку прав по 
+                        договору потребительского кредита третьим лицам, если иное не предусмотрено 
+                        договором, содержащим условие о запрете уступки, согласованное при его заключении.
+                         При этом заемщик сохраняет в отношении нового кредитора все права, предоставленные
+                          ему в отношении первоначального кредитора в соответствии с федеральными законами. 
+                         Условие о возможности переуступки банком требования должно быть включено в кредитный договор.
+                       Компания занимается взысканием задолженности по поручению банков на основании заключенного агентского договора. `,
                 },
                 {
                     title: "Что делать, если коллекторы звонят по чужому долгу?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `От заемщика часто требуют указать номера телефонов близких. Банки считают 
+                        наличие контакта с родственниками/знакомыми способом обезопасить себя в случае 
+                        просрочки платежей. При возникновении трудностей у заемщика, кредитор может 
+                        звонить по указанным номерам. Вы не обязаны погашать задолженность своего близкого, 
+                        но мы рекомендуем выслушать коллектора и уточнить у него, что можно сделать для
+                         помощи должнику. Если Ввы не сможете передать информацию заемщику, объясните 
+                         это агентству и попросите исключить ваш номер из базы.
+                        Помните: по закону с Вами не имеют права разговаривать об обстоятельствах задолженности
+                         другого человека, если Вы не его поручитель.`,
                 },
                 {
                     title: "Звонят поручителю или супругу?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Встречаются ситуации, в которых человек действительно может нести 
+                        обязательства за другого. Это происходит, если долг был получен 
+                        в наследство, при разделе имущества в результате развода, либо человек 
+                        указал себя в качестве поручителя. 
+                        Не волнуйтесь. Закон на Вашей стороне, и погасить
+                         задолженность другого человека своими средствами Вы можете, 
+                         только если захотите того сами. Выслушайте предложение коллекторов,
+                          спросите, что делать и куда следует обращаться.`,
                 },
-                {
-                    title: "Что делать, если звонят слишком часто?",
-                    content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
-                },
+                // {
+                //     title: "Что делать, если звонят слишком часто?",
+                //     content:
+                //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
+                //         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
+                //         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
+                //         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
+                //         nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
+                //         officia deserunt mollit anim id est laborum.",
+                // },
                 {
                     title: "Когда и сколько могут звонить коллекторы?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Сотрудники коллекторского агентства могут звонить в будни с 8 до 22 часов, а в выходные/праздничные дни – с 9 до 20 часов. Все виды коммуникации должны осуществляться по местному времени для должника.
+                        Такие коммуникации должны совершаться не чаще: <br>
+                        - 1 раза в день <br>
+                        - 2 раз в неделю <br>
+                        - 8 раз в месяц`,
                 },
                 {
                     title: "Как себя вести с коллекторами, как с ними разговаривать?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Отвечайте спокойно, не грубите. Адекватные и добросовестные 
+                        сотрудники будут стараться помочь Вам или вашему близкому и 
+                        предлагать оптимальные варианты решения проблемы. `,
                 },
                 {
                     title: "Куда обращаться, если коллекторы не перестают звонить каждый день?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Стоит отметить, что так делают только недобросовестные сотрудники или еще 
+                        хуже – мошенники. Любое уважающее себя агентство работает в рамках закона и 
+                        в интересах людей. Если Ввы столкнулись с тем, что звонки продолжают поступать 
+                        с превышением лимитов, установленных законом, то выход прекратить это есть. 
+                        Чтобы недобросовестные коллекторы не звонили постоянно, можно обратиться в 
+                        Национальную ассоциацию профессиональных коллекторских агентств. `,
                 },
                 {
                     title: "Что не надо делать, если звонит коллектор?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Не пытайтесь скрыться, сменить телефон или место жительства. Обязательство в этом случае не 
+                        исчезнет. Сумма наоборот будет только увеличиваться, если Ввы 
+                        не будете платить. Более того, в этом случае агентство скорее всего 
+                        обратится в суд, который с большей вероятностью взыщет всю сумму долга. 
+                            Агентство же может помочь выйти из трудной финансовой ситуации 
+                            с минимальными потерями. Так, в компании «Форвард» предусмотрены скидки и лояльный график платежей.`,
                 },
                 {
                     title: "Как узнать сумму обязательства?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Сумму обязательства можно узнать одним из двух способов: <br>
+                        -  Из почтового уведомления, которое направляется клиенту по адресу, который он указал в кредитном договоре. 
+                        -  По звонку оператора контакт-центра на номер, указанный в кредитном договоре.`,
                 },
                 {
                     title: "Как погасить обязательство?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Погасить задолженность можно через отделение банка по реквизитам,
+                         указанным в уведомлении об обязательстве или через терминалы оплаты 
+                        без комиссии. Кроме того, в компании «Форвард» Вы можете внести платеж через сайт, также без комиссии.`,
                 },
                 {
                     title: "Вы хотите помочь близкому человеку погасить обязательство?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Можете обратиться в компанию «Форвард» и подписать письменное согласие на взаимодействие с третьим лицом.
+                         Далее Вы получите право обсуждать обязательства и договариваться о
+                          методах погашения задолженности за другого человека. `,
                 },
                 {
                     title: "Я хочу погасить сумму основного долга, а мои платежи зачитываются в счет погашения процентов. На каком основании?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Согласно п.20 ст.5 Федерального закона «О потребительском кредите», очередность погашения требований по договору потребительского кредита устанавливается следующим образом: <br>
+                        - Задолженность по процентам <br>
+                        - Задолженность по основному долгу <br>
+                        - Неустойка в размере, определенном в соответствии с частью 21 настоящей статьи <br>
+                        - Проценты, начисленные за текущий период платежей <br>
+                        - Сумма основного долга за текущий период платежей <br>
+                        - Иные платежи, предусмотренные законами РФ`,
                 },
                 {
                     title: "Законно ли увеличение задолженности коллекторскими компаниями?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Согласно ст. 1011 ГК РФ к отношениям, вытекающим из агентского договора
+                         применяются правила, предусмотренные главой 49 («Поручение») или главой 51 
+                         («Комиссия») настоящего Кодекса, в зависимости от того, действует агент по условиям этого договора от имени
+                         принципала или от своего имени, если эти правила не противоречат
+                          положениям настоящей главы или существу агентского договора. 
+                          <br><br>
+                          Таким образом, к правоотношениям между компанией «Форвард» и Клиентом применяются правила, установленные главой 49 ГК РФ «Поручение».
+                            В силу п. 2 ст. 975 ГК РФ доверитель обязан, если иное не предусмотрено 
+                            договором, возмещать поверенному понесенные издержки. Так, кредитор имеет право требовать с должника уплаты: <br>
+                            - Основного долга <br>
+                            - Неустойки за просрочку исполнения обязательства, предусмотренной договором – штрафа или пени <br>
+                            - Понесенных кредитором убытков в результате неисполнения должником обязательств <br>
+                            Поэтому увеличение задолженности коллекторским агентством вполне законно. `,
                 },
                 {
                     title: "Умер должник, что делать, кто должен погасить его долг?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Смерть должника не влечет за собой прекращение обязательства – должником становится наследник, принявший 
+                        наследство со дня его открытия (по ГК РФ это день смерти гражданина). <br>
+                        Наследство может быть принято двумя способами: <br>
+                        1) Путем подачи по месту открытия наследства нотариусу заявления о принятии 
+                        наследства/заявления наследника о выдаче свидетельства о праве на наследство. <br>
+                        2) Совершением действий, свидетельствующих о фактическом принятии наследства. 
+                        К ним относят: принятие мер по сохранению имущества, защита его от посягательств 
+                        третьих лиц, расходы за свой счет на содержание наследственного имущества, оплата за
+                         свой счет долгов наследодателя, получение от третьих лиц денежных средств,
+                          причитавшихся наследодателю. <br>
+                        В обоих случаях срок принятия наследства составляет 6 месяцев со дня открытия. `,
                 },
                 {
                     title: "После развода кто должен выплачивать кредит, взятый в браке?",
                     content:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod \
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat \
-                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui \
-                        officia deserunt mollit anim id est laborum.",
+                        `Статьей 34 СК РФ закреплена презумпция общности всего нажитого супругами в период брака
+                         имущества. Но на долги эта презумпция не распространяется. Ключевым моментом 
+                         тут является причина заключения кредитного договора и были ли выданные средства
+                          потрачены на нужды семьи. Учитывая, что требование о разделе долгов заявляет тот супруг, который является
+                         заемщиком, то согласно п.1 ст. 56 ГПК РФ, именно он обязан будет доказывать,
+                          что эти деньги были потрачены на нужды семьи, а значит, долг является общим. `,
                 },
             ],
         };
@@ -285,10 +289,12 @@ section {
     section {
         padding: 50px 0 25px;
     }
+
     .faq {
         &__wrapper {
             gap: 10px;
         }
+
         &__head,
         &__body {
             width: 100%;

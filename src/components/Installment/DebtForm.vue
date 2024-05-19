@@ -217,6 +217,9 @@ export default {
         }
     },
     methods: {
+        scrollToCalc() {
+            window.location.href = '/installment-plan#calculate'
+        },
         calculatePayment(e) {
             console.log(e)
         },
