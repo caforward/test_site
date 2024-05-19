@@ -36,7 +36,7 @@
             <p>Срок погашения</p>
             <div class="current-value">{{ currentValue3 }}</div>
             <NoUiSlider
-              :start="[20]"
+              :start="[6]"
               :range="{ min: 1, max: 61 }"
               :step="1"
               @value-changed="handleValueChange3"
@@ -148,13 +148,13 @@ export default defineComponent({
             return (num.toString().slice(0,1) + ' ' + num.toString().slice(1, 4) + ' ' + num.toString().slice(-3))
         } else return num
     },
-    handleValueChange(newValue) {
+    handleValueChange(newValue: number) {
       this.currentValue = newValue;
     },
-    handleValueChange2(newValue) {
+    handleValueChange2(newValue: number) {
       this.currentValue2 = newValue;
     },
-    handleValueChange3(newValue) {
+    handleValueChange3(newValue: number) {
       this.currentValue3 = newValue;
     },
     nameBlured() {
