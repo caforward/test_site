@@ -132,7 +132,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .section {
-    margin-bottom: 73px;
+    padding-bottom: 73px;
 }
 
 h2 {

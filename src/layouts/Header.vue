@@ -8,6 +8,8 @@
                             class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
+                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal"
+                            class="header-top-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                         <a v-else class="header-top-nav__link" :href="navLink.href"
                             @click="handleNavLink($event, navLink)">
                             {{ navLink.name }}
@@ -34,9 +36,8 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'"
-                                    @click.stop="openCallModal" class="header-bottom-nav__link"
-                                    :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="openCallModal"
+                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="openConsultationModal"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -62,13 +63,13 @@
                             </a>
                             <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
                         </div>
-                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971"
+                        <a href="/installment-plan#debt-form"
                             class="button button_blue button_small header-bottom__payment">
                             Внести платёж
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click="mobileMenu = !mobileMenu">
+                        <a href="#" @click="openMobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -85,19 +86,22 @@
     <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
     <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
     <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
+    <Requisites :visible="requisitesModal" @close="requisitesModal = false" />
 </template>
 
 <script lang="ts">
 import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
+import Requisites from './Requisites.vue';
 
 export default {
     name: "Header",
     components: {
         ModalConsultation,
         ModalCall,
-        MobileMenu
+        MobileMenu,
+        Requisites
     },
     methods: {
         openCallModal(e) {
@@ -107,6 +111,14 @@ export default {
         openConsultationModal(e) {
             e.preventDefault()
             this.modalVisibleCall = true
+        },
+        openRequisitesModal(e) {
+            e.preventDefault()
+            this.requisitesModal = true
+        },
+        openMobileMenu(e) {
+            e.preventDefault()
+            this.mobileMenu = !this.mobileMenu
         },
         handleNavLink(event: any, navLink: any) {
             const contacts = document.getElementById('contacts');
@@ -122,6 +134,7 @@ export default {
             modalVisible: false,
             modalVisibleCall: false,
             mobileMenu: false,
+            requisitesModal: false,
             paymentDebtFormHref: '/installment-plan#debt-form',
             topNav: [
                 {
@@ -138,7 +151,7 @@ export default {
                     name: "Вакансии",
                 },
                 {
-                    name: "Получить справку",
+                    name: "Реквизиты для оплаты",
                     href: "#",
                 },
             ],
@@ -150,11 +163,9 @@ export default {
                 {
                     name: "Главная",
                     href: "/",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить рассрочку",
-                    scroll: "window.scrollTo(0,0);"
                 },
                 {
                     name: "Получить консультацию",

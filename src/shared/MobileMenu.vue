@@ -15,6 +15,9 @@
                         <a v-else-if="link.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
+                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal($event)"
+                            class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
+
                         <a v-else :href="link.href">
                             {{ link.name }}
                         </a>
@@ -25,7 +28,7 @@
                         +7 (499) 702‑01‑56
                     </a>
                     <div class="menu-footer__buttons">
-                        <a href="#" class="button button_blue button_small">
+                        <a href="#" @click.stop="showModalCall" class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -53,18 +56,21 @@
 
     <ModalConsultation :visible="modalVisible" @close="closeModal" />
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
+    <Requisites :visible="requisitesModal" @close="closeRequisitesModal" />
 </template>
 
 <script>
 import Modal from '../blocks/Modal.vue';
 import ModalCall from '../layouts/ModalCall.vue';
 import ModalConsultation from '../layouts/ModalConsultation.vue';
+import Requisites from '../layouts/Requisites.vue';
 
 export default {
     components: {
         ModalConsultation,
         ModalCall,
         Modal,
+        Requisites,
     },
     props: {
         visible: {
@@ -77,17 +83,17 @@ export default {
         return {
             modalVisible: false,
             modalVisibleCall: false,
+            requisitesModal: false,
             links: [
                 // {
                 //     href: '#',
                 //     title: 'Я не должник'
                 // },
                 {
-                    href: '#',
+                    href: '/installment-plan#debt-form',
                     name: 'Внести платёж'
                 },
                 {
-                    href: '#',
                     name: 'Получить рассрочку'
                 },
                 {
@@ -95,11 +101,9 @@ export default {
                     name: 'Получить консультацию'
                 },
                 {
-                    href: '/jobs',
                     name: 'Вакансии'
                 },
                 {
-                    href: '/for-partners',
                     name: 'Партнёрам'
                 },
                 {
@@ -107,12 +111,11 @@ export default {
                     name: 'Контакты'
                 },
                 {
-                    href: '/about',
                     name: 'О компании'
                 },
                 {
                     href: '#',
-                    name: 'Получить справку'
+                    name: 'Реквизиты для оплаты'
                 },
             ]
         }
@@ -120,17 +123,27 @@ export default {
     methods: {
         showModal(event) {
             this.closeMobileMenu()
+            event.preventDefault();
             this.modalVisible = true;
         },
         showModalCall(event) {
             this.closeMobileMenu()
+            event.preventDefault();
             this.modalVisibleCall = true;
+        },
+        openRequisitesModal(e) {
+            this.closeMobileMenu()
+            e.preventDefault();
+            this.requisitesModal = true
         },
         closeModal() {
             this.modalVisible = false;
         },
         closeModalCall() {
             this.modalVisibleCall = false;
+        },
+        closeRequisitesModal() {
+            this.requisitesModal = false
         },
         closeMobileMenu() {
             this.$emit('close');
