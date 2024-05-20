@@ -11,12 +11,21 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <router-link :to="footerItem.href" :target="footerItem.target" :href=footerItem.href
-                        v-for="(footerItem, ind) in listElem" :key="ind"
-                        @click.stop="footerItem.name === 'Получить консультацию' ? showModal($event) : null"
-                        :onclick="footerItem.scroll">
-                        {{ footerItem.name }}
-                    </router-link>
+                    <template v-for="(footerItem, ind) in listElem" :key="ind">
+                        <a v-if="footerItem.target" class="header-bottom-nav__link" :href="footerItem.href"
+                            :target="footerItem.target">
+                            {{ footerItem.name }}
+                        </a>
+
+                        <router-link v-else-if="footerItem.href !== '#'" :to="footerItem.href">
+                            {{ footerItem.name }}
+                        </router-link>
+
+                        <a v-else-if="footerItem.name === 'Получить консультацию'" @click.stop="showModal"
+                            class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name }}</a>
+
+                        <a v-else class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name }}</a>
+                    </template>
                 </ul>
                 <div class="rightContainer">
                     <ul class="feedback">
@@ -124,7 +133,8 @@
                 <div class="footerFlex">
                     <div>
                         <span>ООО ПКО "Форвард"</span>
-                        <span><a target="_blank" href="/policy" class="footer-bottom__link">Политика конфиденциальности</a></span>
+                        <span><a target="_blank" href="/policy" class="footer-bottom__link">Политика
+                                конфиденциальности</a></span>
                     </div>
                     <div>
                         <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source
@@ -164,13 +174,13 @@ export default defineComponent({
             isMobile: false,
             footerArr: [
                 [
-                    { name: "О Компании" },
-                    { name: "Вакансии" },
-                    { name: "Партнёрам" },
+                    { name: "О Компании", href: "#" },
+                    { name: "Вакансии", href: "#" },
+                    { name: "Партнёрам", href: "#" },
                 ],
                 [
                     // { text: "Я не должник", href: ""  },
-                    { name: "Получить рассрочку" },
+                    { name: "Получить рассрочку", href: "#" },
                     { name: "Получить консультацию", href: "#" },
                     { name: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
                 ]

@@ -33,6 +33,11 @@ export default {
     data() {
         return {
         }
+    },
+    beforeMount() {
+        this.inputs.forEach(element => {
+            console.log(element)
+        });
     }
 }
 </script>
