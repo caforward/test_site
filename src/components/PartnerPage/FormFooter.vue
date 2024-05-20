@@ -34,15 +34,18 @@ export default {
             inputs: [
                 {
                     type: 'text',
-                    placeholder: 'Наименование компании*'
+                    placeholder: 'Наименование компании*',
+                    dataName: 'companyName'
                 },
                 {
                     type: 'text',
-                    placeholder: 'Имя*'
+                    placeholder: 'Имя*',
+                    dataName: 'name'
                 },
                 {
                     type: 'tel',
-                    placeholder: 'Номер телефона*'
+                    placeholder: 'Номер телефона*',
+                    dataName: 'tel'
                 }
             ]
         };
@@ -51,8 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 section {
     padding: 35px 0 110px;
     background-color: $gray-white;
@@ -80,13 +81,15 @@ section {
 @include laptop {
     .form {
         &-block {
-            & > * {
+            &>* {
                 flex: none;
             }
+
             &-info {
                 &__title {
                     font-size: 22px;
                 }
+
                 &__text {
                     font-size: 14px;
                 }
@@ -100,11 +103,13 @@ section {
         &-block {
             padding: 30px 25px;
             gap: 25px;
+
             &-info {
                 &__title {
                     font-size: 18px;
                     margin-bottom: 15px;
                 }
+
                 &__text {
                     font-size: 14px;
                     margin-bottom: 15px;
@@ -113,5 +118,4 @@ section {
         }
     }
 }
-
 </style>

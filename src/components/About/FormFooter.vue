@@ -39,23 +39,28 @@ export default {
             inputs: [
                 {
                     type: 'text',
-                    placeholder: 'Имя*'
+                    placeholder: 'Имя*',
+                    dataName: 'name'
                 },
                 {
                     type: 'tel',
-                    placeholder: 'Номер телефона*'
+                    placeholder: 'Номер телефона*',
+                    dataName: 'tel'
                 },
                 {
                     type: 'email',
-                    placeholder: 'E-mail*'
+                    placeholder: 'E-mail*',
+                    dataName: 'email'
                 },
                 {
                     type: 'text',
-                    placeholder: 'Тема обращения*'
+                    placeholder: 'Тема обращения*',
+                    dataName: 'messageType'
                 },
                 {
                     tagName: 'textarea',
-                    placeholder: 'Кратко опишите Ваш вопрос*'
+                    placeholder: 'Кратко опишите Ваш вопрос*',
+                    dataName: 'message'
                 }
             ]
         };

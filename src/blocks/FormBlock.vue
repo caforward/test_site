@@ -1,44 +1,130 @@
 <template>
     <div class="form-block">
         <slot name="info"></slot>
-        <form action="" class="form-block__form">
+        <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
-                <component v-for="(inputIter, idx) in inputs" :key="idx"
-                    :is="inputIter.tagName ? inputIter.tagName : 'input'" class="input" :type=inputIter.type
-                    :placeholder=inputIter.placeholder>
-                </component>
+                <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
+                    <component :is="inputIter.tagName || 'input'" class="input" :type="inputIter.type"
+                        :placeholder="inputIter.placeholder"
+                        @input="formData[inputIter.dataName] = validateInput($event)">
+                    </component>
+                    <span class="error"></span>
+                </div>
             </div>
             <div class="form-block__bottom">
                 <div class="form-block-meta">
-                    <input id="personal-data-agree-checkbox" type="checkbox" class="checkbox form-block-meta__checkbox">
+                    <input id="personal-data-agree-checkbox" type="checkbox" class="checkbox form-block-meta__checkbox"
+                        v-model="consent">
                     <label for="personal-data-agree-checkbox" class="form-block-meta__label">
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button">Отправить</button>
+                <button class="button button_blue form-block__button" @click="handleSubmit">Отправить</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-
 export default {
     name: 'FormBlock',
     props: {
-        inputs: Array
+        inputs: {
+            type: Array,
+            required: true
+        },
     },
     data() {
         return {
+            consent: false,
+            formData: {},
+
+
         }
     },
     beforeMount() {
-        this.inputs.forEach(element => {
-            console.log(element)
+        this.inputs.forEach(input => {
+            this.formData[input.dataName] = ''
         });
-    }
+    },
+    methods: {
+        handleSubmit() {
+            // if (!this.consent) {
+            //     // согласие на обработку персональных данных
+            //     return
+            // }
+            console.log('Form data submitted:', this.formData, this.consent);
+            // логика для отправки данных формы
+        },
+        validateTel(value) {
+            const telRegexp = /^(?:\+7)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/
+            let err = ''
+
+            if (value === '+') {
+                value = ''
+                err = 'Заполните поле'
+                return [value, err]
+            }
+
+            if (value.startsWith('+7')) {
+                value = value.replace('+7', '')
+            }
+
+            // проверка на ввод только чисел
+            if (value.match(/[0-9]/g)) {
+                value = Number(value.replace(/[^0-9]/g, ''))
+            } else {
+                value = ''
+            }
+
+            console.log(value)
+
+            value = `+7${value}`
+
+            if (!telRegexp.test(value)) {
+                err = 'Неверный формат номер телефона'
+            }
+
+            return [value, err]
+        },
+        showError(element, err) {
+            const elWrapper = element.parentNode
+            const elError = elWrapper.querySelector('.error')
+
+            if (err) {
+                elError.innerText = err
+                elError.classList.add('error_visible')
+            } else {
+                elError.innerText = ''
+                elError.classList.remove('error_visible')
+            }
+        },
+        blur(e) {
+
+        },
+        validateInput(e) {
+            const input = e.target;
+            let value = e.target.value
+            let error = ''
+
+            if (input.type === 'text' && input.value === '') {
+                // validate
+                error = 'Заполните поле'
+            } else if (input.type === 'email' && input.value === '') {
+                // validate
+                error = 'Заполните поле'
+            } else if (input.type === 'tel') {
+                [value, error] = this.validateTel(value)
+            }
+
+            this.showError(input, error)
+
+            e.target.value = value
+            return value;
+        }
+    },
 }
 </script>
 
@@ -121,9 +207,44 @@ export default {
 }
 
 .input {
-    &:not(:last-child) {
-        margin-bottom: 15px;
+    border: 1px solid transparent;
+
+    &_error {
+        border-color: #FF6464;
     }
+
+    &__wrapper {
+        position: relative;
+        border-radius: 5px;
+        overflow: hidden;
+
+        &:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+        & .error {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FF6464;
+            height: 18px;
+            font-size: 12px;
+            color: #fff;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility .2s, opacity .2s;
+
+            &_visible {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+
 }
 
 textarea {
