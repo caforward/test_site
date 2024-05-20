@@ -10,7 +10,7 @@
                         Далее наши специалисты бесплатно Вас проконсультируют и
                         расскажут, как начать исправлять ситуацию.
                     </p>
-                    <div><button><a href="tel:+74997020156">Связаться с нами</a></button></div>
+                    <div><button><a href="tel:+78043334133">Связаться с нами</a></button></div>
                 </div>
                 <div class="imageContainer"><img src="/assets/images/PigImg/1img.png" alt="there was a pig :(">
                 </div>

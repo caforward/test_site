@@ -22,7 +22,7 @@
                     <ul class="feedback">
                         <li @click="showModal($event)">Обратная связь</li>
                         <li>
-                            <a href="tel:+74997020156" :style="{ fontWeight: 700 }">+7 (499) 702‑01‑56</a>
+                            <a href="tel:+78043334133" :style="{ fontWeight: 700 }">+ 7 (804) 333-41-33</a>
                         </li>
                         <li>
                             пн - чт 9:00-18:00
@@ -73,7 +73,7 @@
                     <ul class="feedback">
                         <li @click="showModal($event)">Обратная связь</li>
                         <li>
-                            <a href="tel:+74997020156" :style="{ fontWeight: 700 }">+7 (499) 702‑01‑56</a>
+                            <a href="tel:+78043334133" :style="{ fontWeight: 700 }">+ 7 (804) 333-41-33</a>
                         </li>
                         <li>
                             пн - чт 9:00-18:00

@@ -4,8 +4,7 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href"
-                            class="header-top-nav__link" exact>
+                        <router-link :onclick="navLink.scroll" v-if="navLink.href && navLink.href[0] !== '#'" :to="navLink.href || ''" class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
                         <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal"
@@ -47,7 +46,7 @@
                         </ul>
 
                         <div class="header-bottom-tel">
-                            <a href="tel:+74997020156" class="button button_blue button_icon header-bottom-tel__button">
+                            <a href="tel:+78043334133" class="button button_blue button_icon header-bottom-tel__button">
                                 <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -61,7 +60,7 @@
                                         fill="white" />
                                 </svg>
                             </a>
-                            <a href="tel:+74997020156" class="header-bottom-tel__link">+7 (499) 702‑01‑56 </a>
+                            <a href="tel:+78043334133" class="header-bottom-tel__link">+ 7 (804) 333-41-33</a>
                         </div>
                         <a href="/installment-plan#debt-form"
                             class="button button_blue button_small header-bottom__payment">
@@ -104,19 +103,19 @@ export default {
         Requisites
     },
     methods: {
-        openCallModal(e) {
+        openCallModal(e: any) {
             e.preventDefault()
             this.modalVisible = true
         },
-        openConsultationModal(e) {
+        openConsultationModal(e: any) {
             e.preventDefault()
             this.modalVisibleCall = true
         },
-        openRequisitesModal(e) {
+        openRequisitesModal(e: any) {
             e.preventDefault()
             this.requisitesModal = true
         },
-        openMobileMenu(e) {
+        openMobileMenu(e: any) {
             e.preventDefault()
             this.mobileMenu = !this.mobileMenu
         },
@@ -139,20 +138,29 @@ export default {
             topNav: [
                 {
                     name: "О компании",
+                    scroll: '',
+                    href: ''
                 },
                 {
                     name: "Контакты",
                     href: "#contacts",
+                    scroll: '',
+                    
                 },
                 {
                     name: "Партнёрам",
+                    scroll: '',
+                    href: ''
                 },
                 {
                     name: "Вакансии",
+                    scroll: '',
+                    href: ''
                 },
                 {
                     name: "Реквизиты для оплаты",
                     href: "#",
+                    scroll: ''
                 },
             ],
             bottomNav: [
@@ -163,17 +171,23 @@ export default {
                 {
                     name: "Главная",
                     href: "/",
+                    scroll: ''
                 },
                 {
                     name: "Получить рассрочку",
+                    scroll: '',
+                    href: ''
                 },
                 {
                     name: "Получить консультацию",
                     href: "#",
+                    scroll: '',
+                    
                 },
                 {
                     name: "Заказать звонок",
                     href: "#",
+                    scroll: ''
                 },
                 // {
                 //     name: "Внести платёж",

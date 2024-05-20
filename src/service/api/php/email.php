@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host = 'smtp.mail.ru'; 
         $mail->SMTPAuth = true;
         $mail->Username = 'site-no-reply@caforward.ru'; 
-        $mail->Password = 'NxVfKwzE0jgBZ5hjgsYg'; 
+        $mail->Password = 'qLg3rh57qVJWBnwzW7S4'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
         $mail->Port = 465; 
 

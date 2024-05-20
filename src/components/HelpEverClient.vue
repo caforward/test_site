@@ -13,8 +13,8 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <!-- @click="unhide" -->
-                        <button v-if="isMobile" class="unhide-btn">Развернуть<img
-                                src="/assets/images/HelpEverClient/vector-img.png" alt="vector"></button>
+                        <!-- <button v-if="isMobile" class="unhide-btn">Развернуть<img
+                                src="/assets/images/HelpEverClient/vector-img.png" alt="vector"></button> -->
                     </div>
                     <div class="wrapButt">
                         <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
@@ -30,8 +30,8 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <!-- @click="unhide" -->
-                        <button class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
-                                alt="vector"></button>
+                        <!-- <button class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
+                                alt="vector"></button> -->
                         <div class="wrapButt">
                             <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                         </div>
@@ -99,7 +99,7 @@ export default defineComponent({
         window.addEventListener('resize', this.updateIsMobileS)
     },
     methods: {
-        redirectModalPage(id) {
+        redirectModalPage(id: number) {
             if (id === 1) {
                 window.location.href = '/installment-plan#calculate'
             } else if (id === 2) {
@@ -175,11 +175,12 @@ p {
 
 
 .wrapButt {
-    padding: 25px 40px 60px 40px;
+    padding: 0px 40px 60px 40px;
 
     button {
         @include buttonDetails;
         padding: 15px 0;
+        margin-top: 15px;
     }
 
 }

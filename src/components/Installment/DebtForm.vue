@@ -46,8 +46,8 @@
                             <p style="margin-bottom: 20px; font-size: 14px; color: #6c6c6c; line-height: 20px">
                                 <strong>
                                     Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
-                                    телефона <a href="tel:+74997020156" class="link">+7 (499) 702‑01‑56</a>
-                                </strong>
+                                    телефона <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
+                                </strong> 
                             </p>
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
                             <div v-if="formVisible" class="switcher-progressbar">
@@ -102,8 +102,8 @@
                                             <div class="form-bottom__metatext">
                                                 Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
                                                 телефона
-                                                <a href="tel:+74997020156" class="link link_phone">
-                                                    +7 (499) 702-01-56
+                                                <a href="tel:+78043334133" class="link link_phone">
+                                                    + 7 (804) 333-41-33
                                                 </a>
                                             </div>
                                             <button class="button button_blue form-bottom__button" @click="nextStep">
@@ -159,7 +159,7 @@
                                         – и
                                         вы увидите, каким будет ежемесячный платеж.
                                     </div>
-                                    <button class="button">
+                                    <button @click="scrollToCalc" class="button">
                                         Раcсчитать график платежей
                                     </button>
                                 </div>
