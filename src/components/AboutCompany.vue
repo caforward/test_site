@@ -18,7 +18,7 @@
                          задолженности и о внесении изменений в ФЗ «О микрофинансовой
                          деятельности и микрофинансовых организациях».
                     </p>
-                    <button @click="this.$router.push('/about')" class="button">Подробнее</button>
+                    <button @click="$router.push('/about')" class="button">Подробнее</button>
                 </div>
                 <div class="imgContainer">
                     <img src="/assets/images/AboutCompany/1img.png" alt="there was a trofei pic" />

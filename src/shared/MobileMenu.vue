@@ -24,8 +24,8 @@
                     </li>
                 </ul>
                 <div class="menu-footer">
-                    <a href="tel:+74997020156" class="menu-footer__tel">
-                        +7 (499) 702‑01‑56
+                    <a href="tel:+78043334133" class="menu-footer__tel">
+                        + 7 (804) 333-41-33
                     </a>
                     <div class="menu-footer__buttons">
                         <a href="#" @click.stop="showModalCall" class="button button_blue button_small">

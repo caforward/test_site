@@ -66,7 +66,7 @@ export default defineComponent({
     defaultOption: {
       type: String,
       required: false,
-      default: ''
+      default: null as string | null
     },
   },
 
@@ -95,13 +95,13 @@ export default defineComponent({
         tel: "",
         email: "",
         text: "",
-        selectedOption: null,
+        selectedOption: null as string | null,
       },
     };
   },
   watch: {
-    visible(newVal) {
-      if (newVal && this.defaultOption) {
+    visible(newVal: boolean) {
+      if (newVal && this.defaultOption !== null) {
         this.formData.selectedOption = this.defaultOption;
       }
     },

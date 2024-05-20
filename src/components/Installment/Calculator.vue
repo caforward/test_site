@@ -40,7 +40,7 @@
           <p>Ежемесячный платеж</p>
           <div class="sum-element bott-sum-element">
             {{
-              numSplit((currentValue / currentValue3).toFixed(0))
+              numSplit(+(currentValue / currentValue3).toFixed(0))
             }}
             ₽
           </div>

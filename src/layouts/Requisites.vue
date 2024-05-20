@@ -123,8 +123,11 @@ export default {
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 10px;
+        display: flex;
+    justify-content: center;
+    overflow-y: auto;
 
     &-body {
         position: relative;
