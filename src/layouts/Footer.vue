@@ -11,7 +11,7 @@
                     <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
                 </ul>
                 <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <template v-for="(footerItem, ind) in listElem" :key="ind">
+                    <template v-for="footerItem in listElem" :key="footerItem.name">
                         <a v-if="footerItem.target" class="header-bottom-nav__link" :href="footerItem.href"
                             :target="footerItem.target">
                             {{ footerItem.name }}
