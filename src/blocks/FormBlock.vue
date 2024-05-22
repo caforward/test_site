@@ -4,7 +4,11 @@
         <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
                 <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
-                    <component :is="inputIter.tagName || 'input'" class="input" :type="inputIter.type"
+                    <input v-if="inputIter.type === 'tel'" class="input" v-mask="'+7 (###) ###-##-##'"
+                        :type="inputIter.type" :placeholder="inputIter.placeholder"
+                        @blur="formData[inputIter.dataName] = validateInput($event)">
+
+                    <component v-else :is="inputIter.tagName || 'input'" class="input" :type="inputIter.type"
                         :placeholder="inputIter.placeholder"
                         @input="formData[inputIter.dataName] = validateInput($event)">
                     </component>
@@ -21,8 +25,11 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">Отправить</button>
+                <button class="button button_blue form-block__button" @click="handleSubmit">
+                    Отправить
+                </button>
             </div>
+            <input type="tel" v-mask="'##/##/##'">
         </form>
     </div>
 </template>
@@ -40,8 +47,6 @@ export default {
         return {
             consent: false,
             formData: {},
-
-
         }
     },
     beforeMount() {
@@ -58,36 +63,8 @@ export default {
             console.log('Form data submitted:', this.formData, this.consent);
             // логика для отправки данных формы
         },
-        validateTel(value) {
-            const telRegexp = /^(?:\+7)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/
-            let err = ''
-
-            if (value === '+') {
-                value = ''
-                err = 'Заполните поле'
-                return [value, err]
-            }
-
-            if (value.startsWith('+7')) {
-                value = value.replace('+7', '')
-            }
-
-            // проверка на ввод только чисел
-            if (value.match(/[0-9]/g)) {
-                value = Number(value.replace(/[^0-9]/g, ''))
-            } else {
-                value = ''
-            }
-
-            console.log(value)
-
-            value = `+7${value}`
-
-            if (!telRegexp.test(value)) {
-                err = 'Неверный формат номер телефона'
-            }
-
-            return [value, err]
+        showAllError() {
+            
         },
         showError(element, err) {
             const elWrapper = element.parentNode
@@ -95,14 +72,13 @@ export default {
 
             if (err) {
                 elError.innerText = err
+                element.classList.add('input_error')
                 elError.classList.add('error_visible')
             } else {
                 elError.innerText = ''
+                element.classList.remove('input_error')
                 elError.classList.remove('error_visible')
             }
-        },
-        blur(e) {
-
         },
         validateInput(e) {
             const input = e.target;
@@ -115,8 +91,8 @@ export default {
             } else if (input.type === 'email' && input.value === '') {
                 // validate
                 error = 'Заполните поле'
-            } else if (input.type === 'tel') {
-                [value, error] = this.validateTel(value)
+            } else if (input.type === 'tel' && value.length < 18) {
+                error = 'Заполните поле'
             }
 
             this.showError(input, error)
@@ -208,6 +184,7 @@ export default {
 
 .input {
     border: 1px solid transparent;
+    transition: border-color .2s;
 
     &_error {
         border-color: #FF6464;
