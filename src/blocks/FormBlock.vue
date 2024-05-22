@@ -141,8 +141,6 @@ export default {
             const inputData = this.formInputs[fieldName]
             const input = e.target;
 
-            console.log(this.formInputs)
-
             // Удаляем текущую ошибку при пользовательскои вводе
             inputData.error = ''
 
