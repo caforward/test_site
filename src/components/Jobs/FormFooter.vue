@@ -53,19 +53,23 @@ export default {
             inputs: [
                 {
                     type: 'text',
-                    placeholder: 'Как вас зовут?'
+                    placeholder: 'Как вас зовут?',
+                    dataName: 'name'
                 },
                 {
                     type: 'tel',
-                    placeholder: 'Номер телефона*'
+                    placeholder: 'Номер телефона*',
+                    dataName: 'tel'
                 },
                 {
                     type: 'email',
-                    placeholder: 'E-mail*'
+                    placeholder: 'E-mail*',
+                    dataName: 'email'
                 },
                 {
                     tagName: 'textarea',
-                    placeholder: 'Напишите сопроводительное письмо'
+                    placeholder: 'Напишите сопроводительное письмо',
+                    dataName: 'message'
                 }
             ]
         };

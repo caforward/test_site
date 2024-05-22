@@ -104,7 +104,7 @@ export default {
         },
         checkError(inputData) {
             const inputWrapper = inputData.elementDOM.parentNode
-            const inputError = inputWrapper.querySelector('.error')
+            const inputError = inputWrapper?.querySelector('.error')
 
             // Проверить есть ли ошибка у инпута
             // если есть - показать
@@ -140,6 +140,8 @@ export default {
         validateInput(e, fieldName) {
             const inputData = this.formInputs[fieldName]
             const input = e.target;
+
+            console.log(this.formInputs)
 
             // Удаляем текущую ошибку при пользовательскои вводе
             inputData.error = ''
