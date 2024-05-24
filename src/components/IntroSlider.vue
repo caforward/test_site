@@ -201,7 +201,6 @@ export default {
         
         const intervalID = setInterval(() => {
             this.swiper.slideNext()
-            console.log(this.swiper)
             
             if (this.swiper.activeIndex === this.swiper.slides.length - 1) {
                 if (rewind) {
