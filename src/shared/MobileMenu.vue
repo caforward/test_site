@@ -5,20 +5,20 @@
                 <!-- <button @click="closeMobileMenu">close</button> -->
                 <ul class="menu-links">
                     <li v-for="(link, id) in links" :key="id">
-                        <router-link v-if="link.href[0] !== '#'" :to="link.href" @click="closeMobileMenu">
+                        <router-link v-if="!link.href.includes('#')" :to="link.href" @click="closeMobileMenu">
                             {{ link.name }}
                         </router-link>
 
-                        <a v-else-if="link.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                        <a v-else-if="link.name === 'Получить консультацию'" @click.prevent="showModal($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }} </a>
 
-                        <a v-else-if="link.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                        <a v-else-if="link.name === 'Заказать звонок'" @click.prevent="showModalCall($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
-                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal($event)"
+                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.prevent="openRequisitesModal($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
-                        <a v-else :href="link.href">
+                        <a v-else :href="link.href" class="link" @click="closeMobileMenu">
                             {{ link.name }}
                         </a>
                     </li>
@@ -90,6 +90,10 @@ export default {
                 //     title: 'Я не должник'
                 // },
                 {
+                    href: '/',
+                    name: 'Главная'
+                },
+                {
                     href: '/installment-plan#debt-form',
                     name: 'Внести платёж'
                 },
@@ -107,7 +111,7 @@ export default {
                     name: 'Партнёрам'
                 },
                 {
-                    href: '#',
+                    href: '#contacts',
                     name: 'Контакты'
                 },
                 {
@@ -123,12 +127,10 @@ export default {
     methods: {
         showModal(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisible = true;
         },
         showModalCall(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisibleCall = true;
         },
         openRequisitesModal(e) {
@@ -168,6 +170,13 @@ export default {
                 item.href = eqNameRoute.path
             }
         })
+    },
+    mounted() {
+        window.addEventListener('resize', () => {
+            if (matchMedia('(min-width: 1023px)').matches && this.visible) {
+                this.closeMobileMenu()
+            }
+        })
     }
 }
 </script>
@@ -175,26 +184,40 @@ export default {
 <style lang="scss" scoped>
 .slide-enter-active,
 .slide-leave-active {
-    transition: left 0.2s ease;
+    transition: opacity .2s;
+
+    & .menu {
+        transition: transform 0.2s ease;
+    }
 }
 
 .slide-enter-from,
 .slide-leave-to {
-    left: -100%;
+    opacity: 0;
+
+    & .menu {
+        transform: translateX(-100%);
+    }
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #mobile-menu.modal {
     padding: 0;
     top: 89px;
-    width: 320px;
+    left: 0;
 }
 
 .menu {
+    width: 320px;
     background-color: $white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% - 89px);
+    overflow: auto;
 
     &-links {
         & a {
@@ -249,13 +272,8 @@ export default {
     }
 
     .menu {
+        width: 100%;
         height: calc(100% - 50px);
-    }
-}
-
-@media (min-width: 1024px) {
-    #mobile-menu.modal {
-        display: none;
     }
 }
 </style>

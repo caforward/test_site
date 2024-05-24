@@ -23,13 +23,13 @@
             <div class="current-value">{{ currentValue3 }}</div>
             <NoUiSlider
               :start="[6]"
-              :range="{ min: 1, max: 61 }"
+              :range="{ min: 1, max: 24 }"
               :step="1"
               @value-changed="handleValueChange3"
             />
             <div class="cont-from-to">
               <div>от 1 месяца</div>
-              <div>до 61 месяцев</div>
+              <div>до 24 месяцев</div>
             </div>
           </div>
         </div>
