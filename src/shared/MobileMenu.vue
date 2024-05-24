@@ -90,6 +90,10 @@ export default {
                 //     title: 'Я не должник'
                 // },
                 {
+                    href: '/',
+                    name: 'Главная'
+                },
+                {
                     href: '/installment-plan#debt-form',
                     name: 'Внести платёж'
                 },
@@ -208,6 +212,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% - 89px);
+    overflow: auto;
 
     &-links {
         & a {
