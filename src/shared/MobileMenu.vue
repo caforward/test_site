@@ -9,13 +9,13 @@
                             {{ link.name }}
                         </router-link>
 
-                        <a v-else-if="link.name === 'Получить консультацию'" @click.stop="showModal($event)"
+                        <a v-else-if="link.name === 'Получить консультацию'" @click.prevent="showModal($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }} </a>
 
-                        <a v-else-if="link.name === 'Заказать звонок'" @click.stop="showModalCall($event)"
+                        <a v-else-if="link.name === 'Заказать звонок'" @click.prevent="showModalCall($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
-                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal($event)"
+                        <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.prevent="openRequisitesModal($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
                         <a v-else :href="link.href" class="link" @click="closeMobileMenu">
@@ -127,12 +127,10 @@ export default {
     methods: {
         showModal(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisible = true;
         },
         showModalCall(event) {
             this.closeMobileMenu()
-            event.preventDefault();
             this.modalVisibleCall = true;
         },
         openRequisitesModal(e) {
@@ -170,6 +168,13 @@ export default {
             })
             if (eqNameRoute) {
                 item.href = eqNameRoute.path
+            }
+        })
+    },
+    mounted() {
+        window.addEventListener('resize', () => {
+            if (matchMedia('(min-width: 1023px)').matches && this.visible) {
+                this.closeMobileMenu()
             }
         })
     }
@@ -269,12 +274,6 @@ export default {
     .menu {
         width: 100%;
         height: calc(100% - 50px);
-    }
-}
-
-@media (min-width: 1024px) {
-    #mobile-menu.modal {
-        display: none;
     }
 }
 </style>
