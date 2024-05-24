@@ -19,7 +19,7 @@
 					<div class="form-input inputName">
 						<label for="name"></label>
 						<input :class="{ 'valid-input': nameValid == true }" @input="nameBlured" @blur="nameBlured"
-							v-model.trim="formData.name" type="text" id="name" placeholder="Имя*" />
+							v-model.trim="formData.name" type="text" id="name" placeholder="ФИО*" />
 						<span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
 					</div>
 					<div class="form-input inputTel">

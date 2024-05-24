@@ -1,7 +1,7 @@
 <template>
     <section class="">
         <div class="slider">
-            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :pagination="true">
+            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :speed="600">
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
@@ -145,7 +145,7 @@
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import ModalConsultation from "../layouts/ModalConsultation.vue";
-// import { Pagination } from "swiper/modules";
+// import { Pagination, Autoplay } from "swiper/modules";
 
 // swiper style
 import "swiper/css";
@@ -158,7 +158,6 @@ export default {
         ModalConsultation
         // Pagination
     },
-    props: {},
     methods: {
         showSwiper(e) {
             console.log(this.swiper)
@@ -172,7 +171,7 @@ export default {
         },
         onSwiper(swiper) {
             this.swiper = swiper;
-        }
+        },
     },
     data() {
         return {
@@ -197,6 +196,28 @@ export default {
             ],
         };
     },
+    mounted() {
+        let rewind = false
+        
+        const intervalID = setInterval(() => {
+            this.swiper.slideNext()
+            console.log(this.swiper)
+            
+            if (this.swiper.activeIndex === this.swiper.slides.length - 1) {
+                if (rewind) {
+                    this.swiper.slideTo(0)
+                }
+
+                rewind = true
+            } else {
+                rewind = false
+            }
+        }, 5000)
+
+        this.swiper.on('destroy', () => {
+            clearInterval(intervalID)
+        })
+    }
 };
 </script>
 
