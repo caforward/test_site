@@ -246,8 +246,9 @@ export default defineComponent({
 	padding: 40px;
 	background-color: #fff;
 	border-radius: 30px;
-	width: 600px;
-	padding: 40px;
+	width: 768px;
+	padding: 60px 80px;
+	margin-top: 40px;
 }
 
 .close-button {
@@ -452,7 +453,7 @@ a {
 
 @media screen and (max-width: 1024px) and (min-width: 641px) {
 	.modal-content {
-		padding: 25px 53px 24px 53px;
+		padding: 25px 50px;
 	}
 
 	.close-button {
@@ -523,7 +524,7 @@ a {
 	}
 
 	.modal-content {
-		padding: 31px 24px 26px 40px;
+		padding: 30px 25px;
 	}
 
 	h3 {

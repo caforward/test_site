@@ -5,7 +5,7 @@
                 <!-- <button @click="closeMobileMenu">close</button> -->
                 <ul class="menu-links">
                     <li v-for="(link, id) in links" :key="id">
-                        <router-link v-if="link.href[0] !== '#'" :to="link.href" @click="closeMobileMenu">
+                        <router-link v-if="!link.href.includes('#')" :to="link.href" @click="closeMobileMenu">
                             {{ link.name }}
                         </router-link>
 
@@ -18,7 +18,7 @@
                         <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal($event)"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
-                        <a v-else :href="link.href">
+                        <a v-else :href="link.href" class="link" @click="closeMobileMenu">
                             {{ link.name }}
                         </a>
                     </li>
@@ -107,7 +107,7 @@ export default {
                     name: 'Партнёрам'
                 },
                 {
-                    href: '#',
+                    href: '#contacts',
                     name: 'Контакты'
                 },
                 {
@@ -175,21 +175,34 @@ export default {
 <style lang="scss" scoped>
 .slide-enter-active,
 .slide-leave-active {
-    transition: left 0.2s ease;
+    transition: opacity .2s;
+
+    & .menu {
+        transition: transform 0.2s ease;
+    }
 }
 
 .slide-enter-from,
 .slide-leave-to {
-    left: -100%;
+    opacity: 0;
+
+    & .menu {
+        transform: translateX(-100%);
+    }
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #mobile-menu.modal {
     padding: 0;
     top: 89px;
-    width: 320px;
+    left: 0;
 }
 
 .menu {
+    width: 320px;
     background-color: $white;
     display: flex;
     flex-direction: column;
@@ -249,6 +262,7 @@ export default {
     }
 
     .menu {
+        width: 100%;
         height: calc(100% - 50px);
     }
 }
