@@ -1,148 +1,99 @@
 <template>
-    <footer id="contacts">
-        <div class="container">
-
-            <div v-if="isMobile === false" class="flexContainer">
-                <ul class="leftPart">
-                    <a href="/">
-                        <img class="imgForward" src="/assets/images/footer/forward.png"
-                            alt="there was a logo CaForward" />
-                    </a>
-                    <li>г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3</li>
-                </ul>
-                <ul class="footer-nav" v-for="(listElem, index) in footerArr" :key="index">
-                    <template v-for="footerItem in listElem" :key="footerItem.name">
-                        <a v-if="footerItem.target" class="header-bottom-nav__link" :href="footerItem.href"
-                            :target="footerItem.target">
-                            {{ footerItem.name }}
-                        </a>
-
-                        <router-link v-else-if="footerItem.href !== '#'" :to="footerItem.href">
-                            {{ footerItem.name }}
-                        </router-link>
-
-                        <a v-else-if="footerItem.name === 'Получить консультацию'" @click.stop="showModal"
-                            class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name }}</a>
-
-                        <a v-else class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name }}</a>
-                    </template>
-                </ul>
-                <div class="rightContainer">
-                    <ul class="feedback">
-                        <li @click="showModal($event)">Обратная связь</li>
-                        <li>
-                            <a href="tel:+78043334133" :style="{ fontWeight: 700 }">+ 7 (804) 333-41-33</a>
-                        </li>
-                        <li>
-                            пн - чт 9:00-18:00
-                        </li>
-                        <li style="padding-bottom: 28px">
-                            пт 9:00-16:45
-                        </li>
-                        <li>Написать на почту</li>
-                        <li>
-                            <a href="mailto:dolg.info@caforward.ru"
-                                :style="{ fontWeight: 700 }">dolg.info@caforward.ru</a>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
-                        <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
-                        <div class="iconContainer">
-                            <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
-                                alt="there was a icon from SM " />
-                        </div>
-                    </ul>
-                </div>
-            </div>
-
-            <div v-if="isMobile" class="flexContainer">
-                <div class="left-side">
-                    <ul class="leftPart">
-                        <a href="/">
+    <footer id="contacts" class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-top__inner">
+                    <div class="footer-top__left">
+                        <a href="/" class="footer-top__logo">
                             <img class="imgForward" src="/assets/images/footer/forward.png"
                                 alt="there was a logo CaForward" />
                         </a>
-                    </ul>
-                    <ul class="footer-nav">
-                        <a href="/about" target="_self">
-                            О компании
-                        </a>
-                    </ul>
-                    <ul class="footer-nav">
-                        <a target="_self" href="/jobs">
-                            Вакансии
-                        </a>
-                    </ul>
-                    <ul class="footer-nav partners">
-                        <a target="_self" href="/for-partners">
-                            Партнёрам
-                        </a>
-                    </ul>
-                    <ul class="feedback">
-                        <li @click="showModal($event)">Обратная связь</li>
-                        <li>
-                            <a href="tel:+78043334133" :style="{ fontWeight: 700 }">+ 7 (804) 333-41-33</a>
-                        </li>
-                        <li>
-                            пн - чт 9:00-18:00
-                        </li>
-                        <li style="padding-bottom: 28px">
-                            пт 9:00-16:45
-                        </li>
-                        <li>Написать на почту</li>
-                        <li>
-                            <a href="mailto:dolg.info@caforward.ru"
-                                :style="{ fontWeight: 700 }">dolg.info@caforward.ru</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="rightContainer">
-                    <ul class="footer-nav">
-                        <a target="_blank" href="">
-                            Получить рассрочку
-                        </a>
-                    </ul>
-                    <ul class="footer-nav">
-                        <a @click.stop="showModal($event)" target="_blank" href="">
-                            Получить консультацию
-                        </a>
-                    </ul>
-                    <ul class="footer-nav">
-                        <a target="_blank" href="https://pay.mandarinbank.com/?m=4971">
-                            Внести платёж
-                        </a>
-                    </ul>
-                    <ul>
-                        <li><button @click="showModal($event)" class="whiteButt">Обратная связь</button></li>
-                        <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
-                        <div class="iconContainer">
-                            <img v-for="(iconSrc, index) in iconSrcList" :key="index" :src="iconSrc.src"
-                                alt="there was a icon from SM " />
+                        <div class="footer-top__address">
+                            г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3
                         </div>
-                    </ul>
-                    <ul class="after-icon">
-                        <li>г. Новосибирск,<br /> <br>ул.  Урицкого, д. 21, этаж 3</li>
-                    </ul>
+                    </div>
+
+                    <div class="footer-nav">
+                        <div class="footer-nav__inner">
+                            <ul class="footer-nav__list" v-for="(listElem, index) in footerArr" :key="index">
+                                <li v-for="footerItem in listElem" :key="footerItem.name">
+                                    <a v-if="footerItem.target" class="header-bottom-nav__link" :href="footerItem.href"
+                                        :target="footerItem.target">
+                                        {{ footerItem.name }}
+                                    </a>
+
+                                    <router-link v-else-if="footerItem.href !== '#'" :to="footerItem.href"
+                                        class="header-bottom-nav__link">
+                                        {{ footerItem.name }}
+                                    </router-link>
+
+                                    <a v-else-if="footerItem.name === 'Получить консультацию'" @click.stop="showModal"
+                                        class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name
+                                        }}</a>
+
+                                    <a v-else class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name
+                                        }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <a href="#">
+                            Получить квитанцию для оплаты
+                        </a> -->
+                    </div>
+
+                    <div class="footer-top__right">
+                        <ul class="footer-top-feedback">
+                            <li>
+                                <a href="#" @click="showModal($event)">
+                                    Обратная связь
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:+78043334133" class="footer-top-feedback__contact">
+                                    + 7 (804) 333-41-33
+                                </a>
+                            </li>
+                            <li>
+                                пн - чт 9:00-18:00
+                            </li>
+                            <li style="padding-bottom: 15px">
+                                пт 9:00-16:45
+                            </li>
+                            <li>Написать на почту</li>
+                            <li>
+                                <a href="mailto:dolg.info@caforward.ru" class="footer-top-feedback__contact">
+                                    dolg.info@caforward.ru
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="footer-top-buttons">
+                            <button @click="showModal($event)" class="button">
+                                Обратная связь
+                            </button>
+                            <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
+                            <ul class="footer-top-buttons__social">
+                                <li class="iconContainer" v-for="(iconSrc, index) in iconSrcList" :key="index">
+                                    <img :src="iconSrc.src" alt="there was a icon from SM " />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <hr />
         <div class="footer-bottom">
             <div class="container">
-                <div class="footerFlex">
-                    <div>
+                <div class="footer-bottom__inner">
+                    <div class="footer-bottom__left">
                         <span>ООО ПКО "Форвард"</span>
-                        <span><a target="_blank" href="/policy" class="footer-bottom__link">Политика
-                                конфиденциальности</a></span>
+
+                        <a target="_blank" href="/policy" class="footer-bottom__link">
+                            Политика конфиденциальности
+                        </a>
                     </div>
-                    <div>
-                        <span>
-                            <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
-                                Design by freepik
-                            </a>
-                        </span>
-                    </div>
+                    <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
+                        Design by freepik
+                    </a>
                 </div>
             </div>
         </div>
@@ -153,7 +104,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ModalConsultation from "./ModalConsultation.vue";
-
 
 interface FooterItem {
     name: string;
@@ -186,6 +136,7 @@ export default defineComponent({
                     { name: "Получить рассрочку", href: "#" },
                     { name: "Получить консультацию", href: "#" },
                     { name: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
+                    { name: "Получить квитанцию для оплаты", href: "#" },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
@@ -233,276 +184,183 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-a {
-    display: block;
-    cursor: pointer;
-    color: white;
-    font-weight: 500;
-}
+.footer {
+    background-color: $black;
 
-footer {
-    background: rgb(41, 41, 41);
-}
+    * {
+        font-size: 14px;
 
-.footerFlex {
-    display: flex;
-    justify-content: space-between;
-}
-
-.freepik {
-    color: #f8f5f80a;
-}
-
-.container {
-    color: white;
-}
-
-.footer-bottom {
-    padding: 19.5px 26px 31px 20px;
-    color: white;
-    font-size: 14px;
-
-    &__link {
-        color: white;
-        margin-left: 25px;
-    }
-}
-
-span {
-    display: inline-block;
-    font-family: "Montserrat", sans-serif;
-    letter-spacing: 0%;
-
-    a {
-        display: inline-block;
-        font-family: "Montserrat", sans-serif;
-        letter-spacing: 0%;
-    }
-}
-
-.flexContainer {
-    display: flex;
-    padding-top: 61px;
-    justify-content: space-between;
-    padding-bottom: 34px;
-}
-
-.rightContainer {
-    display: flex;
-    gap: 30px;
-}
-
-.iconContainer {
-    display: flex;
-    gap: 7px;
-    justify-content: center;
-
-    img {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-.leftPart {
-    li {
-        line-height: 24px;
-    }
-
-    a {
-        line-height: 24px;
-    }
-}
-
-hr {
-    width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    height: 0px;
-}
-
-li {
-    font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 17px;
-    letter-spacing: 0%;
-}
-
-a {
-    font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 17px;
-    letter-spacing: 0%;
-}
-
-.feedback {
-    a {
-        color: white;
-    }
-
-    li {
-        margin-bottom: 15px;
-    }
-
-    .liMonday {
-        padding-bottom: 28px;
-    }
-}
-
-.footer-nav {
-    &>*:not(:last-child) {
-        margin-bottom: 30px;
-    }
-}
-
-.imgForward {
-    max-width: 200px;
-    max-height: 52px;
-    width: 100%;
-    margin-bottom: 26px;
-}
-
-.whiteButt {
-    width: 198px;
-    height: 41px;
-    border-radius: 30px;
-    background: rgb(245, 245, 245);
-    margin-bottom: 14px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 214%;
-    color: #212121;
-}
-
-.blueButt {
-    width: 198px;
-    height: 41px;
-    border-radius: 30px;
-    background: rgb(0, 150, 216);
-    margin-bottom: 30px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 214%;
-    color: #fff;
-}
-
-@media screen and (max-width: 1024px) and (min-width: 641px) {
-    .flexContainer {
-        flex-direction: row;
-        padding-top: 30px;
-        padding-bottom: 17px;
-        align-items: center;
-    }
-
-    .rightContainer {
-        display: flex;
-        flex-direction: column;
-        padding-top: 58px;
-
-        .after-icon {
-            margin-top: 15px;
+        &:not(.button) {
+            color: #fff;
         }
     }
 
-    .left-side {
-        ul {
+    &-top {
+        padding: 70px 0 50px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        &__inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        &__logo {
+            max-width: 200px;
+            margin-bottom: 25px;
+        }
+
+        &__address {
+            font-size: 14px;
+            line-height: 171%;
+        }
+
+        &-feedback {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            &__contact {
+                font-weight: 700;
+            }
+        }
+
+        &__right {
+            flex: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        &-buttons {
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            button {
+                height: 40px;
+                max-width: 180px;
+            }
+
+            &__social {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 5px;
+            }
+        }
+    }
+
+    &-nav {
+        max-width: 35%;
+
+        &__inner {
+            display: flex;
+            gap: 30px;
             margin-bottom: 30px;
+        }
 
+        &__list {
+            display: flex;
+            align-content: start;
+            gap: 30px;
+            flex-wrap: wrap;
+
+            &>li {
+                width: 100%;
+            }
         }
     }
 
-    .feedback {
-        margin-top: 45px;
-    }
+    &-bottom {
+        padding: 20px 0 30px;
 
-    .imgForward {
-        margin-bottom: 0px;
-        width: 159px;
-        height: 42px;
-    }
+        &__inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            row-gap: 15px;
+        }
 
-    .iconContainer {
-        gap: 17px;
-        align-content: flex-start;
+        &__left {
+            flex-wrap: wrap;
+            display: flex;
+            gap: 30px;
+            row-gap: 15px;
+        }
     }
-
 }
 
-@media screen and (max-width: 640.5px) {
-    .flexContainer {
-        flex-direction: column;
-        padding-top: 30px;
-        padding-bottom: 17px;
-        align-items: center;
-        align-items: flex-start;
-    }
+@include laptop {
+    .footer {
+        &-top {
+            &__inner {
+                flex-wrap: wrap;
+            }
 
-    .rightContainer {
-        display: flex;
-        flex-direction: column;
+            &__right {
+                width: 100%;
+                justify-content: space-between;
 
-        .after-icon {
-            margin-top: 15px;
+                &>* {
+                    width: calc(50% - 15px);
+                }
+            }
+        }
+
+        &-nav {
+            max-width: 48%;
         }
     }
+}
 
-    .leftPart li {
-        margin-bottom: 31px;
-    }
+@include tablet {
+    .footer {
+        &-top {
+            &__inner {
+                flex-wrap: wrap;
+            }
 
-    .whiteButt {
-        width: 180px;
-        height: 41px;
-    }
+            &__right {
+                flex-wrap: wrap;
 
-    .feedback {
-        margin-top: 29px;
+                &>* {
+                    min-width: max-content;
+                }
+            }
 
-        li {
-            margin-bottom: 28px;
+            &__logo {
+                max-width: 160px;
+                margin-bottom: 20px;
+            }
+        }
+
+        &-nav {
+            max-width: 100%;
+
+            &__list {
+                width: calc(50% - 15px);
+            }
         }
     }
+}
 
-    .imgForward {
-        margin-bottom: 19px;
-        width: 159px;
-        height: 42px;
+@include mobile {
+    .footer {
+        &-top {}
+
+        &-nav {
+            &__inner {
+                flex-wrap: wrap;
+            }
+
+            max-width: 100%;
+
+            &__list {
+                width: 100%;
+            }
+        }
     }
-
-    .iconContainer {
-        gap: 17px;
-        align-content: flex-start;
-    }
-
-    .footer-nav[data-v-e4a862c3]>*:not(:last-child) {
-        margin-bottom: 0px;
-    }
-
-    a {
-        margin-bottom: 16px;
-    }
-
-    .footer-nav[data-v-e4a862c3][data-v-e4a862c3]>*:not(:last-child) {
-        margin-bottom: 16px;
-    }
-
-    .footer-bottom__link {
-
-        margin-left: 0px;
-    }
-
-    span {
-        display: block;
-        margin-left: 0px;
-        margin-bottom: 6px;
-    }
-
-    .footer-bottom[data-v-e4a862c3] {
-        padding: 19.5px 26px 31px 0px;
-
-    }
-
 }
 </style>

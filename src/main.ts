@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router';
 import vSelect from 'vue-select'
 import noUiSlider from 'nouislider';
-import VueTheMask from 'vue-the-mask'
+import VueMask from '@ssibrahimbas/v-mask';
 
 import './assets/scss/index.scss'
 import 'vue-select/dist/vue-select.css';
@@ -19,5 +19,6 @@ app.component("v-select", vSelect);
 app.provide('noUiSlider', noUiSlider);
 
 app.use(router);
-app.use(VueTheMask);
+app.use(VueMask);
+
 app.mount('#app');
