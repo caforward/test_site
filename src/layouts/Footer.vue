@@ -81,22 +81,19 @@
                 </div>
             </div>
         </div>
-        <hr />
         <div class="footer-bottom">
             <div class="container">
-                <div class="footerFlex">
-                    <div>
+                <div class="footer-bottom__inner">
+                    <div class="footer-bottom__left">
                         <span>ООО ПКО "Форвард"</span>
-                        <span><a target="_blank" href="/policy" class="footer-bottom__link">Политика
-                                конфиденциальности</a></span>
+
+                        <a target="_blank" href="/policy" class="footer-bottom__link">
+                            Политика конфиденциальности
+                        </a>
                     </div>
-                    <div>
-                        <span>
-                            <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
-                                Design by freepik
-                            </a>
-                        </span>
-                    </div>
+                    <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
+                        Design by freepik
+                    </a>
                 </div>
             </div>
         </div>
@@ -200,6 +197,7 @@ export default defineComponent({
 
     &-top {
         padding: 70px 0 50px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
         &__inner {
             display: flex;
@@ -271,6 +269,25 @@ export default defineComponent({
             &>li {
                 width: 100%;
             }
+        }
+    }
+
+    &-bottom {
+        padding: 20px 0 30px;
+
+        &__inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            row-gap: 15px;
+        }
+
+        &__left {
+            flex-wrap: wrap;
+            display: flex;
+            gap: 30px;
+            row-gap: 15px;
         }
     }
 }
