@@ -207,6 +207,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.14.3.tgz#5b2fb4d8cd44c05deef8a7b0e6deb9ccb8939d18"
   integrity sha512-/BypzV0H1y1HzgYpxqRaXGBRqfodgoBBCcsrujT6QRcakDQdfU+Lq9PENPh5jB4I44YWq+0C2eHsHya+nZY1sA==
 
+"@ssibrahimbas/v-mask@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ssibrahimbas/v-mask/-/v-mask-1.0.0.tgz#a49207cb688de45c6d5e70f6e349710687b4eb6b"
+  integrity sha512-pWBjvDf1R0L/Ef0pbDvgjoLjbG4s80IktU3kEXiCNgBTKIFNJWLE5i38N8Uvg49Zd1GNxkGtRylfHtCkuUMMTw==
+
 "@types/estree@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
@@ -685,11 +690,6 @@ vue-template-compiler@^2.7.14:
   dependencies:
     de-indent "^1.0.2"
     he "^1.2.0"
-
-vue-the-mask@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/vue-the-mask/-/vue-the-mask-0.11.1.tgz#91ee01008354ae57bccc79bb61b65f32d971d9d5"
-  integrity sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==
 
 vue-tsc@^1.8.27:
   version "1.8.27"
