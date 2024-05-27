@@ -53,9 +53,15 @@ export default {
                     dataName: 'email'
                 },
                 {
-                    type: 'text',
+                    tagName: 'v-select',
                     placeholder: 'Тема обращения*',
-                    dataName: 'messageType'
+                    dataName: 'messageType',
+                    options: [
+                        "Узнать номер договора",
+                        "Разблокировать счет",
+                        "Рассрочка",
+                        "Другое",
+                    ]
                 },
                 {
                     tagName: 'textarea',
