@@ -4,9 +4,19 @@
         <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
                 <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
-                    <component :is="inputIter.tagName || 'input'" class="input" :type="inputIter.type"
-                        :placeholder="inputIter.placeholder"
-                        @input="formData[inputIter.dataName] = validateInput($event)">
+                    <input v-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
+                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
+                        @input="validateInput($event, inputIter.dataName)"
+                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
+
+                    <v-select v-else-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
+                        :options="inputIter.options" :placeholder="inputIter.placeholder"
+                        v-model="formData[inputIter.dataName]" @click="validateInput($event, inputIter.dataName)">
+                    </v-select>
+
+                    <component v-else :is="inputIter.tagName || 'input'" :name="inputIter.dataName" class="input"
+                        :type="inputIter.type" :placeholder="inputIter.placeholder"
+                        @input="validateInput($event, inputIter.dataName)">
                     </component>
                     <span class="error"></span>
                 </div>
@@ -21,7 +31,9 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">Отправить</button>
+                <button class="button button_blue form-block__button" @click="handleSubmit">
+                    Отправить
+                </button>
             </div>
         </form>
     </div>
@@ -40,91 +52,140 @@ export default {
         return {
             consent: false,
             formData: {},
-
-
+            formInputs: {},
+            formIsValid: false,
         }
     },
     beforeMount() {
+        // Инициализация данных для валидации
         this.inputs.forEach(input => {
             this.formData[input.dataName] = ''
-        });
+            this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+        })
+    },
+    mounted() {
+        // Инициализация DOM элементов валидации
+        const form = document.querySelector('form')
+
+        this.inputs.forEach(input => {
+            this.formInputs[input.dataName].elementDOM = form.querySelector(`[name=${input.dataName}]`)
+        })
     },
     methods: {
         handleSubmit() {
-            // if (!this.consent) {
-            //     // согласие на обработку персональных данных
-            //     return
-            // }
-            console.log('Form data submitted:', this.formData, this.consent);
-            // логика для отправки данных формы
+            const form = document.querySelector('form')
+            const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
+
+            // Проверяеем наличие ошибок
+            this.checkAllInputErrors(this.formInputs)
+
+            if (!this.consent) {
+                consentCheckbox.classList.add('checkbox_error')
+
+                setTimeout(() => {
+                    consentCheckbox.classList.remove('checkbox_error')
+                }, 300)
+
+                return
+            }
+
+            // Проверяем валидна ли форма
+            if (this.formIsValid) {
+                // Отправляем данные на сервер
+                console.log('Form data submitted:', this.formData, this.consent);
+
+                // Обнуляем все инпуты
+                Object.keys(this.formInputs).forEach(key => {
+                    this.formInputs[key].elementDOM.value = ''
+                })
+            }
         },
-        validateTel(value) {
-            const telRegexp = /^(?:\+7)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/
-            let err = ''
+        checkAllInputErrors(inputs) {
+            const inputsNames = Object.keys(inputs)
 
-            if (value === '+') {
-                value = ''
-                err = 'Заполните поле'
-                return [value, err]
-            }
+            inputsNames.forEach(name => {
+                this.checkError(inputs[name])
+            })
+        },
+        checkError(inputData) {
+            const inputWrapper = inputData.elementDOM.parentNode
+            const inputError = inputWrapper?.querySelector('.error')
 
-            if (value.startsWith('+7')) {
-                value = value.replace('+7', '')
-            }
+            // Проверить есть ли ошибка у инпута
+            // если есть - показать
+            if (inputData.error) {
+                inputData.isValid = false
+                inputData.elementDOM.classList.add('input_error')
 
-            // проверка на ввод только чисел
-            if (value.match(/[0-9]/g)) {
-                value = Number(value.replace(/[^0-9]/g, ''))
+                if (inputError) {
+                    inputError.innerText = inputData.error
+                    inputError.classList.add('error_visible')
+                }
+
             } else {
-                value = ''
-            }
+                inputData.isValid = true
+                inputData.elementDOM.classList.remove('input_error')
 
-            console.log(value)
-
-            value = `+7${value}`
-
-            if (!telRegexp.test(value)) {
-                err = 'Неверный формат номер телефона'
-            }
-
-            return [value, err]
-        },
-        showError(element, err) {
-            const elWrapper = element.parentNode
-            const elError = elWrapper.querySelector('.error')
-
-            if (err) {
-                elError.innerText = err
-                elError.classList.add('error_visible')
-            } else {
-                elError.innerText = ''
-                elError.classList.remove('error_visible')
+                if (inputError) {
+                    inputError.innerText = ''
+                    inputError.classList.remove('error_visible')
+                }
             }
         },
-        blur(e) {
-
-        },
-        validateInput(e) {
+        blurErrorShortValueHandler(e, fieldName) {
+            const inputData = this.formInputs[fieldName]
             const input = e.target;
-            let value = e.target.value
-            let error = ''
 
+            // Если номер телефона короче необходимого
+            if (input.type === 'tel' && input.value.length < 18) {
+                inputData.error = 'Заполните поле'
+                this.checkError(inputData)
+            }
+        },
+        validateInput(e, fieldName) {
+            const inputData = this.formInputs[fieldName]
+            const input = e.target;
+
+            // Удаляем текущую ошибку при пользовательскои вводе
+            inputData.error = ''
+
+            // Если инпут пустой записываем ошибку
             if (input.type === 'text' && input.value === '') {
-                // validate
-                error = 'Заполните поле'
-            } else if (input.type === 'email' && input.value === '') {
-                // validate
-                error = 'Заполните поле'
-            } else if (input.type === 'tel') {
-                [value, error] = this.validateTel(value)
+                inputData.error = 'Заполните поле'
+            }
+            else if (input.type === 'email' && input.value === '') {
+                inputData.error = 'Заполните поле'
+            }
+            else if (input.type === 'tel' && input.value.length === '') {
+                inputData.error = 'Заполните поле'
+            }
+            else if (input.closest('.v-select') && this.formData.messageType === '') {
+                inputData.error = 'Заполните поле'
+                this.checkError(inputData)
+                return
             }
 
-            this.showError(input, error)
-
-            e.target.value = value
-            return value;
+            // Проверяем были ли записаны ошибки и если да, то выводим
+            this.checkError(inputData)
+            // Сохраняем значение инпута в formData
+            this.formData[fieldName] = input.value
         }
     },
+    watch: {
+        formInputs: {
+            handler(inputs) {
+                const inputsNames = Object.keys(inputs)
+                this.formIsValid = true
+
+                inputsNames.forEach(name => {
+                    if (!inputs[name].isValid) {
+                        this.formIsValid = false
+                    }
+                })
+            },
+            deep: true
+        }
+    }
 }
 </script>
 
@@ -206,8 +267,17 @@ export default {
     }
 }
 
+.checkbox {
+    transition: background-color .3s;
+
+    &_error {
+        background-color: #FF6464;
+    }
+}
+
 .input {
     border: 1px solid transparent;
+    transition: border-color .2s;
 
     &_error {
         border-color: #FF6464;
@@ -216,13 +286,14 @@ export default {
     &__wrapper {
         position: relative;
         border-radius: 5px;
-        overflow: hidden;
 
         &:not(:last-child) {
             margin-bottom: 15px;
         }
 
         & .error {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -245,6 +316,103 @@ export default {
         }
     }
 
+}
+
+:deep(.vSelect) {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    height: 50px;
+    border: 1px solid transparent;
+    transition: border-color .2s;
+    border-radius: 5px;
+
+    .vs {
+        &__selected {
+            color: $black;
+            font-size: 14px;
+        }
+
+        &__clear {
+            display: none;
+        }
+
+        &__dropdown {
+            &-toggle {
+                width: 100%;
+                border: none;
+                padding: 0 10px;
+            }
+
+            &-menu {
+                color: $black;
+                font-size: 14px;
+            }
+        }
+
+        &__search {
+            color: $black;
+
+            &::placeholder {
+                color: $black;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+:deep(.optionsWrap) {
+    v-select vs--single vs--searchable vSelect {
+        cursor: pointer;
+    }
+
+    --vs-dropdown-option-padding: 0 0 8.5px 16px;
+    --vs-dropdown-option--active-bg: none;
+    --vs-dropdown-option--active-color: rgb(0, 150, 216);
+    --vs-actions-padding: 4px 12px 0 3px;
+    padding-bottom: 16px;
+
+    .vSelect {
+        background-color: rgba(234, 236, 238, 0.5);
+
+        .vs__clear {
+            display: none;
+        }
+
+        box-sizing: border-box;
+        border: 0.5px solid rgb(227, 230, 232);
+        border-radius: 5px;
+        background: rgb(255, 255, 255);
+
+        ::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 14px;
+        }
+
+        .vs__dropdown-toggle {
+            padding: 9.5px 0;
+            background: #ffffff;
+            border: 0.5px;
+        }
+
+        .vs__search {
+            padding-left: 13px;
+        }
+    }
+
+    .vs__selected {
+        padding-left: 9px;
+        font-size: 14px;
+        color: #fff !important;
+    }
+
+    li {
+        font-size: 14px;
+    }
+
+    ul .vs4__listbox {
+        height: 160px;
+    }
 }
 
 textarea {

@@ -137,8 +137,11 @@
                                 конфиденциальности</a></span>
                     </div>
                     <div>
-                        <span><a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">Source
-                                link</a></span>
+                        <span>
+                            <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
+                                Design by freepik
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -478,7 +481,7 @@ a {
     }
 
     a {
-        margin-bottom: 17px;
+        margin-bottom: 16px;
     }
 
     .footer-nav[data-v-e4a862c3][data-v-e4a862c3]>*:not(:last-child) {

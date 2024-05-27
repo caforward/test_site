@@ -298,6 +298,11 @@ export default {
 
     &-button__menu {
         display: none;
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
 
