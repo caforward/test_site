@@ -1,7 +1,7 @@
 <template>
     <section class="">
         <div class="slider">
-            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :speed="600">
+            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :speed="700">
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
@@ -211,7 +211,7 @@ export default {
             } else {
                 rewind = false
             }
-        }, 5000)
+        }, 8000)
 
         this.swiper.on('destroy', () => {
             clearInterval(intervalID)

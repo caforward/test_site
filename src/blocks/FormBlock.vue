@@ -9,6 +9,11 @@
                         @input="validateInput($event, inputIter.dataName)"
                         @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
 
+                    <v-select v-else-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
+                        :options="inputIter.options" :placeholder="inputIter.placeholder"
+                        v-model="formData[inputIter.dataName]" @click="validateInput($event, inputIter.dataName)">
+                    </v-select>
+
                     <component v-else :is="inputIter.tagName || 'input'" :name="inputIter.dataName" class="input"
                         :type="inputIter.type" :placeholder="inputIter.placeholder"
                         @input="validateInput($event, inputIter.dataName)">
@@ -48,7 +53,7 @@ export default {
             consent: false,
             formData: {},
             formInputs: {},
-            formIsValid: false
+            formIsValid: false,
         }
     },
     beforeMount() {
@@ -153,6 +158,11 @@ export default {
             }
             else if (input.type === 'tel' && input.value.length === '') {
                 inputData.error = 'Заполните поле'
+            }
+            else if (input.closest('.v-select') && this.formData.messageType === '') {
+                inputData.error = 'Заполните поле'
+                this.checkError(inputData)
+                return
             }
 
             // Проверяем были ли записаны ошибки и если да, то выводим
@@ -276,13 +286,14 @@ export default {
     &__wrapper {
         position: relative;
         border-radius: 5px;
-        overflow: hidden;
 
         &:not(:last-child) {
             margin-bottom: 15px;
         }
 
         & .error {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -305,6 +316,103 @@ export default {
         }
     }
 
+}
+
+:deep(.vSelect) {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    height: 50px;
+    border: 1px solid transparent;
+    transition: border-color .2s;
+    border-radius: 5px;
+
+    .vs {
+        &__selected {
+            color: $black;
+            font-size: 14px;
+        }
+
+        &__clear {
+            display: none;
+        }
+
+        &__dropdown {
+            &-toggle {
+                width: 100%;
+                border: none;
+                padding: 0 10px;
+            }
+
+            &-menu {
+                color: $black;
+                font-size: 14px;
+            }
+        }
+
+        &__search {
+            color: $black;
+
+            &::placeholder {
+                color: $black;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+:deep(.optionsWrap) {
+    v-select vs--single vs--searchable vSelect {
+        cursor: pointer;
+    }
+
+    --vs-dropdown-option-padding: 0 0 8.5px 16px;
+    --vs-dropdown-option--active-bg: none;
+    --vs-dropdown-option--active-color: rgb(0, 150, 216);
+    --vs-actions-padding: 4px 12px 0 3px;
+    padding-bottom: 16px;
+
+    .vSelect {
+        background-color: rgba(234, 236, 238, 0.5);
+
+        .vs__clear {
+            display: none;
+        }
+
+        box-sizing: border-box;
+        border: 0.5px solid rgb(227, 230, 232);
+        border-radius: 5px;
+        background: rgb(255, 255, 255);
+
+        ::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 14px;
+        }
+
+        .vs__dropdown-toggle {
+            padding: 9.5px 0;
+            background: #ffffff;
+            border: 0.5px;
+        }
+
+        .vs__search {
+            padding-left: 13px;
+        }
+    }
+
+    .vs__selected {
+        padding-left: 9px;
+        font-size: 14px;
+        color: #fff !important;
+    }
+
+    li {
+        font-size: 14px;
+    }
+
+    ul .vs4__listbox {
+        height: 160px;
+    }
 }
 
 textarea {
