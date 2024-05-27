@@ -481,7 +481,7 @@ a {
     }
 
     a {
-        margin-bottom: 17px;
+        margin-bottom: 16px;
     }
 
     .footer-nav[data-v-e4a862c3][data-v-e4a862c3]>*:not(:last-child) {
