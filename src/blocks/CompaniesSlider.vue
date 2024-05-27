@@ -97,6 +97,42 @@ export default {
                     name: "yuni-bank",
                     img: "suppliers/uni.png",
                 },
+                {
+                    name: "quatro",
+                    img: "suppliers/quatro.svg",
+                },
+                {
+                    name: "kredito-24",
+                    img: "suppliers/kredito-24.svg",
+                },
+                {
+                    name: "mig-kredit",
+                    img: "suppliers/mig-kredit.svg",
+                },
+                {
+                    name: "turbozaim",
+                    img: "suppliers/turbozaim.svg",
+                },
+                {
+                    name: "finmoll",
+                    img: "suppliers/finmoll.png",
+                },
+                {
+                    name: "viva",
+                    img: "suppliers/viva.svg",
+                },
+                {
+                    name: "tkb",
+                    img: "suppliers/tkb.png",
+                },
+                {
+                    name: "zaimer",
+                    img: "suppliers/zaimer.svg",
+                },
+                {
+                    name: "bistrodengi",
+                    img: "suppliers/bistrodengi.svg",
+                },
             ],
         };
     },
