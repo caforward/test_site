@@ -4,20 +4,26 @@
         <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
                 <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
-                    <input v-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
-                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        @input="validateInput($event, inputIter.dataName)"
-                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
 
-                    <v-select v-else-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
+                    <v-select v-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
                         :options="inputIter.options" :placeholder="inputIter.placeholder"
-                        v-model="formData[inputIter.dataName]" @click="validateInput($event, inputIter.dataName)">
+                        v-model="formData[inputIter.dataName]">
                     </v-select>
 
-                    <component v-else :is="inputIter.tagName || 'input'" :name="inputIter.dataName" class="input"
+                    <input v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
                         :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        @input="validateInput($event, inputIter.dataName)">
-                    </component>
+                        v-model="formData[inputIter.dataName]">
+                    </input>
+
+                    <input v-else-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
+                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
+                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)"
+                        v-model="formData[inputIter.dataName]">
+
+                    <input v-else :name="inputIter.dataName" class="input" :type="inputIter.type"
+                        :placeholder="inputIter.placeholder" v-model="formData[inputIter.dataName]">
+                    </input>
+
                     <span class="error"></span>
                 </div>
             </div>
@@ -61,6 +67,8 @@ export default {
         this.inputs.forEach(input => {
             this.formData[input.dataName] = ''
             this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+
+            this.$watch(() => this.formData[input.dataName], () => { this.validateInput(input.dataName) })
         })
     },
     mounted() {
@@ -142,9 +150,9 @@ export default {
                 this.checkError(inputData)
             }
         },
-        validateInput(e, fieldName) {
+        validateInput(fieldName) {
             const inputData = this.formInputs[fieldName]
-            const input = e.target;
+            const input = inputData.elementDOM
 
             // Удаляем текущую ошибку при пользовательскои вводе
             inputData.error = ''
@@ -159,16 +167,12 @@ export default {
             else if (input.type === 'tel' && input.value.length === '') {
                 inputData.error = 'Заполните поле'
             }
-            else if (input.closest('.v-select') && this.formData.messageType === '') {
-                inputData.error = 'Заполните поле'
-                this.checkError(inputData)
-                return
+            else if (input.closest('.v-select') && !this.formData.messageType) {
+                inputData.error = 'Выберите тему обращения'
             }
 
             // Проверяем были ли записаны ошибки и если да, то выводим
             this.checkError(inputData)
-            // Сохраняем значение инпута в formData
-            this.formData[fieldName] = input.value
         }
     },
     watch: {
@@ -184,7 +188,7 @@ export default {
                 })
             },
             deep: true
-        }
+        },
     }
 }
 </script>
