@@ -57,10 +57,12 @@ export default defineComponent({
 					placeholder: 'Тема обращения*',
 					dataName: 'messageType',
 					options: [
+						"Прошу перезвонить",
 						"Узнать номер договора",
 						"Разблокировать счет",
 						"Рассрочка",
 						"Другое",
+						
 					]
 				},
 				{

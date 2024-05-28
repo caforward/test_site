@@ -21,7 +21,8 @@
                         v-model="formData[inputIter.dataName]">
 
                     <input v-else :name="inputIter.dataName" class="input" :type="inputIter.type"
-                        :placeholder="inputIter.placeholder" v-model="formData[inputIter.dataName]">
+                        :placeholder="inputIter.placeholder" v-model="formData[inputIter.dataName]"
+                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
                     </input>
 
                     <span class="error"></span>
@@ -91,7 +92,7 @@ export default {
         handleSubmit() {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
-
+            
             // Проверяеем наличие ошибок
             this.checkAllInputErrors(this.formInputs)
 
@@ -159,6 +160,13 @@ export default {
             if (input.type === 'tel' && input.value.length < 18) {
                 inputData.error = 'Заполните поле'
                 this.checkError(inputData)
+            } else if (input.type === 'text' ) {
+                if (input.value <= 0) {
+                    inputData.error = 'Заполните поле'
+                } else if (!/^[A-Za-zА-Яа-яЁё]{2,}\s[A-Za-zА-Яа-яЁё]{2,}(?:\s[A-Za-zА-Яа-яЁё]{2,})?$/.test(input.value)) {
+                    inputData.error = 'Имя и Фамилия должны содержать минимум 2 буквы'
+                } 
+                this.checkError(inputData)
             }
         },
         validateInput(fieldName) {
@@ -173,13 +181,13 @@ export default {
                 inputData.error = 'Заполните поле'
             }
             else if (input.type === 'email' && input.value === '') {
-                inputData.error = 'Заполните поле'
+                inputData.error = null
             }
             else if (input.type === 'tel' && input.value.length === '') {
                 inputData.error = 'Заполните поле'
             }
             else if (input.closest('.v-select') && !this.formData.messageType) {
-                inputData.error = 'Выберите тему обращения'
+                inputData.error = null
             }
 
             // Проверяем были ли записаны ошибки и если да, то выводим
