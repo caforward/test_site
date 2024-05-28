@@ -89,10 +89,11 @@ export default {
         })
     },
     methods: {
-        handleSubmit() {
+        async handleSubmit() {
+
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
-            
+
             // Проверяеем наличие ошибок
             this.checkAllInputErrors(this.formInputs)
 
@@ -109,13 +110,31 @@ export default {
             // Проверяем валидна ли форма
             if (this.formIsValid) {
                 // Отправляем данные на сервер
-                console.log('Form data submitted:', this.formData, this.consent);
+                const formData = new FormData();
 
                 Object.keys(this.formData).forEach(key => {
-                    this.formData[key] = ''
+                    formData.append(key, this.formData[key])
                 })
 
-                this.$emit("submitted")
+                try {
+                    const response = await fetch("email.php", {
+                        method: "POST",
+                        body: formData,
+                    });
+                    if (response.ok) {
+                        console.log("Сообщение успешно отправлено");
+
+                        Object.keys(this.formData).forEach(key => {
+                            this.formData[key] = ''
+                        })
+
+                    } else {
+                        console.error("Ошибка при отправке сообщения");
+                    }
+                } catch (error) {
+                    console.error("Ошибка при отправке сообщения:", error);
+                }
+                // this.$emit("submitted")
             }
         },
         checkAllInputErrors(inputs) {
@@ -160,12 +179,12 @@ export default {
             if (input.type === 'tel' && input.value.length < 18) {
                 inputData.error = 'Заполните поле'
                 this.checkError(inputData)
-            } else if (input.type === 'text' ) {
+            } else if (input.type === 'text') {
                 if (input.value <= 0) {
                     inputData.error = 'Заполните поле'
-                } else if (!/^[A-Za-zА-Яа-яЁё]{2,}\s[A-Za-zА-Яа-яЁё]{2,}(?:\s[A-Za-zА-Яа-яЁё]{2,})?$/.test(input.value)) {
+                } else if (!/^[A-Za-zА-Яа-яЁё]{2,}\s+[A-Za-zА-Яа-яЁё]{2,}/.test(input.value)) {
                     inputData.error = 'Имя и Фамилия должны содержать минимум 2 буквы'
-                } 
+                }
                 this.checkError(inputData)
             }
         },
