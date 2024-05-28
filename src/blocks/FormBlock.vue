@@ -4,20 +4,26 @@
         <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
                 <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
-                    <input v-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
-                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        @input="validateInput($event, inputIter.dataName)"
-                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
 
-                    <v-select v-else-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
+                    <v-select v-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
                         :options="inputIter.options" :placeholder="inputIter.placeholder"
-                        v-model="formData[inputIter.dataName]" @click="validateInput($event, inputIter.dataName)">
+                        v-model="formData[inputIter.dataName]" :disabled="inputIter.disabled">
                     </v-select>
 
-                    <component v-else :is="inputIter.tagName || 'input'" :name="inputIter.dataName" class="input"
+                    <textarea v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
                         :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        @input="validateInput($event, inputIter.dataName)">
-                    </component>
+                        v-model="formData[inputIter.dataName]">
+                    </textarea>
+
+                    <input v-else-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
+                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
+                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)"
+                        v-model="formData[inputIter.dataName]">
+
+                    <input v-else :name="inputIter.dataName" class="input" :type="inputIter.type"
+                        :placeholder="inputIter.placeholder" v-model="formData[inputIter.dataName]">
+                    </input>
+
                     <span class="error"></span>
                 </div>
             </div>
@@ -31,7 +37,7 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">
+                <button class="button button_blue form-block__button" @click.prevent="handleSubmit">
                     Отправить
                 </button>
             </div>
@@ -59,8 +65,15 @@ export default {
     beforeMount() {
         // Инициализация данных для валидации
         this.inputs.forEach(input => {
-            this.formData[input.dataName] = ''
-            this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+            if (input.value) {
+                this.formData[input.dataName] = input.value
+                this.formInputs[input.dataName] = { error: '', isValid: true }
+            } else {
+                this.formData[input.dataName] = ''
+                this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+            }
+
+            this.$watch(() => this.formData[input.dataName], () => { this.validateInput(input.dataName) })
         })
     },
     mounted() {
@@ -94,10 +107,11 @@ export default {
                 // Отправляем данные на сервер
                 console.log('Form data submitted:', this.formData, this.consent);
 
-                // Обнуляем все инпуты
-                Object.keys(this.formInputs).forEach(key => {
-                    this.formInputs[key].elementDOM.value = ''
+                Object.keys(this.formData).forEach(key => {
+                    this.formData[key] = ''
                 })
+
+                this.$emit("submitted")
             }
         },
         checkAllInputErrors(inputs) {
@@ -142,9 +156,9 @@ export default {
                 this.checkError(inputData)
             }
         },
-        validateInput(e, fieldName) {
+        validateInput(fieldName) {
             const inputData = this.formInputs[fieldName]
-            const input = e.target;
+            const input = inputData.elementDOM
 
             // Удаляем текущую ошибку при пользовательскои вводе
             inputData.error = ''
@@ -159,16 +173,12 @@ export default {
             else if (input.type === 'tel' && input.value.length === '') {
                 inputData.error = 'Заполните поле'
             }
-            else if (input.closest('.v-select') && this.formData.messageType === '') {
-                inputData.error = 'Заполните поле'
-                this.checkError(inputData)
-                return
+            else if (input.closest('.v-select') && !this.formData.messageType) {
+                inputData.error = 'Выберите тему обращения'
             }
 
             // Проверяем были ли записаны ошибки и если да, то выводим
             this.checkError(inputData)
-            // Сохраняем значение инпута в formData
-            this.formData[fieldName] = input.value
         }
     },
     watch: {
@@ -184,7 +194,7 @@ export default {
                 })
             },
             deep: true
-        }
+        },
     }
 }
 </script>
@@ -217,6 +227,12 @@ export default {
         aspect-ratio: 1 / 1;
         // background: radial-gradient(circle, $blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 50px;
+        max-height: 200px;
     }
 
     .form-block__form {
@@ -300,6 +316,7 @@ export default {
             position: absolute;
             bottom: 0;
             left: 0;
+            z-index: 1;
             width: 100%;
             background-color: #FF6464;
             height: 18px;
@@ -327,18 +344,22 @@ export default {
     transition: border-color .2s;
     border-radius: 5px;
 
+    &.vs {
+        &--disabled .vs__actions {
+            display: none;
+        }
+    }
+
     .vs {
+
         &__selected {
             color: $black;
             font-size: 14px;
         }
 
-        &__clear {
-            display: none;
-        }
-
         &__dropdown {
             &-toggle {
+                background-color: transparent !important;
                 width: 100%;
                 border: none;
                 padding: 0 10px;

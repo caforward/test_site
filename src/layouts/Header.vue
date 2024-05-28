@@ -4,13 +4,14 @@
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link :onclick="navLink.scroll" v-if="navLink.href && navLink.href[0] !== '#'" :to="navLink.href || ''" class="header-top-nav__link" exact>
+                        <router-link :onclick="navLink.scroll" v-if="navLink.href && navLink.href[0] !== '#'"
+                            :to="navLink.href || ''" class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
-                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.stop="openRequisitesModal"
+                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.prevent="requisitesModal = true"
                             class="header-top-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                         <a v-else class="header-top-nav__link" :href="navLink.href"
-                            @click="handleNavLink($event, navLink)">
+                            @click.prevent="handleNavLink($event, navLink)">
                             {{ navLink.name }}
                         </a>
                     </li>
@@ -35,10 +36,10 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.stop="openCallModal"
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.prevent="modalVisible = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.stop="openConsultationModal"
+                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.prevent="modalVisibleCall = true"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -68,7 +69,7 @@
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click="openMobileMenu">
+                        <a href="#" @click.prevent="mobileMenu = !mobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -86,6 +87,7 @@
     <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
     <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
     <Requisites :visible="requisitesModal" @close="requisitesModal = false" />
+    <ModalThank :visible="thankModal" @close="thankModal = false" />
 </template>
 
 <script lang="ts">
@@ -93,6 +95,7 @@ import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
 import Requisites from './Requisites.vue';
+import ModalThank from './ModalThank.vue';
 
 export default {
     name: "Header",
@@ -100,33 +103,8 @@ export default {
         ModalConsultation,
         ModalCall,
         MobileMenu,
-        Requisites
-    },
-    methods: {
-        openCallModal(e: any) {
-            e.preventDefault()
-            this.modalVisible = true
-        },
-        openConsultationModal(e: any) {
-            e.preventDefault()
-            this.modalVisibleCall = true
-        },
-        openRequisitesModal(e: any) {
-            e.preventDefault()
-            this.requisitesModal = true
-        },
-        openMobileMenu(e: any) {
-            e.preventDefault()
-            this.mobileMenu = !this.mobileMenu
-        },
-        handleNavLink(event: any, navLink: any) {
-            const contacts = document.getElementById('contacts');
-
-            if (contacts && navLink.name === 'Контакты') {
-                event.preventDefault();
-                contacts.scrollIntoView({ behavior: 'smooth' });
-            }
-        },
+        Requisites,
+        ModalThank
     },
     data() {
         return {
@@ -134,6 +112,7 @@ export default {
             modalVisibleCall: false,
             mobileMenu: false,
             requisitesModal: false,
+            thankModal: false,
             paymentDebtFormHref: '/installment-plan#debt-form',
             topNav: [
                 {
@@ -145,7 +124,7 @@ export default {
                     name: "Контакты",
                     href: "#contacts",
                     scroll: '',
-                    
+
                 },
                 {
                     name: "Партнёрам",
@@ -182,7 +161,7 @@ export default {
                     name: "Получить консультацию",
                     href: "#",
                     scroll: '',
-                    
+
                 },
                 {
                     name: "Заказать звонок",
@@ -195,6 +174,16 @@ export default {
                 // },
             ],
         };
+    },
+    methods: {
+        handleNavLink(event: any, navLink: any) {
+            const contacts = document.getElementById('contacts');
+
+            if (contacts && navLink.name === 'Контакты') {
+                event.preventDefault();
+                contacts.scrollIntoView({ behavior: 'smooth' });
+            }
+        },
     },
     beforeMount() {
         const routes = this.$router.getRoutes()
@@ -298,6 +287,7 @@ export default {
 
     &-button__menu {
         display: none;
+
         a {
             display: flex;
             align-items: center;

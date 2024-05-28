@@ -17,7 +17,8 @@ import { onMounted } from 'vue';
     height: 100%;
     z-index: 10;
     padding: 10px;
-
+    background-color: rgba(0, 0, 0, 0.5);
+    
     &__body {
         position: relative;
     }
