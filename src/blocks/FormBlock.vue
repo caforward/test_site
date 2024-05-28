@@ -37,7 +37,7 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">
+                <button class="button button_blue form-block__button" @click.prevent="handleSubmit">
                     Отправить
                 </button>
             </div>
@@ -102,10 +102,11 @@ export default {
                 // Отправляем данные на сервер
                 console.log('Form data submitted:', this.formData, this.consent);
 
-                // Обнуляем все инпуты
-                Object.keys(this.formInputs).forEach(key => {
-                    this.formInputs[key].elementDOM.value = ''
+                Object.keys(this.formData).forEach(key => {
+                    this.formData[key] = ''
                 })
+
+                this.$emit("submitted")
             }
         },
         checkAllInputErrors(inputs) {

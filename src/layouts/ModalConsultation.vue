@@ -6,7 +6,7 @@
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
 				<h3>Заполните поля в форме ниже, и мы свяжемся с Вами. </h3>
-				<FormBlock :inputs="inputs"></FormBlock>
+				<FormBlock :inputs="inputs" @submitted="closeModal" />
 				<!-- 
 				<form @submit.prevent="submitForm">
 					<div class="form-input inputName">
@@ -112,14 +112,22 @@ export default defineComponent({
 		closeModal() {
 			this.$emit("close");
 		},
+		// formSubmittedHandler() {
+		// 	this.closeModal()
+		// 	this.$emit("submitted")
+		// },
 	},
-	updated() {
-		if (this.visible) {
-			document.body.style.overflow = 'hidden'
-			document.body.style.paddingRight = '10px'
-		} else {
-			document.body.style.paddingRight = ''
-			document.body.style.overflow = ''
+	watch: {
+		visible: {
+			handler(value) {
+				if (value) {
+					document.body.style.overflow = 'hidden'
+					document.body.style.paddingRight = '10px'
+				} else {
+					document.body.style.paddingRight = ''
+					document.body.style.overflow = ''
+				}
+			}
 		}
 	},
 });
