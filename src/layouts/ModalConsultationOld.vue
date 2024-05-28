@@ -6,8 +6,6 @@
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
 				<h3>Заполните поля в форме ниже, и мы свяжемся с Вами. </h3>
-				<FormBlock :inputs="inputs"></FormBlock>
-				<!-- 
 				<form @submit.prevent="submitForm">
 					<div class="form-input inputName">
 						<label for="name"></label>
@@ -43,7 +41,6 @@
 					</div>
 					<button class="button_blue" type="submit">Отправить</button>
 				</form>
-				 -->
 			</div>
 		</Modal>
 	</transition>
@@ -52,12 +49,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Modal from '../blocks/Modal.vue';
-import FormBlock from "../blocks/FormBlock.vue";
 
 export default defineComponent({
 	components: {
-		Modal,
-		FormBlock
+		Modal
 	},
 	props: {
 		visible: {
@@ -73,44 +68,121 @@ export default defineComponent({
 
 	data() {
 		return {
-			inputs: [
-				{
-					type: 'text',
-					placeholder: 'ФИО*',
-					dataName: 'name'
-				},
-				{
-					type: 'tel',
-					placeholder: 'Номер телефона*',
-					dataName: 'tel'
-				},
-				{
-					type: 'email',
-					placeholder: 'E-mail*',
-					dataName: 'email'
-				},
-				{
-					tagName: 'v-select',
-					placeholder: 'Тема обращения*',
-					dataName: 'messageType',
-					options: [
-						"Узнать номер договора",
-						"Разблокировать счет",
-						"Рассрочка",
-						"Другое",
-					]
-				},
-				{
-					tagName: 'textarea',
-					placeholder: 'Кратко опишите Ваш вопрос*',
-					dataName: 'message'
-				}
+			nameValid: false,
+			telValid: false,
+			mailValid: false,
+			textValid: false,
+			errorMsg: {
+				name: "",
+				tel: "",
+				mail: "",
+				text: "",
+			},
+
+			options: [
+				"Узнать номер договора",
+				"Разблокировать счет",
+				"Рассрочка",
+				"Другое",
 			],
+			selectedOption: null,
+			formData: {
+				name: "",
+				tel: "",
+				email: "",
+				text: "",
+				selectedOption: null as string | null,
+			},
 		};
 	},
+	watch: {
+		visible(newVal: boolean) {
+			if (newVal && this.defaultOption !== null) {
+				this.formData.selectedOption = this.defaultOption;
+			}
+		},
+	},
+	computed: {
+		isFormValid(): boolean {
+			return (
+				this.nameValid && this.telValid && this.textValid
+			);
+		},
+	},
 	methods: {
+		nameBlured() {
+			if (this.formData.name === "") {
+				this.errorMsg.name = "заполните поле";
+				this.nameValid = false;
+			} else if (!/^[a-zA-Zа-яА-ЯёЁ\s]+$/.test(this.formData.name)) {
+				this.errorMsg.name = "неверное имя";
+				this.nameValid = false;
+			} else {
+				this.nameValid = true;
+			}
+		},
+		telBlured() {
+			if (this.formData.tel === "") {
+				this.errorMsg.tel = "заполните поле";
+				this.telValid = false;
+			} else if (
+				!/^(?:\+7|7|8)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/.test(
+					this.formData.tel
+				)
+			) {
+				this.errorMsg.tel = "неверный формат номер телефона";
+				this.telValid = false;
+			} else {
+				this.telValid = true;
+			}
+		},
+		mailBlured() {
+			this.mailValid = true
+		},
+		textBlured() {
+			if (this.formData.text === "") {
+				this.errorMsg.text = "заполните поле";
+				this.textValid = false;
+			} else {
+				this.textValid = true;
+			}
+		},
 		closeModal() {
 			this.$emit("close");
+		},
+		async submitForm() {
+			if (this.isFormValid === true) {
+				const formData = new FormData();
+				formData.append("name", this.formData.name);
+				formData.append("tel", this.formData.tel);
+				formData.append("email", this.formData.email);
+				formData.append("text", this.formData.text);
+				if (this.formData.selectedOption !== null) {
+					formData.append("selectedOption", this.formData.selectedOption);
+				}
+				try {
+					const response = await fetch("email.php", {
+						method: "POST",
+						body: formData,
+					});
+
+					if (response.ok) {
+						console.log("Сообщение успешно отправлено");
+						this.resetFormData();
+					} else {
+						console.error("Ошибка при отправке сообщения");
+					}
+				} catch (error) {
+					console.error("Ошибка при отправке сообщения:", error);
+				}
+			}
+		},
+		resetFormData() {
+			this.formData.name = "";
+			this.formData.tel = "";
+			this.formData.email = "";
+			this.formData.text = "";
+			this.selectedOption = null;
 		},
 	},
 	updated() {
@@ -147,42 +219,6 @@ export default defineComponent({
 	line-height: 24px;
 	letter-spacing: 0%;
 	text-align: left;
-}
-
-:deep(.form-block) {
-	padding: 0;
-	background-color: transparent;
-	border-radius: 0;
-	color: $black;
-
-	&::before {
-		display: none;
-	}
-
-	.form-block-meta {
-		flex: none;
-	}
-
-	.link {
-		color: #20afce;
-	}
-
-	input:not([type='checkbox']),
-	textarea {
-		background-color: #EAECEE;
-	}
-
-	input[type='checkbox'] {
-		border: 1px solid#EAECEE;
-	}
-
-	.vSelect {
-		background-color: #EAECEE;
-
-		input {
-			background-color: transparent;
-		}
-	}
 }
 
 .modal {

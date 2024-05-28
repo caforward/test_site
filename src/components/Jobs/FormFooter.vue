@@ -53,7 +53,7 @@ export default {
             inputs: [
                 {
                     type: 'text',
-                    placeholder: 'Как вас зовут?',
+                    placeholder: 'ФИО*',
                     dataName: 'name'
                 },
                 {
@@ -67,11 +67,22 @@ export default {
                     dataName: 'email'
                 },
                 {
+                    tagName: 'v-select',
+                    placeholder: 'Тема обращения*',
+                    dataName: 'messageType',
+                    options: [
+                        "Узнать номер договора",
+                        "Разблокировать счет",
+                        "Рассрочка",
+                        "Другое",
+                    ]
+                },
+                {
                     tagName: 'textarea',
-                    placeholder: 'Напишите сопроводительное письмо',
+                    placeholder: 'Кратко опишите Ваш вопрос*',
                     dataName: 'message'
                 }
-            ]
+            ],
         };
     }
 };

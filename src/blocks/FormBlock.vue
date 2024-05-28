@@ -10,10 +10,10 @@
                         v-model="formData[inputIter.dataName]">
                     </v-select>
 
-                    <input v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
+                    <textarea v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
                         :type="inputIter.type" :placeholder="inputIter.placeholder"
                         v-model="formData[inputIter.dataName]">
-                    </input>
+                    </textarea>
 
                     <input v-else-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
                         v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
@@ -222,6 +222,12 @@ export default {
         // background: radial-gradient(circle, $blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
     }
+    
+    textarea {
+        resize: vertical;
+        min-height: 50px;
+        max-height: 200px;
+    }
 
     .form-block__form {
         flex: 1;
@@ -304,6 +310,7 @@ export default {
             position: absolute;
             bottom: 0;
             left: 0;
+            z-index: 1;
             width: 100%;
             background-color: #FF6464;
             height: 18px;

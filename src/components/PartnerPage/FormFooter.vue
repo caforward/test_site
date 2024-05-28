@@ -39,7 +39,7 @@ export default {
                 },
                 {
                     type: 'text',
-                    placeholder: 'Имя*',
+                    placeholder: 'ФИО*',
                     dataName: 'name'
                 },
                 {
