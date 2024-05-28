@@ -7,43 +7,6 @@
 				</div>
 				<h3>Заполните поля в форме ниже, и мы свяжемся с Вами. </h3>
 				<FormBlock :inputs="inputs" @submitted="closeModal" />
-				<!-- 
-				<form @submit.prevent="submitForm">
-					<div class="form-input inputName">
-						<label for="name"></label>
-						<input :class="{ 'valid-input': nameValid == true }" @input="nameBlured" @blur="nameBlured"
-							v-model.trim="formData.name" type="text" id="name" placeholder="ФИО*" />
-						<span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
-					</div>
-					<div class="form-input inputTel">
-						<label for="tel"></label>
-						<input :class="{ 'valid-input': telValid == true }" @input="telBlured" @blur="telBlured"
-							v-model.trim="formData.tel" type="tel" id="tel" placeholder="Номер телефона*" />
-						<span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
-					</div>
-					<div class="form-input inputMail">
-						<label for="mail"></label>
-						<input :class="{ 'valid-input': mailValid == true }" @input="mailBlured" @blur="mailBlured"
-							v-model.trim="formData.email" type="text" id="mail" placeholder="E-mail*" />
-					</div>
-					<div class="optionsWrap">
-						<v-select v-model.trim="formData.selectedOption" class="vSelect" :options="options"
-							placeholder="Тема обращения*"></v-select>
-					</div>
-					<div class="form-input inputText">
-						<label for="text"></label>
-						<textarea :class="{ 'valid-input': textValid == true }" @input="textBlured" @blur="textBlured"
-							class="input" placeholder="Коротко опишите вопрос*" v-model.trim="formData.text" name="text"
-							id="text" cols="3" rows="2"></textarea>
-						<span v-if="!textValid" class="error">{{ errorMsg.text }}</span>
-					</div>
-					<div class="aboveButt">
-						Нажимая кнопку «Отправить», вы соглашаетесь с
-						<a target="_blank" href="/policy">политикой конфиденциальности.</a>
-					</div>
-					<button class="button_blue" type="submit">Отправить</button>
-				</form>
-				 -->
 			</div>
 		</Modal>
 	</transition>
@@ -134,9 +97,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "vue-select/dist/vue-select.css";
-@import "/src/assets/scss/index.scss";
-
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.4s ease;
@@ -281,59 +241,6 @@ input {
 	.valid-input {
 		background: white;
 		border: 0.5px solid rgb(227, 230, 232);
-	}
-}
-
-:deep(.optionsWrap) {
-	v-select vs--single vs--searchable vSelect {
-		cursor: pointer;
-	}
-
-	--vs-dropdown-option-padding: 0 0 8.5px 16px;
-	--vs-dropdown-option--active-bg: none;
-	--vs-dropdown-option--active-color: rgb(0, 150, 216);
-	--vs-actions-padding: 4px 12px 0 3px;
-	padding-bottom: 16px;
-
-	.vSelect {
-		background-color: rgba(234, 236, 238, 0.5);
-
-		.vs__clear {
-			display: none;
-		}
-
-		box-sizing: border-box;
-		border: 0.5px solid rgb(227, 230, 232);
-		border-radius: 5px;
-		background: rgb(255, 255, 255);
-
-		::placeholder {
-			color: rgba(0, 0, 0, 0.5);
-			font-size: 14px;
-		}
-
-		.vs__dropdown-toggle {
-			padding: 9.5px 0;
-			background: #ffffff;
-			border: 0.5px;
-		}
-
-		.vs__search {
-			padding-left: 13px;
-		}
-	}
-
-	.vs__selected {
-		padding-left: 9px;
-		font-size: 14px;
-	}
-
-	li {
-		font-size: 14px;
-	}
-
-	ul .vs4__listbox {
-		height: 160px;
 	}
 }
 

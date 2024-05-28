@@ -345,10 +345,6 @@ export default {
             font-size: 14px;
         }
 
-        &__clear {
-            display: none;
-        }
-
         &__dropdown {
             &-toggle {
                 width: 100%;
