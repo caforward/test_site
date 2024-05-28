@@ -7,7 +7,7 @@
 
                     <v-select v-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
                         :options="inputIter.options" :placeholder="inputIter.placeholder"
-                        v-model="formData[inputIter.dataName]">
+                        v-model="formData[inputIter.dataName]" :disabled="inputIter.disabled">
                     </v-select>
 
                     <textarea v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
@@ -65,8 +65,13 @@ export default {
     beforeMount() {
         // Инициализация данных для валидации
         this.inputs.forEach(input => {
-            this.formData[input.dataName] = ''
-            this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+            if (input.value) {
+                this.formData[input.dataName] = input.value
+                this.formInputs[input.dataName] = { error: '', isValid: true }
+            } else {
+                this.formData[input.dataName] = ''
+                this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+            }
 
             this.$watch(() => this.formData[input.dataName], () => { this.validateInput(input.dataName) })
         })
@@ -223,7 +228,7 @@ export default {
         // background: radial-gradient(circle, $blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
     }
-    
+
     textarea {
         resize: vertical;
         min-height: 50px;
@@ -339,7 +344,14 @@ export default {
     transition: border-color .2s;
     border-radius: 5px;
 
+    &.vs {
+        &--disabled .vs__actions {
+            display: none;
+        }
+    }
+
     .vs {
+
         &__selected {
             color: $black;
             font-size: 14px;
@@ -347,6 +359,7 @@ export default {
 
         &__dropdown {
             &-toggle {
+                background-color: transparent !important;
                 width: 100%;
                 border: none;
                 padding: 0 10px;

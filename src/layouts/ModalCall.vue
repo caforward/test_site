@@ -2,7 +2,7 @@
 	<transition name="fade">
 		<Modal v-if="visible">
 			<div class="modal-content">
-				<div class="close-button" @click="closeModalCall">
+				<div class="close-button" @click="closeModal">
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
 				<h3>Заказать звонок </h3>
@@ -53,11 +53,11 @@ export default defineComponent({
 				},
 				{
 					tagName: 'v-select',
+					value: 'Прошу перезвонить',
 					placeholder: 'Тема обращения*',
 					dataName: 'messageType',
-					options: [
-						// "Прошу перезвонить",
-					]
+					disabled: true,
+					options: []
 				},
 				{
 					tagName: 'textarea',
@@ -68,7 +68,7 @@ export default defineComponent({
 		};
 	},
 	methods: {
-		closeModalCall() {
+		closeModal() {
 			this.$emit("close");
 		},
 	},
