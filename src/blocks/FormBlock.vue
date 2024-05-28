@@ -82,6 +82,9 @@ export default {
 
         this.inputs.forEach(input => {
             this.formInputs[input.dataName].elementDOM = form.querySelector(`[name=${input.dataName}]`)
+            if (this.formInputs[input.dataName].isValid) {
+                this.formInputs[input.dataName].elementDOM.classList.add('input_valid')
+            }
         })
     },
     methods: {
@@ -130,6 +133,7 @@ export default {
             if (inputData.error) {
                 inputData.isValid = false
                 inputData.elementDOM.classList.add('input_error')
+                inputData.elementDOM.classList.remove('input_valid')
 
                 if (inputError) {
                     inputError.innerText = inputData.error
@@ -139,6 +143,7 @@ export default {
             } else {
                 inputData.isValid = true
                 inputData.elementDOM.classList.remove('input_error')
+                inputData.elementDOM.classList.add('input_valid')
 
                 if (inputError) {
                     inputError.innerText = ''
@@ -295,6 +300,14 @@ export default {
     border: 1px solid transparent;
     transition: border-color .2s;
 
+    &:focus {
+        border-color: $blue;
+    }
+
+    &_valid {
+        border-color: $blue;
+    }
+
     &_error {
         border-color: #FF6464;
     }
@@ -344,14 +357,21 @@ export default {
     transition: border-color .2s;
     border-radius: 5px;
 
+    &.input_valid {
+        border-color: $blue;
+    }
+
     &.vs {
         &--disabled .vs__actions {
             display: none;
         }
+
+        &--open {
+            border-color: $blue;
+        }
     }
 
     .vs {
-
         &__selected {
             color: $black;
             font-size: 14px;
