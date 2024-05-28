@@ -113,9 +113,17 @@ export default defineComponent({
 		color: #20afce;
 	}
 
-	input:not([type='checkbox']),
-	textarea {
+	.input:not([type='checkbox']) {
 		background-color: #EAECEE;
+		transition: background-color .2s, border-color .2s;
+
+		&.input_valid {
+			background-color: transparent;
+		}
+
+		&:focus {
+			background-color: transparent;
+		}
 	}
 
 	input[type='checkbox'] {
@@ -124,6 +132,14 @@ export default defineComponent({
 
 	.vSelect {
 		background-color: #EAECEE;
+
+		&.vs--open {
+			background-color: transparent;
+		}
+
+		&.input_valid {
+			background-color: transparent;
+		}
 
 		input {
 			background-color: transparent;
