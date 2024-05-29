@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input :type="props.parameters.type" :name="props.parameters.name" :placeholder="props.parameters.placeholder">
+        <input :name="name" :type="type" :placeholder="placeholder" :class="input.isValid ? '' | '' ">
         <span v-if="!input.isValid">
             {{ input.error }}
         </span>
@@ -11,20 +11,19 @@
 import { defineComponent, reactive } from 'vue'
 
 const props = defineProps({
-    parameters: {
-        type: {
-            type: String,
-            default: 'text'
-        },
-        name: {
-            type: String,
-            default: 'name'
-        },
-        placeholder: {
-            type: String,
-            default: 'Введите текст'
-        },
-    }
+    name: {
+        type: String,
+        default: 'name'
+    },
+    type: {
+        type: String,
+        default: 'text'
+    },
+    placeholder: {
+        type: String,
+        default: 'Введите текст'
+    },
+
 })
 
 const input = reactive({
