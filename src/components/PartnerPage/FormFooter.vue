@@ -36,16 +36,19 @@ export default {
                     name: 'companyName',
                     type: 'text',
                     placeholder: 'Наименование компании*',
+                    required: true
                 },
                 {
                     name: 'name',
                     type: 'text',
                     placeholder: 'ФИО*',
+                    required: true
                 },
                 {
                     name: 'tel',
                     type: 'tel',
                     placeholder: 'Номер телефона*',
+                    required: true
                 }
             ]
         };
