@@ -64,7 +64,6 @@ export default defineComponent({
 						"Разблокировать счет",
 						"Рассрочка",
 						"Другое",
-						
 					],
 				},
 				{

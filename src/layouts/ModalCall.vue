@@ -57,8 +57,9 @@ export default defineComponent({
 					name: 'messageType',
 					type: 'v-select',
 					placeholder: 'Тема обращения*',
-					options: [],
-					required: true
+					value: 'Прошу перезвонить',
+					required: true,
+					disabled: true
 				},
 				{
 					name: 'message',

@@ -16,10 +16,10 @@
 
                     <input v-else-if="input.type === 'tel'" v-model="formData[input.name]" :name="input.name"
                         class="input" v-mask="'+7 (###) ###-##-##'" :type="input.type" :placeholder="input.placeholder"
-                        @blur="blurErrorShortValueHandler($event, input.name)">
+                        @input="blurErrorShortValueHandler($event, input.name)" @blur="blurErrorShortValueHandler($event, input.name)">
 
                     <input v-else v-model="formData[input.name]" :name="input.name" class="input" :type="input.type"
-                        :placeholder="input.placeholder" @blur="blurErrorShortValueHandler($event, input.name)">
+                        :placeholder="input.placeholder" @input="blurErrorShortValueHandler($event, input.name)" @blur="blurErrorShortValueHandler($event, input.name)">
                     </input>
 
                     <span class="error"></span>
@@ -56,7 +56,6 @@ export default {
     },
     data() {
         return {
-            test: 'text',
             consent: false,
             formData: {},
             formInputs: {},
@@ -99,9 +98,7 @@ export default {
         })
     },
     methods: {
-        test1(e) {
-            console.log(e)
-        },
+
         async handleSubmit() {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
@@ -190,10 +187,10 @@ export default {
             // Если номер телефона короче необходимого
             if (input.type === 'tel' && input.value.length < 18) {
                 inputData.error = 'Заполните поле'
-            } else if (input.type === 'text') {
-                if (input.value <= 0) {
+            } else if (input.name === 'name') {
+                if (input.value === '') {
                     inputData.error = 'Заполните поле'
-                } else if (!/\D{2,}/g.test(input.value)) {
+                } else if (!/\D{2,}\s+\D{2,}/g.test(input.value)) {
                     inputData.error = 'Имя и Фамилия должны содержать минимум 2 буквы'
                 }
             }
