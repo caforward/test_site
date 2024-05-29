@@ -65,13 +65,20 @@ export default {
         this.inputs.forEach(input => {
             if (input.value) {
                 this.formData[input.name] = input.value
-                this.formInputs[input.name] = { error: '', isValid: true }
+                if (input.required) {
+                    this.formInputs[input.name] = { error: '', isValid: true }
+                }
             } else {
                 this.formData[input.name] = ''
-                this.formInputs[input.name] = { error: 'Заполните поле', isValid: false }
+                if (input.required) {
+                    this.formInputs[input.name] = { error: 'Заполните поле', isValid: false }
+                }
             }
 
-            this.$watch(() => this.formData[input.name], () => { this.validateInput(input.name) })
+
+            if (input.required) {
+                this.$watch(() => this.formData[input.name], () => { this.validateInput(input.name) })
+            }
         })
     },
     mounted() {
@@ -79,15 +86,17 @@ export default {
         const form = document.querySelector('form')
 
         this.inputs.forEach(input => {
-            this.formInputs[input.name].elementDOM = form.querySelector(`[name=${input.name}]`)
-            if (this.formInputs[input.name].isValid) {
-                this.formInputs[input.name].elementDOM.classList.add('input_valid')
+            if (input.required) {
+                this.formInputs[input.name].elementDOM = form.querySelector(`[name=${input.name}]`)
+
+                if (this.formInputs[input.name].isValid) {
+                    this.formInputs[input.name].elementDOM.classList.add('input_valid')
+                }
             }
         })
     },
     methods: {
         async handleSubmit() {
-
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
 
@@ -183,7 +192,9 @@ export default {
                 }
             }
 
-            this.checkError(inputData)
+            if (inputData) {
+                this.checkError(inputData)
+            }
         },
         validateInput(fieldName) {
             const inputData = this.formInputs[fieldName]
@@ -197,13 +208,13 @@ export default {
                 inputData.error = 'Заполните поле'
             }
             else if (input.type === 'email' && input.value === '') {
-                inputData.error = null
+                inputData.error = 'Заполните поле'
             }
             else if (input.type === 'tel' && input.value.length === '') {
                 inputData.error = 'Заполните поле'
             }
             else if (input.closest('.v-select') && !this.formData.messageType) {
-                inputData.error = null
+                inputData.error = 'Заполните поле'
             }
 
             // Проверяем были ли записаны ошибки и если да, то выводим
