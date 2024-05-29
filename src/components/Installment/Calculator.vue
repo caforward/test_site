@@ -55,7 +55,7 @@
                 v-model.trim="formData.name"
                 type="text"
                 id="name"
-                placeholder="Имя*"
+                placeholder="ФИО*"
                 class="input"
               />
               <span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
