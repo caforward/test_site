@@ -3,26 +3,23 @@
         <slot name="info"></slot>
         <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
-                <div class="input__wrapper" v-for="(inputIter, idx) in inputs" :key="idx">
+                <div class="input__wrapper" v-for="(input, idx) in inputs" :key="idx">
 
-                    <v-select v-if="inputIter.tagName === 'v-select'" class="vSelect" :name="inputIter.dataName"
-                        :options="inputIter.options" :placeholder="inputIter.placeholder"
-                        v-model="formData[inputIter.dataName]" :disabled="inputIter.disabled">
+                    <v-select v-if="input.type === 'v-select'" v-model="formData[input.name]" :name="input.name"
+                        class="vSelect" :options="input.options" :placeholder="input.placeholder"
+                        :disabled="input.disabled">
                     </v-select>
 
-                    <textarea v-else-if="inputIter.tagName === 'textarea'" :name="inputIter.dataName" class="input"
-                        :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        v-model="formData[inputIter.dataName]">
+                    <textarea v-else-if="input.type === 'textarea'" v-model="formData[input.name]" :name="input.name"
+                        class="input" :type="input.type" :placeholder="input.placeholder">
                     </textarea>
 
-                    <input v-else-if="inputIter.type === 'tel'" :name="inputIter.dataName" class="input"
-                        v-mask="'+7 (###) ###-##-##'" :type="inputIter.type" :placeholder="inputIter.placeholder"
-                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)"
-                        v-model="formData[inputIter.dataName]">
+                    <input v-else-if="input.type === 'tel'" v-model="formData[input.name]" :name="input.name"
+                        class="input" v-mask="'+7 (###) ###-##-##'" :type="input.type" :placeholder="input.placeholder"
+                        @blur="blurErrorShortValueHandler($event, input.name)">
 
-                    <input v-else :name="inputIter.dataName" class="input" :type="inputIter.type"
-                        :placeholder="inputIter.placeholder" v-model="formData[inputIter.dataName]"
-                        @blur="blurErrorShortValueHandler($event, inputIter.dataName)">
+                    <input v-else v-model="formData[input.name]" :name="input.name" class="input" :type="input.type"
+                        :placeholder="input.placeholder" @blur="blurErrorShortValueHandler($event, input.name)">
                     </input>
 
                     <span class="error"></span>
@@ -67,14 +64,14 @@ export default {
         // Инициализация данных для валидации
         this.inputs.forEach(input => {
             if (input.value) {
-                this.formData[input.dataName] = input.value
-                this.formInputs[input.dataName] = { error: '', isValid: true }
+                this.formData[input.name] = input.value
+                this.formInputs[input.name] = { error: '', isValid: true }
             } else {
-                this.formData[input.dataName] = ''
-                this.formInputs[input.dataName] = { error: 'Заполните поле', isValid: false }
+                this.formData[input.name] = ''
+                this.formInputs[input.name] = { error: 'Заполните поле', isValid: false }
             }
 
-            this.$watch(() => this.formData[input.dataName], () => { this.validateInput(input.dataName) })
+            this.$watch(() => this.formData[input.name], () => { this.validateInput(input.name) })
         })
     },
     mounted() {
@@ -82,9 +79,9 @@ export default {
         const form = document.querySelector('form')
 
         this.inputs.forEach(input => {
-            this.formInputs[input.dataName].elementDOM = form.querySelector(`[name=${input.dataName}]`)
-            if (this.formInputs[input.dataName].isValid) {
-                this.formInputs[input.dataName].elementDOM.classList.add('input_valid')
+            this.formInputs[input.name].elementDOM = form.querySelector(`[name=${input.name}]`)
+            if (this.formInputs[input.name].isValid) {
+                this.formInputs[input.name].elementDOM.classList.add('input_valid')
             }
         })
     },
@@ -178,15 +175,15 @@ export default {
             // Если номер телефона короче необходимого
             if (input.type === 'tel' && input.value.length < 18) {
                 inputData.error = 'Заполните поле'
-                this.checkError(inputData)
             } else if (input.type === 'text') {
                 if (input.value <= 0) {
                     inputData.error = 'Заполните поле'
-                } else if (!/^[A-Za-zА-Яа-яЁё]{2,}\s+[A-Za-zА-Яа-яЁё]{2,}/.test(input.value)) {
+                } else if (!/\D{2,}/g.test(input.value)) {
                     inputData.error = 'Имя и Фамилия должны содержать минимум 2 буквы'
                 }
-                this.checkError(inputData)
             }
+
+            this.checkError(inputData)
         },
         validateInput(fieldName) {
             const inputData = this.formInputs[fieldName]

@@ -33,19 +33,19 @@ export default {
         return {
             inputs: [
                 {
+                    name: 'companyName',
                     type: 'text',
                     placeholder: 'Наименование компании*',
-                    dataName: 'companyName'
                 },
                 {
+                    name: 'name',
                     type: 'text',
                     placeholder: 'ФИО*',
-                    dataName: 'name'
                 },
                 {
+                    name: 'tel',
                     type: 'tel',
                     placeholder: 'Номер телефона*',
-                    dataName: 'tel'
                 }
             ]
         };

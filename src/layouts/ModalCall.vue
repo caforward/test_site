@@ -37,32 +37,33 @@ export default defineComponent({
 		return {
 			inputs: [
 				{
+					name: 'name',
 					type: 'text',
 					placeholder: 'ФИО*',
-					dataName: 'name'
+					required: true
 				},
 				{
+					name: 'tel',
 					type: 'tel',
 					placeholder: 'Номер телефона*',
-					dataName: 'tel'
+					required: true
 				},
 				{
+					name: 'email',
 					type: 'email',
 					placeholder: 'E-mail*',
-					dataName: 'email'
 				},
 				{
-					tagName: 'v-select',
-					value: 'Прошу перезвонить',
+					name: 'messageType',
+					type: 'v-select',
 					placeholder: 'Тема обращения*',
-					dataName: 'messageType',
-					disabled: true,
-					options: []
+					options: [],
+					required: true
 				},
 				{
-					tagName: 'textarea',
+					name: 'message',
+					type: 'textarea',
 					placeholder: 'Кратко опишите Ваш вопрос*',
-					dataName: 'message'
 				}
 			],
 		};
