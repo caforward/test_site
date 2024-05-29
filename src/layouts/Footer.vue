@@ -36,9 +36,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <a href="#">
-                            Получить квитанцию для оплаты
-                        </a> -->
                     </div>
 
                     <div class="footer-top__right">
@@ -79,6 +76,13 @@
                         </div>
                     </div>
                 </div>
+                <ul class="footer-top__docs">
+                    <li v-for="(link, idx) in docsLinks" :key="idx">
+                        <a href="#" @click.prevent="openDocsModal(idx)">
+                            {{ link }}
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
@@ -99,11 +103,13 @@
         </div>
     </footer>
     <ModalConsultation :visible="modalVisible" @close="closeModal" />
+    <ModalDocs :visible="modalDocsVisible" :toShowIndex="modalDocsIndex" @close="modalDocsVisible = false" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import ModalConsultation from "./ModalConsultation.vue";
+import ModalDocs from "./ModalDocs.vue";
 
 interface FooterItem {
     name: string;
@@ -119,11 +125,14 @@ interface IconSrc {
 }
 export default defineComponent({
     components: {
-        ModalConsultation
+        ModalConsultation,
+        ModalDocs,
     },
     data() {
         return {
             modalVisible: false,
+            modalDocsVisible: false,
+            modalDocsIndex: 0,
             isMobile: false,
             footerArr: [
                 [
@@ -143,6 +152,12 @@ export default defineComponent({
                 { src: "/assets/images/footer/1.png" },
                 { src: "/assets/images/footer/5.png" },
             ] as IconSrc[],
+            docsLinks: [
+                "Общие сведения",
+                "Учредительные документы",
+                "Эмиссионные документы",
+                "Сообщения",
+            ]
         };
     },
     mounted() {
@@ -157,6 +172,10 @@ export default defineComponent({
         },
         closeModal() {
             this.modalVisible = false;
+        },
+        openDocsModal(index) {
+            this.modalDocsIndex = index
+            this.modalDocsVisible = true
         },
         updateIsMobile() {
             this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
@@ -203,6 +222,7 @@ export default defineComponent({
             display: flex;
             justify-content: space-between;
             gap: 30px;
+            margin-bottom: 30px;
         }
 
         &__logo {
@@ -229,6 +249,13 @@ export default defineComponent({
             flex: none;
             display: flex;
             gap: 30px;
+        }
+
+        &__docs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            row-gap: 15px;
         }
 
         &-buttons {
