@@ -76,17 +76,17 @@
                         </div>
                     </div>
                 </div>
-                <ul class="footer-top__docs">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <ul class="footer-bottom__docs">
                     <li v-for="(link, idx) in docsLinks" :key="idx">
                         <a href="#" @click.prevent="openDocsModal(idx)">
                             {{ link }}
                         </a>
                     </li>
                 </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
                 <div class="footer-bottom__inner">
                     <div class="footer-bottom__left">
                         <span>ООО ПКО "Форвард"</span>
@@ -222,7 +222,6 @@ export default defineComponent({
             display: flex;
             justify-content: space-between;
             gap: 30px;
-            margin-bottom: 30px;
         }
 
         &__logo {
@@ -249,13 +248,6 @@ export default defineComponent({
             flex: none;
             display: flex;
             gap: 30px;
-        }
-
-        &__docs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            row-gap: 15px;
         }
 
         &-buttons {
@@ -315,6 +307,14 @@ export default defineComponent({
             display: flex;
             gap: 30px;
             row-gap: 15px;
+        }
+
+        &__docs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            row-gap: 15px;
+            margin-bottom: 10px;
         }
     }
 }
