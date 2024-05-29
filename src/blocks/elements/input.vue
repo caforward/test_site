@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input :name="name" :type="type" :placeholder="placeholder" :class="input.isValid ? '' | '' ">
+        <input :name="name" :type="type" :placeholder="placeholder" :class="input.class" v-model="input.value">
         <span v-if="!input.isValid">
             {{ input.error }}
         </span>
@@ -23,12 +23,17 @@ const props = defineProps({
         type: String,
         default: 'Введите текст'
     },
-
+    value: {
+        type: String,
+        default: ''
+    }
 })
 
 const input = reactive({
     error: '',
-    isValid: false
+    isValid: false,
+    class: 'input',
+    value: ''
 })
 </script>
 

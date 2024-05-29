@@ -44,7 +44,6 @@
 </template>
 
 <script>
-
 export default {
     name: 'FormBlock',
     components: {
@@ -57,6 +56,7 @@ export default {
     },
     data() {
         return {
+            test: 'text',
             consent: false,
             formData: {},
             formInputs: {},
@@ -99,6 +99,9 @@ export default {
         })
     },
     methods: {
+        test1(e) {
+            console.log(e)
+        },
         async handleSubmit() {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
