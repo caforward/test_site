@@ -145,7 +145,7 @@ export default defineComponent({
                     { name: "Получить рассрочку", href: "#" },
                     { name: "Получить консультацию", href: "#" },
                     { name: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
-                    { name: "Получить квитанцию для оплаты", href: "#" },
+                    { name: "Получить квитанцию для оплаты", href: "src/assets/docs/Квитанция.pdf", target: "_blank" },
                 ]
             ] as FooterItem[][],
             iconSrcList: [
