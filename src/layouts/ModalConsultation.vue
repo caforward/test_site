@@ -66,7 +66,6 @@ export default defineComponent({
 						"Другое",
 						
 					],
-					required: true
 				},
 				{
 					name: 'message',

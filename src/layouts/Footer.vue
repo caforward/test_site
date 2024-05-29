@@ -173,7 +173,7 @@ export default defineComponent({
         closeModal() {
             this.modalVisible = false;
         },
-        openDocsModal(index) {
+        openDocsModal(index: any) {
             this.modalDocsIndex = index
             this.modalDocsVisible = true
         },
