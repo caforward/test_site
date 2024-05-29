@@ -1,24 +1,36 @@
 <template>
-    <section>
-
-    </section>
+    <div>
+        <input :type="props.parameters.type" :name="props.parameters.name" :placeholder="props.parameters.placeholder">
+        <span v-if="!input.isValid">
+            {{ input.error }}
+        </span>
+    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup>
+import { defineComponent, reactive } from 'vue'
 
-
-
-export default defineComponent({
-    data() {
-        return {
-
-        }
+const props = defineProps({
+    parameters: {
+        type: {
+            type: String,
+            default: 'text'
+        },
+        name: {
+            type: String,
+            default: 'name'
+        },
+        placeholder: {
+            type: String,
+            default: 'Введите текст'
+        },
     }
+})
+
+const input = reactive({
+    error: '',
+    isValid: false
 })
 </script>
 
-<style lang="scss" scoped>
-
-
-</style>
+<style lang="scss" scoped></style>

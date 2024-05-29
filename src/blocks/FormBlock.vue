@@ -44,8 +44,12 @@
 </template>
 
 <script>
+
+
 export default {
     name: 'FormBlock',
+    components: {
+    },
     props: {
         inputs: {
             type: Array,

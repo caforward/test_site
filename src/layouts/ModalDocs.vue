@@ -87,7 +87,10 @@ export default {
                 {
                     title: "Учредительные документы",
                     files: [
-                        { name: 'Устав ООО ПКО "Форвард"', href: '#' },
+                        {
+                            name: 'Устав ООО ПКО "Форвард"',
+                            href: '/assets/docs/Устав ООО ПКО Форвард 08.07.2020.pdf'
+                        },
                     ]
                 },
                 {
@@ -186,7 +189,7 @@ export default {
                 flex-direction: column;
                 gap: 30px;
                 margin-bottom: 20px;
-                
+
                 &_files {
                     gap: 20px;
                 }
