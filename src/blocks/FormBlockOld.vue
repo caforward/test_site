@@ -1,12 +1,29 @@
 <template>
     <div class="form-block">
         <slot name="info"></slot>
-        <form action="" class="form-block__form" @submit.prevent="test2">
+        <form action="" class="form-block__form" @submit.prevent>
             <div class="form-block__inputs">
-                <template v-for="(input, idx) in inputs" :key="idx">
-                    <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :value="input.value" :options="input.options" @error="test1"/>
-                </template>
+                <div class="input__wrapper" v-for="(input, idx) in inputs" :key="idx">
+
+                    <v-select v-if="input.type === 'v-select'" v-model="formData[input.name]" :name="input.name"
+                        class="vSelect" :options="input.options" :placeholder="input.placeholder"
+                        :disabled="input.disabled">
+                    </v-select>
+
+                    <textarea v-else-if="input.type === 'textarea'" v-model="formData[input.name]" :name="input.name"
+                        class="input" :type="input.type" :placeholder="input.placeholder">
+                    </textarea>
+
+                    <input v-else-if="input.type === 'tel'" v-model="formData[input.name]" :name="input.name"
+                        class="input" v-mask="'+7 (###) ###-##-##'" :type="input.type" :placeholder="input.placeholder"
+                        @input="blurErrorShortValueHandler($event, input.name)" @blur="blurErrorShortValueHandler($event, input.name)">
+
+                    <input v-else v-model="formData[input.name]" :name="input.name" class="input" :type="input.type"
+                        :placeholder="input.placeholder" @input="blurErrorShortValueHandler($event, input.name)" @blur="blurErrorShortValueHandler($event, input.name)">
+                    </input>
+
+                    <span class="error"></span>
+                </div>
             </div>
             <div class="form-block__bottom">
                 <div class="form-block-meta">
@@ -18,16 +35,20 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">
+                <button class="button button_blue form-block__button" @click.prevent="handleSubmit">
                     Отправить
                 </button>
             </div>
+            <Input type="v-select" :require="true"/>
+            <Input type="tel"/>
+            <Input :require="true" @error='test1'/>
         </form>
     </div>
 </template>
 
 <script>
 import Input from './elements/input.vue'
+
 
 export default {
     name: 'FormBlock',
@@ -42,7 +63,6 @@ export default {
     },
     data() {
         return {
-            test: '',
             consent: false,
             formData: {},
             formInputs: {},
@@ -63,21 +83,37 @@ export default {
                     this.formInputs[input.name] = { error: 'Заполните поле', isValid: false }
                 }
             }
+
+
+            if (input.required) {
+                this.$watch(() => this.formData[input.name], () => { this.validateInput(input.name) })
+            }
+        })
+    },
+    mounted() {
+        // Инициализация DOM элементов валидации
+        const form = document.querySelector('form')
+
+        this.inputs.forEach(input => {
+            if (input.required) {
+                this.formInputs[input.name].elementDOM = form.querySelector(`[name=${input.name}]`)
+
+                if (this.formInputs[input.name].isValid) {
+                    this.formInputs[input.name].elementDOM.classList.add('input_valid')
+                }
+            }
         })
     },
     methods: {
         test1(input) {
-            console.log(input.error, 'text')
-        },
-        test2() {
-            console.log('subn')
+            console.log(input.error)
         },
         async handleSubmit() {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
 
             // Проверяеем наличие ошибок
-            // this.checkAllInputErrors(this.formInputs)
+            this.checkAllInputErrors(this.formInputs)
 
             if (!this.consent) {
                 consentCheckbox.classList.add('checkbox_error')
@@ -257,12 +293,6 @@ export default {
 
     &__inputs {
         margin-bottom: 30px;
-
-        &>* {
-            &:not(:last-child) {
-                margin-bottom: 15px;
-            }
-        }
     }
 
     &__bottom {
@@ -332,6 +362,10 @@ export default {
     &__wrapper {
         position: relative;
         border-radius: 5px;
+
+        &:not(:last-child) {
+            margin-bottom: 15px;
+        }
 
         & .error {
             border-bottom-left-radius: 5px;
