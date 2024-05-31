@@ -1,11 +1,13 @@
 <template>
     <div class="form-block">
         <slot name="info"></slot>
-        <form action="" class="form-block__form" @submit.prevent="test2">
+        <form action="" class="form-block__form" @submit.prevent="handleSubmit">
             <div class="form-block__inputs">
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :value="input.value" :options="input.options" @error="test1"/>
+                        :required="input.required" :value="input.value" :options="input.options" @error="test1"
+                        @update:value="formData[input.name] = $event"
+                        @update:isValid="formInputs[input.name].isValid = $event" />
                 </template>
             </div>
             <div class="form-block__bottom">
@@ -18,7 +20,7 @@
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-block__button" @click="handleSubmit">
+                <button class="button button_blue form-block__button">
                     Отправить
                 </button>
             </div>
@@ -42,7 +44,6 @@ export default {
     },
     data() {
         return {
-            test: '',
             consent: false,
             formData: {},
             formInputs: {},
@@ -54,14 +55,10 @@ export default {
         this.inputs.forEach(input => {
             if (input.value) {
                 this.formData[input.name] = input.value
-                if (input.required) {
-                    this.formInputs[input.name] = { error: '', isValid: true }
-                }
+                this.formInputs[input.name] = { isValid: true, required: input.required }
             } else {
                 this.formData[input.name] = ''
-                if (input.required) {
-                    this.formInputs[input.name] = { error: 'Заполните поле', isValid: false }
-                }
+                this.formInputs[input.name] = { isValid: false, required: input.required }
             }
         })
     },
@@ -76,6 +73,7 @@ export default {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
 
+            this.test2()
             // Проверяеем наличие ошибок
             // this.checkAllInputErrors(this.formInputs)
 
@@ -119,83 +117,6 @@ export default {
                 // this.$emit("submitted")
             }
         },
-        checkAllInputErrors(inputs) {
-            const inputsNames = Object.keys(inputs)
-
-            inputsNames.forEach(name => {
-                this.checkError(inputs[name])
-            })
-        },
-        checkError(inputData) {
-            const inputWrapper = inputData.elementDOM.parentNode
-            const inputError = inputWrapper?.querySelector('.error')
-
-            // Проверить есть ли ошибка у инпута
-            // если есть - показать
-            if (inputData.error) {
-                inputData.isValid = false
-                inputData.elementDOM.classList.add('input_error')
-                inputData.elementDOM.classList.remove('input_valid')
-
-                if (inputError) {
-                    inputError.innerText = inputData.error
-                    inputError.classList.add('error_visible')
-                }
-
-            } else {
-                inputData.isValid = true
-                inputData.elementDOM.classList.remove('input_error')
-                inputData.elementDOM.classList.add('input_valid')
-
-                if (inputError) {
-                    inputError.innerText = ''
-                    inputError.classList.remove('error_visible')
-                }
-            }
-        },
-        blurErrorShortValueHandler(e, fieldName) {
-            const inputData = this.formInputs[fieldName]
-            const input = e.target;
-
-            // Если номер телефона короче необходимого
-            if (input.type === 'tel' && input.value.length < 18) {
-                inputData.error = 'Заполните поле'
-            } else if (input.name === 'name') {
-                if (input.value === '') {
-                    inputData.error = 'Заполните поле'
-                } else if (!/\D{2,}\s+\D{2,}/g.test(input.value)) {
-                    inputData.error = 'Имя и Фамилия должны содержать минимум 2 буквы'
-                }
-            }
-
-            if (inputData) {
-                this.checkError(inputData)
-            }
-        },
-        validateInput(fieldName) {
-            const inputData = this.formInputs[fieldName]
-            const input = inputData.elementDOM
-
-            // Удаляем текущую ошибку при пользовательскои вводе
-            inputData.error = ''
-
-            // Если инпут пустой записываем ошибку
-            if (input.type === 'text' && input.value === '') {
-                inputData.error = 'Заполните поле'
-            }
-            else if (input.type === 'email' && input.value === '') {
-                inputData.error = 'Заполните поле'
-            }
-            else if (input.type === 'tel' && input.value.length === '') {
-                inputData.error = 'Заполните поле'
-            }
-            else if (input.closest('.v-select') && !this.formData.messageType) {
-                inputData.error = 'Заполните поле'
-            }
-
-            // Проверяем были ли записаны ошибки и если да, то выводим
-            this.checkError(inputData)
-        }
     },
     watch: {
         formInputs: {
@@ -204,7 +125,7 @@ export default {
                 this.formIsValid = true
 
                 inputsNames.forEach(name => {
-                    if (!inputs[name].isValid) {
+                    if (inputs[name].required && !inputs[name].isValid) {
                         this.formIsValid = false
                     }
                 })

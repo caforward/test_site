@@ -80,7 +80,6 @@ export default {
                         "Другое",
 
                     ],
-                    required: true
                 },
                 {
                     name: 'message',

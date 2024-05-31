@@ -21,7 +21,7 @@
 <script setup>
 import { defineComponent, onBeforeMount, onUpdated, reactive, watch } from 'vue'
 
-const emit = defineEmits(['error', 'update:value'])
+const emit = defineEmits(['error', 'update:value', 'update:isValid'])
 
 const props = defineProps({
     name: {
@@ -75,8 +75,10 @@ onBeforeMount(() => {
 watch(
     () => input.value,
     () => {
-        emit('update:value', input.value)
         updateInputState()
+        
+        emit('update:value', input.value)
+        emit('update:isValid', input.isValid)
     }
 );
 
