@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { defineComponent, onBeforeMount, onUpdated, reactive, watch } from 'vue'
+import { defineComponent, onBeforeMount, onMounted, onUpdated, reactive, watch } from 'vue'
 
 const emit = defineEmits(['error', 'update:value', 'update:isValid'])
 
@@ -51,7 +51,8 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false
-    }
+    },
+    showErrorHandler: true
 })
 
 const input = reactive({
@@ -72,17 +73,37 @@ onBeforeMount(() => {
     }
 })
 
+// emit value и isValid инпута 
+// для дальнейшего перехвата значений в родительском компоненте
+onMounted(() => {
+    emit('update:value', input.value)
+    emit('update:isValid', input.isValid)
+})
+
+// Вызывает функцию обновления состояния инпута - updateStateInput
+// и emit обновления value и isValid инпута
+// для дальнейшего перехвата значений в родительском компоненте
 watch(
     () => input.value,
     () => {
         updateInputState()
-        
+
         emit('update:value', input.value)
         emit('update:isValid', input.isValid)
     }
-);
+)
 
-// 
+// Вызывает функцию обновления состояния инпута - updateStateInput
+// когда props.showErrorHandler изменяется
+watch(
+    () => props.showErrorHandler,
+    () => {
+        updateInputState()
+    }
+)
+
+// обновляет текст ошибки инпута и класс видимости ошибки
+// emits событие @error для перехвата в родительском компоненте
 function updateInputState() {
     input.error = checkInputError()
 
@@ -114,7 +135,7 @@ function emitError() {
     })
 }
 
-// general function to check input error
+// Главная функция для проверки инпутов
 function checkInputError() {
     if (!input.value) {
         return 'Заполните поле'
@@ -127,7 +148,7 @@ function checkInputError() {
     }
 }
 
-// error check functions by input type
+// Проверки на ошибки в зависимости от типа инпута
 function checkTextInputErrors() {
     if (props.name === 'name' && !/\D{2,}\s+\D{2,}/g.test(input.value)) {
         return 'Имя и Фамилия должны содержать минимум 2 буквы'
@@ -212,6 +233,10 @@ textarea {
 
                 &__open-indicator {
                     background-color: transparent;
+                }
+
+                &__actions {
+                    display: none;
                 }
             }
         }

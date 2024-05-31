@@ -1,13 +1,14 @@
 <template>
     <div class="form-block">
         <slot name="info"></slot>
-        <form action="" class="form-block__form" @submit.prevent="handleSubmit">
+        <form novalidate action="" class="form-block__form" @submit.prevent="handleSubmit">
             <div class="form-block__inputs">
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :value="input.value" :options="input.options" @error="test1"
-                        @update:value="formData[input.name] = $event"
-                        @update:isValid="formInputs[input.name].isValid = $event" />
+                        :required="input.required" :value="input.value" :options="input.options"
+                        :disabled="input.disabled" @update:value="formData[input.name] = $event"
+                        @update:isValid="formInputs[input.name].isValid = $event"
+                        :showErrorHandler="checkErrorTrigger" />
                 </template>
             </div>
             <div class="form-block__bottom">
@@ -48,34 +49,23 @@ export default {
             formData: {},
             formInputs: {},
             formIsValid: false,
+            checkErrorTrigger: true
         }
     },
     beforeMount() {
         // Инициализация данных для валидации
         this.inputs.forEach(input => {
-            if (input.value) {
-                this.formData[input.name] = input.value
-                this.formInputs[input.name] = { isValid: true, required: input.required }
-            } else {
-                this.formData[input.name] = ''
-                this.formInputs[input.name] = { isValid: false, required: input.required }
-            }
+            this.formData[input.name] = ''
+            this.formInputs[input.name] = { isValid: false, required: input.required }
         })
     },
     methods: {
-        test1(input) {
-            console.log(input.error, 'text')
-        },
-        test2() {
-            console.log('subn')
-        },
         async handleSubmit() {
             const form = document.querySelector('form')
             const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
 
-            this.test2()
             // Проверяеем наличие ошибок
-            // this.checkAllInputErrors(this.formInputs)
+            this.checkErrorTrigger = !this.checkErrorTrigger
 
             if (!this.consent) {
                 consentCheckbox.classList.add('checkbox_error')
