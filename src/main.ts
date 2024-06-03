@@ -8,10 +8,6 @@ import noUiSlider from 'nouislider';
 import VueMask from '@ssibrahimbas/v-mask';
 import VueEasyLightbox from 'vue-easy-lightbox/dist/external-css/vue-easy-lightbox.esm.min.js'
 
-import './assets/scss/index.scss'
-import 'vue-select/dist/vue-select.css';
-import 'nouislider/dist/nouislider.css';
-
 const app = createApp(App);
 
 app.component("v-select", vSelect);

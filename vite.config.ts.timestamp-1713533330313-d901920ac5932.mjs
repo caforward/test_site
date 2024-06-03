@@ -6,7 +6,7 @@ var vite_config_default = defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "public/assets/scss/index.scss";`
+        additionalData: `@import "/src/assets/scss/index.scss";`
       }
     }
   }
