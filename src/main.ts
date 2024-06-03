@@ -6,6 +6,7 @@ import router from './router';
 import vSelect from 'vue-select'
 import noUiSlider from 'nouislider';
 import VueMask from '@ssibrahimbas/v-mask';
+import VueEasyLightbox from 'vue-easy-lightbox/dist/external-css/vue-easy-lightbox.esm.min.js'
 
 import './assets/scss/index.scss'
 import 'vue-select/dist/vue-select.css';
@@ -20,5 +21,6 @@ app.provide('noUiSlider', noUiSlider);
 
 app.use(router);
 app.use(VueMask);
+app.use(VueEasyLightbox);
 
 app.mount('#app');
