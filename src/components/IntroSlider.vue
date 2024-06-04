@@ -6,23 +6,35 @@
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Отзовем<br> исполнительное <br>производство
+                                Рефинансируйте <br> задолженность с нами!
                             </div>
                             <div class="slide-content__text">
                                 <p>
                                     <b>
-                                        Попали в трудную ситуацию? <br />
+                                        Всем новым клиентам мы предлагаем погашение задолженности на выгодных условиях:
                                     </b>
                                 </p>
+                                <ol class="list">
+                                    <li>
+                                        Мы снизим/уменьшим значительную часть Вашей задолженности
+                                    </li>
+                                    <li>
+                                        Мы предложим Вам длительную рассрочку
+                                    </li>
+                                    <li>
+                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
+                                        обременителен для Вашего бюджета
+                                    </li>
+                                    <li>
+                                        Мы передадим данные о погашении долга в Бюро кредитных историй
+                                    </li>
+                                </ol>
                                 <p>
-                                    Наши специалисты готовы идти на встречу
-                                    клиентам, <br />
-                                    а их компетенция позволяет быстро и эффективно выходить из даже, казалось бы,
-                                    безвыходных ситуаций
-                                    Обратитесь к нам, и приставы не заблокируют ваши карты и не спишут деньги с ваших
-                                    счетов!
-                                    <br>
-                                    Всё, что Вам нужно – внести первый платеж!
+                                    <b>
+                                        Чтобы воспользоваться предложением, свяжитесь с нами, по телефону горячей линии
+                                        <a href="tel:88043334133" class="link">8 804 333 4133</a> 
+                                        <br> или направьте нам обращение по форме ниже.
+                                    </b>
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
@@ -197,25 +209,25 @@ export default {
         };
     },
     mounted() {
-        let rewind = false
-        
-        const intervalID = setInterval(() => {
-            this.swiper.slideNext()
-            
-            if (this.swiper.activeIndex === this.swiper.slides.length - 1) {
-                if (rewind) {
-                    this.swiper.slideTo(0)
-                }
+        // let rewind = false
 
-                rewind = true
-            } else {
-                rewind = false
-            }
-        }, 8000)
+        // const intervalID = setInterval(() => {
+        //     this.swiper.slideNext()
 
-        this.swiper.on('destroy', () => {
-            clearInterval(intervalID)
-        })
+        //     if (this.swiper.activeIndex === this.swiper.slides.length - 1) {
+        //         if (rewind) {
+        //             this.swiper.slideTo(0)
+        //         }
+
+        //         rewind = true
+        //     } else {
+        //         rewind = false
+        //     }
+        // }, 8000)
+
+        // this.swiper.on('destroy', () => {
+        //     clearInterval(intervalID)
+        // })
     }
 };
 </script>
@@ -231,6 +243,17 @@ img {
     object-fit: cover;
 }
 
+.link {
+    color: $blue;
+}
+
+.list {
+    &>li {
+        line-height: 140%;
+        margin-bottom: 10px;
+    }
+}
+
 .slider {
     position: relative;
     overflow: hidden;
@@ -243,9 +266,9 @@ img {
     }
 
     &__slide {
-        padding-top: 100px;
+        padding-top: 130px;
         padding-bottom: 100px;
-        height: 700px;
+        height: 800px;
         display: flex;
         align-items: center;
 
@@ -260,7 +283,7 @@ img {
 
         &__wrapper {
             position: absolute;
-            bottom: 45px;
+            bottom: 30px;
             width: 100%;
             z-index: 1;
         }
@@ -287,6 +310,16 @@ img {
         height: 100%;
         z-index: -1;
         background-color: $white-blue;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #e3e6eb 30%, transparent 50%)
+        }
     }
 
     &-content {
@@ -321,15 +354,15 @@ img {
 
 @include desktopXl {
     .slider__slide {
-        padding-top: 80px;
-        height: 660px;
+        // padding-top: 80px;
+        // height: 660px;
     }
 }
 
 @include desktop {
     .slider {
         &__slide {
-            height: 750px;
+            // height: 750px;
         }
 
         &-nav {
@@ -343,6 +376,10 @@ img {
         &__img {
             img {
                 object-position: 47%;
+            }
+
+            &::before {
+                background: linear-gradient(90deg, #e3e6eb 30%, transparent 70%)
             }
         }
 
@@ -373,9 +410,10 @@ img {
     .slider {
         &__slide {
             padding-top: 120px;
+            height: 750px;
 
             &_fix {
-                padding-top: 20px;
+                padding-top: 100px;
             }
         }
     }
@@ -384,6 +422,10 @@ img {
         &__img {
             img {
                 object-position: 54%;
+            }
+
+            &::before {
+                background: linear-gradient(90deg, #e3e6eb 30%, transparent 80%)
             }
         }
 
@@ -394,7 +436,8 @@ img {
             }
 
             &__text {
-                width: 279px;
+                // width: 279px;
+                width: 450px;
                 line-height: 171%;
                 margin-bottom: 25px;
             }
@@ -427,6 +470,10 @@ img {
 
             img {
                 object-position: 80%;
+            }
+
+            &::before {
+                background: transparent
             }
         }
 
