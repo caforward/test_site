@@ -19,7 +19,7 @@
                     </ul>
                     <ul class="modal-body-content__list modal-body-content__list_files">
                         <li v-for="(file, idx) in docs[toShowIndex].files" :key="idx">
-                            <a :href="'/src/assets/docs/' + file.filename" :title="file.name" target="_blank">
+                            <a :href="'/assets/docs/' + file.filename" :title="file.name" target="_blank">
                                 <div>
                                     <img src="/assets/images/pdf.png" alt="">
                                 </div>
