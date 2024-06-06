@@ -8,7 +8,9 @@
                         :required="input.required" :value="input.value" :options="input.options"
                         :disabled="input.disabled"  @update:value="formData[input.name] = $event"
                         @update:isValid="formInputs[input.name].isValid = $event"
-                        :showErrorHandler="checkErrorTrigger" />
+                        :showErrorHandler="checkErrorTrigger"
+                        :clearInputValue="removeValueTrigger"
+                        />
                 </template>
             </div>
             <div class="form-block__bottom">
@@ -49,7 +51,8 @@ export default {
             formData: {},
             formInputs: {},
             formIsValid: false,
-            checkErrorTrigger: true
+            checkErrorTrigger: true,
+            removeValueTrigger: true
         }
     },
     beforeMount() {
@@ -85,15 +88,19 @@ export default {
                 Object.keys(this.formData).forEach(key => {
                     formData.append(key, this.formData[key])
                 })
-
+                console.log(formData)
                 try {
                     const response = await fetch("email.php", {
                         method: "POST",
                         body: formData,
                     });
                     if (response.ok) {
+
+                        
                         console.log("Сообщение успешно отправлено");
 
+                        this.removeValueTrigger = !this.removeValueTrigger
+                        
                         Object.keys(this.formData).forEach(key => {
                             this.formData[key] = ''
                         })

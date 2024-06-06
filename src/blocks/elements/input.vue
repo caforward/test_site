@@ -52,7 +52,8 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    showErrorHandler: true
+    showErrorHandler: true,
+    clearInputValue: true
 })
 
 const input = reactive({
@@ -99,6 +100,13 @@ watch(
     () => props.showErrorHandler,
     () => {
         updateInputState()
+    }
+)
+
+watch(
+    () => props.clearInputValue,
+    () => {
+        input.value = ''
     }
 )
 
