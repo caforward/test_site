@@ -6,7 +6,7 @@
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :value="input.value" :options="input.options"
-                        :disabled="input.disabled" @update:value="formData[input.name] = $event"
+                        :disabled="input.disabled"  @update:value="formData[input.name] = $event"
                         @update:isValid="formInputs[input.name].isValid = $event"
                         :showErrorHandler="checkErrorTrigger" />
                 </template>
@@ -76,7 +76,7 @@ export default {
 
                 return
             }
-
+            
             // Проверяем валидна ли форма
             if (this.formIsValid) {
                 // Отправляем данные на сервер

@@ -1,15 +1,15 @@
 <template>
     <div class="input-wrapper">
         <v-select v-if="props.type === 'v-select'" :class="input.class" :placeholder="placeholder"
-            :options="props.options" v-model="input.value" :disabled="props.disabled" />
+            :options="props.options" v-model.trim="input.value" :disabled="props.disabled" />
 
         <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
-            :class="input.class" v-model="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
+            :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
 
         <textarea v-else-if="props.type === 'textarea'" :name="name" :type="type" :placeholder="placeholder"
-            :class="input.class" v-model="input.value" :disabled="props.disabled"></textarea>
+            :class="input.class" v-model.trim="input.value" :disabled="props.disabled"></textarea>
 
-        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class" v-model="input.value"
+        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class" v-model.trim="input.value"
             :disabled="props.disabled">
 
         <span v-if="props.required && input.error" class="input-wrapper__error">
