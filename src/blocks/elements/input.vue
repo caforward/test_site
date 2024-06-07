@@ -9,8 +9,8 @@
         <textarea v-else-if="props.type === 'textarea'" :name="name" :type="type" :placeholder="placeholder"
             :class="input.class" v-model.trim="input.value" :disabled="props.disabled"></textarea>
 
-        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class" v-model.trim="input.value"
-            :disabled="props.disabled">
+        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class"
+            v-model.trim="input.value" :disabled="props.disabled">
 
         <span v-if="props.required && input.error" class="input-wrapper__error">
             {{ input.error }}
@@ -21,7 +21,7 @@
 <script setup>
 import { defineComponent, onBeforeMount, onMounted, onUpdated, reactive, watch } from 'vue'
 
-const emit = defineEmits(['error', 'update:value', 'update:isValid'])
+const emit = defineEmits(['error', 'update:value', 'update:isValid', 'update:resetInputHandler'])
 
 const props = defineProps({
     name: {
@@ -53,7 +53,10 @@ const props = defineProps({
         default: false
     },
     showErrorHandler: true,
-    clearInputValue: true
+    resetInputHandler: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const input = reactive({
@@ -104,9 +107,11 @@ watch(
 )
 
 watch(
-    () => props.clearInputValue,
+    () => props.resetInputHandler,
     () => {
-        input.value = ''
+        if (!props.disabled) {
+            input.value = ''
+        }
     }
 )
 
@@ -119,6 +124,11 @@ function updateInputState() {
         input.isValid = false
     } else {
         input.isValid = true
+    }
+
+    if (props.resetInputHandler) {
+        resetInput()
+        return
     }
 
     if (!input.isValid) {
@@ -141,6 +151,15 @@ function emitError() {
         isValid: input.isValid,
         value: input.value
     })
+}
+
+// Функция для сброса инпута
+function resetInput() {
+    if (!props.disabled) {
+        input.error = ''
+        input.class = [input.defaultClass]
+        emit('update:resetInputHandler', false)
+    }
 }
 
 // Главная функция для проверки инпутов

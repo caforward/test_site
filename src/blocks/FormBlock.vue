@@ -6,11 +6,9 @@
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :value="input.value" :options="input.options"
-                        :disabled="input.disabled"  @update:value="formData[input.name] = $event"
-                        @update:isValid="formInputs[input.name].isValid = $event"
-                        :showErrorHandler="checkErrorTrigger"
-                        :clearInputValue="removeValueTrigger"
-                        />
+                        :disabled="input.disabled" @update:value="formData[input.name] = $event"
+                        @update:isValid="formInputs[input.name].isValid = $event" :showErrorHandler="checkErrorTrigger"
+                        :resetInputHandler="resetInputTrigger" @update:resetInputHandler="resetInputTrigger = $event" />
                 </template>
             </div>
             <div class="form-block__bottom">
@@ -52,7 +50,7 @@ export default {
             formInputs: {},
             formIsValid: false,
             checkErrorTrigger: true,
-            removeValueTrigger: true
+            resetInputTrigger: false
         }
     },
     beforeMount() {
@@ -79,7 +77,7 @@ export default {
 
                 return
             }
-            
+
             // Проверяем валидна ли форма
             if (this.formIsValid) {
                 // Отправляем данные на сервер
@@ -88,19 +86,18 @@ export default {
                 Object.keys(this.formData).forEach(key => {
                     formData.append(key, this.formData[key])
                 })
-                console.log(formData)
+
+
                 try {
                     const response = await fetch("email.php", {
                         method: "POST",
                         body: formData,
                     });
                     if (response.ok) {
-
-                        
                         console.log("Сообщение успешно отправлено");
 
-                        this.removeValueTrigger = !this.removeValueTrigger
-                        
+                        this.resetInputTrigger = true
+
                         Object.keys(this.formData).forEach(key => {
                             this.formData[key] = ''
                         })
