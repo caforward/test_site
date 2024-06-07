@@ -1,5 +1,6 @@
 <template>
     <main>
+        <!-- <IntroSlider /> -->
         <IntroSlider />
         <AboutInNumbersVue />
         <HelpEverClientVue />
@@ -15,7 +16,8 @@
 <script setup>
 import { onMounted } from "vue";
 
-import IntroSlider from "../components/IntroSlider.vue";
+import IntroSlider from "../blocks/IntroSlider.vue";
+// import IntroSlider from "../components/IntroSlider.vue";
 import AboutInNumbersVue from "../components/AboutInNumbers.vue";
 import Offers from "../components/Offers.vue";
 import HelpEverClientVue from "../components/HelpEverClient.vue";

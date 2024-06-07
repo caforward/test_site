@@ -52,7 +52,8 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    showErrorHandler: true
+    showErrorHandler: true,
+    removeValue: true,
 })
 
 const input = reactive({
@@ -84,12 +85,21 @@ onMounted(() => {
 // и emit обновления value и isValid инпута
 // для дальнейшего перехвата значений в родительском компоненте
 watch(
-    () => input.value,
+    () => input.removeValue,
     () => {
         updateInputState()
 
         emit('update:value', input.value)
         emit('update:isValid', input.isValid)
+    }
+)
+
+// Вызывает функцию обновления состояния инпута - updateStateInput
+// когда props.showErrorHandler изменяется
+watch(
+    () => props.showErrorHandler,
+    () => {
+        updateInputState()
     }
 )
 
