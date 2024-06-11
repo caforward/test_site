@@ -5,7 +5,7 @@
 				<div class="close-button" @click="closeModal">
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
-				<h3>Заказать звонок </h3>
+				<h3>Заказать звонок</h3>
 				<p>
 					Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами,
 					чтобы проконсультировать по вашей финансовой ситуации.
@@ -97,6 +97,10 @@ export default defineComponent({
 	opacity: 0;
 }
 
+.fade-leave-active {
+	padding-right: 0 !important;
+}
+
 :deep(.form-block) {
 	padding: 0;
 	background-color: transparent;
@@ -160,26 +164,24 @@ export default defineComponent({
 }
 
 .modal {
-	position: fixed;
-	z-index: 100;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
 	overflow-y: auto;
-	padding: 0 10px;
 }
 
 .modal-content {
 	position: relative;
+	padding: 40px;
+	background-color: #fff;
 	border-radius: 30px;
-	background: rgb(255, 255, 255);
 	width: 768px;
-	padding: 61px 83px 60px 83px;
+	padding: 60px 80px;
+	margin-top: 40px;
 }
 
 .valid-input {
