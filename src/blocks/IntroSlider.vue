@@ -154,8 +154,6 @@ const sliderData = [
 <style lang="scss" scoped>
 @import "swiper/css/pagination";
 
-
-
 .slider {
     &__wrapper {
         position: relative;
