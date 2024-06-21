@@ -37,36 +37,8 @@
 						₽
 					</div>
 					<div class="pre-form">Заполните поле ниже и мы <br> свяжемся с Вами:</div>
-					<form @submit.prevent="submitForm">
-						<div class="form-input inputName">
-							<label for="name"></label>
-							<input :class="{ 'valid-input': nameValid == true }" @input="nameBlured" @blur="nameBlured"
-								v-model.trim="formData.name" type="text" id="name" placeholder="ФИО*" class="input" />
-							<span v-if="!nameValid" class="error">{{ errorMsg.name }}</span>
-						</div>
-						<div class="form-input inputTel">
-							<label for="tel"></label>
-							<input :class="{ 'valid-input': telValid == true }" @input="telBlured" @blur="telBlured"
-								v-model.trim="formData.tel" type="tel" id="tel" placeholder="Номер телефона*"
-								class="input" />
-							<span v-if="!telValid" class="error">{{ errorMsg.tel }}</span>
-						</div>
 
-						<div class="above-btn-flex">
-							<div class="custom-checkbox">
-								<label class="custom-checkbox">
-									<input type="checkbox" />
-									<span class="checkmark"></span>
-								</label>
-							</div>
-							<div class="aboveButt">
-								Даю согласие на обработку своих персональных данных
-								<a target="_blank" href="/policy">политика конфиденциальности.</a>
-							</div>
-						</div>
-
-						<button type="submit" class="button_blue">Отправить</button>
-					</form>
+					<FormBlock :inputs="formInputs" />
 				</div>
 			</div>
 		</div>
@@ -75,10 +47,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import NoUiSlider from "../../blocks/elements/NoUiSlider.vue";
+import FormBlock from "../../blocks/FormBlock.vue";
 
 export default defineComponent({
 	components: {
 		NoUiSlider,
+		FormBlock
 	},
 	data() {
 		return {
@@ -95,6 +69,20 @@ export default defineComponent({
 			currentValue: 338000,
 			currentValue2: 3100,
 			currentValue3: 45,
+			formInputs: [
+				{
+					name: 'name',
+					type: 'text',
+					placeholder: 'ФИО*',
+					required: true
+				},
+				{
+					name: 'tel',
+					type: 'tel',
+					placeholder: 'Номер телефона*',
+					required: true
+				},
+			]
 		};
 	},
 	computed: {
@@ -119,64 +107,78 @@ export default defineComponent({
 		handleValueChange3(newValue: number) {
 			this.currentValue3 = newValue;
 		},
-		nameBlured() {
-			if (this.formData.name === "") {
-				this.errorMsg.name = "заполните поле";
-				this.nameValid = false;
-			} else if (!/^[a-zA-Zа-яА-ЯёЁ\s]+$/.test(this.formData.name)) {
-				this.errorMsg.name = "неверное имя";
-				this.nameValid = false;
-			} else {
-				this.nameValid = true;
-			}
-		},
-		telBlured() {
-			if (this.formData.tel === "") {
-				this.errorMsg.tel = "заполните поле";
-				this.telValid = false;
-			} else if (
-				!/^(?:\+7|7|8)(\s|-|\()?\d{3}(\s|-|\))?(\s|-)?\d{3}(\s|-)?\d{2}(\s|-)?\d{2}$/.test(
-					this.formData.tel
-				)
-			) {
-				this.errorMsg.tel = "неверный формат номер телефона";
-				this.telValid = false;
-			} else {
-				this.telValid = true;
-			}
-		},
-		async submitForm() {
-			if (this.isFormValid === true) {
-				const formData = new FormData();
-				formData.append("name", this.formData.name);
-				formData.append("tel", this.formData.tel);
-
-				try {
-					const response = await fetch("emailCall.php", {
-						method: "POST",
-						body: formData,
-					});
-
-					if (response.ok) {
-						console.log("Сообщение успешно отправлено");
-						this.resetFormData();
-					} else {
-						console.error("Ошибка при отправке сообщения");
-					}
-				} catch (error) {
-					console.error("Ошибка при отправке сообщения:", error);
-				}
-			}
-		},
-		resetFormData() {
-			this.formData.name = "";
-			this.formData.tel = "";
-		},
 	},
 });
 </script>
 
 <style lang="scss" scoped>
+// clean form
+:deep(.form-block) {
+	padding: 0;
+	background-color: transparent;
+	border-radius: 0;
+	color: $black;
+
+	&::before {
+		display: none;
+	}
+
+	.form-block-meta {
+		flex: none;
+
+		&__checkbox {
+			margin-right: 15px;
+		}
+	}
+
+	.link {
+		color: #20afce;
+	}
+
+	.input:not([type='checkbox']) {
+		background-color: #EAECEE;
+		transition: background-color .2s, border-color .2s;
+
+		&.input_valid {
+			background-color: transparent;
+		}
+
+		&:focus {
+			background-color: transparent;
+		}
+	}
+
+	input[type='checkbox'] {
+		border: 1px solid#EAECEE;
+	}
+
+	.vSelect {
+		background-color: #EAECEE;
+
+		&.vs--open {
+			background-color: transparent;
+		}
+
+		&.input_valid {
+			background-color: transparent;
+		}
+
+		input {
+			background-color: transparent;
+		}
+	}
+
+	.form-block__bottom {
+		gap: 15px
+	}
+
+	.form-block__button {
+		max-width: unset;
+		width: 100%;
+	}
+}
+
+// 
 .section {
 	background: #f5f7f9;
 	padding-top: 82px;
