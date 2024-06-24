@@ -34,7 +34,7 @@
                             <h2 class="title">
                                 Оплатите задолженность онлайн!
                             </h2>
-                            <p style="margin-bottom: 20px; line-height: 25px">
+                            <!-- <p style="margin-bottom: 20px; line-height: 25px">
                                 После нажатия на кнопку оплатить введите свои данные в форму,
                                 и нажмите кнопку "Перейти к оплате".
 
@@ -47,8 +47,31 @@
                                 <strong>
                                     Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
                                     телефона <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
-                                </strong> 
-                            </p>
+                                </strong>
+                            </p> -->
+
+                            <!-- Форма оплаты -->
+                            <!-- <FormBlock :inputs="formInputs" /> -->
+                            <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
+                            <form class="payform" name="payform-tinkoff" onsubmit="pay(this); return false;">
+
+                                <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
+                                <input class="payform__input" type="hidden" name="frame" value="false">
+                                <input class="payform__input" type="hidden" name="language" value="ru">
+                                <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
+
+                                <input class="input payform__input" type="text" placeholder="Сумма заказа" name="amount"
+                                    required>
+                                <input class="input payform__input" type="text" placeholder="ФИО плательщика"
+                                    name="name" required>
+                                <input class="input payform__input" type="email" placeholder="E-mail" name="email"
+                                    required>
+                                <input class="input payform__input" type="tel" placeholder="Контактный телефон"
+                                    name="phone" required>
+
+                                <input class="button button_blue payform__button" type="submit" value="Оплатить">
+                            </form>
+
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
                             <div v-if="formVisible" class="switcher-progressbar">
                                 <span class="switcher-progressbar__thumb"></span>
@@ -176,10 +199,16 @@
 </template>
 
 <script>
+import FormBlock from '../../blocks/FormBlock.vue';
+
 export default {
+    components: {
+        FormBlock
+    },
     data() {
         return {
             formVisible: false,
+            terminalKey: '1718781279200DEMO',
             userData: {
                 lastname: '',
                 firstname: '',
@@ -189,7 +218,7 @@ export default {
                 contractId: '',
                 email: '',
                 repayment: '',
-                totalPayment: ''
+                totalPayment: '',
             },
             tabs: {
                 choosenTabs: 'contract',
@@ -213,7 +242,26 @@ export default {
                         isActive: false,
                     }
                 }
-            }
+            },
+            formInputs: [
+                {
+                    name: 'name',
+                    type: 'text',
+                    placeholder: 'ФИО*',
+                    required: true
+                },
+                {
+                    name: 'tel',
+                    type: 'tel',
+                    placeholder: 'Номер телефона*',
+                    required: true
+                },
+                {
+                    name: 'email',
+                    type: 'email',
+                    placeholder: 'E-mail*',
+                },
+            ]
         }
     },
     methods: {
@@ -298,6 +346,66 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+:deep(.form-block) {
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    color: $black;
+
+    &::before {
+        display: none;
+    }
+
+    .form-block-meta {
+        flex: none;
+    }
+
+    .link {
+        color: #20afce;
+    }
+
+    .input:not([type='checkbox']) {
+        background-color: #EAECEE;
+        transition: background-color .2s, border-color .2s;
+
+        &.input_valid {
+            background-color: transparent;
+        }
+
+        &:focus {
+            background-color: transparent;
+        }
+    }
+
+    input[type='checkbox'] {
+        border: 1px solid#EAECEE;
+    }
+
+    .vSelect {
+        background-color: #EAECEE;
+
+        &.vs--open {
+            background-color: transparent;
+        }
+
+        &.input_valid {
+            background-color: transparent;
+        }
+
+        input {
+            background-color: transparent;
+        }
+    }
+}
+
+.payform {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__input {}
+}
+
 /* Стили для классов транзиций */
 .switcher-body-item-leave-active {
     position: absolute;
