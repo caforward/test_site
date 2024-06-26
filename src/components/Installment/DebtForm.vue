@@ -53,24 +53,32 @@
                             <!-- Форма оплаты -->
                             <!-- <FormBlock :inputs="formInputs" /> -->
                             <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
-                            <form class="payform" name="payform-tinkoff" onsubmit="pay(this); return false;">
+                            <form class="payform" name="payform-tinkoff" @submit.prevent="payformPay" style="display: none;">
 
                                 <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
                                 <input class="payform__input" type="hidden" name="frame" value="false">
                                 <input class="payform__input" type="hidden" name="language" value="ru">
                                 <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
+                                <input class="payform__input" type="hidden" name="receipt" value="">
+                                <!-- <input class="payform__input" type="text" name="description"> -->
 
-                                <input class="input payform__input" type="text" placeholder="Сумма заказа" name="amount"
+                                <input class="input payform__input" type="text" placeholder="Сумма" name="amount"
                                     required>
                                 <input class="input payform__input" type="text" placeholder="ФИО плательщика"
                                     name="name" required>
-                                <input class="input payform__input" type="email" placeholder="E-mail" name="email"
-                                    required>
+
+                                <!-- Нужен либо телефон либо почта, проверка на пустоту значения проходит в функции payformPay -->
+                                <input class="input payform__input" type="email" placeholder="E-mail" name="email">
                                 <input class="input payform__input" type="tel" placeholder="Контактный телефон"
-                                    name="phone" required>
+                                    name="phone">
+
+                                <input class="input payform__input" type="tel" placeholder="Введите номер договора"
+                                    name="contractId" required v-model="contractId">
 
                                 <input class="button button_blue payform__button" type="submit" value="Оплатить">
                             </form>
+
+                            <PayForm class="payform"/>
 
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
                             <div v-if="formVisible" class="switcher-progressbar">
@@ -200,15 +208,18 @@
 
 <script>
 import FormBlock from '../../blocks/FormBlock.vue';
+import PayForm from '../../blocks/PayForm.vue';
 
 export default {
     components: {
-        FormBlock
+        FormBlock,
+        PayForm
     },
     data() {
         return {
             formVisible: false,
             terminalKey: '1718781279200DEMO',
+            contractId: '',
             userData: {
                 lastname: '',
                 firstname: '',
@@ -242,29 +253,42 @@ export default {
                         isActive: false,
                     }
                 }
-            },
-            formInputs: [
-                {
-                    name: 'name',
-                    type: 'text',
-                    placeholder: 'ФИО*',
-                    required: true
-                },
-                {
-                    name: 'tel',
-                    type: 'tel',
-                    placeholder: 'Номер телефона*',
-                    required: true
-                },
-                {
-                    name: 'email',
-                    type: 'email',
-                    placeholder: 'E-mail*',
-                },
-            ]
+            }
         }
     },
     methods: {
+        payformPay(e) {
+            const TPF = e.target
+            const { description, amount, email, phone, receipt } = TPF;
+
+            if (receipt) {
+                if (!email.value && !phone.value)
+                    return alert("Поле E-mail или Phone не должно быть пустым");
+
+                // Здесь нужно получать id контракта
+                // this.contractId = '00000000000'
+
+                TPF.receipt.value = JSON.stringify({
+                    "EmailCompany": "dolg.info@caforward.ru",
+                    "Taxation": "osn",
+                    "FfdVersion": "1.2",
+                    "Items": [
+                        {
+                            "Name": `Погашение задолженности по договору #${this.contractId}`,
+                            "Price": amount.value + '00',
+                            "Quantity": 1.00,
+                            "Amount": amount.value + '00',
+                            "PaymentMethod": "credit_payment",
+                            "PaymentObject": "service",
+                            "Tax": "none",
+                            "MeasurementUnit": 'pc'
+                        }
+                    ]
+                });
+            }
+            console.log(TPF.receipt.value);
+            pay(TPF);
+        },
         scrollToCalc() {
             window.location.href = '/installment-plan#calculate'
         },
@@ -398,12 +422,14 @@ export default {
     }
 }
 
-.payform {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+:deep(.payform) {
+    .input {
+        background-color: #EAECEE;
 
-    &__input {}
+        &_valid {
+            background-color: transparent;
+        }
+    }
 }
 
 /* Стили для классов транзиций */

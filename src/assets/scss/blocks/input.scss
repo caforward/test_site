@@ -14,6 +14,13 @@
     width: 100%;
     border-radius: 5px;
     padding: 12px 20px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
 }
 
 .checkbox {
@@ -23,7 +30,7 @@
     height: 30px;
     flex: none;
     border-radius: 100%;
-    background-image: url('/assets/images/utility/check.svg');
+    background-image: url("/assets/images/utility/check.svg");
     background-repeat: no-repeat;
     background-position: center center;
     background-blend-mode: luminosity;
