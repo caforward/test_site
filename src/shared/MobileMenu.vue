@@ -56,21 +56,21 @@
 
     <ModalConsultation :visible="modalVisible" @close="closeModal" />
     <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
-    <Requisites :visible="requisitesModal" @close="closeRequisitesModal" />
+    <ModalRequisites v-model="requisitesModal" />
 </template>
 
 <script>
 import Modal from '../blocks/Modal.vue';
 import ModalCall from '../layouts/ModalCall.vue';
 import ModalConsultation from '../layouts/ModalConsultation.vue';
-import Requisites from '../layouts/Requisites.vue';
+import ModalRequisites from '../layouts/ModalRequisites.vue';
 
 export default {
     components: {
-        ModalConsultation,
-        ModalCall,
         Modal,
-        Requisites,
+        ModalCall,
+        ModalRequisites,
+        ModalConsultation,
     },
     props: {
         visible: {

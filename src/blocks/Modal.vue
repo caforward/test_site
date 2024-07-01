@@ -1,12 +1,16 @@
+<script setup>
+import { onMounted } from 'vue';
+
+function closeModal() {
+    console.log('closeModal')
+}
+</script>
+
 <template>
     <div class="modal">
         <slot></slot>
     </div>
 </template>
-
-<script setup>
-import { onMounted } from 'vue';
-</script>
 
 <style lang="scss">
 .modal {
@@ -18,7 +22,7 @@ import { onMounted } from 'vue';
     z-index: 10;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
-    
+
     &__body {
         position: relative;
     }

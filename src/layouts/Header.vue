@@ -86,7 +86,7 @@
     <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
     <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
     <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
-    <Requisites :visible="requisitesModal" @close="requisitesModal = false" />
+    <ModalRequisites v-model="requisitesModal" />
     <ModalThank :visible="thankModal" @close="thankModal = false" />
 </template>
 
@@ -94,8 +94,8 @@
 import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
-import Requisites from './Requisites.vue';
 import ModalThank from './ModalThank.vue';
+import ModalRequisites from './ModalRequisites.vue';
 
 export default {
     name: "Header",
@@ -103,7 +103,7 @@ export default {
         ModalConsultation,
         ModalCall,
         MobileMenu,
-        Requisites,
+        ModalRequisites,
         ModalThank
     },
     data() {
