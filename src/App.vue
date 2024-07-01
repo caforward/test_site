@@ -8,14 +8,14 @@
 		</transition>
 	</router-view>
 	<TheFooter />
-	<TheBottomMenu v-if="bottomMenuVisible" />
+	<TheMenuBottom v-if="bottomMenuVisible" />
 </template>
 
 <script setup>
 import TheHeader from "./layouts/TheHeader.vue";
 import TheFooter from "./layouts/TheFooter.vue";
 
-import TheBottomMenu from "./layouts/TheBottomMenu.vue";
+import TheMenuBottom from "./layouts/TheMenuBottom.vue";
 import { onMounted, ref } from 'vue'
 
 const bottomMenuVisible = ref(true);
@@ -28,7 +28,6 @@ onMounted(() => {
 function windowResizeHandler() {
 	bottomMenuVisible.value = window.matchMedia("(max-width: 1023px)").matches
 }
-
 </script>
 
 <style>

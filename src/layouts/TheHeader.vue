@@ -85,24 +85,24 @@
         </div>
     </header>
 
-    <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
+    <TheMenuMobile :visible="mobileMenu" @close="mobileMenu = false" />
     <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
     <ModalConsultation v-model="modalVisible" />
 </template>
 
 <script lang="ts">
-import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
-import MobileMenu from '../shared/MobileMenu.vue';
+import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
+import ModalConsultation from './ModalConsultation.vue'
 
 export default {
     name: "Header",
     components: {
         ModalConsultation,
         ModalCall,
-        MobileMenu,
+        TheMenuMobile,
         ModalRequisites,
     },
     data() {

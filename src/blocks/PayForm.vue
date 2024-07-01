@@ -1,5 +1,5 @@
 <script setup>
-import Input from '@/blocks/elements/input.vue'
+import BaseInput from '@/blocks/elements/BaseInput.vue'
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279200DEMO')
@@ -136,7 +136,7 @@ watch(
 
         <div class="payform__inputs">
             <template v-for="input in props.inputs" :key="input">
-                <Input :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required"
+                <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required"
                     :value="input.value" :options="input.options" :disabled="input.disabled"
                     :showErrorHandler="checkErrorTrigger" :resetInputHandler="resetInputTrigger"
                     @update:value="paymentData[input.name].value = $event"

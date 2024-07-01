@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, watch } from 'vue'
-import Input from './elements/input.vue'
+import BaseInput from './elements/BaseInput.vue'
 
 const emit = defineEmits(['submitted'])
 
@@ -64,19 +64,14 @@ async function handleSubmit() {
 
                 resetInputTrigger.value = true
 
-                // Object.keys(formData1.value).forEach(key => {
-                //     formData1[key] = ''
-                // })
-
                 clearInputs()
+                emit("submitted")
             } else {
                 console.error("Ошибка при отправке сообщения");
             }
         } catch (error) {
             console.error("Ошибка при отправке сообщения:", error);
         }
-
-        emit("submitted")
     }
 }
 
@@ -102,7 +97,7 @@ watch(
         <form novalidate action="" class="form-block__form" @submit.prevent="handleSubmit">
             <div class="form-block__inputs">
                 <template v-for="(input, idx) in inputs" :key="idx">
-                    <Input :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                    <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :value="input.value" :options="input.options"
                         :disabled="input.disabled" @update:value="formData[input.name] = $event"
                         @update:isValid="formInputs[input.name].isValid = $event" :showErrorHandler="checkErrorTrigger"
