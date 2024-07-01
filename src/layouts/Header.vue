@@ -36,11 +36,13 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.prevent="modalVisible = true"
-                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Получить консультацию'"
+                                    @click.prevent="modalVisible = true" class="header-bottom-nav__link"
+                                    :href="navLink.href">{{ navLink.name }}</a>
 
-                                <a v-else-if="navLink.name === 'Заказать звонок'" @click.prevent="modalVisibleCall = true"
-                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Заказать звонок'"
+                                    @click.prevent="modalVisibleCall = true" class="header-bottom-nav__link"
+                                    :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
                             </li>
@@ -84,9 +86,9 @@
     </header>
 
     <MobileMenu :visible="mobileMenu" @close="mobileMenu = false" />
-    <ModalConsultation :visible="modalVisible" @close="modalVisible = false" />
-    <ModalCall :visible="modalVisibleCall" @close="modalVisibleCall = false" />
+    <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
+    <ModalConsultation v-model="modalVisible" />
     <ModalThank :visible="thankModal" @close="thankModal = false" />
 </template>
 

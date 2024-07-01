@@ -93,6 +93,7 @@ function showModalHandler(modalName) {
 
     <!-- <Requisites :visible="modal.requisites" /> -->
     <ModalRequisites v-model="modal.requisites" />
+    <ModalCall v-model="modal.call" />
 </template>
 
 <style lang="scss" scoped>
@@ -106,8 +107,9 @@ function showModalHandler(modalName) {
 
     &-list {
         display: flex;
-        justify-content: space-between;
         height: 100%;
+        justify-content: center;
+        align-items: stretch;
 
         &__item {
             width: 100%;

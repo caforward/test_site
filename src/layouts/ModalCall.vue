@@ -1,8 +1,61 @@
+<script setup>
+import { ref, onUpdated, watch } from "vue";
+import Modal from "../blocks/Modal.vue";
+import FormBlock from "../blocks/FormBlock.vue";
+
+const visible = defineModel()
+const inputs = ref([
+	{
+		name: 'name',
+		type: 'text',
+		placeholder: 'ФИО*',
+		required: true
+	},
+	{
+		name: 'tel',
+		type: 'tel',
+		placeholder: 'Номер телефона*',
+		required: true
+	},
+	{
+		name: 'email',
+		type: 'email',
+		placeholder: 'E-mail*',
+	},
+	{
+		name: 'messageType',
+		type: 'v-select',
+		placeholder: 'Тема обращения*',
+		value: 'Прошу перезвонить',
+		required: true,
+		disabled: true
+	},
+	{
+		name: 'message',
+		type: 'textarea',
+		placeholder: 'Кратко опишите Ваш вопрос*',
+	}
+])
+
+watch(
+	() => visible.value,
+	() => {
+		if (visible.value) {
+			document.body.style.overflow = 'hidden'
+			document.body.style.paddingRight = '10px'
+		} else {
+			document.body.style.paddingRight = ''
+			document.body.style.overflow = ''
+		}
+	}
+)
+</script>
+
 <template>
 	<transition name="fade">
 		<Modal v-if="visible">
 			<div class="modal-content">
-				<div class="close-button" @click="closeModal">
+				<div class="close-button" @click="visible = false">
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
 				<h3>Заказать звонок</h3>
@@ -10,81 +63,11 @@
 					Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами,
 					чтобы проконсультировать по вашей финансовой ситуации.
 				</p>
-				<FormBlock :inputs="inputs" @submitted="closeModal" />
+				<FormBlock :inputs="inputs" @submitted="visible = false" />
 			</div>
 		</Modal>
 	</transition>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-import Modal from "../blocks/Modal.vue";
-import FormBlock from "../blocks/FormBlock.vue";
-
-export default defineComponent({
-	components: {
-		Modal,
-		FormBlock
-	},
-	props: {
-		visible: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			inputs: [
-				{
-					name: 'name',
-					type: 'text',
-					placeholder: 'ФИО*',
-					required: true
-				},
-				{
-					name: 'tel',
-					type: 'tel',
-					placeholder: 'Номер телефона*',
-					required: true
-				},
-				{
-					name: 'email',
-					type: 'email',
-					placeholder: 'E-mail*',
-				},
-				{
-					name: 'messageType',
-					type: 'v-select',
-					placeholder: 'Тема обращения*',
-					value: 'Прошу перезвонить',
-					required: true,
-					disabled: true
-				},
-				{
-					name: 'message',
-					type: 'textarea',
-					placeholder: 'Кратко опишите Ваш вопрос*',
-				}
-			],
-		};
-	},
-	methods: {
-		closeModal() {
-			this.$emit("close");
-		},
-	},
-	updated() {
-		if (this.visible) {
-			document.body.style.overflow = 'hidden'
-			document.body.style.paddingRight = '10px'
-		} else {
-			document.body.style.paddingRight = ''
-			document.body.style.overflow = ''
-		}
-	},
-});
-</script>
 
 <style lang="scss" scoped>
 .fade-enter-active,
@@ -95,10 +78,6 @@ export default defineComponent({
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
-}
-
-.fade-leave-active {
-	padding-right: 0 !important;
 }
 
 :deep(.form-block) {
@@ -164,7 +143,6 @@ export default defineComponent({
 }
 
 .modal {
-	background-color: rgba(0, 0, 0, 0.5);
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
@@ -283,7 +261,7 @@ a {
 
 @media screen and (max-width: 1024px) and (min-width: 641px) {
 	.modal-content {
-		padding: 25px 53px 24px 53px;
+		padding: 35px 53px 35px 53px;
 	}
 
 	h3 {
@@ -305,8 +283,8 @@ a {
 	}
 
 	.close-button {
-		top: 18px;
-		right: 18px;
+		top: 30px;
+		right: 30px;
 	}
 }
 

@@ -54,9 +54,9 @@
         </Modal>
     </transition>
 
-    <ModalConsultation :visible="modalVisible" @close="closeModal" />
-    <ModalCall :visible="modalVisibleCall" @close="closeModalCall" />
+    <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
+    <ModalConsultation v-model="modalVisible" />
 </template>
 
 <script>

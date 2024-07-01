@@ -20,39 +20,21 @@
                             <p class="bottParagraph">или напишите нам на почту</p>
                         </div>
                     </div>
-                    <button @click="showModalCall" class="button_blue callOrderButt">Заказать звонок</button>
+                    <button @click="modalVisibleCall = true" class="button_blue callOrderButt">Заказать звонок</button>
                 </div>
                 <div class="imgContent"><img src="/assets/images/AnonimCall/1Img.png" alt="there was a pic"></div>
             </div>
 
         </div>
-        <ModalCall :visible="modalVisibleCall" @close="closeModalCall"></ModalCall>
+        <ModalCall v-model="modalVisibleCall" />
     </section>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import ModalCall from '../layouts/ModalCall.vue';
 
-
-export default defineComponent({
-    components: {
-        ModalCall
-    },
-    data() {
-        return {
-            modalVisibleCall: false,
-        }
-    },
-    methods: {
-        showModalCall() {
-            this.modalVisibleCall = true;
-        },
-        closeModalCall() {
-            this.modalVisibleCall = false;
-        },
-    }
-})
+const modalVisibleCall = ref(false)
 </script>
 
 <style lang="scss" scoped>

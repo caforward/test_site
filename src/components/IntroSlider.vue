@@ -32,23 +32,20 @@
                                 <p>
                                     <b>
                                         Чтобы воспользоваться предложением, свяжитесь с нами, по телефону горячей линии
-                                        <a href="tel:88043334133" class="link">8 804 333 4133</a> 
+                                        <a href="tel:88043334133" class="link">8 804 333 4133</a>
                                         <br> или направьте нам обращение по форме ниже.
                                     </b>
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button class="button button_blue slide__button" @click.stop="showModal($event)">
+                                <a href="#" class="button button_blue slide__button"
+                                    @click.prevent="modalVisible = true">
                                     Получить консультацию
-                                </button>
-                                <!-- <button class="button slide__button">
-                                    Подробнее
-                                </button> -->
+                                </a>
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"assets/images/" + "introSlider/03.jpg"
-                                ' alt="" />
+                            <img :src='"assets/images/" + "introSlider/03.jpg"' alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -74,12 +71,10 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.stop="showModal($event)">
+                                <a href="#" class="button button_blue slide__button"
+                                    @click.prevent="modalVisible = true">
                                     Получить консультацию
                                 </a>
-                                <!-- <button class="button slide__button">
-                                    Подробнее
-                                </button> -->
                             </div>
                         </div>
                         <div class="slide__img">
@@ -109,12 +104,9 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <button class="button button_blue slide__button" @click.stop="showModal($event)">
+                                <a href="#" class="button button_blue slide__button" @click.stop="modalVisible = true">
                                     Получить консультацию
-                                </button>
-                                <!-- <button class="button slide__button">
-                                    Подробнее
-                                </button> -->
+                                </a>
                             </div>
                         </div>
                         <div class="slide__img">
@@ -150,7 +142,7 @@
             </div>
         </div>
     </section>
-    <ModalConsultation :visible="modalVisible" @close="closeModal" />
+    <ModalConsultation v-model="modalVisible" />
 </template>
 
 <script>
@@ -177,9 +169,6 @@ export default {
         showModal(event) {
             event.preventDefault();
             this.modalVisible = true;
-        },
-        closeModal() {
-            this.modalVisible = false;
         },
         onSwiper(swiper) {
             this.swiper = swiper;

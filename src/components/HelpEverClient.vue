@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <ModalConsultation :visible="modalVisible" :defaultOption="defaultOption" @close="modalVisible=false"></ModalConsultation>
+        <ModalConsultation v-model="modalVisible" :selectDefaultOption="defaultOption" />
     </section>
 </template>
 
@@ -54,7 +54,6 @@ interface ListItems {
     textParagr: string;
     textButton: string;
     background: string;
-
 }
 
 export default defineComponent({

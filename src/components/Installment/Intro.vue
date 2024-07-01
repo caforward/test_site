@@ -1,3 +1,17 @@
+<script setup>
+import { ref } from 'vue'
+import Breadcrumb from "../../blocks/Breadcrumb.vue";
+import IntroBlock from "../../blocks/IntroBlock.vue";
+import ModalConsultation from "../../layouts/ModalConsultation.vue";
+
+const modalVisible = ref(false);
+
+function scrollToCalculate() {
+    const element = document.getElementById('calculate');
+    element.scrollIntoView()
+}
+</script>
+
 <template>
     <section class="section">
         <div class="container">
@@ -12,8 +26,7 @@
                             сможете погасить долг частями в установленные сроки
                         </p>
                         <div class="intro-content__buttons">
-                            <button class="button button_blue intro-content__button" 
-                            @click.stop="showModal($event)">
+                            <button class="button button_blue intro-content__button" @click.stop="modalVisible = true">
                                 Получить консультацию
                             </button>
                             <button class="button intro-content__button" :onclick="scrollToCalculate">
@@ -30,41 +43,8 @@
             </IntroBlock>
         </div>
     </section>
-    <ModalConsultation :visible="modalVisible" @close="closeModal" ></ModalConsultation>
+    <ModalConsultation v-model="modalVisible" />
 </template>
-<script>
-import Breadcrumb from "../../blocks/Breadcrumb.vue";
-import IntroBlock from "../../blocks/IntroBlock.vue";
-import ModalConsultation from "../../layouts/ModalConsultation.vue";
-export default {
-    name: "Intro",
-    components: {
-        Breadcrumb,
-        IntroBlock,
-        ModalConsultation
-    },
-    data() {
-        return {
-            modalVisible: false,
-        };
-    },
-    methods: {
-        showModal(event) {
-            event.preventDefault();
-            this.modalVisible = true;
-        },
-        closeModal() {
-            this.modalVisible = false;
-        },
-        scrollToCalculate() {
-        const element = document.getElementById('calculate');
-   element.scrollIntoView()
-
-
-        }
-    },
-};
-</script>
 
 <style lang="scss" scoped>
 section {
@@ -166,6 +146,7 @@ section {
                 bottom: -56px;
             }
         }
+
         &-content {
             padding-bottom: 100px;
         }
@@ -178,7 +159,7 @@ section {
             width: 100%;
             padding-top: 0;
             height: 305px;
-            
+
             img {
                 position: static;
                 right: 0;

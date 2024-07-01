@@ -102,8 +102,8 @@
             </div>
         </div>
     </footer>
-    <ModalConsultation :visible="modalVisible" @close="closeModal" />
-    <ModalDocs :visible="modalDocsVisible" :toShowIndex="modalDocsIndex" @close="modalDocsVisible = false" />
+    <ModalConsultation v-model="modalVisible" />
+    <ModalDocs v-model="modalDocsVisible" :toShowIndex="modalDocsIndex" />
 </template>
 
 <script lang="ts">

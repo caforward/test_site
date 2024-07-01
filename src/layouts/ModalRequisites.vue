@@ -1,14 +1,14 @@
 <script setup>
 import Modal from '../blocks/Modal.vue';
 
-const visibility = defineModel()
+const visible = defineModel()
 </script>
 
 <template>
     <transition name="fade">
-        <Modal id="requisites" v-if="visibility">
+        <Modal id="requisites" v-if="visible">
             <div class="modal-body">
-                <div class="close-button" @click="visibility = false">
+                <div class="close-button" @click="visible = false">
                     <img src="/assets/images/close_x/Vector.png" alt="close modal" />
                 </div>
                 <h2 class="modal-body__title">
@@ -91,7 +91,6 @@ const visibility = defineModel()
 }
 
 .modal {
-
     display: flex;
     justify-content: center;
     align-items: flex-start;
