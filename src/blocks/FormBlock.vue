@@ -1,3 +1,101 @@
+<script setup>
+import { ref, onBeforeMount, watch } from 'vue'
+import Input from './elements/input.vue'
+
+const emit = defineEmits(['submitted'])
+
+const props = defineProps({
+    inputs: {
+        type: Array,
+        required: true
+    },
+})
+
+const consent = ref(false)
+const formIsValid = ref(false)
+
+const checkErrorTrigger = ref(true)
+const resetInputTrigger = ref(false)
+const consentDOMElement = ref(null)
+
+const formData = ref(new FormData())
+const formInputs = ref({})
+
+onBeforeMount(() => {
+    // Инициализация данных для валидации
+    props.inputs.forEach(input => {
+        formData.value[input.name] = ''
+        formInputs.value[input.name] = { isValid: false, required: input.required }
+    })
+})
+
+function clearInputs() {
+    props.inputs.forEach(input => {
+        formData.value[input.name] = ''
+        formInputs.value[input.name].isValid = false
+    })
+}
+
+async function handleSubmit() {
+    // Проверяеем наличие ошибок
+    checkErrorTrigger.value = !checkErrorTrigger.value
+
+    if (!consent.value) {
+        consentDOMElement.value.classList.add('checkbox_error')
+
+        setTimeout(() => {
+            consentDOMElement.value.classList.remove('checkbox_error')
+        }, 300)
+
+        return
+    }
+
+    // Проверяем валидна ли форма
+    if (formIsValid.value) {
+        // Отправляем данные на сервер
+        try {
+            const response = await fetch("email.php", {
+                method: "POST",
+                body: formData.value
+            });
+
+            if (response.ok) {
+                console.log("Сообщение успешно отправлено");
+
+                resetInputTrigger.value = true
+
+                // Object.keys(formData1.value).forEach(key => {
+                //     formData1[key] = ''
+                // })
+
+                clearInputs()
+            } else {
+                console.error("Ошибка при отправке сообщения");
+            }
+        } catch (error) {
+            console.error("Ошибка при отправке сообщения:", error);
+        }
+
+        emit("submitted")
+    }
+}
+
+watch(
+    () => formInputs,
+    (inputs) => {
+        const inputsNames = Object.keys(inputs)
+        formIsValid.value = true
+
+        inputsNames.forEach(name => {
+            if (inputs[name].required && !inputs[name].isValid) {
+                formIsValid.value = false
+            }
+        })
+    },
+    { deep: true }
+)
+</script>
+
 <template>
     <div class="form-block">
         <slot name="info"></slot>
@@ -13,8 +111,8 @@
             </div>
             <div class="form-block__bottom">
                 <div class="form-block-meta">
-                    <input id="personal-data-agree-checkbox" type="checkbox" class="checkbox form-block-meta__checkbox"
-                        v-model="consent">
+                    <input ref="consentDOMElement" id="personal-data-agree-checkbox" type="checkbox"
+                        class="checkbox form-block-meta__checkbox" v-model="consent">
                     <label for="personal-data-agree-checkbox" class="form-block-meta__label">
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
@@ -28,107 +126,6 @@
         </form>
     </div>
 </template>
-
-<script>
-import Input from './elements/input.vue'
-
-export default {
-    name: 'FormBlock',
-    components: {
-        Input
-    },
-    props: {
-        inputs: {
-            type: Array,
-            required: true
-        },
-    },
-    data() {
-        return {
-            consent: false,
-            formData: {},
-            formInputs: {},
-            formIsValid: false,
-            checkErrorTrigger: true,
-            resetInputTrigger: false
-        }
-    },
-    beforeMount() {
-        // Инициализация данных для валидации
-        this.inputs.forEach(input => {
-            this.formData[input.name] = ''
-            this.formInputs[input.name] = { isValid: false, required: input.required }
-        })
-    },
-    methods: {
-        async handleSubmit() {
-            const form = document.querySelector('form')
-            const consentCheckbox = document.querySelector('#personal-data-agree-checkbox')
-
-            // Проверяеем наличие ошибок
-            this.checkErrorTrigger = !this.checkErrorTrigger
-
-            if (!this.consent) {
-                consentCheckbox.classList.add('checkbox_error')
-
-                setTimeout(() => {
-                    consentCheckbox.classList.remove('checkbox_error')
-                }, 300)
-
-                return
-            }
-
-            // Проверяем валидна ли форма
-            if (this.formIsValid) {
-                // Отправляем данные на сервер
-                const formData = new FormData();
-
-                Object.keys(this.formData).forEach(key => {
-                    formData.append(key, this.formData[key])
-                })
-
-
-                try {
-                    const response = await fetch("email.php", {
-                        method: "POST",
-                        body: formData,
-                    });
-                    if (response.ok) {
-                        console.log("Сообщение успешно отправлено");
-
-                        this.resetInputTrigger = true
-
-                        Object.keys(this.formData).forEach(key => {
-                            this.formData[key] = ''
-                        })
-
-                    } else {
-                        console.error("Ошибка при отправке сообщения");
-                    }
-                } catch (error) {
-                    console.error("Ошибка при отправке сообщения:", error);
-                }
-                // this.$emit("submitted")
-            }
-        },
-    },
-    watch: {
-        formInputs: {
-            handler(inputs) {
-                const inputsNames = Object.keys(inputs)
-                this.formIsValid = true
-
-                inputsNames.forEach(name => {
-                    if (inputs[name].required && !inputs[name].isValid) {
-                        this.formIsValid = false
-                    }
-                })
-            },
-            deep: true
-        },
-    }
-}
-</script>
 
 <style lang="scss" scoped>
 .form-block {

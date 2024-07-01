@@ -1,77 +1,52 @@
+<script setup>
+import { watch } from 'vue';
+import Modal from '../blocks/Modal.vue'
+
+const visible = defineModel()
+
+watch(
+    () => visible.value,
+    () => {
+        if (visible.value) {
+            document.body.style.overflow = 'hidden'
+            document.body.style.paddingRight = '10px'
+        } else {
+            document.body.style.paddingRight = ''
+            document.body.style.overflow = ''
+        }
+    }
+)
+</script>
+
 <template>
     <transition name="fade">
         <Modal v-if="visible">
             <div class="modal-body">
-                <div class="modal__close" @click="closeModal">
+                <div class="modal__close" @click="visible = false">
                     <img src="/assets/images/close_x/Vector.png" alt="krestik" />
                 </div>
                 <div class="modal__title">
                     Спасибо!
                 </div>
                 <p class="modal__text">
-                    Мы скоро свяжемся с Вами
+                    Мы скоро свяжемся с Вами!
                 </p>
             </div>
         </Modal>
     </transition>
 </template>
 
-<script>
-import Modal from '../blocks/Modal.vue'
-
-export default {
-    name: "ModalThank",
-    components: {
-        Modal
-    },
-    props: {
-        visible: {
-            type: Boolean,
-            default: false
-        }
-    },
-    methods: {
-        closeModal() {
-            this.$emit('close')
-        }
-    },
-    watch: {
-        visible: {
-            handler(value) {
-                if (value) {
-                    document.body.style.overflow = 'hidden'
-                    document.body.style.paddingRight = '10px'
-                } else {
-                    document.body.style.paddingRight = ''
-                    document.body.style.overflow = ''
-                }
-            },
-            immediate: true
-        }
-    },
-}
-</script>
-
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.4s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
 .modal {
     display: flex;
     align-items: center;
 
     &-body {
+        top: 37%;
         position: relative;
         border-radius: 30px;
         background-color: #fff;
-        padding: 30px;
+        padding: 60px 30px;
         width: 100%;
         max-width: 600px;
         text-align: center;
@@ -79,12 +54,15 @@ export default {
     }
 
     &__title {
-        font-size: 20px;
+        font-size: 34px;
+        color: $blue;
         font-weight: 700;
         margin-bottom: 15px;
     }
 
-    &__text {}
+    &__text {
+        font-size: 18px;
+    }
 
     &__close {
         position: absolute;

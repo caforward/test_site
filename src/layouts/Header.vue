@@ -89,14 +89,12 @@
     <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
     <ModalConsultation v-model="modalVisible" />
-    <ModalThank :visible="thankModal" @close="thankModal = false" />
 </template>
 
 <script lang="ts">
 import ModalConsultation from './ModalConsultation.vue'
 import ModalCall from './ModalCall.vue'
 import MobileMenu from '../shared/MobileMenu.vue';
-import ModalThank from './ModalThank.vue';
 import ModalRequisites from './ModalRequisites.vue';
 
 export default {
@@ -106,7 +104,6 @@ export default {
         ModalCall,
         MobileMenu,
         ModalRequisites,
-        ModalThank
     },
     data() {
         return {

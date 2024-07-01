@@ -2,8 +2,11 @@
 import { ref, onUpdated, watch } from "vue";
 import Modal from "../blocks/Modal.vue";
 import FormBlock from "../blocks/FormBlock.vue";
+import ModalThank from "./ModalThank.vue";
 
 const visible = defineModel()
+const thankModalVisible = ref(false)
+
 const inputs = ref([
 	{
 		name: 'name',
@@ -37,6 +40,11 @@ const inputs = ref([
 	}
 ])
 
+function showTnankModal() {
+	visible.value = false
+	thankModalVisible.value = true
+}
+
 watch(
 	() => visible.value,
 	() => {
@@ -63,23 +71,14 @@ watch(
 					Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами,
 					чтобы проконсультировать по вашей финансовой ситуации.
 				</p>
-				<FormBlock :inputs="inputs" @submitted="visible = false" />
+				<FormBlock :inputs="inputs" @submitted="showTnankModal" />
 			</div>
 		</Modal>
 	</transition>
+	<ModalThank v-model="thankModalVisible" />
 </template>
 
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-	transition: opacity 0.4s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-	opacity: 0;
-}
-
 :deep(.form-block) {
 	padding: 0;
 	background-color: transparent;
@@ -130,16 +129,6 @@ watch(
 			background-color: transparent;
 		}
 	}
-}
-
-::placeholder {
-	color: rgba(0, 0, 0, 0.5);
-	font-family: "Montserrat", sans-serif;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 24px;
-	letter-spacing: 0%;
-	text-align: left;
 }
 
 .modal {

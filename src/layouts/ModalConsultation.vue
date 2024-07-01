@@ -2,8 +2,10 @@
 import { ref, watch } from "vue";
 import Modal from '../blocks/Modal.vue';
 import FormBlock from "../blocks/FormBlock.vue";
+import ModalThank from "./ModalThank.vue";
 
 const visible = defineModel()
+const thankModalVisible = ref(false)
 
 const props = defineProps({
 	selectDefaultOption: {
@@ -50,6 +52,11 @@ const inputs = ref([
 	}
 ])
 
+function showTnankModal() {
+	visible.value = false
+	thankModalVisible.value = true
+}
+
 watch(
 	() => props.selectDefaultOption,
 	() => {
@@ -67,10 +74,11 @@ watch(
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
 				</div>
 				<h3>Заполните поля в форме ниже, и мы свяжемся с Вами. </h3>
-				<FormBlock :inputs="inputs" @submitted="visible = false" />
+				<FormBlock :inputs="inputs" @submitted="showTnankModal" />
 			</div>
 		</Modal>
 	</transition>
+	<ModalThank v-model="thankModalVisible" />
 </template>
 
 <style lang="scss" scoped>
