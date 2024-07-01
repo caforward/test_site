@@ -1,5 +1,5 @@
 <template>
-	<Header />
+	<TheHeader />
 	<router-view v-slot="{ Component, route }">
 		<transition name="fade" mode="out-in">
 			<template #default>
@@ -7,13 +7,13 @@
 			</template>
 		</transition>
 	</router-view>
-	<Footer />
+	<TheFooter />
 	<TheBottomMenu v-if="bottomMenuVisible" />
 </template>
 
 <script setup>
-import Header from "./layouts/Header.vue";
-import Footer from "./layouts/Footer.vue";
+import TheHeader from "./layouts/TheHeader.vue";
+import TheFooter from "./layouts/TheFooter.vue";
 
 import TheBottomMenu from "./layouts/TheBottomMenu.vue";
 import { onMounted, ref } from 'vue'
