@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, watch } from 'vue'
-import BaseInput from './elements/BaseInput.vue'
+import BaseInput from './BaseInput.vue'
 
 const emit = defineEmits(['submitted'])
 

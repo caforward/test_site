@@ -1,5 +1,5 @@
 <script setup>
-import BaseInput from '@/blocks/elements/BaseInput.vue'
+import BaseInput from '@/blocks/BaseInput.vue'
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279200DEMO')

@@ -7,7 +7,7 @@
 					<div class="slider">
 						<p>Сумма вашего долга</p>
 						<div class="current-value">{{ numSplit(currentValue) }}</div>
-						<NoUiSlider :start="[338000]" :range="{ min: 10000, max: 500000 }" :step="100"
+						<BaseSliderDot :start="[338000]" :range="{ min: 10000, max: 500000 }" :step="100"
 							@value-changed="handleValueChange" />
 						<div class="cont-from-to">
 							<div>от 10 000 ₽</div>
@@ -17,7 +17,7 @@
 					<div class="slider">
 						<p>Срок погашения</p>
 						<div class="current-value">{{ currentValue3 }}</div>
-						<NoUiSlider :start="[6]" :range="{ min: 1, max: 24 }" :step="1"
+						<BaseSliderDot :start="[6]" :range="{ min: 1, max: 24 }" :step="1"
 							@value-changed="handleValueChange3" />
 						<div class="cont-from-to">
 							<div>от 1 месяца</div>
@@ -46,12 +46,12 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import NoUiSlider from "../../blocks/elements/NoUiSlider.vue";
+import BaseSliderDot from "../../blocks/BaseSliderDot.vue";
 import FormBlock from "../../blocks/FormBlock.vue";
 
 export default defineComponent({
 	components: {
-		NoUiSlider,
+		BaseSliderDot,
 		FormBlock
 	},
 	data() {
