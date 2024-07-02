@@ -1,10 +1,15 @@
+<script setup>
+import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
+import IntroBlock from "../../blocks/IntroBlock.vue";
+</script>
+
 <template>
     <section class="section">
         <div class="container">
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">
-                        <Breadcrumb class="breadcrumb" />
+                        <BaseBreadcrumb class="breadcrumb" />
                         <h1 class="intro-content__title">
                             Будь в команде мечты Развивайся и покоряй высоты
                         </h1>
@@ -12,9 +17,9 @@
                             На данный момент в ООО Форвард открыты следующие вакансии. Если вы хотите работать в
                             современной и перспективной финансовой компании – свяжитесь с нами.
                         </p>
-                        <button class="button button_blue">
+                        <a href="#" class="button button_blue intro-content__button">
                             Смотреть вакансии
-                        </button>
+                        </a>
                     </div>
                 </template>
                 <template v-slot:img>
@@ -26,22 +31,6 @@
         </div>
     </section>
 </template>
-
-<script>
-import Breadcrumb from "../../blocks/Breadcrumb.vue";
-import IntroBlock from "../../blocks/IntroBlock.vue";
-
-export default {
-    name: "Intro",
-    components: {
-        Breadcrumb,
-        IntroBlock
-    },
-    data() {
-        return {};
-    },
-};
-</script>
 
 <style lang="scss" scoped>
 section {
@@ -102,6 +91,11 @@ section {
             font-size: 16px;
             line-height: 167%;
             margin-bottom: 25px;
+        }
+
+        &__button {
+            min-width: 200px;
+            width: fit-content;
         }
     }
 }

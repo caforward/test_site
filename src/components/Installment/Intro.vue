@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import Breadcrumb from "../../blocks/Breadcrumb.vue";
+import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
 import IntroBlock from "../../blocks/IntroBlock.vue";
 import ModalConsultation from "../../layouts/ModalConsultation.vue";
 
@@ -18,7 +18,7 @@ function scrollToCalculate() {
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">
-                        <Breadcrumb class="breadcrumb" />
+                        <BaseBreadcrumb class="breadcrumb" />
                         <h1 class="intro-content__title">Получить рассрочку</h1>
                         <p class="intro-content__text">
                             Рассрочка платежей – один из вариантов взаимодействия с коллекторами, который может стать

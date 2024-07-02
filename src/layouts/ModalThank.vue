@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from 'vue';
-import Modal from '../blocks/Modal.vue'
+import BaseModal from '../blocks/BaseModal.vue'
 
 const visible = defineModel()
 
@@ -20,7 +20,7 @@ watch(
 
 <template>
     <transition name="fade">
-        <Modal v-if="visible">
+        <BaseModal v-if="visible">
             <div class="modal-body">
                 <div class="modal__close" @click="visible = false">
                     <img src="/assets/images/close_x/Vector.png" alt="krestik" />
@@ -32,7 +32,7 @@ watch(
                     Мы скоро свяжемся с Вами!
                 </p>
             </div>
-        </Modal>
+        </BaseModal>
     </transition>
 </template>
 

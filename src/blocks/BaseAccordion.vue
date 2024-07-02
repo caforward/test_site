@@ -1,7 +1,43 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const accordions = ref(null)
+
+const props = defineProps({
+    accordionData: {
+        type: Array,
+        required: true,
+    },
+    openedAccordion: {
+        type: Number,
+        default: 0
+    }
+})
+
+function openAccordion(e) {
+    const accordion = e.target.closest(".accordion");
+    const accordionBody = accordion.querySelector(".accordion__content")
+
+    accordion.classList.toggle("accordion_opened");
+}
+
+onMounted(() => {
+    let accordionsCountToOpen = props.openedAccordion
+
+    if (accordions.value.children.length < props.openedAccordion) {
+        accordionsCountToOpen = accordions.value.children.length
+    }
+
+    for (let idx = 0; idx < accordionsCountToOpen; idx++) {
+        accordions.value.children[idx].classList.add("accordion_opened")
+    }
+})
+</script>
+
 <template>
-    <ul class="accordions">
-        <li class="accordion" v-for="(item, idx) in accordionData" :key="idx">
-            <h3 class="accordion-title" @click="accordionOpen">
+    <ul ref="accordions" class="accordions">
+        <li class="accordion" v-for="(item, idx) in props.accordionData" :key="idx">
+            <h3 class="accordion-title" @click="openAccordion">
                 {{ item.title }}
                 <span class="accordion-title__icon">
                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,29 +55,6 @@
     </ul>
 </template>
 
-<script>
-export default {
-    name: "Accordion",
-    props: {
-        accordionData: Array,
-    },
-    data() {
-        return {};
-    },
-    methods: {
-        accordionOpen(e) {
-            const accordion = e.target.closest(".accordion");
-            const accordionBody = accordion.querySelector(
-                ".accordion__content"
-            );
-
-            accordion.classList.toggle("accordion_opened");
-            // console.log(accordionBody.clientHeight)
-        },
-    },
-};
-</script>
-
 <style lang="scss" scoped>
 .accordion {
     border-bottom: 1px solid rgba(217, 217, 217, 0.5);
@@ -58,6 +71,7 @@ export default {
     }
 
     &-title {
+        user-select: none;
         display: flex;
         align-items: baseline;
         justify-content: space-between;
@@ -116,9 +130,11 @@ export default {
                 padding-bottom: 25px;
             }
         }
+
         &-title {
             font-size: 14px;
         }
+
         &__content {
             font-size: 14px;
         }

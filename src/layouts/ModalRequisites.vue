@@ -1,12 +1,12 @@
 <script setup>
-import Modal from '../blocks/Modal.vue';
+import BaseModal from '../blocks/BaseModal.vue';
 
 const visible = defineModel()
 </script>
 
 <template>
     <transition name="fade">
-        <Modal id="requisites" v-if="visible">
+        <BaseModal id="requisites" v-if="visible">
             <div class="modal-body">
                 <div class="close-button" @click="visible = false">
                     <img src="/assets/images/close_x/Vector.png" alt="close modal" />
@@ -75,7 +75,7 @@ const visible = defineModel()
                     </div>
                 </div>
             </div>
-        </Modal>
+        </BaseModal>
     </transition>
 </template>
 

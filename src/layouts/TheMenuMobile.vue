@@ -1,6 +1,6 @@
 <template>
     <transition name="slide">
-        <Modal id="mobile-menu" v-if="visible">
+        <BaseModal id="mobile-menu" v-if="visible">
             <div class="menu">
                 <!-- <button @click="closeMobileMenu">close</button> -->
                 <ul class="menu-links">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-        </Modal>
+        </BaseModal>
     </transition>
 
     <ModalCall v-model="modalVisibleCall" />
@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import Modal from '../blocks/Modal.vue';
+import BaseModal from '../blocks/BaseModal.vue';
 import ModalCall from '../layouts/ModalCall.vue';
 import ModalConsultation from '../layouts/ModalConsultation.vue';
 import ModalRequisites from '../layouts/ModalRequisites.vue';
 
 export default {
     components: {
-        Modal,
+        BaseModal,
         ModalCall,
         ModalRequisites,
         ModalConsultation,

@@ -7,15 +7,7 @@
     </div>
 </template>
 
-<script>
-
-export default {
-    name: "IntroBlock",
-    data() {
-        return {};
-    },
-};
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .intro {

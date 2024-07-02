@@ -1,10 +1,19 @@
+<script setup>
+import { ref } from 'vue';
+import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
+import IntroBlock from "../../blocks/IntroBlock.vue";
+import ModalConsultation from "../../layouts/ModalConsultation.vue";
+
+const modalConsultationVisible = ref(false)
+</script>
+
 <template>
     <section class="section">
         <div class="container">
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">
-                        <Breadcrumb class="breadcrumb" />
+                        <BaseBreadcrumb class="breadcrumb" />
                         <h1 class="intro-content__title">ООО ПКО «Форвард»</h1>
                         <h3 class="intro-content__subtitle">
                             Коллекторское агентство, осуществляющее деятельность по
@@ -16,9 +25,10 @@
                             законодательством и договорами, заключенными с
                             кредитными и иными организациями.
                         </p>
-                        <button class="button button_blue intro-content__button">
+                        <a href="#" class="button button_blue intro-content__button"
+                            @click="modalConsultationVisible = true">
                             Получить консультацию
-                        </button>
+                        </a>
                     </div>
                 </template>
                 <template v-slot:img>
@@ -29,23 +39,8 @@
             </IntroBlock>
         </div>
     </section>
+    <ModalConsultation v-model="modalConsultationVisible" />
 </template>
-
-<script>
-import Breadcrumb from "../../blocks/Breadcrumb.vue";
-import IntroBlock from "../../blocks/IntroBlock.vue";
-
-export default {
-    name: "Intro",
-    components: {
-        Breadcrumb,
-        IntroBlock
-    },
-    data() {
-        return {};
-    },
-};
-</script>
 
 <style lang="scss" scoped>
 section {
@@ -90,6 +85,10 @@ section {
             line-height: 167%;
             margin-bottom: 25px;
         }
+        &__button {
+            min-width: 200px;
+            width: fit-content;
+        }
     }
 }
 
@@ -98,13 +97,13 @@ section {
         &__img {
             width: 65%;
         }
-        
+
         &-content {
             &__subtitle {
                 font-size: 16px;
                 margin-bottom: 20px;
             }
-            
+
             &__text {
                 font-size: 14px;
                 line-height: 214%;
@@ -118,6 +117,7 @@ section {
         &__img {
             padding: 80px 0 60px;
             width: 50%;
+
             img {
                 object-position: top;
             }
@@ -137,6 +137,7 @@ section {
             width: 100%;
             padding-top: 0;
             height: 305px;
+
             img {
                 object-position: center;
             }
@@ -145,16 +146,21 @@ section {
         &-content {
             padding-bottom: 0;
             width: 100%;
+
             &__title {
                 margin-bottom: 15px;
             }
-            &__subtitle, &__text {
+
+            &__subtitle,
+            &__text {
                 font-size: 14px;
                 line-height: 171%;
             }
+
             &__text {
                 margin-bottom: 15px;
             }
+
             &__button {
                 width: 100%;
                 max-width: 350px;

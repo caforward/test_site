@@ -23,7 +23,7 @@
                     </svg>
                 </span>
             </template>
-            
+
             <span v-else class="breadcrumb-link breadcrumb-link_current">
                 {{ matched.name }}
             </span>
@@ -31,18 +31,13 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: "Breadcrumb",
-    data() {
-        return {
-            mainPage: {
-                name: 'Главная',
-                href: '/'
-            }
-        }
-    }
-}
+<script setup>
+import { ref } from 'vue';
+
+const mainPage = ref({
+    name: 'Главная',
+    href: '/'
+})
 </script>
 
 <style lang="scss" scoped>

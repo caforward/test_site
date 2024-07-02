@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onUpdated, watch } from "vue";
-import Modal from "../blocks/Modal.vue";
+import BaseModal from "../blocks/BaseModal.vue";
 import FormBlock from "../blocks/FormBlock.vue";
 import ModalThank from "./ModalThank.vue";
 
@@ -61,7 +61,7 @@ watch(
 
 <template>
 	<transition name="fade">
-		<Modal v-if="visible">
+		<BaseModal v-if="visible">
 			<div class="modal-content">
 				<div class="close-button" @click="visible = false">
 					<img src="/assets/images/close_x/Vector.png" alt="krestik" />
@@ -73,7 +73,7 @@ watch(
 				</p>
 				<FormBlock :inputs="inputs" @submitted="showTnankModal" />
 			</div>
-		</Modal>
+		</BaseModal>
 	</transition>
 	<ModalThank v-model="thankModalVisible" />
 </template>

@@ -1,50 +1,6 @@
-<template>
-    <transition name="fade">
-        <Modal v-if="visible">
-            <div class="modal-body">
-                <div class="close-button" @click="visible = false">
-                    <img src="/assets/images/close_x/Vector.png" alt="krestik" />
-                </div>
-                <h2 class="modal-body__title">
-                    {{ docs[toShowIndex].title }}
-                </h2>
-                <div class="modal-body-content">
-                    <ul class="modal-body-content__list modal-body-content__list">
-                        <li v-for="(article, idx) in docs[toShowIndex].content" :key="idx">
-                            <div>{{ article.title }}</div>
-                            <div>
-                                <b v-html="article.text"></b>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="modal-body-content__list modal-body-content__list_files">
-                        <li v-for="(file, idx) in docs[toShowIndex].files" :key="idx">
-                            <a :href="'/assets/docs/' + file.filename" :title="file.name" target="_blank">
-                                <div>
-                                    <img src="/assets/images/pdf.png" alt="">
-                                </div>
-                                <div>
-                                    <div>
-                                        <b>
-                                            {{ file.name }}
-                                        </b>
-                                    </div>
-                                    <div>
-                                        Скачать pdf
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </Modal>
-    </transition>
-</template>
-
 <script setup>
 import { ref, onUpdated } from 'vue'
-import Modal from '../blocks/Modal.vue';
+import BaseModal from '../blocks/BaseModal.vue';
 
 const emits = defineEmits(['close'])
 
@@ -217,6 +173,51 @@ onUpdated(() => {
     }
 })
 </script>
+
+<template>
+    <transition name="fade">
+        <BaseModal v-if="visible">
+            <div class="modal-body">
+                <div class="close-button" @click="visible = false">
+                    <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+                </div>
+                <h2 class="modal-body__title">
+                    {{ docs[toShowIndex].title }}
+                </h2>
+                <div class="modal-body-content">
+                    <ul class="modal-body-content__list modal-body-content__list">
+                        <li v-for="(article, idx) in docs[toShowIndex].content" :key="idx">
+                            <div>{{ article.title }}</div>
+                            <div>
+                                <b v-html="article.text"></b>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="modal-body-content__list modal-body-content__list_files">
+                        <li v-for="(file, idx) in docs[toShowIndex].files" :key="idx">
+                            <a :href="'/assets/docs/' + file.filename" :title="file.name" target="_blank">
+                                <div>
+                                    <img src="/assets/images/pdf.png" alt="">
+                                </div>
+                                <div>
+                                    <div>
+                                        <b>
+                                            {{ file.name }}
+                                        </b>
+                                    </div>
+                                    <div>
+                                        Скачать pdf
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </BaseModal>
+    </transition>
+</template>
+
 
 <style lang="scss" scoped>
 .modal {
