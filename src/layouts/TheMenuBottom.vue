@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, onBeforeMount } from 'vue'
 import ModalCall from './ModalCall.vue';
 import ModalRequisites from './ModalRequisites.vue';
+import ModalConsultation from './ModalConsultation.vue';
 
 const visibility = ref(false)
 const bottomMenu = ref(null)
@@ -91,7 +92,7 @@ function showModalHandler(modalName) {
         </ul>
     </div>
 
-    <!-- <Requisites :visible="modal.requisites" /> -->
+    <ModalConsultation v-model="modal.consultation" />
     <ModalRequisites v-model="modal.requisites" />
     <ModalCall v-model="modal.call" />
 </template>
@@ -108,12 +109,9 @@ function showModalHandler(modalName) {
     &-list {
         display: flex;
         height: 100%;
-        justify-content: center;
-        align-items: stretch;
 
         &__item {
             width: 100%;
-            height: 100%;
 
             &:not(:last-child) {
                 border-right: 1px solid $gray-dark;

@@ -57,7 +57,7 @@ const contentArr = ref([
                     <p>Наши специалисты получают все заявки на обратную связь
                         и отвечают на них максимально быстро.</p>
                     <div class="btn">
-                        <a href="#" @click.prevent="modalVisible = true" class="button">Получить консультацию</a>
+                        <a href="#" @click.prevent="modalVisible = true" class="button button_blue">Получить консультацию</a>
                     </div>
 
                 </div>
@@ -127,6 +127,11 @@ h2 {
     padding: 40px 34px 50px 37px;
     min-width: 286px;
     min-height: 422px;
+
+    &.last-content .button {
+        margin-top: 20px;
+        width: fit-content;
+    }
 }
 
 h2 {
@@ -166,7 +171,7 @@ img {
     }
 
     .last-content {
-        padding: 120px 52px 90px 30px;
+        padding: 120px 30px 90px 30px;
     }
 
     .p-bold {
@@ -180,24 +185,6 @@ img {
         font-weight: 400;
         font-size: 14px;
         line-height: 171%;
-    }
-
-    .button {
-        border-radius: 30px;
-        padding: 10px 30px;
-        width: 266px;
-        height: 50px;
-        background: #fff;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 187%;
-        margin-top: 22px;
-    }
-
-    .button:hover {
-        cursor: pointer;
-        background-color: #0096d8;
-        color: #fff;
     }
 }
 
@@ -297,7 +284,7 @@ img {
         }
 
         .last-content {
-            padding: 120px 52px 90px 26px;
+            padding: 120px 26px 90px 26px;
         }
 
         .p-bold {
@@ -311,24 +298,6 @@ img {
             font-weight: 400;
             font-size: 14px;
             line-height: 171%;
-        }
-
-        .button {
-            border-radius: 30px;
-            padding: 10px 1px;
-            width: 242px;
-            height: 50px;
-            background: #fff;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 187%;
-            margin-top: 24px;
-        }
-
-        .button:hover {
-            cursor: pointer;
-            background-color: #0096d8;
-            color: #fff;
         }
     }
 
@@ -430,7 +399,7 @@ img {
         }
 
         .last-content {
-            padding: 60px 39px 119px 26px;
+            padding: 60px 26px 119px 26px;
         }
 
         .p-bold {
@@ -444,24 +413,6 @@ img {
             font-weight: 400;
             font-size: 14px;
             line-height: 171%;
-        }
-
-        .button {
-            border-radius: 30px;
-            padding: 10px 1px;
-            width: 215px;
-            height: 50px;
-            background: #fff;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 187%;
-            margin-top: 41px;
-        }
-
-        .button:hover {
-            cursor: pointer;
-            background-color: #0096d8;
-            color: #fff;
         }
     }
 
@@ -560,7 +511,7 @@ img {
         }
 
         .last-content {
-            padding: 30px 39px 31px 30px;
+            padding: 30px 30px 31px 30px;
         }
 
         .p-bold {
@@ -574,24 +525,6 @@ img {
             font-weight: 400;
             font-size: 14px;
             line-height: 171%;
-        }
-
-        .button {
-            border-radius: 30px;
-            padding: 10px 1px;
-            width: 215px;
-            height: 50px;
-            background: #fff;
-            font-weight: 500;
-            font-size: 15px;
-            line-height: 187%;
-            margin-top: 41px;
-        }
-
-        .button:hover {
-            cursor: pointer;
-            background-color: #0096d8;
-            color: #fff;
         }
     }
 
