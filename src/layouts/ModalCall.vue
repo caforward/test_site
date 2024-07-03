@@ -151,73 +151,11 @@ watch(
 	margin-top: 40px;
 }
 
-.valid-input {
-	background: white;
-	border: 0.5px solid rgb(227, 230, 232);
-}
-
 .close-button {
 	position: absolute;
 	top: 40px;
 	right: 40px;
 	cursor: pointer;
-}
-
-.inputName {
-	margin-bottom: 16px;
-}
-
-.inputTel {
-	margin-bottom: 21px;
-}
-
-.form-input {
-	padding-bottom: 16px;
-	position: relative;
-
-	.error {
-		position: absolute;
-		bottom: 13.5px;
-		display: block;
-		width: 100%;
-		padding-left: 16px;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 135%;
-		color: white;
-		background: #ff6464;
-		border-radius: 0 0 5px 5px;
-	}
-}
-
-.placeholder {
-	position: absolute;
-	padding: 12px 0 14px 16px;
-	pointer-events: none;
-	opacity: 1;
-	transition: opacity 0.2s ease-in-out;
-	color: rgba(0, 0, 0, 0.5);
-	font-family: "Montserrat", sans-serif;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 24px;
-	letter-spacing: 0%;
-	text-align: left;
-}
-
-.aboveButt {
-	margin-bottom: 16px;
-	line-height: 171%;
-}
-
-button {
-	border-radius: 30px;
-	background: rgb(0, 150, 216);
-	width: 200px;
-	height: 50px;
-	fill: rgb(0, 150, 216);
-	padding: 10px 50px 10px 50px;
-	color: rgb(255, 255, 255);
 }
 
 h3 {
@@ -231,21 +169,6 @@ p {
 	font-size: 14px;
 	line-height: 171%;
 	margin-bottom: 23px;
-}
-
-input {
-	background-color: rgba(234, 236, 238, 0.5);
-	color: rgb(0, 0, 0);
-	line-height: 24px;
-}
-
-select option {
-	padding-bottom: 40px;
-}
-
-a {
-	color: rgb(0, 150, 216);
-	text-decoration: underline;
 }
 
 @media screen and (max-width: 1024px) and (min-width: 641px) {

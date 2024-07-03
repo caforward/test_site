@@ -1,7 +1,21 @@
 <script setup>
+import { watch } from 'vue'
 import BaseModal from '../blocks/BaseModal.vue';
 
 const visible = defineModel()
+
+watch(
+    () => visible.value,
+    () => {
+        if (visible.value) {
+            document.body.style.overflow = 'hidden'
+            document.body.style.paddingRight = '10px'
+        } else {
+            document.body.style.paddingRight = ''
+            document.body.style.overflow = ''
+        }
+    }
+)
 </script>
 
 <template>
