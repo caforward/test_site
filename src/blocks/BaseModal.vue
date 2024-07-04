@@ -1,14 +1,16 @@
 <script setup>
-const emit = defineEmits('closeModal')
+import { defineEmits } from 'vue';
+const emit = defineEmits(['closeModal'])
 </script>
 
 <template>
 	<div class="modal">
 		<slot></slot>
 		<div v-if="$slots.body" class="modal__body">
-			<div class="modal__close" @click="emit(closeModal)">
+			<button class="modal__close" @click="emit('closeModal')">
 				<img src="/assets/images/close_x/Vector.png" alt="krestik" />
-			</div>
+			</button>
+
 			<slot name="body"></slot>
 		</div>
 	</div>
@@ -35,16 +37,19 @@ const emit = defineEmits('closeModal')
 
 	&__body {
 		position: relative;
+		padding: 35px 50px;
+		background-color: #fff;
+		border-radius: 30px;
+		width: 768px;
+		margin-top: 40px;
 	}
-}
 
-.modal__body {
-	position: relative;
-	padding: 40px;
-	background-color: #fff;
-	border-radius: 30px;
-	width: 768px;
-	padding: 60px 80px;
-	margin-top: 40px;
+	&__close {
+		position: absolute;
+		top: 20px;
+		right: 25px;
+		width: 18px;
+		height: 18px;
+	}
 }
 </style>

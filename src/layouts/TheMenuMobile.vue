@@ -4,8 +4,6 @@ import ModalCall from '../layouts/ModalCall.vue';
 import ModalConsultation from '../layouts/ModalConsultation.vue';
 import ModalRequisites from '../layouts/ModalRequisites.vue';
 
-
-
 export default {
     components: {
         BaseModal,
@@ -211,6 +209,7 @@ export default {
     padding: 0;
     top: 89px;
     left: 0;
+    justify-content: flex-start;
 }
 
 .menu {
