@@ -53,32 +53,28 @@
                             <!-- Форма оплаты -->
                             <!-- <FormBlock :inputs="formInputs" /> -->
                             <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
-                            <form class="payform" name="payform-tinkoff" @submit.prevent="payformPay" style="display: none;">
 
-                                <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
-                                <input class="payform__input" type="hidden" name="frame" value="false">
-                                <input class="payform__input" type="hidden" name="language" value="ru">
-                                <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
-                                <input class="payform__input" type="hidden" name="receipt" value="">
-                                <!-- <input class="payform__input" type="text" name="description"> -->
-
-                                <input class="input payform__input" type="text" placeholder="Сумма" name="amount"
-                                    required>
-                                <input class="input payform__input" type="text" placeholder="ФИО плательщика"
-                                    name="name" required>
-
-                                <!-- Нужен либо телефон либо почта, проверка на пустоту значения проходит в функции payformPay -->
-                                <input class="input payform__input" type="email" placeholder="E-mail" name="email">
-                                <input class="input payform__input" type="tel" placeholder="Контактный телефон"
-                                    name="phone">
-
-                                <input class="input payform__input" type="tel" placeholder="Введите номер договора"
-                                    name="contractId" required v-model="contractId">
-
-                                <input class="button button_blue payform__button" type="submit" value="Оплатить">
-                            </form>
-
-                            <PayForm class="payform"/>
+                            <!-- Убрать после добавления Ткассы \/ -->
+                            <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
+                                После нажатия на кнопку
+                                оплатить введите свои данные в форму, и нажмите кнопку "Перейти к оплате".
+                            </p>
+                            <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" class="button button_blue"
+                                style="margin-bottom:20px;width:100%;max-width:320px;">
+                                Оплатить
+                            </a>
+                            <p style="margin-bottom:20px;font-size:14px;color:#6c6c6c;line-height:20px;"
+                                data-v-c3438793=""><strong data-v-c3438793="">
+                                    Если&nbsp;у&nbsp;вас&nbsp;возникнут&nbsp;вопросы, пожалуйста,
+                                    свяжитесь&nbsp;с&nbsp;нами по номеру телефона
+                                    <a href="tel:+78043334133" class="link" data-v-c3438793="">
+                                        +7 (804) 333-41-33
+                                    </a>
+                                </strong>
+                            </p>
+                            <!-- Убрать после добавления Ткассы /\-->
+                             
+                            <!-- <PayForm class="payform" /> -->
 
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
                             <div v-if="formVisible" class="switcher-progressbar">
