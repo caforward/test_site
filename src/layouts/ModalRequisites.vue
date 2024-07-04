@@ -26,7 +26,7 @@ watch(
                     <img src="/assets/images/close_x/Vector.png" alt="close modal" />
                 </div>
                 <h2 class="modal-body__title">
-                    Реквизиты
+                    Реквизиты для оплаты
                 </h2>
                 <div class="modal-body-content">
                     <ul class="modal-body-content__list">

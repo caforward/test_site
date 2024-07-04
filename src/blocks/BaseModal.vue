@@ -13,6 +13,10 @@ function closeModal() {
 </template>
 
 <style lang="scss">
+.fade-leave-active.modal {
+    padding-right: 0 !important;
+}
+
 .modal {
     position: fixed;
     top: 0;
