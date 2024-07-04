@@ -153,8 +153,6 @@ watch(
 	justify-content: center;
 	align-items: flex-start;
 	padding: 10px;
-	display: flex;
-	justify-content: center;
 	overflow-y: auto;
 }
 
