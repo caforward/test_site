@@ -6,9 +6,10 @@
 				<div class="container-slides">
 					<div class="slider">
 						<p>Сумма вашего долга</p>
-						<div class="current-value">{{ numSplit(currentValue) }}</div>
-						<BaseSliderDot :start="[338000]" :range="{ min: 10000, max: 500000 }" :step="100"
-							@value-changed="handleValueChange" />
+						<div class="current-value">
+							{{ useValueFormat(repaymentAmount) }}
+						</div>
+						<BaseSliderDot v-model="repaymentAmount" :min="10000" :max="500000" :step="100" />
 						<div class="cont-from-to">
 							<div>от 10 000 ₽</div>
 							<div>до 500 000 ₽</div>
@@ -16,9 +17,10 @@
 					</div>
 					<div class="slider">
 						<p>Срок погашения</p>
-						<div class="current-value">{{ currentValue3 }}</div>
-						<BaseSliderDot :start="[6]" :range="{ min: 1, max: 24 }" :step="1"
-							@value-changed="handleValueChange3" />
+						<div class="current-value">
+							{{ useValueFormat(repaymentPeriod) }}
+						</div>
+						<BaseSliderDot v-model="repaymentPeriod" :min="1" :max="24" :step="1" />
 						<div class="cont-from-to">
 							<div>от 1 месяца</div>
 							<div>до 24 месяцев</div>
@@ -31,84 +33,50 @@
             {{ numSplit(currentValue2 * currentValue3)}} ₽</div> -->
 					<p>Ежемесячный платеж</p>
 					<div class="sum-element bott-sum-element">
-						{{
-							numSplit(+(currentValue / currentValue3).toFixed(0))
-						}}
-						₽
+						{{ useValueFormat(repaymentMonthly.toFixed()) }} ₽
 					</div>
 					<div class="pre-form">Заполните поле ниже и мы <br> свяжемся с Вами:</div>
 
-					<FormBlock :inputs="formInputs" />
+					<FormBlock :inputs="formInputs" :additionalData="{
+						repaymentAmount: repaymentAmount,
+						repaymentPeriod: repaymentPeriod,
+						repaymentMonthly: repaymentMonthly 
+					}" />
 				</div>
 			</div>
 		</div>
 	</section>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import BaseSliderDot from "../../blocks/BaseSliderDot.vue";
+<script setup>
+import { computed, ref } from 'vue'
 import FormBlock from "../../blocks/FormBlock.vue";
+import BaseSliderDot from "../../blocks/BaseSliderDot.vue";
+import { useValueFormat } from '@/composable/useValueFormat.js'
 
-export default defineComponent({
-	components: {
-		BaseSliderDot,
-		FormBlock
+const repaymentAmount = ref(338000)
+const repaymentPeriod = ref(6)
+
+const formInputs = ref([
+	{
+		name: 'name',
+		type: 'text',
+		placeholder: 'ФИО*',
+		required: true
 	},
-	data() {
-		return {
-			nameValid: false,
-			telValid: false,
-			errorMsg: {
-				name: "",
-				tel: "",
-			},
-			formData: {
-				name: "",
-				tel: "",
-			},
-			currentValue: 338000,
-			currentValue2: 3100,
-			currentValue3: 45,
-			formInputs: [
-				{
-					name: 'name',
-					type: 'text',
-					placeholder: 'ФИО*',
-					required: true
-				},
-				{
-					name: 'tel',
-					type: 'tel',
-					placeholder: 'Номер телефона*',
-					required: true
-				},
-			]
-		};
+	{
+		name: 'tel',
+		type: 'tel',
+		placeholder: 'Номер телефона*',
+		required: true
 	},
-	computed: {
-		isFormValid(): boolean {
-			return this.nameValid && this.telValid;
-		},
-	},
-	methods: {
-		numSplit(num: number): string | number {
-			if (num.toString().length < 7) {
-				return (num.toString().slice(0, -3) + ' ' + num.toString().slice(-3))
-			} else if (num.toString().length >= 7) {
-				return (num.toString().slice(0, 1) + ' ' + num.toString().slice(1, 4) + ' ' + num.toString().slice(-3))
-			} else return num
-		},
-		handleValueChange(newValue: number) {
-			this.currentValue = newValue;
-		},
-		handleValueChange2(newValue: number) {
-			this.currentValue2 = newValue;
-		},
-		handleValueChange3(newValue: number) {
-			this.currentValue3 = newValue;
-		},
-	},
-});
+])
+
+const repaymentMonthly = computed(() => {
+	let rawValue = repaymentAmount.value / repaymentPeriod.value
+
+	return +rawValue.toFixed(2)
+})
+
 </script>
 
 <style lang="scss" scoped>

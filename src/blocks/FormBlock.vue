@@ -57,11 +57,13 @@ async function handleSubmit() {
     // Проверяем валидна ли форма
     if (formIsValid.value) {
         // Отправляем данные на сервер
-        console.log(props.additionalData)
-        console.log(formData.value, props.additionalData)
+        // получаем дополнительные данные если есть
+        Object.keys(props.additionalData).forEach((key) => {
+            formData.value[key] = props.additionalData[key]
+        })
 
         try {
-            const response = await fetch("email.php", {
+            const response = await fetch("src/service/api/php/email.php", {
                 method: "POST",
                 body: formData.value
             });
@@ -105,12 +107,10 @@ watch(
             <div class="form-block__inputs">
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :value="input.value" :options="input.options"
-                        :disabled="input.disabled" 
-                        v-model:value="formData[input.name]"
-                        v-model:isValid="formInputs[input.name].isValid" 
-                        v-model:showError="checkErrorTrigger"
-                        :resetInputHandler="resetInputTrigger" @update:resetInputHandler="resetInputTrigger = $event" />
+                        :required="input.required" :options="input.options" :disabled="input.disabled"
+                        v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
+                        v-model:showError="checkErrorTrigger" :resetInputTrigger="resetInputTrigger"
+                        @update:resetInputTrigger="resetInputTrigger = $event" />
                 </template>
             </div>
             <div class="form-block__bottom">
