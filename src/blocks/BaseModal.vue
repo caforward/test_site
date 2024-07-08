@@ -16,7 +16,7 @@ const emit = defineEmits(['closeModal'])
 	</div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .fade-leave-active.modal {
 	padding-right: 0 !important;
 }
@@ -50,6 +50,15 @@ const emit = defineEmits(['closeModal'])
 		right: 25px;
 		width: 18px;
 		height: 18px;
+	}
+}
+
+@include tablet {
+	.modal {
+		&__body {
+			border-radius: 22px;
+			padding: 25px 25px;
+		}
 	}
 }
 </style>
