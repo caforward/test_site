@@ -9,6 +9,10 @@ const props = defineProps({
         type: Array,
         required: true
     },
+    additionalData: {
+        type: Object,
+        default: {}
+    }
 })
 
 const consent = ref(false)
@@ -53,6 +57,9 @@ async function handleSubmit() {
     // Проверяем валидна ли форма
     if (formIsValid.value) {
         // Отправляем данные на сервер
+        console.log(props.additionalData)
+        console.log(formData.value, props.additionalData)
+
         try {
             const response = await fetch("email.php", {
                 method: "POST",
@@ -78,14 +85,14 @@ async function handleSubmit() {
 watch(
     () => formInputs,
     (inputs) => {
-        const inputsNames = Object.keys(inputs)
+        const inputsNames = Object.keys(inputs.value)
         formIsValid.value = true
 
-        inputsNames.forEach(name => {
-            if (inputs[name].required && !inputs[name].isValid) {
-                formIsValid.value = false
-            }
-        })
+        const invalidInputs = inputsNames.find(inputName => inputs.value[inputName].required && !inputs.value[inputName].isValid)
+
+        if (invalidInputs) {
+            formIsValid.value = false
+        }
     },
     { deep: true }
 )
@@ -99,8 +106,10 @@ watch(
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :value="input.value" :options="input.options"
-                        :disabled="input.disabled" @update:value="formData[input.name] = $event"
-                        @update:isValid="formInputs[input.name].isValid = $event" :showErrorHandler="checkErrorTrigger"
+                        :disabled="input.disabled" 
+                        v-model:value="formData[input.name]"
+                        v-model:isValid="formInputs[input.name].isValid" 
+                        v-model:showError="checkErrorTrigger"
                         :resetInputHandler="resetInputTrigger" @update:resetInputHandler="resetInputTrigger = $event" />
                 </template>
             </div>

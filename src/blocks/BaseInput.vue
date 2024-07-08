@@ -1,27 +1,7 @@
-<template>
-    <div class="input-wrapper">
-        <v-select v-if="props.type === 'v-select'" :class="input.class" :placeholder="placeholder"
-            :options="props.options" v-model.trim="input.value" :disabled="props.disabled" />
-
-        <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
-            :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
-
-        <textarea v-else-if="props.type === 'textarea'" :name="name" :type="type" :placeholder="placeholder"
-            :class="input.class" v-model.trim="input.value" :disabled="props.disabled"></textarea>
-
-        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class"
-            v-model.trim="input.value" :disabled="props.disabled">
-
-        <span v-if="props.required && input.error" class="input-wrapper__error">
-            {{ input.error }}
-        </span>
-    </div>
-</template>
-
 <script setup>
 import { defineComponent, onBeforeMount, onMounted, onUpdated, reactive, watch } from 'vue'
 
-const emit = defineEmits(['error', 'update:value', 'update:isValid', 'update:resetInputHandler'])
+const emit = defineEmits(['error', 'update:resetInputTrigger'])
 
 const props = defineProps({
     name: {
@@ -52,17 +32,20 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    showErrorHandler: true,
-    resetInputHandler: {
+    resetInputTrigger: {
         type: Boolean,
         default: false
     }
 })
 
+const value = defineModel('value')
+const isValid = defineModel('isValid')
+const showError = defineModel('showError')
+
 const input = reactive({
     error: '',
     isValid: false,
-    value: props.value,
+    value: value.value,
     defaultClass: 'input',
     validClass: 'input_valid',
     errorClass: 'input_error',
@@ -80,8 +63,10 @@ onBeforeMount(() => {
 // emit value и isValid инпута 
 // для дальнейшего перехвата значений в родительском компоненте
 onMounted(() => {
-    emit('update:value', input.value)
-    emit('update:isValid', input.isValid)
+    value.value = input.value
+    isValid.value = input.isValid
+    // emit('update:value', input.value)
+    // emit('update:isValid', input.isValid)
 })
 
 // Вызывает функцию обновления состояния инпута - updateStateInput
@@ -92,22 +77,22 @@ watch(
     () => {
         updateInputState()
 
-        emit('update:value', input.value)
-        emit('update:isValid', input.isValid)
-    }
+        value.value = input.value
+        isValid.value = input.isValid
+    },
 )
 
 // Вызывает функцию обновления состояния инпута - updateStateInput
-// когда props.showErrorHandler изменяется
+// когда props.showErrorTrigger изменяется
 watch(
-    () => props.showErrorHandler,
+    () => showError.value,
     () => {
         updateInputState()
     }
 )
 
 watch(
-    () => props.resetInputHandler,
+    () => props.resetInputTrigger,
     () => {
         if (!props.disabled) {
             input.value = ''
@@ -126,7 +111,7 @@ function updateInputState() {
         input.isValid = true
     }
 
-    if (props.resetInputHandler) {
+    if (props.resetInputTrigger) {
         resetInput()
         return
     }
@@ -158,7 +143,7 @@ function resetInput() {
     if (!props.disabled) {
         input.error = ''
         input.class = [input.defaultClass]
-        emit('update:resetInputHandler', false)
+        emit('update:resetInputTrigger', false)
     }
 }
 
@@ -193,6 +178,26 @@ function checkTelInputErrors() {
 }
 
 </script>
+
+<template>
+    <div class="input-wrapper">
+        <v-select v-if="props.type === 'v-select'" :name="name" :class="input.class" :placeholder="placeholder"
+            :options="props.options" v-model.trim="input.value" :disabled="props.disabled" />
+
+        <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
+            :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
+
+        <textarea v-else-if="props.type === 'textarea'" :name="name" :type="type" :placeholder="placeholder"
+            :class="input.class" v-model.trim="input.value" :disabled="props.disabled"></textarea>
+
+        <input v-else :name="name" :type="type" :placeholder="placeholder" :class="input.class"
+            v-model.trim="input.value" :disabled="props.disabled">
+
+        <span v-if="props.required && input.error" class="input-wrapper__error">
+            {{ input.error }}
+        </span>
+    </div>
+</template>
 
 <style lang="scss" scoped>
 textarea {
