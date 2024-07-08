@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, watch, onMounted, reactive } from 'vue'
+import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue';
 import BaseInput from './BaseInput.vue'
 import { useFetchPost } from '@/composable/useFetch.js'
@@ -22,6 +22,24 @@ const consent = ref(false)
 const formIsValid = ref(false)
 const formData = reactive({})
 const formInputs = ref({})
+const repaymentCalc = reactive({
+    amount: {
+        title: 'Сумма вашего долга:',
+        value: ref(338000),
+        min: 10000,
+        max: 500000,
+        step: 100,
+    },
+    period: {
+        title: 'Срок погашения:',
+        value: ref(6),
+        min: 1,
+        max: 24,
+        step: 1,
+    },
+    monthlyPaymentDate: ref(0),
+    monthlyPayment: ref(0)
+})
 
 // for inputs
 const showErrorTrigger = ref(false)
@@ -81,6 +99,12 @@ function formatValue(number) {
     return new Intl.NumberFormat('ru-RU').format(number)
 }
 
+const getMonthlyPayment = computed(() => {
+    const rawMonthlyPayment = repaymentCalc.amount.value / repaymentCalc.period.value
+    repaymentCalc.monthlyPayment = rawMonthlyPayment.toFixed(2)
+    return rawMonthlyPayment.toFixed()
+})
+
 onBeforeMount(() => {
     // Инициализация данных для валидации
     props.inputs.forEach(input => {
@@ -112,6 +136,7 @@ watch(
         if (invalidInputs) {
             formIsValid.value = false
         }
+        console.log(formData, formInputs.value)
     },
     { deep: true }
 )
@@ -124,42 +149,72 @@ watch(
         </div>
         <div class="form__inputs">
             <template v-for="(input, idx) in inputs" :key="idx">
-                <div v-if="input.type === 'dot-slider'" class="slider-wrapper">
-                    <div class="slider__title">
-                        <span>
-                            {{ input.title }}
-                        </span>
-                        <span>
-                            <strong>
-                                {{ formatValue(formData[input.name]) }}
-                            </strong>
-                        </span>
-                    </div>
-                    <BaseSliderDot :start="input.value" :min="input.min" :max="input.max" :step="input.step"
-                        v-model="formData[input.name]" :format="true" />
-                    <div class="slider__tooltip">
-                        <span>
-                            {{ input.tooltip.left }}
-                        </span>
-                        <span>
-                            {{ input.tooltip.right }}
-                        </span>
-                    </div>
-                </div>
-
-                <div v-else-if="input.type === 'date'" class="input-wrapper ">
-                    <input type="date" v-model="formData[input.name]" class="input">
-                </div>
-
-                <BaseInput v-else :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                     :required="input.required" :options="input.options" :disabled="input.disabled"
                     v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
                     v-model:showError="showErrorTrigger" :resetInputTrigger="resetInputTrigger"
                     @update:resetInputTrigger="resetInputTrigger = $event" />
-                <!-- :showErrorTrigger="checkErrorTrigger"  -->
-                <!-- @update:isValid="formInputs[input.name].isValid = $event" -->
-                <!-- :value="input.value" @update:value="formData[input.name] = $event" -->
             </template>
+
+            <div class="input-wrapper ">
+                <input type="date" v-model="repaymentCalc.monthlyPaymentDate" class="input">
+            </div>
+
+            <div class="repayment-total">
+                <span class="repayment-total__title">
+                    Eжемесячный платеж:
+                </span>
+                <span class="repayment-total__value">
+                    <strong>
+                        {{ formatValue(getMonthlyPayment) }} ₽
+                    </strong>
+                </span>
+            </div>
+
+            <div class="slider-wrapper">
+                <div class="slider__title">
+                    <span>
+                        {{ repaymentCalc.amount.title }}
+                    </span>
+                    <span>
+                        <strong>
+                            {{ formatValue(repaymentCalc.amount.value) }} ₽
+                        </strong>
+                    </span>
+                </div>
+                <BaseSliderDot v-model="repaymentCalc.amount.value" :min="repaymentCalc.amount.min"
+                    :max="repaymentCalc.amount.max" :step="repaymentCalc.amount.step" />
+                <div class="slider__tooltip">
+                    <span>
+                        от 10 000 ₽
+                    </span>
+                    <span>
+                        до 500 000 ₽
+                    </span>
+                </div>
+            </div>
+            <div class="slider-wrapper">
+                <div class="slider__title">
+                    <span>
+                        {{ repaymentCalc.period.title }}
+                    </span>
+                    <span>
+                        <strong>
+                            {{ formatValue(repaymentCalc.period.value) }}
+                        </strong>
+                    </span>
+                </div>
+                <BaseSliderDot v-model="repaymentCalc.period.value" :min="repaymentCalc.period.min"
+                    :max="repaymentCalc.period.max" :step="repaymentCalc.period.step" />
+                <div class="slider__tooltip">
+                    <span>
+                        от 1 месяца
+                    </span>
+                    <span>
+                        до 24 месяцев
+                    </span>
+                </div>
+            </div>
         </div>
 
         <div v-if="$slots.afterUserInputs">
@@ -186,8 +241,13 @@ watch(
 .slider {
     &__title {
         display: flex;
+        align-items: flex-end;
         gap: 10px;
         margin-bottom: 25px;
+
+        strong {
+            font-size: 20px;
+        }
     }
 
     &__tooltip {
@@ -199,6 +259,20 @@ watch(
         font-size: 14px;
         line-height: 214%;
         color: $gray-dark;
+    }
+}
+
+.repayment {
+    &-total {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &__title {}
+
+        &__value {
+            font-size: 24px;
+        }
     }
 }
 
