@@ -63,7 +63,7 @@ async function handleSubmit() {
         })
 
         try {
-            const response = await fetch("src/service/api/php/email.php", {
+            const response = await fetch("email.php", {
                 method: "POST",
                 body: formData.value
             });
