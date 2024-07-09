@@ -75,32 +75,34 @@ function paymentPay() {
     // const phone = paymentData.value.phone.value
 
     // const TPF = e.target
-    const { description, amount, email, phone, contractId, receipt } = TPF;
+    // const { description, amount, email, phone, contractId, receipt } = TPF;
 
-    if (receipt) {
-        // if (!email.value && !phone.value)
-        //     return alert("Поле E-mail или Phone не должно быть пустым");
+    // if (receipt) {
+    //     // if (!email.value && !phone.value)
+    //     //     return alert("Поле E-mail или Phone не должно быть пустым");
 
-        TPF.receipt.value = JSON.stringify({
-            "EmailCompany": "dolg.info@caforward.ru",
-            "Taxation": "osn",
-            "FfdVersion": "1.2",
-            "Items": [
-                {
-                    "Name": `Погашение задолженности по договору #${contractId}`,
-                    "Price": amount + '00',
-                    "Quantity": 1.00,
-                    "Amount": amount + '00',
-                    "PaymentMethod": "credit_payment",
-                    "PaymentObject": "service",
-                    "Tax": "none",
-                    "MeasurementUnit": 'pc'
-                }
-            ]
-        });
-    }
-    console.log(TPF.receipt.value);
+    //     TPF.receipt.value = JSON.stringify({
+    //         "EmailCompany": "dolg.info@caforward.ru",
+    //         "Taxation": "osn",
+    //         "FfdVersion": "1.2",
+    //         "Items": [
+    //             {
+    //                 "Name": `Погашение задолженности по договору #${contractId}`,
+    //                 "Price": amount + '00',
+    //                 "Quantity": 1.00,
+    //                 "Amount": amount + '00',
+    //                 "PaymentMethod": "credit_payment",
+    //                 "PaymentObject": "service",
+    //                 "Tax": "none",
+    //                 "MeasurementUnit": 'pc'
+    //             }
+    //         ]
+    //     });
+    // }
+    // console.log(TPF.receipt.value);
     // pay(TPF);
+    console.log(form)
+    pay(form.value);
 }
 
 watch(

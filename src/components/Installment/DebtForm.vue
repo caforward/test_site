@@ -34,28 +34,12 @@
                             <h2 class="title">
                                 Оплатите задолженность онлайн!
                             </h2>
-                            <!-- <p style="margin-bottom: 20px; line-height: 25px">
-                                После нажатия на кнопку оплатить введите свои данные в форму,
-                                и нажмите кнопку "Перейти к оплате".
-
-                            </p>
-                            <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" class="button button_blue"
-                                style="margin-bottom: 20px; width: 100%; max-width: 320px">
-                                Оплатить
-                            </a>
-                            <p style="margin-bottom: 20px; font-size: 14px; color: #6c6c6c; line-height: 20px">
-                                <strong>
-                                    Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
-                                    телефона <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
-                                </strong>
-                            </p> -->
-
                             <!-- Форма оплаты -->
                             <!-- <FormBlock :inputs="formInputs" /> -->
                             <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
 
                             <!-- \/ -->
-                            <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
+                            <!-- <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
                                 После нажатия на кнопку
                                 оплатить введите свои данные в форму, и нажмите кнопку "Перейти к оплате".
                             </p>
@@ -71,8 +55,41 @@
                                         +7 (804) 333-41-33
                                     </a>
                                 </strong>
-                            </p>
+                            </p> -->
                             <!-- /\-->
+                            <form class="payform" name="payform-tinkoff" onsubmit="pay(this); return false;">
+                                <input class="input" type="hidden" name="terminalkey" value="TinkoffBankTest">
+                                <input class="input" type="hidden" name="frame" value="false">
+                                <input class="input" type="hidden" name="language" value="ru">
+                                <input class="input" type="text" placeholder="ФИО плательщика" name="name">
+                                <input class="input" type="hidden" placeholder="Номер платежа" name="order">
+                                <input class="input" type="email" placeholder="E-mail" name="email">
+                                <input class="input" type="tel" placeholder="Контактный телефон" name="phone">
+                                <input class="input" type="text" placeholder="Сумма" name="amount" required>
+                                <input class="input" type="text" placeholder="Номер контракта" name="description">
+                                <div class="payform__bottom">
+                                    <button class="button button_blue payform__button" type="submit" value="Оплатить">
+                                        Оплатить картой
+                                    </button>
+                                    <div class="payform__meta">
+                                        <div>
+                                            Нажимая кнопку «Оплатить картой», вы соглашаетесь с
+                                            <a href="#" class="link">
+                                                Договором оферты
+                                            </a>
+                                            и
+                                            <a href="#" class="link">
+                                                политикой конфиденциальности.
+                                            </a>
+                                        </div>
+                                        <div>
+                                            Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
+                                            телефона
+                                            <a href="tel:+74997020156" class="link">+7 (499) 702-01-56</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
                             <!-- <PayForm class="payform" /> -->
 
@@ -366,6 +383,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.payform {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    &__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 14px;
+        line-height: 171%;
+    }
+
+    &__bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
 :deep(.form-block) {
     padding: 0;
     background-color: transparent;
