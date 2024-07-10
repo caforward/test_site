@@ -31,43 +31,44 @@ const inputs = ref([
 		value: "Рассрочка",
 		disabled: true
 	},
-	// {
-	// 	name: 'repaymentAmount',
-	// 	type: 'dot-slider',
-	// 	value: '200000',
-	// 	min: 10000,
-	// 	max: 500000,
-	// 	step: 100,
-	// 	title: 'Сумма вашего долга:',
-	// 	tooltip: {
-	// 		left: 'от 10 000 ₽',
-	// 		right: 'до 500 000 ₽',
-	// 	}
-	// },
-	// {
-	// 	name: 'repaymentPeriod',
-	// 	type: 'dot-slider',
-	// 	value: '6',
-	// 	min: 1,
-	// 	max: 24,
-	// 	step: 1,
-	// 	title: 'Срок погашения:',
-	// 	tooltip: {
-	// 		left: 'от 1 месяца',
-	// 		right: 'до 24 месяцев',
-	// 	}
-	// },
-	// {
-	// 	name: 'monthlyPaymentDate',
-	// 	type: 'date',
-	// 	placeholder: 'Дата ежемесячного платежа',
-	// 	required: true
-	// },
-	// {
-	// 	name: 'message',
-	// 	type: 'textarea',
-	// 	placeholder: 'Кратко опишите Ваш вопрос*',
-	// }
+	{
+		name: 'repaymentPeriod',
+		type: 'v-select',
+		placeholder: 'Срок погашения*',
+		value: "1",
+		options: [
+			'1',
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'10',
+			'11',
+			'12',
+			'13',
+			'14',
+			'15',
+			'16',
+			'17',
+			'18',
+			'19',
+			'20',
+			'21',
+			'22',
+			'23',
+			'24',
+		]
+	},
+	{
+		name: 'repaymentAmount',
+		type: 'number',
+		placeholder: 'Сумма вашего долга*',
+		value: "200 000",
+	},
 ])
 
 watch(

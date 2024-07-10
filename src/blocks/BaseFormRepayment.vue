@@ -170,51 +170,6 @@ watch(
                     </strong>
                 </span>
             </div>
-
-            <div class="slider-wrapper">
-                <div class="slider__title">
-                    <span>
-                        {{ repaymentCalc.amount.title }}
-                    </span>
-                    <span>
-                        <strong>
-                            {{ formatValue(repaymentCalc.amount.value) }} ₽
-                        </strong>
-                    </span>
-                </div>
-                <BaseSliderDot v-model="repaymentCalc.amount.value" :min="repaymentCalc.amount.min"
-                    :max="repaymentCalc.amount.max" :step="repaymentCalc.amount.step" />
-                <div class="slider__tooltip">
-                    <span>
-                        от 10 000 ₽
-                    </span>
-                    <span>
-                        до 500 000 ₽
-                    </span>
-                </div>
-            </div>
-            <div class="slider-wrapper">
-                <div class="slider__title">
-                    <span>
-                        {{ repaymentCalc.period.title }}
-                    </span>
-                    <span>
-                        <strong>
-                            {{ formatValue(repaymentCalc.period.value) }}
-                        </strong>
-                    </span>
-                </div>
-                <BaseSliderDot v-model="repaymentCalc.period.value" :min="repaymentCalc.period.min"
-                    :max="repaymentCalc.period.max" :step="repaymentCalc.period.step" />
-                <div class="slider__tooltip">
-                    <span>
-                        от 1 месяца
-                    </span>
-                    <span>
-                        до 24 месяцев
-                    </span>
-                </div>
-            </div>
         </div>
 
         <div v-if="$slots.afterUserInputs">
