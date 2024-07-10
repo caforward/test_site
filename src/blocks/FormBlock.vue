@@ -62,11 +62,17 @@ async function handleSubmit() {
             formData.value[key] = props.additionalData[key]
         })
 
+        const toSendFormData = new FormData()
+        
+        Object.keys(formData.value).forEach((key) => {
+            toSendFormData[key] = formData.value[key]
+        })
+
         try {
             const response = await fetch("email.php", {
                 method: "POST",
-                body: formData.value
-            });
+                body: toSendFormData
+            })
 
             if (response.ok) {
                 console.log("Сообщение успешно отправлено");
