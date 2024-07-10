@@ -28,8 +28,13 @@ const formInputs = ref({})
 onBeforeMount(() => {
     // Инициализация данных для валидации
     props.inputs.forEach(input => {
-        formData.value[input.name] = ''
-        formInputs.value[input.name] = { isValid: false, required: input.required }
+        if (input.value) {
+            formData.value[input.name] = input.value
+            formInputs.value[input.name] = { isValid: true, required: input.required }
+        } else {
+            formData.value[input.name] = ''
+            formInputs.value[input.name] = { isValid: false, required: input.required }
+        }
     })
 })
 
