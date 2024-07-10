@@ -28,8 +28,13 @@ const formInputs = ref({})
 onBeforeMount(() => {
     // Инициализация данных для валидации
     props.inputs.forEach(input => {
-        formData.value[input.name] = ''
-        formInputs.value[input.name] = { isValid: false, required: input.required }
+        if (input.value) {
+            formData.value[input.name] = input.value
+            formInputs.value[input.name] = { isValid: true, required: input.required }
+        } else {
+            formData.value[input.name] = ''
+            formInputs.value[input.name] = { isValid: false, required: input.required }
+        }
     })
 })
 
@@ -62,11 +67,16 @@ async function handleSubmit() {
             formData.value[key] = props.additionalData[key]
         })
 
+        // Вносим данные в тип Form Data
+        Object.keys(formData.value).forEach((key) => {
+            formData.value.append(key, formData.value[key])
+        })
+
         try {
             const response = await fetch("email.php", {
                 method: "POST",
                 body: formData.value
-            });
+            })
 
             if (response.ok) {
                 console.log("Сообщение успешно отправлено");

@@ -182,7 +182,7 @@ function checkTelInputErrors() {
 <template>
     <div class="input-wrapper">
         <v-select v-if="props.type === 'v-select'" :name="name" :class="input.class" :placeholder="placeholder"
-            :options="props.options" v-model.trim="input.value" :disabled="props.disabled" />
+            :options="props.options" v-model="input.value" :disabled="props.disabled" />
 
         <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
             :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
