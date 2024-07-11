@@ -1,6 +1,7 @@
 <script setup>
 import BaseModal from "@/blocks/BaseModal.vue";
-import BaseFormRepayment from "../blocks/BaseFormRepayment.vue";
+import BaseForm from "@/blocks/BaseForm.vue";
+// import BaseFormRepayment from "../blocks/BaseFormRepayment.vue";
 import BaseSliderDot from "../blocks/noUiSlider.vue";
 import { ref, watch } from "vue";
 
@@ -29,45 +30,11 @@ const inputs = ref([
 		type: 'v-select',
 		placeholder: 'Тема обращения*',
 		value: "Рассрочка",
-		disabled: true
-	},
-	{
-		name: 'repaymentPeriod',
-		type: 'v-select',
-		placeholder: 'Срок погашения*',
-		value: "1",
+		// disabled: true
 		options: [
-			'1',
-			'2',
-			'3',
-			'4',
-			'5',
-			'6',
-			'7',
-			'8',
-			'9',
-			'10',
-			'11',
-			'12',
-			'13',
-			'14',
-			'15',
-			'16',
-			'17',
-			'18',
-			'19',
-			'20',
-			'21',
-			'22',
-			'23',
-			'24',
+			"Рассрочка",
+			'text',
 		]
-	},
-	{
-		name: 'repaymentAmount',
-		type: 'number',
-		placeholder: 'Сумма вашего долга*',
-		value: "200 000",
 	},
 ])
 
@@ -93,8 +60,7 @@ watch(
 				<h2 class="modal__title">
 					Получить рассрочку
 				</h2>
-				<BaseFormRepayment :inputs="inputs" :grayForm="true" />
-				<!-- <BaseForm :inputs="inputs" :grayForm="true" /> -->
+				<BaseForm :inputs="inputs" :grayForm="true" />
 			</template>
 		</BaseModal>
 	</transition>

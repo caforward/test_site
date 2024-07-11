@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount, watch, onMounted, reactive } from 'vue'
+import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue';
 import BaseInput from './BaseInput.vue'
 import { useFetchPost } from '@/composable/useFetch.js'
@@ -14,6 +14,10 @@ const props = defineProps({
     grayForm: {
         type: Boolean,
         default: false
+    },
+    additionalData: {
+        type: Object,
+        default: {}
     }
 })
 
@@ -22,6 +26,48 @@ const consent = ref(false)
 const formIsValid = ref(false)
 const formData = reactive({})
 const formInputs = ref({})
+const paymentInputs = reactive([
+    {
+        name: 'paymentAmount',
+        type: 'number',
+        placeholder: 'Сумма вашего долга',
+        value: 150000,
+        required: true
+    },
+    {
+        name: 'paymentPeriod',
+        type: 'v-select',
+        placeholder: 'Срок погашения',
+        value: 6,
+        options: [
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '10',
+            '11',
+            '12',
+            '13',
+            '14',
+            '15',
+            '16',
+            '17',
+            '18',
+            '19',
+            '20',
+            '21',
+            '22',
+            '23',
+            '24',
+        ],
+        required: true
+    },
+])
 
 // for inputs
 const showErrorTrigger = ref(false)
@@ -56,11 +102,17 @@ async function handleSubmit() {
     // Проверяем валидна ли форма
     console.log(formIsValid.value, 'form is valid')
     if (formIsValid.value) {
+
+        // получаем дополнительные данные если есть
+        Object.keys(props.additionalData).forEach((key) => {
+            formData.value[key] = props.additionalData[key]
+        })
+
         // Отправляем данные на сервер
         const postData = new FormData()
 
         Object.keys(formData).forEach(key => {
-            postData[key] = formData[key]
+            postData.append(key, formData[key])
         })
 
         const response = useFetchPost("email.php", postData)
@@ -81,6 +133,38 @@ function formatValue(number) {
     return new Intl.NumberFormat('ru-RU').format(number)
 }
 
+function addInputsToDataByMessageType(messageType) {
+    if (messageType === 'Рассрочка') {
+        paymentInputs.forEach(input => {
+            if (input.value) {
+                formData[input.name] = input.value
+                formInputs.value[input.name] = { isValid: true, required: input.required }
+            } else {
+                formData[input.name] = ''
+                formInputs.value[input.name] = { isValid: false, required: input.required }
+            }
+        })
+
+        formData.paymentMonthly = computed(() => {
+            let monthly = (formData.paymentAmount / formData.paymentPeriod).toFixed(2)
+            monthly = Number(monthly)
+
+            if (isNaN(monthly)) {
+                return 0
+            }
+
+            return monthly
+        })
+    } else {
+        paymentInputs.forEach(input => {
+            delete formData[input.name]
+            delete formInputs.value[input.name]
+        })
+    }
+    console.log(formData, 'formData')
+    console.log(formInputs, 'form inputs')
+}
+
 onBeforeMount(() => {
     // Инициализация данных для валидации
     props.inputs.forEach(input => {
@@ -91,7 +175,6 @@ onBeforeMount(() => {
             formData[input.name] = ''
             formInputs.value[input.name] = { isValid: false, required: input.required }
         }
-
     })
 })
 
@@ -115,6 +198,13 @@ watch(
     },
     { deep: true }
 )
+
+watch(
+    () => formData.messageType,
+    (messageType) => {
+        addInputsToDataByMessageType(messageType)
+    }
+)
 </script>
 
 <template>
@@ -124,42 +214,30 @@ watch(
         </div>
         <div class="form__inputs">
             <template v-for="(input, idx) in inputs" :key="idx">
-                <div v-if="input.type === 'dot-slider'" class="slider-wrapper">
-                    <div class="slider__title">
-                        <span>
-                            {{ input.title }}
-                        </span>
-                        <span>
-                            <strong>
-                                {{ formatValue(formData[input.name]) }}
-                            </strong>
-                        </span>
-                    </div>
-                    <BaseSliderDot :start="input.value" :min="input.min" :max="input.max" :step="input.step"
-                        v-model="formData[input.name]" :format="true" />
-                    <div class="slider__tooltip">
-                        <span>
-                            {{ input.tooltip.left }}
-                        </span>
-                        <span>
-                            {{ input.tooltip.right }}
-                        </span>
-                    </div>
-                </div>
-
-                <div v-else-if="input.type === 'date'" class="input-wrapper ">
-                    <input type="date" v-model="formData[input.name]" class="input">
-                </div>
-
-                <BaseInput v-else :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                     :required="input.required" :options="input.options" :disabled="input.disabled"
                     v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
                     v-model:showError="showErrorTrigger" :resetInputTrigger="resetInputTrigger"
                     @update:resetInputTrigger="resetInputTrigger = $event" />
-                <!-- :showErrorTrigger="checkErrorTrigger"  -->
-                <!-- @update:isValid="formInputs[input.name].isValid = $event" -->
-                <!-- :value="input.value" @update:value="formData[input.name] = $event" -->
             </template>
+            <div v-if="formData.messageType === 'Рассрочка'" class="form-installment">
+                <div class="form-installment-title">
+                    <span>
+                        Сумма ежемесячного платежа
+                    </span>
+                    <span class="form-installment-title__amount">
+                        <strong>
+                            {{ formatValue(formData.paymentMonthly) }} ₽
+                        </strong>
+                    </span>
+                </div>
+                <template v-for="(input, idx) in paymentInputs" :key="idx">
+                    <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
+                        :placeholder='input.placeholder' :required="input.required" :options="input.options"
+                        v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
+                        @update:resetInputTrigger='resetInputTrigger = $event' />
+                </template>
+            </div>
         </div>
 
         <div v-if="$slots.afterUserInputs">
@@ -268,6 +346,23 @@ watch(
         &__button {
             width: 100%;
             max-width: 270px
+        }
+    }
+
+    &-installment {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        &-title {
+            display: flex;
+            font-size: 18px;
+            flex-direction: column;
+            gap: 15px;
+
+            &__amount {
+                font-size: 20px;
+            }
         }
     }
 }
