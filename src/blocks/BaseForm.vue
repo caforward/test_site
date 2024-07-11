@@ -67,6 +67,12 @@ const paymentInputs = reactive([
         ],
         required: true
     },
+    {
+        name: 'paymentDate',
+        type: 'date',
+        placeholder: 'Дата первого платежа',
+        required: true
+    },
 ])
 
 // for inputs
@@ -84,7 +90,18 @@ function clearInputs() {
     })
 }
 
-// Убрать в миксин потом
+const getPaymentMonthly = computed(() => {
+    let monthly = (formData.paymentAmount / formData.paymentPeriod).toFixed(2)
+    monthly = Number(monthly)
+
+    if (isNaN(monthly)) {
+        return 0
+    }
+
+    return monthly
+})
+
+// Убрать в composable потом
 async function handleSubmit() {
     // Проверяеем наличие ошибок
     showErrorTrigger.value = true
@@ -145,16 +162,7 @@ function addInputsToDataByMessageType(messageType) {
             }
         })
 
-        formData.paymentMonthly = computed(() => {
-            let monthly = (formData.paymentAmount / formData.paymentPeriod).toFixed(2)
-            monthly = Number(monthly)
-
-            if (isNaN(monthly)) {
-                return 0
-            }
-
-            return monthly
-        })
+        formData.paymentMonthly = getPaymentMonthly
     } else {
         paymentInputs.forEach(input => {
             delete formData[input.name]
@@ -195,6 +203,8 @@ watch(
         if (invalidInputs) {
             formIsValid.value = false
         }
+
+        console.log(formData)
     },
     { deep: true }
 )

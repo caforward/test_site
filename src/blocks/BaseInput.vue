@@ -63,10 +63,8 @@ onBeforeMount(() => {
 // emit value и isValid инпута 
 // для дальнейшего перехвата значений в родительском компоненте
 onMounted(() => {
-    value.value = input.value
+    input.value = value.value
     isValid.value = input.isValid
-    // emit('update:value', input.value)
-    // emit('update:isValid', input.isValid)
 })
 
 // Вызывает функцию обновления состояния инпута - updateStateInput
