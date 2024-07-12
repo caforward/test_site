@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'paymentAmount' => 'Сумма вашего долга',
         'paymentPeriod' => 'Срок погашения',
         'paymentDate' => 'Дата ежемесячного платежа',
-        'paymentMonthly' => 'Сумма ежемесячного платежа',
+        'paymentMonthlyDiscount' => 'Сумма ежемесячного платежа с учетом скидки в 5%',
     ];
 
     $htmlContent = '<html><head><meta charset="UTF-8"></head><body></body></html>';

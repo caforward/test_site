@@ -185,6 +185,10 @@ function formatDateToCalend(date) {
 
 <template>
     <div class="input-wrapper">
+        <div v-if="$slots.inputTitle" class="input-title">
+            <slot name="inputTitle"></slot>
+        </div>
+ 
         <v-select v-if="props.type === 'v-select'" :name="name" :class="input.class" :placeholder="placeholder"
             :options="props.options" v-model="input.value" :disabled="props.disabled" />
 
@@ -231,7 +235,14 @@ textarea {
         border-color: #FF6464;
     }
 
+    &-title {
+        font-size: 14px;
+    }
+
     &-wrapper {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
         position: relative;
         border-radius: 5px;
 

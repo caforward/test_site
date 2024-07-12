@@ -3,6 +3,7 @@ import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue'
 import BaseInput from './BaseInput.vue'
 import { useFetchPost } from '@/composable/useFetch.js'
+import Badge from 'primevue/badge';
 
 const emit = defineEmits(['submitted'])
 
@@ -103,6 +104,10 @@ const getPaymentMonthly = computed(() => {
     return monthly
 })
 
+const getPaymentMonthlyDiscount = computed(() => {
+    return (formData.paymentMonthlyFull * 0.95).toFixed(2)
+})
+
 function getCalendarDate(instanceDate) {
     const date = new Date(instanceDate)
 
@@ -183,7 +188,8 @@ function addInputsToDataByMessageType(messageType) {
             }
         })
 
-        formData.paymentMonthly = getPaymentMonthly
+        formData.paymentMonthlyFull = getPaymentMonthly
+        formData.paymentMonthlyDiscount = getPaymentMonthlyDiscount
     } else {
         paymentInputs.forEach(input => {
             delete formData[input.name]
@@ -252,17 +258,30 @@ watch(
                     <span>
                         Сумма ежемесячного платежа
                     </span>
-                    <span class="form-installment-title__amount">
-                        <strong>
-                            {{ formatValue(formData.paymentMonthly) }} ₽
+                    <span class="form-installment-title-amount">
+                        <strong class="form-installment-title-amount__full">
+                            {{ formatValue(formData.paymentMonthlyFull) }} ₽
                         </strong>
+                        <i class="pi pi-arrow-right"></i>
+                        <div class="form-installment-title-amount__discount">
+                            <strong>
+                                {{ formatValue(formData.paymentMonthlyDiscount) }} ₽
+                            </strong>
+                            <Badge value="-5%" severity="info" />
+                        </div>
                     </span>
                 </div>
                 <template v-for="(input, idx) in paymentInputs" :key="idx">
+
                     <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
                         :placeholder='input.placeholder' :required="input.required" :options="input.options"
                         v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
-                        @update:resetInputTrigger='resetInputTrigger = $event' />
+                        @update:resetInputTrigger='resetInputTrigger = $event'>
+
+                        <template #inputTitle>
+                            {{ input.placeholder }}
+                        </template>
+                    </BaseInput>
                 </template>
             </div>
         </div>
@@ -390,9 +409,25 @@ watch(
             font-size: 18px;
             flex-direction: column;
             gap: 15px;
+            font-weight: 500;
 
-            &__amount {
-                font-size: 20px;
+            &-amount {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                &__discount {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    font-size: 20px;
+                }
+
+                &__full {
+                    font-size: 20px;
+                    color: $gray-dark;
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -405,7 +440,7 @@ watch(
                 font-size: 16px;
                 gap: 10px;
 
-                &__amount {
+                &-amount {
                     font-size: 18px;
                 }
             }

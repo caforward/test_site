@@ -13,6 +13,8 @@ import VueMask from '@ssibrahimbas/v-mask';
 import VueEasyLightbox from 'vue-easy-lightbox/dist/external-css/vue-easy-lightbox.esm.min.js'
 import noUiSlider from 'nouislider';
 
+import 'primeicons/primeicons.css'
+
 import "@vueform/slider/themes/default.scss"
 import 'vue-select/dist/vue-select.css';
 import 'nouislider/dist/nouislider.css';
