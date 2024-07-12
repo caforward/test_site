@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
 import IntroBlock from "../../blocks/IntroBlock.vue";
-import ModalConsultation from "../../layouts/ModalConsultation.vue";
+import ModalInstallment from '../../layouts/ModalInstallment.vue';
 
 const modalVisible = ref(false);
 
@@ -26,8 +26,8 @@ function scrollToCalculate() {
                             сможете погасить долг частями в установленные сроки
                         </p>
                         <div class="intro-content__buttons">
-                            <button class="button button_blue intro-content__button" @click.stop="modalVisible = true">
-                                Получить консультацию
+                            <button class="button button_blue intro-content__button" @click="modalVisible = true">
+                                Получить рассрочку
                             </button>
                             <button class="button intro-content__button" :onclick="scrollToCalculate">
                                 Раcсчитать график платежей
@@ -43,7 +43,8 @@ function scrollToCalculate() {
             </IntroBlock>
         </div>
     </section>
-    <ModalConsultation v-model="modalVisible" />
+
+    <ModalInstallment v-model="modalVisible" />
 </template>
 
 <style lang="scss" scoped>
