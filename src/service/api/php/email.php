@@ -13,7 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'email' => 'Email',
         'messageType' => 'Выбрана тема',
         'message' => 'Текст',
-        'companyName' => 'Наименование компании'
+        'companyName' => 'Наименование компании',
+        'paymentAmount' => 'Сумма вашего долга',
+        'paymentPeriod' => 'Срок погашения',
+        'paymentDate' => 'Дата ежемесячного платежа',
+        'paymentMonthly' => 'Сумма ежемесячного платежа',
     ];
 
     $htmlContent = '<html><head><meta charset="UTF-8"></head><body></body></html>';
