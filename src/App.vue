@@ -1,16 +1,3 @@
-<template>
-	<TheHeader />
-	<router-view v-slot="{ Component, route }">
-		<transition name="fade" mode="out-in">
-			<template #default>
-				<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
-			</template>
-		</transition>
-	</router-view>
-	<TheFooter />
-	<TheMenuBottom v-if="bottomMenuVisible" />
-</template>
-
 <script setup>
 import TheHeader from "./layouts/TheHeader.vue";
 import TheFooter from "./layouts/TheFooter.vue";
@@ -29,6 +16,20 @@ function windowResizeHandler() {
 	bottomMenuVisible.value = window.matchMedia("(max-width: 1023px)").matches
 }
 </script>
+
+<template>
+	<TheHeader />
+	<router-view v-slot="{ Component, route }">
+		<transition name="fade" mode="out-in">
+			<template #default>
+				<component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
+			</template>
+		</transition>
+	</router-view>
+	<TheFooter />
+	<TheMenuBottom v-if="bottomMenuVisible" />
+</template>
+
 
 <style>
 .fade-enter-active,

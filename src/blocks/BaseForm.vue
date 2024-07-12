@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
-import BaseSliderDot from '@/blocks/BaseSliderDot.vue';
+import BaseSliderDot from '@/blocks/BaseSliderDot.vue'
 import BaseInput from './BaseInput.vue'
 import { useFetchPost } from '@/composable/useFetch.js'
+import DatePicker from 'primevue/datepicker'
 
 const emit = defineEmits(['submitted'])
 
@@ -78,6 +79,8 @@ const paymentInputs = reactive([
 // for inputs
 const showErrorTrigger = ref(false)
 const resetInputTrigger = ref(false)
+const date = ref('')
+console.log(new Date())
 
 // DOM elements
 const formDOMElement = ref(null)
@@ -242,7 +245,10 @@ watch(
                     </span>
                 </div>
                 <template v-for="(input, idx) in paymentInputs" :key="idx">
-                    <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
+                    <DatePicker v-if="input.type === 'date'" v-model="date" dateFormat="dd.mm.yy"
+                        :name="input.name" :placeholder="input.placeholder" />
+
+                    <BaseInput v-else v-model:value="formData[input.name]" :name='input.name' :type='input.type'
                         :placeholder='input.placeholder' :required="input.required" :options="input.options"
                         v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
                         @update:resetInputTrigger='resetInputTrigger = $event' />

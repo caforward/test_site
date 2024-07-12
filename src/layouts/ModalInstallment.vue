@@ -30,11 +30,7 @@ const inputs = ref([
 		type: 'v-select',
 		placeholder: 'Тема обращения*',
 		value: "Рассрочка",
-		// disabled: true
-		options: [
-			"Рассрочка",
-			'text',
-		]
+		disabled: true
 	},
 ])
 
