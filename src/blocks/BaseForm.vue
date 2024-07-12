@@ -87,10 +87,18 @@ const formDOMElement = ref(null)
 const consentDOMElement = ref(null)
 
 function clearInputs() {
+    resetInputTrigger.value = !resetInputTrigger.value
+
     props.inputs.forEach(input => {
-        formData.value[input.name] = ''
-        formInputs.value[input.name].isValid = false
+        if (input.value) {
+            formData[input.name] = input.value
+            formInputs.value[input.name] = { isValid: true, required: input.required }
+        } else {
+            formData[input.name] = ''
+            formInputs.value[input.name] = { isValid: false, required: input.required }
+        }
     })
+    console.log(formData)
 }
 
 const getPaymentMonthly = computed(() => {
@@ -147,8 +155,6 @@ async function handleSubmit() {
         // Отправляем данные на сервер
         const postData = new FormData()
 
-        console.log('postData')
-
         Object.keys(formData).forEach(key => {
             if (key === 'paymentDate') {
                 const date = getCalendarDate(formData.paymentDate)
@@ -157,14 +163,17 @@ async function handleSubmit() {
                 postData.append(key, formData[key])
             }
         })
+        clearInputs()
 
-        const response = useFetchPost("email.php", postData)
+        const response = await fetch("email.php", {
+            method: "POST",
+            body: postData
+        })
 
         if (response.ok) {
             console.log("Сообщение успешно отправлено");
 
             resetInputTrigger.value = true
-            clearInputs()
             emit("submitted")
         } else {
             console.error("Ошибка при отправке сообщения");
@@ -200,15 +209,7 @@ function addInputsToDataByMessageType(messageType) {
 
 onBeforeMount(() => {
     // Инициализация данных для валидации
-    props.inputs.forEach(input => {
-        if (input.value) {
-            formData[input.name] = input.value
-            formInputs.value[input.name] = { isValid: true, required: input.required }
-        } else {
-            formData[input.name] = ''
-            formInputs.value[input.name] = { isValid: false, required: input.required }
-        }
-    })
+    clearInputs()
 })
 
 onMounted(() => {

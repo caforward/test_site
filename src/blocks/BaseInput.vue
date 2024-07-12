@@ -94,7 +94,7 @@ watch(
     () => props.resetInputTrigger,
     () => {
         if (!props.disabled) {
-            input.value = ''
+            input.value = value.value
         }
     }
 )
