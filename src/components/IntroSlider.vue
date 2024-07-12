@@ -6,24 +6,20 @@
                     <div class="container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Рефинансируйте <br> задолженность с нами!
+                                Избавьтесь от <br> задолженности с нами!
                             </div>
                             <div class="slide-content__text">
                                 <p>
                                     <b>
-                                        Всем новым клиентам мы предлагаем погашение задолженности на выгодных условиях:
+                                        Всем новым клиентам мы предлагаем скидки и рефинансирование на выгодных условиях
                                     </b>
                                 </p>
                                 <ol class="list">
                                     <li>
-                                        Мы снизим/уменьшим значительную часть Вашей задолженности
+                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после  заполнения формы получения рассрочки 
                                     </li>
                                     <li>
-                                        Мы предложим Вам длительную рассрочку
-                                    </li>
-                                    <li>
-                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
-                                        обременителен для Вашего бюджета
+                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не обременителен для Вашего бюджета
                                     </li>
                                     <li>
                                         Мы передадим данные о погашении долга в Бюро кредитных историй
@@ -39,8 +35,8 @@
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="modalVisible = true">
-                                    Получить консультацию
+                                    @click="modalInstallmentVisible = true">
+                                    Получить рассрочку
                                 </a>
                             </div>
                         </div>
@@ -142,13 +138,16 @@
             </div>
         </div>
     </section>
+
     <ModalConsultation v-model="modalVisible" />
+    <ModalInstallment v-model="modalInstallmentVisible" />
 </template>
 
 <script>
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import ModalConsultation from "../layouts/ModalConsultation.vue";
+import ModalInstallment from "../layouts/ModalInstallment.vue";
 // import { Pagination, Autoplay } from "swiper/modules";
 
 // swiper style
@@ -159,7 +158,8 @@ export default {
     components: {
         Swiper,
         SwiperSlide,
-        ModalConsultation
+        ModalConsultation,
+        ModalInstallment
         // Pagination
     },
     methods: {
@@ -178,6 +178,7 @@ export default {
         return {
             swiper: null,
             modalVisible: false,
+            modalInstallmentVisible: false,
             sliderData: [
                 {
                     img: "introSlider/01.jpg",
@@ -240,6 +241,11 @@ img {
     &>li {
         line-height: 140%;
         margin-bottom: 10px;
+        font-weight: 500;
+
+        b {
+            color: $blue;
+        }
     }
 }
 
