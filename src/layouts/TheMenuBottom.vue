@@ -1,13 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
-import ModalCall from "./ModalCall.vue";
-import ModalRequisites from "./ModalRequisites.vue";
-import ModalConsultation from "./ModalConsultation.vue";
-import ModalInstallment from "./ModalInstallment.vue";
+
+const emit = defineEmits(['showModal'])
 
 const visibility = ref(false);
 const bottomMenu = ref(null);
-const bottomMenuPlaceholder = ref(null);
 
 const menuItems = ref([
 	//   {
@@ -60,34 +57,26 @@ const menuItems = ref([
 	},
 ]);
 
-const modal = ref({
-	call: false,
-	consultation: false,
-	requisites: false,
-	installment: false,
-});
-
-onMounted(() => {
-	// setBottomMenuPlaceholderHeight()
-	// window.addEventListener('resize', setBottomMenuPlaceholderHeight)
-});
-
-onUnmounted(() => {
-	// window.removeEventListener('resize', setBottomMenuPlaceholderHeight)
-});
-
-function setBottomMenuPlaceholderHeight() {
-	bottomMenuPlaceholder.value.style.height = bottomMenu.value.clientHeight + "px";
-	console.log("height set");
+function windowResizeHandler() {
+	visibility.value = window.matchMedia("(max-width: 1023px)").matches
 }
 
 function showModalHandler(modalName) {
-	modal.value[modalName] = true;
+	emit('showModal', modalName)
 }
+
+onMounted(() => {
+	windowResizeHandler()
+	window.addEventListener("resize", windowResizeHandler)
+})
+
+onUnmounted(() => {
+	window.removeEventListener("resize", windowResizeHandler)
+})
 </script>
 
-<template v-if="visibility">
-	<div ref="bottomMenu" class="bottom-menu">
+<template>
+	<div v-if="visibility" ref="bottomMenu" class="bottom-menu">
 		<ul class="bottom-menu-list">
 			<li v-for="link in menuItems" :key="link.id" class="bottom-menu-list__item">
 				<a v-if="link.modalName" :href="link.href" class="bottom-menu-list-link"
@@ -107,11 +96,6 @@ function showModalHandler(modalName) {
 			</li>
 		</ul>
 	</div>
-
-	<ModalConsultation v-model="modal.consultation" />
-	<ModalRequisites v-model="modal.requisites" />
-	<ModalCall v-model="modal.call" />
-	<ModalInstallment v-model="modal.installment" />
 </template>
 
 <style lang="scss" scoped>
@@ -169,6 +153,26 @@ function showModalHandler(modalName) {
 				height: 24px;
 				fill: $blue;
 				transition: fill 0.2s;
+			}
+		}
+	}
+}
+
+@include mobile {
+	.bottom-menu {
+		&-list {
+			&-link {
+				font-size: 2vw;
+			}
+		}
+	}
+}
+
+@include mobileS {
+	.bottom-menu {
+		&-list {
+			&-link {
+				font-size: 8px;
 			}
 		}
 	}

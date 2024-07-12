@@ -1,19 +1,23 @@
 <script setup>
-import TheHeader from "./layouts/TheHeader.vue";
-import TheFooter from "./layouts/TheFooter.vue";
+import TheHeader from "@/layouts/TheHeader.vue";
+import TheFooter from "@/layouts/TheFooter.vue";
+import ModalCall from "@/layouts/ModalCall.vue";
+import ModalRequisites from "@/layouts/ModalRequisites.vue";
+import ModalConsultation from "@/layouts/ModalConsultation.vue";
+import ModalInstallment from "@/layouts/ModalInstallment.vue";
 
-import TheMenuBottom from "./layouts/TheMenuBottom.vue";
+import TheMenuBottom from "@/layouts/TheMenuBottom.vue";
 import { onMounted, ref } from 'vue'
 
-const bottomMenuVisible = ref(true);
+const modal = ref({
+	call: false,
+	consultation: false,
+	requisites: false,
+	installment: false,
+});
 
-onMounted(() => {
-	windowResizeHandler()
-	window.addEventListener("resize", windowResizeHandler)
-})
-
-function windowResizeHandler() {
-	bottomMenuVisible.value = window.matchMedia("(max-width: 1023px)").matches
+function showModal(modalName) {
+	modal.value[modalName] = true
 }
 </script>
 
@@ -27,7 +31,12 @@ function windowResizeHandler() {
 		</transition>
 	</router-view>
 	<TheFooter />
-	<TheMenuBottom v-if="bottomMenuVisible" />
+	<TheMenuBottom @showModal="showModal" />
+
+	<ModalConsultation v-model="modal.consultation" />
+	<ModalRequisites v-model="modal.requisites" />
+	<ModalCall v-model="modal.call" />
+	<ModalInstallment v-model="modal.installment" />
 </template>
 
 
