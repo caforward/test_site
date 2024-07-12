@@ -3,7 +3,6 @@ import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue'
 import BaseInput from './BaseInput.vue'
 import { useFetchPost } from '@/composable/useFetch.js'
-import DatePicker from 'primevue/datepicker'
 
 const emit = defineEmits(['submitted'])
 
@@ -71,7 +70,8 @@ const paymentInputs = reactive([
     {
         name: 'paymentDate',
         type: 'date',
-        placeholder: 'Дата первого платежа',
+        value: new Date(),
+        placeholder: 'Дата ежемесячного платежа',
         required: true
     },
 ])
@@ -80,7 +80,6 @@ const paymentInputs = reactive([
 const showErrorTrigger = ref(false)
 const resetInputTrigger = ref(false)
 const date = ref('')
-console.log(new Date())
 
 // DOM elements
 const formDOMElement = ref(null)
@@ -104,6 +103,19 @@ const getPaymentMonthly = computed(() => {
     return monthly
 })
 
+function getCalendarDate(instanceDate) {
+    const date = new Date(instanceDate)
+
+    let day = date.getDate()
+    let month = date.getMonth()
+    const year = date.getFullYear()
+
+    day = day < 10 ? `0${day}` : day
+    month = month < 10 ? `0${month}` : month
+
+    return `${day}.${month}.${year}`
+}
+
 // Убрать в composable потом
 async function handleSubmit() {
     // Проверяеем наличие ошибок
@@ -120,7 +132,6 @@ async function handleSubmit() {
     }
 
     // Проверяем валидна ли форма
-    console.log(formIsValid.value, 'form is valid')
     if (formIsValid.value) {
 
         // получаем дополнительные данные если есть
@@ -131,8 +142,15 @@ async function handleSubmit() {
         // Отправляем данные на сервер
         const postData = new FormData()
 
+        console.log('postData')
+
         Object.keys(formData).forEach(key => {
-            postData.append(key, formData[key])
+            if (key === 'paymentDate') {
+                const date = getCalendarDate(formData.paymentDate)
+                postData.append(key, date)
+            } else {
+                postData.append(key, formData[key])
+            }
         })
 
         const response = useFetchPost("email.php", postData)
@@ -172,8 +190,6 @@ function addInputsToDataByMessageType(messageType) {
             delete formInputs.value[input.name]
         })
     }
-    console.log(formData, 'formData')
-    console.log(formInputs, 'form inputs')
 }
 
 onBeforeMount(() => {
@@ -206,8 +222,6 @@ watch(
         if (invalidInputs) {
             formIsValid.value = false
         }
-
-        console.log(formData)
     },
     { deep: true }
 )
@@ -245,10 +259,7 @@ watch(
                     </span>
                 </div>
                 <template v-for="(input, idx) in paymentInputs" :key="idx">
-                    <DatePicker v-if="input.type === 'date'" v-model="date" dateFormat="dd.mm.yy"
-                        :name="input.name" :placeholder="input.placeholder" />
-
-                    <BaseInput v-else v-model:value="formData[input.name]" :name='input.name' :type='input.type'
+                    <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
                         :placeholder='input.placeholder' :required="input.required" :options="input.options"
                         v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
                         @update:resetInputTrigger='resetInputTrigger = $event' />
@@ -341,7 +352,11 @@ watch(
 
             &__checkbox {
                 border: 1px solid $gray;
-                transition: border-color .2s;
+                transition: border-color .2s, background-color .3s;
+
+                &.checkbox_error {
+                    background-color: #FF6464;
+                }
 
                 &:checked {
                     border-color: $blue;
@@ -378,6 +393,21 @@ watch(
 
             &__amount {
                 font-size: 20px;
+            }
+        }
+    }
+}
+
+@include laptop {
+    .form {
+        &-installment {
+            &-title {
+                font-size: 16px;
+                gap: 10px;
+
+                &__amount {
+                    font-size: 18px;
+                }
             }
         }
     }

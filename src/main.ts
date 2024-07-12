@@ -5,12 +5,13 @@ import App from './App.vue'
 import router from './router';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
+import primeVueRu from '@/service/locale/primeVue/ru.json'
+import { definePreset } from '@primevue/themes';
 
 import vSelect from 'vue-select'
 import VueMask from '@ssibrahimbas/v-mask';
 import VueEasyLightbox from 'vue-easy-lightbox/dist/external-css/vue-easy-lightbox.esm.min.js'
 import noUiSlider from 'nouislider';
-import primeVueRu from '@/service/locale/primeVue/ru.json'
 
 import "@vueform/slider/themes/default.scss"
 import 'vue-select/dist/vue-select.css';
@@ -23,17 +24,45 @@ app.component("v-select", vSelect);
 // Provide noUiSlider
 app.provide('noUiSlider', noUiSlider);
 
+const forwardPreset = definePreset(Aura, {
+    components: {
+        inputtext: {
+            background: 'transparent',
+            borderColor: 'transparent',
+            shadow: 'none',
+            hoverBorderColor: 'transparent',
+            paddingX: '0',
+            paddingY: '0',
+            focus: {
+                borderColor: 'transparent',
+            },
+        },
+        datepicker: {
+            date: {
+                selected: {
+                    background: '#0096d8',
+                },
+                hover: {
+                    background: '#0096d8',
+                    color: '#fff',
+                }
+            },
+            buttonbarBorderColor: 'red',
+        }
+    }
+})
+
 app.use(router);
 app.use(VueMask);
 app.use(VueEasyLightbox);
 app.use(PrimeVue, {
     theme: {
-        preset: Aura,
+        preset: forwardPreset,
         options: {
             darkModeSelector: '.mode-dark',
         }
     },
-    locale: primeVueRu
+    locale: primeVueRu,
 })
 
 app.mount('#app');

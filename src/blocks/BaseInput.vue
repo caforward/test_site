@@ -1,5 +1,6 @@
 <script setup>
 import { defineComponent, onBeforeMount, onMounted, onUpdated, reactive, watch } from 'vue'
+import DatePicker from 'primevue/datepicker'
 
 const emit = defineEmits(['error', 'update:resetInputTrigger'])
 
@@ -175,12 +176,21 @@ function checkTelInputErrors() {
     return ''
 }
 
+// date
+function formatDateToCalend(date) {
+    
+}
+
 </script>
 
 <template>
     <div class="input-wrapper">
         <v-select v-if="props.type === 'v-select'" :name="name" :class="input.class" :placeholder="placeholder"
             :options="props.options" v-model="input.value" :disabled="props.disabled" />
+
+        <DatePicker v-else-if="props.type === 'date'" v-model="input.value" dateFormat="dd.mm.yy" showIcon
+            iconDisplay="input" :manualInput="false" :minDate="new Date()" :name="input.name" :placeholder="placeholder"
+            :class="input.class" :disabled="props.disabled" @date-select="formatDateToCalend" />
 
         <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
             :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
