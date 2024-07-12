@@ -87,8 +87,6 @@ const formDOMElement = ref(null)
 const consentDOMElement = ref(null)
 
 function clearInputs() {
-    resetInputTrigger.value = !resetInputTrigger.value
-
     props.inputs.forEach(input => {
         if (input.value) {
             formData[input.name] = input.value
@@ -98,7 +96,6 @@ function clearInputs() {
             formInputs.value[input.name] = { isValid: false, required: input.required }
         }
     })
-    console.log(formData)
 }
 
 const getPaymentMonthly = computed(() => {
@@ -163,7 +160,6 @@ async function handleSubmit() {
                 postData.append(key, formData[key])
             }
         })
-        clearInputs()
 
         const response = await fetch("email.php", {
             method: "POST",
@@ -174,6 +170,7 @@ async function handleSubmit() {
             console.log("Сообщение успешно отправлено");
 
             resetInputTrigger.value = true
+            clearInputs()
             emit("submitted")
         } else {
             console.error("Ошибка при отправке сообщения");
@@ -251,8 +248,7 @@ watch(
                 <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                     :required="input.required" :options="input.options" :disabled="input.disabled"
                     v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
-                    v-model:showError="showErrorTrigger" :resetInputTrigger="resetInputTrigger"
-                    @update:resetInputTrigger="resetInputTrigger = $event" />
+                    v-model:showError="showErrorTrigger" v-model:resetInput="resetInputTrigger" />
             </template>
             <div v-if="formData.messageType === 'Рассрочка'" class="form-installment">
                 <div class="form-installment-title">

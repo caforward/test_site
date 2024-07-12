@@ -42,6 +42,7 @@ const props = defineProps({
 const value = defineModel('value')
 const isValid = defineModel('isValid')
 const showError = defineModel('showError')
+const resetInput = defineModel('resetInput')
 
 const input = reactive({
     error: '',
@@ -91,11 +92,9 @@ watch(
 )
 
 watch(
-    () => props.resetInputTrigger,
+    () => resetInput.value,
     () => {
-        if (!props.disabled) {
-            input.value = value.value
-        }
+        resetInputHandler()
     }
 )
 
@@ -111,7 +110,7 @@ function updateInputState() {
     }
 
     if (props.resetInputTrigger) {
-        resetInput()
+        resetInputHandler()
         return
     }
 
@@ -138,10 +137,19 @@ function emitError() {
 }
 
 // Функция для сброса инпута
-function resetInput() {
+function resetInputHandler() {
     if (!props.disabled) {
         input.error = ''
-        input.class = [input.defaultClass]
+
+        input.value = value.value
+
+        if (input.isValid) {
+            input.class = [input.defaultClass, input.validClass]
+        } else {
+            input.class = [input.defaultClass]
+        }
+
+        resetInput.value = false
         emit('update:resetInputTrigger', false)
     }
 }
@@ -178,7 +186,7 @@ function checkTelInputErrors() {
 
 // date
 function formatDateToCalend(date) {
-    
+
 }
 
 </script>
@@ -188,7 +196,7 @@ function formatDateToCalend(date) {
         <div v-if="$slots.inputTitle" class="input-title">
             <slot name="inputTitle"></slot>
         </div>
- 
+
         <v-select v-if="props.type === 'v-select'" :name="name" :class="input.class" :placeholder="placeholder"
             :options="props.options" v-model="input.value" :disabled="props.disabled" />
 

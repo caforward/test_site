@@ -39,9 +39,16 @@ onBeforeMount(() => {
 })
 
 function clearInputs() {
+    resetInputTrigger.value = !resetInputTrigger.value
+
     props.inputs.forEach(input => {
-        formData.value[input.name] = ''
-        formInputs.value[input.name].isValid = false
+        if (input.value) {
+            formData.value[input.name] = input.value
+            formInputs.value[input.name] = { isValid: true, required: input.required }
+        } else {
+            formData.value[input.name] = ''
+            formInputs.value[input.name] = { isValid: false, required: input.required }
+        }
     })
 }
 
@@ -80,8 +87,6 @@ async function handleSubmit() {
 
             if (response.ok) {
                 console.log("Сообщение успешно отправлено");
-
-                resetInputTrigger.value = true
 
                 clearInputs()
                 emit("submitted")
