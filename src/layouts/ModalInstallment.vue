@@ -1,7 +1,6 @@
 <script setup>
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseForm from "@/blocks/BaseForm.vue";
-// import BaseFormRepayment from "../blocks/BaseFormRepayment.vue";
 import BaseSliderDot from "../blocks/noUiSlider.vue";
 import { ref, watch } from "vue";
 
