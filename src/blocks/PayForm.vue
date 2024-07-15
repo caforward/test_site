@@ -1,11 +1,13 @@
 <script setup>
 import BaseInput from '@/blocks/BaseInput.vue'
+import RadioButton from 'primevue/radiobutton';
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279200DEMO')
 const resetInputTrigger = ref(false)
 const checkErrorTrigger = ref(false)
 const isFormValid = ref(false)
+const contactType = ref('phone')
 
 const paymentData = ref({})
 const form = ref(null)
@@ -35,6 +37,7 @@ const props = defineProps({
                 name: 'phone',
                 type: 'tel',
                 placeholder: 'Телефон',
+                required: true
             },
             {
                 name: 'contractId',
@@ -46,16 +49,6 @@ const props = defineProps({
     }
 })
 
-onBeforeMount(() => {
-    props.inputs.forEach(input => {
-        paymentData.value[input.name] = {
-            value: '',
-            isValid: false,
-            required: input.required
-        }
-    })
-})
-
 function validateForm() {
     if (isFormValid.value) {
         paymentPay()
@@ -65,45 +58,54 @@ function validateForm() {
 }
 
 function paymentPay() {
-    console.log('form valid')
 
     const TPF = form.value
 
-    // const amount = paymentData.value.amount.value
-    // const contractId = paymentData.value.contractId.value
-    // const email = paymentData.value.email.value
-    // const phone = paymentData.value.phone.value
+    const amount = paymentData.value.amount.value
+    const contractId = paymentData.value.contractId.value
+    const email = paymentData.value.email.value
+    const phone = paymentData.value.phone.value
 
     // const TPF = e.target
     // const { description, amount, email, phone, contractId, receipt } = TPF;
+    console.log('form valid', TPF.receipt.value)
 
     // if (receipt) {
-    //     // if (!email.value && !phone.value)
-    //     //     return alert("Поле E-mail или Phone не должно быть пустым");
+    if (!email && !phone)
+        return alert("Поле E-mail или Phone не должно быть пустым");
 
-    //     TPF.receipt.value = JSON.stringify({
-    //         "EmailCompany": "dolg.info@caforward.ru",
-    //         "Taxation": "osn",
-    //         "FfdVersion": "1.2",
-    //         "Items": [
-    //             {
-    //                 "Name": `Погашение задолженности по договору #${contractId}`,
-    //                 "Price": amount + '00',
-    //                 "Quantity": 1.00,
-    //                 "Amount": amount + '00',
-    //                 "PaymentMethod": "credit_payment",
-    //                 "PaymentObject": "service",
-    //                 "Tax": "none",
-    //                 "MeasurementUnit": 'pc'
-    //             }
-    //         ]
-    //     });
+    TPF.receipt.value = JSON.stringify({
+        "EmailCompany": "dolg.info@caforward.ru",
+        "Taxation": "osn",
+        "FfdVersion": "1.2",
+        "Items": [
+            {
+                "Name": `Погашение задолженности по договору номер ${contractId}`,
+                "Price": amount + '00',
+                "Quantity": 1.00,
+                "Amount": amount + '00',
+                "PaymentMethod": "credit_payment",
+                "PaymentObject": "payment",
+                "Tax": "none",
+                "MeasurementUnit": 'pc'
+            }
+        ]
+    });
     // }
-    // console.log(TPF.receipt.value);
+
+    console.log(TPF.receipt.value);
     // pay(TPF);
-    console.log(form)
-    pay(form.value);
 }
+
+onBeforeMount(() => {
+    props.inputs.forEach(input => {
+        paymentData.value[input.name] = {
+            value: '',
+            isValid: false,
+            required: input.required
+        }
+    })
+})
 
 watch(
     () => paymentData.value,
@@ -126,6 +128,19 @@ watch(
     },
     { deep: true }
 )
+
+watch(
+    () => contactType.value,
+    (value) => {
+        if (value === 'phone') {
+            paymentData.value.email.required = false
+            paymentData.value.phone.required = true
+        } else if (value === 'email') {
+            paymentData.value.phone.required = false
+            paymentData.value.email.required = true
+        }
+    }
+)
 </script>
 
 <template>
@@ -138,12 +153,41 @@ watch(
 
         <div class="payform__inputs">
             <template v-for="input in props.inputs" :key="input">
-                <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required"
-                    :value="input.value" :options="input.options" :disabled="input.disabled"
-                    :showErrorHandler="checkErrorTrigger" :resetInputHandler="resetInputTrigger"
-                    @update:value="paymentData[input.name].value = $event"
-                    @update:isValid="paymentData[input.name].isValid = $event"
-                    @update:resetInputHandler="resetInputTrigger = $event" />
+                <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" :name="input.name" :type="input.type"
+                    :placeholder="input.placeholder" :required="input.required" :options="input.options"
+                    :disabled="input.disabled" v-model:value="paymentData[input.name].value"
+                    v-model:isValid="paymentData[input.name].isValid" v-model:showError="checkErrorTrigger"
+                    v-model:resetInput="resetInputTrigger" />
+            </template>
+            <div class="payform-radios">
+                <div class="">
+                    <RadioButton type="radio" v-model="contactType" inputId="payment-contact-type-phone"
+                        name="payment-contact-type" value="phone" />
+                    <label for="payment-contact-type-phone">
+                        Телефон
+                    </label>
+                </div>
+                <div class="">
+                    <RadioButton type="radio" v-model="contactType" inputId="payment-contact-type-email"
+                        name="payment-contact-type" value="email" />
+                    <label for="payment-contact-type-email">
+                        E-mail
+                    </label>
+                </div>
+            </div>
+
+            <template v-for="input in props.inputs" :key="input">
+                <BaseInput v-show="input.type === 'tel' && contactType === 'phone'" :name="input.name"
+                    :type="input.type" :placeholder="input.placeholder" :options="input.options"
+                    :disabled="input.disabled" :required="paymentData[input.name].required"
+                    v-model:value="paymentData[input.name].value" v-model:isValid="paymentData[input.name].isValid"
+                    v-model:showError="checkErrorTrigger" v-model:resetInput="resetInputTrigger" />
+
+                <BaseInput v-show="input.type === 'email' && contactType === 'email'" :name="input.name"
+                    :type="input.type" :placeholder="input.placeholder" :options="input.options"
+                    :disabled="input.disabled" :required="paymentData[input.name].required"
+                    v-model:value="paymentData[input.name].value" v-model:isValid="paymentData[input.name].isValid"
+                    v-model:showError="checkErrorTrigger" v-model:resetInput="resetInputTrigger" />
             </template>
         </div>
 
@@ -195,6 +239,11 @@ watch(
         display: flex;
         flex-direction: column;
         gap: 15px;
+    }
+
+    &-radios {
+        display: flex;
+        gap: 20px;
     }
 }
 </style>

@@ -39,7 +39,7 @@
                             <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
 
                             <!-- \/ -->
-                            <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
+                            <!-- <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
                                 После нажатия на кнопку
                                 оплатить введите свои данные в форму, и нажмите кнопку "Перейти к оплате".
                             </p>
@@ -55,7 +55,7 @@
                                         +7 (804) 333-41-33
                                     </a>
                                 </strong>
-                            </p>
+                            </p> -->
                             <!-- /\-->
                             <!-- <form class="payform" name="payform-tinkoff" onsubmit="pay(this); return false;">
                                 <input class="input" type="hidden" name="terminalkey" value="TinkoffBankTest">
@@ -91,7 +91,7 @@
                                 </div>
                             </form> -->
 
-                            <!-- <PayForm class="payform" /> -->
+                            <PayForm class="payform" />
 
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
                             <div v-if="formVisible" class="switcher-progressbar">
