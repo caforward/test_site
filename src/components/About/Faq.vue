@@ -19,8 +19,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import BaseAccordion from "../../blocks/BaseAccordion.vue";
+import { ref } from "vue";
 
 const accordionData = ref([
     {
