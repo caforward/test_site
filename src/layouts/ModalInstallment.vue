@@ -24,6 +24,7 @@ const inputs = ref([
 		name: 'email',
 		type: 'email',
 		placeholder: 'E-mail*',
+		required: true
 	},
 	{
 		name: 'messageType',

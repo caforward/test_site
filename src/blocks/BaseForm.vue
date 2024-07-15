@@ -255,18 +255,18 @@ watch(
                     <span>
                         Сумма ежемесячного платежа
                     </span>
-                    <span class="form-installment-title-amount">
-                        <strong class="form-installment-title-amount__full">
+                    <div class="form-installment-title-amount">
+                        <span class="form-installment-title-amount__full">
                             {{ formatValue(formData.paymentMonthlyFull) }} ₽
-                        </strong>
+                        </span>
                         <i class="pi pi-arrow-right"></i>
                         <div class="form-installment-title-amount__discount">
-                            <strong>
+                            <span>
                                 {{ formatValue(formData.paymentMonthlyDiscount) }} ₽
-                            </strong>
+                            </span>
                             <Badge value="-5%" severity="info" />
                         </div>
-                    </span>
+                    </div>
                 </div>
                 <template v-for="(input, idx) in paymentInputs" :key="idx">
 
