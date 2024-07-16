@@ -167,10 +167,6 @@ export default {
                     href: "#",
                     scroll: ''
                 },
-                // {
-                //     name: "Внести платёж",
-                //     href: "https://pay.mandarinbank.com/?m=4971",
-                // },
             ],
         };
     },
