@@ -3,11 +3,12 @@ import BaseInput from '@/blocks/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
-const terminalKey = ref('1718781279200DEMO')
+const terminalKey = ref('1718781279447 ')
 const resetInputTrigger = ref(false)
 const checkErrorTrigger = ref(false)
 const isFormValid = ref(false)
 const contactType = ref('phone')
+const formError = ref(null)
 
 const paymentData = ref({})
 const form = ref(null)
@@ -49,30 +50,33 @@ const props = defineProps({
     }
 })
 
+function clearForm() {
+    resetInputTrigger.value = !resetInputTrigger.value
+
+    Object.keys(paymentData.value).forEach((input) => {
+        paymentData.value[input].value = ''
+    })
+
+    contactType.value = 'phone'
+}
+
 function validateForm() {
     if (isFormValid.value) {
-        paymentPay()
+        try {
+            paymentPay()
+            clearForm()
+        } catch (e) {
+            console.log(e)
+        }
     } else {
         checkErrorTrigger.value = !checkErrorTrigger.value
     }
 }
 
 function paymentPay() {
-
     const TPF = form.value
 
-    const amount = paymentData.value.amount.value
-    const contractId = paymentData.value.contractId.value
-    const email = paymentData.value.email.value
-    const phone = paymentData.value.phone.value
-
-    // const TPF = e.target
-    // const { description, amount, email, phone, contractId, receipt } = TPF;
-    console.log('form valid', TPF.receipt.value)
-
-    // if (receipt) {
-    if (!email && !phone)
-        return alert("Поле E-mail или Phone не должно быть пустым");
+    const { description, amount, email, phone, contractId, receipt } = TPF
 
     TPF.receipt.value = JSON.stringify({
         "EmailCompany": "dolg.info@caforward.ru",
@@ -80,10 +84,10 @@ function paymentPay() {
         "FfdVersion": "1.2",
         "Items": [
             {
-                "Name": `Погашение задолженности по договору номер ${contractId}`,
-                "Price": amount + '00',
+                "Name": `Погашение задолженности по договору номер ${contractId.value}`,
+                "Price": amount.value + '00',
                 "Quantity": 1.00,
-                "Amount": amount + '00',
+                "Amount": amount.value + '00',
                 "PaymentMethod": "credit_payment",
                 "PaymentObject": "payment",
                 "Tax": "none",
@@ -91,10 +95,8 @@ function paymentPay() {
             }
         ]
     });
-    // }
 
-    console.log(TPF.receipt.value);
-    // pay(TPF);
+    pay(TPF)
 }
 
 onBeforeMount(() => {
@@ -151,6 +153,7 @@ watch(
         <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
         <input class="payform__input" type="hidden" name="receipt" value="">
 
+        {{ }}
         <div class="payform__inputs">
             <template v-for="input in props.inputs" :key="input">
                 <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" :name="input.name" :type="input.type"
@@ -177,13 +180,13 @@ watch(
             </div>
 
             <template v-for="input in props.inputs" :key="input">
-                <BaseInput v-show="input.type === 'tel' && contactType === 'phone'" :name="input.name"
-                    :type="input.type" :placeholder="input.placeholder" :options="input.options"
-                    :disabled="input.disabled" :required="paymentData[input.name].required"
-                    v-model:value="paymentData[input.name].value" v-model:isValid="paymentData[input.name].isValid"
-                    v-model:showError="checkErrorTrigger" v-model:resetInput="resetInputTrigger" />
+                <BaseInput v-if="input.type === 'tel' && contactType === 'phone'" :name="input.name" :type="input.type"
+                    :placeholder="input.placeholder" :options="input.options" :disabled="input.disabled"
+                    :required="paymentData[input.name].required" v-model:value="paymentData[input.name].value"
+                    v-model:isValid="paymentData[input.name].isValid" v-model:showError="checkErrorTrigger"
+                    v-model:resetInput="resetInputTrigger" />
 
-                <BaseInput v-show="input.type === 'email' && contactType === 'email'" :name="input.name"
+                <BaseInput v-else-if="input.type === 'email' && contactType === 'email'" :name="input.name"
                     :type="input.type" :placeholder="input.placeholder" :options="input.options"
                     :disabled="input.disabled" :required="paymentData[input.name].required"
                     v-model:value="paymentData[input.name].value" v-model:isValid="paymentData[input.name].isValid"
