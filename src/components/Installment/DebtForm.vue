@@ -165,12 +165,10 @@
 </template>
 
 <script>
-import FormBlock from '../../blocks/FormBlock.vue';
 import PayForm from '../../blocks/PayForm.vue';
 
 export default {
     components: {
-        FormBlock,
         PayForm
     },
     data() {

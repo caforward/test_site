@@ -20,61 +20,49 @@ watch(
 
 <template>
     <transition name="fade">
-        <BaseModal v-if="visible">
-            <div class="modal-body">
-                <div class="modal__close" @click="visible = false">
-                    <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+        <BaseModal v-if="visible" @closeModal="visible = false">
+            <template #body>
+                <div class="content">
+                    <div class="modal__title">
+                        Спасибо!
+                    </div>
+                    <p class="modal__text">
+                        Ваше обращение отправлено
+                    </p>
+
+                    <button class="button button_blue" @click="visible = false">
+                        Вернуться на сайт
+                    </button>
                 </div>
-                <!-- <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                        fill="#e8eaed">
-                        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                    </svg>
-                </div> -->
-                <div class="modal__title">
-                    Спасибо!
-                </div>
-                <p class="modal__text">
-                    Мы скоро свяжемся с Вами!
-                </p>
-            </div>
+            </template>
         </BaseModal>
     </transition>
 </template>
 
 <style lang="scss" scoped>
-.modal {
-    display: flex;
-    align-items: center;
+:deep(.modal__body) {
+    top: 30%;
+}
 
-    &-body {
-        top: 37%;
-        position: relative;
-        border-radius: 30px;
-        background-color: #fff;
-        padding: 60px 30px;
-        width: 100%;
-        max-width: 600px;
-        text-align: center;
-        margin: 0 auto;
+.modal {
+    text-align: center;
+
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
     }
 
     &__title {
         font-size: 34px;
         color: $blue;
         font-weight: 700;
-        margin-bottom: 15px;
     }
 
     &__text {
         font-size: 18px;
-    }
-
-    &__close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        cursor: pointer;
     }
 }
 </style>

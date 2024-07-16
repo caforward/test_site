@@ -1,55 +1,16 @@
-<template>
-    <section class="form">
-        <div class="container">
-            <div class="form__inner">
-                <div class="plates">
-                    <div class="plates-item plates-item_top">
-                        <h2 class="plates-item__title">Кого мы ищем</h2>
-                        <p>
-                            От кандидатов нам также нужно умение и опыт работы с большими массивами информации, а также
-                            владение основными офисными компьютерными программами – MS Word, MS Excel и 1С.
-                        </p>
-                    </div>
-                    <div class="plates-item plates-item_bottom">
-                        <h2 class="plates-item__title">Мы предлагаем кандидатам комфортные условия труда:</h2>
-                        <ul>
-                            <li>Официальное трудоустройство с 1-го дня;</li>
-                            <li>100% белая зарплата дважды в месяц, без задержек;</li>
-                            <li>Все соц.гарантии по ТК РФ;</li>
-                            <li>ДМС со стоматологией после 6 месяцев работы;</li>
-                            <li>Корпоративные обеды;</li>
-                            <li>Офис в Тихом центре Новосибирска – в 7 минутах от метро Площадь Ленина</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <FormBlock :inputs=inputs>
-                    <template v-slot:info>
-                        <div class="form-block-info">
-                            <h2 class="form-block-info__title">
-                                Станьте частью команды
-                            </h2>
-                            <p class="form-block-info__text">
-                                Заполните данные, а наш HR-менеджер свяжется с вами в ближайшее время
-                            </p>
-                        </div>
-                    </template>
-                </FormBlock>
-            </div>
-        </div>
-    </section>
-</template>
-
 <script>
 import FormBlock from '../../blocks/FormBlock.vue';
+import ModalThank from '../../layouts/ModalThank.vue';
 
 export default {
     name: "FormFooter",
     components: {
         FormBlock,
+        ModalThank,
     },
     data() {
         return {
+            thankModalVisible: false,
             inputs: [
                 {
                     name: 'name',
@@ -88,9 +49,57 @@ export default {
                 }
             ],
         };
+    },
+    methods: {
+        showThankModal() {
+            this.thankModalVisible = true
+        }
     }
 };
 </script>
+
+<template>
+    <section class="form">
+        <div class="container">
+            <div class="form__inner">
+                <div class="plates">
+                    <div class="plates-item plates-item_top">
+                        <h2 class="plates-item__title">Кого мы ищем</h2>
+                        <p>
+                            От кандидатов нам также нужно умение и опыт работы с большими массивами информации, а также
+                            владение основными офисными компьютерными программами – MS Word, MS Excel и 1С.
+                        </p>
+                    </div>
+                    <div class="plates-item plates-item_bottom">
+                        <h2 class="plates-item__title">Мы предлагаем кандидатам комфортные условия труда:</h2>
+                        <ul>
+                            <li>Официальное трудоустройство с 1-го дня;</li>
+                            <li>100% белая зарплата дважды в месяц, без задержек;</li>
+                            <li>Все соц.гарантии по ТК РФ;</li>
+                            <li>ДМС со стоматологией после 6 месяцев работы;</li>
+                            <li>Корпоративные обеды;</li>
+                            <li>Офис в Тихом центре Новосибирска – в 7 минутах от метро Площадь Ленина</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <FormBlock :inputs=inputs @submitted="showThankModal">
+                    <template v-slot:info>
+                        <div class="form-block-info">
+                            <h2 class="form-block-info__title">
+                                Станьте частью команды
+                            </h2>
+                            <p class="form-block-info__text">
+                                Заполните данные, а наш HR-менеджер свяжется с вами в ближайшее время
+                            </p>
+                        </div>
+                    </template>
+                </FormBlock>
+            </div>
+        </div>
+    </section>
+    <ModalThank v-model="thankModalVisible" />
+</template>
 
 <style lang="scss" scoped>
 section {

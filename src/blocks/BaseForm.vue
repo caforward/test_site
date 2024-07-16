@@ -168,14 +168,12 @@ async function handleSubmit() {
             method: "POST",
             body: postData
         })
-        resetInputTrigger.value = true
-        clearInputs()
-        showOverlay()
-        console.log(response.value)
-        
+
         if (response.value.ok) {
             console.log("Сообщение успешно отправлено");
-            
+
+            resetInputTrigger.value = true
+            clearInputs()
             emit("submitted")
         } else {
             console.error("Ошибка при отправке сообщения");
