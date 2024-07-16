@@ -3,7 +3,7 @@ import BaseInput from '@/blocks/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
-const terminalKey = ref('1718781279447 ')
+const terminalKey = ref('1718781279447')
 const resetInputTrigger = ref(false)
 const checkErrorTrigger = ref(false)
 const isFormValid = ref(false)
@@ -205,13 +205,13 @@ watch(
                         Договором оферты
                     </a>
                     и
-                    <a href="#" class="link">
+                    <a href="/policy" target="_blank" class="link">
                         политикой конфиденциальности.
                     </a>
                 </div>
                 <div>
                     Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру телефона
-                    <a href="tel:+74997020156" class="link">+7 (499) 702-01-56</a>
+                    <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
                 </div>
                 <div>
                     Если у вас возникнут сложности с оплатой через нашу форму, Вы можете воспользоваться
