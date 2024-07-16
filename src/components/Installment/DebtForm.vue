@@ -32,7 +32,7 @@
                     <div class="switcher-body__wrapper">
                         <div class="block__left">
                             <h2 class="title">
-                                Оплатите задолженность онлайн!
+                                Оплатите задолженность онлайн
                             </h2>
                             <!-- Форма оплаты -->
                             <PayForm class="payform" />
