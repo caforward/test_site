@@ -4,6 +4,7 @@ import RadioButton from 'primevue/radiobutton';
 import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279447')
+
 const resetInputTrigger = ref(false)
 const checkErrorTrigger = ref(false)
 const isFormValid = ref(false)
@@ -77,6 +78,10 @@ function paymentPay() {
     const TPF = form.value
 
     const { description, amount, email, phone, contractId, receipt } = TPF
+
+    TPF.DATA.value = JSON.stringify({
+        contractId: contractId.value,
+    })
 
     TPF.receipt.value = JSON.stringify({
         "EmailCompany": "dolg.info@caforward.ru",
@@ -152,8 +157,8 @@ watch(
         <input class="payform__input" type="hidden" name="language" value="ru">
         <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
         <input class="payform__input" type="hidden" name="receipt" value="">
+        <input class="payform-tinkoff-row" type="hidden" name="DATA" value="">
 
-        {{ }}
         <div class="payform__inputs">
             <template v-for="input in props.inputs" :key="input">
                 <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" :name="input.name" :type="input.type"
@@ -215,7 +220,9 @@ watch(
                 </div>
                 <div>
                     Если у вас возникнут сложности с оплатой через нашу форму, Вы можете воспользоваться
-                    <a href="https://pay.mandarinbank.com/?m=4971" class="link" target="_blank">оплатой через MANDARIN</a>
+                    <a href="https://pay.mandarinbank.com/?m=4971" class="link" target="_blank">
+                        оплатой через MANDARIN
+                    </a>
                     (Взимается комиссия 3%).
                 </div>
             </div>
