@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="container">
-            <FormBlock :inputs=inputs>
+            <FormBlock :inputs=inputs @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">
                         <h2 class="form-block-info__title">
@@ -19,18 +19,22 @@
             </FormBlock>
         </div>
     </section>
+    <ModalThank v-model="thankModalVisible" />
 </template>
 
 <script>
 import FormBlock from '../../blocks/FormBlock.vue';
+import ModalThank from '../../layouts/ModalThank.vue';
 
 export default {
     name: "FormFooter",
     components: {
         FormBlock,
+        ModalThank,
     },
     data() {
         return {
+            thankModalVisible: false,
             inputs: [
                 {
                     name: 'companyName',
@@ -53,6 +57,11 @@ export default {
             ]
         };
     },
+    methods: {
+        showThankModal() {
+            this.thankModalVisible = true
+        }
+    }
 };
 </script>
 

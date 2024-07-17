@@ -32,68 +32,13 @@
                     <div class="switcher-body__wrapper">
                         <div class="block__left">
                             <h2 class="title">
-                                Оплатите задолженность онлайн!
+                                Оплатите задолженность онлайн
                             </h2>
                             <!-- Форма оплаты -->
-                            <!-- <FormBlock :inputs="formInputs" /> -->
-                            <!-- <script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script> -->
-
-                            <!-- \/ -->
-                            <p style="margin-bottom:20px;line-height:25px;" data-v-c3438793="">
-                                После нажатия на кнопку
-                                оплатить введите свои данные в форму, и нажмите кнопку "Перейти к оплате".
-                            </p>
-                            <a target="_blank" href="https://pay.mandarinbank.com/?m=4971" class="button button_blue"
-                                style="margin-bottom:20px;width:100%;max-width:320px;">
-                                Оплатить
-                            </a>
-                            <p style="margin-bottom:20px;font-size:14px;color:#6c6c6c;line-height:20px;"
-                                data-v-c3438793=""><strong data-v-c3438793="">
-                                    Если&nbsp;у&nbsp;вас&nbsp;возникнут&nbsp;вопросы, пожалуйста,
-                                    свяжитесь&nbsp;с&nbsp;нами по номеру телефона
-                                    <a href="tel:+78043334133" class="link" data-v-c3438793="">
-                                        +7 (804) 333-41-33
-                                    </a>
-                                </strong>
-                            </p>
-                            <!-- /\-->
-                            <!-- <form class="payform" name="payform-tinkoff" onsubmit="pay(this); return false;">
-                                <input class="input" type="hidden" name="terminalkey" value="TinkoffBankTest">
-                                <input class="input" type="hidden" name="frame" value="false">
-                                <input class="input" type="hidden" name="language" value="ru">
-                                <input class="input" type="text" placeholder="ФИО плательщика" name="name">
-                                <input class="input" type="hidden" placeholder="Номер платежа" name="order">
-                                <input class="input" type="email" placeholder="E-mail" name="email">
-                                <input class="input" type="tel" placeholder="Контактный телефон" name="phone">
-                                <input class="input" type="text" placeholder="Сумма" name="amount" required>
-                                <input class="input" type="text" placeholder="Номер контракта" name="description">
-                                <div class="payform__bottom">
-                                    <button class="button button_blue payform__button" type="submit" value="Оплатить">
-                                        Оплатить картой
-                                    </button>
-                                    <div class="payform__meta">
-                                        <div>
-                                            Нажимая кнопку «Оплатить картой», вы соглашаетесь с
-                                            <a href="#" class="link">
-                                                Договором оферты
-                                            </a>
-                                            и
-                                            <a href="#" class="link">
-                                                политикой конфиденциальности.
-                                            </a>
-                                        </div>
-                                        <div>
-                                            Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
-                                            телефона
-                                            <a href="tel:+74997020156" class="link">+7 (499) 702-01-56</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form> -->
-
-                            <!-- <PayForm class="payform" /> -->
+                            <PayForm class="payform" />
 
                             <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
+                             <!-- 
                             <div v-if="formVisible" class="switcher-progressbar">
                                 <span class="switcher-progressbar__thumb"></span>
                             </div>
@@ -191,6 +136,7 @@
                                     </div>
                                 </transition>
                             </form>
+                             -->
                         </div>
                         <div class="block__right">
                             <div class="card">
@@ -200,8 +146,7 @@
                                     </div>
                                     <div class="card__text">
                                         Сделать это легко: просто выберите сумму вашего долга, настройте срок погашения
-                                        – и
-                                        вы увидите, каким будет ежемесячный платеж.
+                                        – и вы увидите, каким будет ежемесячный платеж.
                                     </div>
                                     <button @click="scrollToCalc" class="button">
                                         Раcсчитать график платежей
@@ -220,12 +165,10 @@
 </template>
 
 <script>
-import FormBlock from '../../blocks/FormBlock.vue';
 import PayForm from '../../blocks/PayForm.vue';
 
 export default {
     components: {
-        FormBlock,
         PayForm
     },
     data() {

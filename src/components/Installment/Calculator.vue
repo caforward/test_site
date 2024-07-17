@@ -1,3 +1,41 @@
+<script setup>
+import { computed, ref } from 'vue'
+import FormBlock from "../../blocks/FormBlock.vue";
+import BaseSliderDot from "../../blocks/BaseSliderDot.vue";
+import { useValueFormat } from '@/composable/useValueFormat.js'
+import ModalThank from '../../layouts/ModalThank.vue';
+
+const repaymentAmount = ref(338000)
+const repaymentPeriod = ref(6)
+const thankModalVisible = ref(false)
+
+const formInputs = ref([
+	{
+		name: 'name',
+		type: 'text',
+		placeholder: 'ФИО*',
+		required: true
+	},
+	{
+		name: 'tel',
+		type: 'tel',
+		placeholder: 'Номер телефона*',
+		required: true
+	},
+])
+
+const repaymentMonthly = computed(() => {
+	let rawValue = repaymentAmount.value / repaymentPeriod.value
+
+	return +rawValue.toFixed(2)
+})
+
+function showThankModal() {
+	thankModalVisible.value = true
+}
+
+</script>
+
 <template>
 	<section id="calculate" class="section">
 		<div class="container">
@@ -40,44 +78,14 @@
 					<FormBlock :inputs="formInputs" :additionalData="{
 						repaymentAmount: repaymentAmount,
 						repaymentPeriod: repaymentPeriod,
-						repaymentMonthly: repaymentMonthly 
-					}" />
+						repaymentMonthly: repaymentMonthly
+					}" @submitted="showThankModal" />
 				</div>
 			</div>
 		</div>
 	</section>
+	<ModalThank v-model="thankModalVisible" />
 </template>
-<script setup>
-import { computed, ref } from 'vue'
-import FormBlock from "../../blocks/FormBlock.vue";
-import BaseSliderDot from "../../blocks/BaseSliderDot.vue";
-import { useValueFormat } from '@/composable/useValueFormat.js'
-
-const repaymentAmount = ref(338000)
-const repaymentPeriod = ref(6)
-
-const formInputs = ref([
-	{
-		name: 'name',
-		type: 'text',
-		placeholder: 'ФИО*',
-		required: true
-	},
-	{
-		name: 'tel',
-		type: 'tel',
-		placeholder: 'Номер телефона*',
-		required: true
-	},
-])
-
-const repaymentMonthly = computed(() => {
-	let rawValue = repaymentAmount.value / repaymentPeriod.value
-
-	return +rawValue.toFixed(2)
-})
-
-</script>
 
 <style lang="scss" scoped>
 // clean form

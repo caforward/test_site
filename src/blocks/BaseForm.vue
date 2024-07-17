@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
+import { useFetchPost } from '@/composable/useFetch.js'
+// import OverlayThank from '@/layouts/OverlayThank.vue';
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue'
 import BaseInput from './BaseInput.vue'
-import { useFetchPost } from '@/composable/useFetch.js'
 import Badge from 'primevue/badge';
 
 const emit = defineEmits(['submitted'])
@@ -23,6 +24,8 @@ const props = defineProps({
 })
 
 // for form
+const overlayVisible = ref(false)
+const response = ref(null)
 const consent = ref(false)
 const formIsValid = ref(false)
 const formData = reactive({})
@@ -161,12 +164,12 @@ async function handleSubmit() {
             }
         })
 
-        const response = await fetch("email.php", {
+        response.value = await fetch("email.php", {
             method: "POST",
             body: postData
         })
 
-        if (response.ok) {
+        if (response.value.ok) {
             console.log("Сообщение успешно отправлено");
 
             resetInputTrigger.value = true
@@ -202,6 +205,11 @@ function addInputsToDataByMessageType(messageType) {
             delete formInputs.value[input.name]
         })
     }
+}
+
+function showOverlay() {
+    console.log(response.value.status)
+    overlayVisible.value = true
 }
 
 onBeforeMount(() => {
@@ -240,65 +248,67 @@ watch(
 
 <template>
     <form ref="formDOMElement" action="" class="form" @submit.prevent="handleSubmit">
-        <div v-if="$slots.beforeUserInputs">
-            <slot name="beforeUserInputs"></slot>
-        </div>
-        <div class="form__inputs">
-            <template v-for="(input, idx) in inputs" :key="idx">
-                <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                    :required="input.required" :options="input.options" :disabled="input.disabled"
-                    v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
-                    v-model:showError="showErrorTrigger" v-model:resetInput="resetInputTrigger" />
-            </template>
-            <div v-if="formData.messageType === 'Рассрочка'" class="form-installment">
-                <div class="form-installment-title">
-                    <span>
-                        Сумма ежемесячного платежа
-                    </span>
-                    <div class="form-installment-title-amount">
-                        <span class="form-installment-title-amount__full">
-                            {{ formatValue(formData.paymentMonthlyFull) }} ₽
-                        </span>
-                        <i class="pi pi-arrow-right"></i>
-                        <div class="form-installment-title-amount__discount">
-                            <span>
-                                {{ formatValue(formData.paymentMonthlyDiscount) }} ₽
-                            </span>
-                            <Badge value="-5%" severity="info" />
-                        </div>
-                    </div>
-                </div>
-                <template v-for="(input, idx) in paymentInputs" :key="idx">
-
-                    <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
-                        :placeholder='input.placeholder' :required="input.required" :options="input.options"
-                        v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
-                        @update:resetInputTrigger='resetInputTrigger = $event'>
-
-                        <template #inputTitle>
-                            {{ input.placeholder }}
-                        </template>
-                    </BaseInput>
+        <div class="form-container">
+            <div v-if="$slots.beforeUserInputs">
+                <slot name="beforeUserInputs"></slot>
+            </div>
+            <div class="form__inputs">
+                <template v-for="(input, idx) in inputs" :key="idx">
+                    <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                        :required="input.required" :options="input.options" :disabled="input.disabled"
+                        v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
+                        v-model:showError="showErrorTrigger" v-model:resetInput="resetInputTrigger" />
                 </template>
-            </div>
-        </div>
+                <div v-if="formData.messageType === 'Рассрочка'" class="form-installment">
+                    <div class="form-installment-title">
+                        <span>
+                            Сумма ежемесячного платежа
+                        </span>
+                        <span class="form-installment-title-amount">
+                            <strong class="form-installment-title-amount__full">
+                                {{ formatValue(formData.paymentMonthlyFull) }} ₽
+                            </strong>
+                            <i class="pi pi-arrow-right"></i>
+                            <div class="form-installment-title-amount__discount">
+                                <strong>
+                                    {{ formatValue(formData.paymentMonthlyDiscount) }} ₽
+                                </strong>
+                                <Badge value="-5%" severity="info" />
+                            </div>
+                        </span>
+                    </div>
+                    <template v-for="(input, idx) in paymentInputs" :key="idx">
 
-        <div v-if="$slots.afterUserInputs">
-            <slot name="afterUserInputs"></slot>
-        </div>
-        <div class="form-bottom">
-            <div class="form-bottom-meta">
-                <input ref="consentDOMElement" name="personal-data-agree-checkbox" type="checkbox"
-                    class="checkbox form-bottom-meta__checkbox" v-model="consent">
-                <label for="personal-data-agree-checkbox" class="form-bottom-meta__label">
-                    Даю согласие на
-                    <a href="#" class="link">обработку своих персональных данных</a>,
-                    <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
-                </label>
+                        <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
+                            :placeholder='input.placeholder' :required="input.required" :options="input.options"
+                            v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
+                            @update:resetInputTrigger='resetInputTrigger = $event'>
+
+                            <template #inputTitle>
+                                {{ input.placeholder }}
+                            </template>
+                        </BaseInput>
+                    </template>
+                </div>
             </div>
-            <button class="button button_blue form-bottom__button">
-                Отправить
-            </button>
+
+            <div v-if="$slots.afterUserInputs">
+                <slot name="afterUserInputs"></slot>
+            </div>
+            <div class="form-bottom">
+                <div class="form-bottom-meta">
+                    <input ref="consentDOMElement" name="personal-data-agree-checkbox" type="checkbox"
+                        class="checkbox form-bottom-meta__checkbox" v-model="consent">
+                    <label for="personal-data-agree-checkbox" class="form-bottom-meta__label">
+                        Даю согласие на
+                        <a href="#" class="link">обработку своих персональных данных</a>,
+                        <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
+                    </label>
+                </div>
+                <button class="button button_blue form-bottom__button">
+                    Отправить
+                </button>
+            </div>
         </div>
     </form>
 </template>
@@ -324,9 +334,11 @@ watch(
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    &-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
 
     &_gray {
         :deep(.input-wrapper) {

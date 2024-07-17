@@ -50,6 +50,22 @@ const forwardPreset = definePreset(Aura, {
                 }
             },
             buttonbarBorderColor: 'red',
+        },
+        radiobutton: {
+            // borderColor: '#0096d8',
+            hoverBorderColor: '#0096d8',
+            icon: {
+                checked: {
+                    color: '#0096d8',
+                    hoverColor: '#0096d8',
+                }
+            },
+            checked: {
+                background: '#fff',
+                borderColor: '#0096d8',
+                hoverBackground: '#fff',
+                hoverBorderColor: '#0096d8'
+            }
         }
     }
 })

@@ -49,6 +49,7 @@ const emit = defineEmits(['closeModal'])
 		right: 25px;
 		width: 18px;
 		height: 18px;
+		z-index: 2;
 	}
 }
 

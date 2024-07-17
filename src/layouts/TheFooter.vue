@@ -17,8 +17,9 @@
                         <div class="footer-nav__inner">
                             <ul class="footer-nav__list" v-for="(listElem, index) in footerArr" :key="index">
                                 <li v-for="footerItem in listElem" :key="footerItem.name">
-                                    <a v-if="footerItem.target" class="header-bottom-nav__link" :href="footerItem.href"
-                                        :target="footerItem.target">
+
+                                    <a v-if="footerItem.name === 'Внести платеж'" class="header-bottom-nav__link"
+                                        href="/installment-plan#debt-form">
                                         {{ footerItem.name }}
                                     </a>
 
@@ -28,11 +29,14 @@
                                     </router-link>
 
                                     <a v-else-if="footerItem.name === 'Получить консультацию'" @click.stop="showModal"
-                                        class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name
-                                        }}</a>
+                                        class="header-bottom-nav__link" :href="footerItem.href">
+                                        {{ footerItem.name }}
+                                    </a>
 
-                                    <a v-else class="header-bottom-nav__link" :href="footerItem.href">{{ footerItem.name
-                                        }}</a>
+                                    <a v-else class="header-bottom-nav__link" :href="footerItem.href">
+                                        {{ footerItem.name }}
+                                    </a>
+
                                 </li>
                             </ul>
                         </div>
@@ -144,7 +148,7 @@ export default defineComponent({
                     // { text: "Я не должник", href: ""  },
                     { name: "Получить рассрочку", href: "#" },
                     { name: "Получить консультацию", href: "#" },
-                    { name: "Внести платеж", href: "https://pay.mandarinbank.com/?m=4971", target: "_blank" },
+                    { name: "Внести платеж", href: "/installment-plan#debt-form" },
                     { name: "Получить квитанцию для оплаты", href: "/assets/docs/Квитанция.pdf", target: "_blank" },
                 ]
             ] as FooterItem[][],
@@ -179,24 +183,33 @@ export default defineComponent({
         },
         updateIsMobile() {
             this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
-        }
+        },
     },
     beforeUnmount() {
         window.removeEventListener('resize', this.updateIsMobile)
     },
     beforeMount() {
         const routes = this.$router.getRoutes()
+
         this.footerArr[0].forEach(item => {
-            const eqNameRoute = routes.find(route => route.name === item.name)
-            if (eqNameRoute) {
-                item.href = eqNameRoute.path
-            }
+            routes.forEach(route => {
+                const routeName = String(route.name).toLowerCase()
+                const itemName = item.name.toLowerCase()
+
+                if (itemName === routeName) {
+                    item.href = route.path
+                }
+            })
         })
         this.footerArr[1].forEach(item => {
-            const eqNameRoute = routes.find(route => route.name === item.name)
-            if (eqNameRoute) {
-                item.href = eqNameRoute.path
-            }
+            routes.forEach(route => {
+                const routeName = String(route.name).toLowerCase()
+                const itemName = item.name.toLowerCase()
+
+                if (itemName === routeName) {
+                    item.href = route.path
+                }
+            })
         })
     }
 });

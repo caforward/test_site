@@ -51,12 +51,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import FormBlock from "../../blocks/FormBlock.vue";
 import FormFooterVue from "../About/FormFooter.vue";
 
 export default defineComponent({
     components: {
-        FormBlock,
         FormFooterVue
     },
     data() {

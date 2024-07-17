@@ -1,11 +1,11 @@
 <script setup>
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseForm from "@/blocks/BaseForm.vue";
-// import BaseFormRepayment from "../blocks/BaseFormRepayment.vue";
-import BaseSliderDot from "../blocks/noUiSlider.vue";
+import ModalThank from "./ModalThank.vue";
 import { ref, watch } from "vue";
 
 const visible = defineModel();
+const thankModalVisible = ref(false)
 
 const inputs = ref([
 	{
@@ -35,6 +35,11 @@ const inputs = ref([
 	},
 ])
 
+function showTnankModal() {
+	visible.value = false
+	thankModalVisible.value = true
+}
+
 watch(
 	() => visible.value,
 	() => {
@@ -57,14 +62,16 @@ watch(
 				<h2 class="modal__title">
 					Получить рассрочку
 				</h2>
-				<BaseForm :inputs="inputs" :grayForm="true" />
+				<BaseForm :inputs="inputs" :grayForm="true" @submitted="showTnankModal" />
 			</template>
 		</BaseModal>
 	</transition>
+	<ModalThank v-model="thankModalVisible" />
 </template>
 
 <style lang="scss" scoped>
 .modal__title {
 	margin-bottom: 20px;
 }
+
 </style>
