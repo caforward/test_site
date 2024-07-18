@@ -1,10 +1,18 @@
 <script setup>
+// imports
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
-import { useFetchPost } from '@/composable/useFetch.js'
-// import OverlayThank from '@/layouts/OverlayThank.vue';
 import BaseSliderDot from '@/blocks/BaseSliderDot.vue'
 import BaseInput from './BaseInput.vue'
+// import OverlayThank from '@/layouts/OverlayThank.vue';
 import Badge from 'primevue/badge';
+
+// composables
+
+import { useFetchPost } from '@/composable/useFetch.js'
+import { getDottedDate } from '@/composable/useCalendar.js'
+import { useValueFormat } from '@/composable/useValueFormat.js'
+
+// variables
 
 const emit = defineEmits(['submitted'])
 
@@ -89,17 +97,7 @@ const date = ref('')
 const formDOMElement = ref(null)
 const consentDOMElement = ref(null)
 
-function clearInputs() {
-    props.inputs.forEach(input => {
-        if (input.value) {
-            formData[input.name] = input.value
-            formInputs.value[input.name] = { isValid: true, required: input.required }
-        } else {
-            formData[input.name] = ''
-            formInputs.value[input.name] = { isValid: false, required: input.required }
-        }
-    })
-}
+// functions
 
 const getPaymentMonthly = computed(() => {
     let monthly = (formData.paymentAmount / formData.paymentPeriod).toFixed(2)
@@ -116,20 +114,6 @@ const getPaymentMonthlyDiscount = computed(() => {
     return (formData.paymentMonthlyFull * 0.95).toFixed(2)
 })
 
-function getCalendarDate(instanceDate) {
-    const date = new Date(instanceDate)
-
-    let day = date.getDate()
-    let month = date.getMonth()
-    const year = date.getFullYear()
-
-    day = day < 10 ? `0${day}` : day
-    month = month < 10 ? `0${month}` : month
-
-    return `${day}.${month}.${year}`
-}
-
-// Убрать в composable потом
 async function handleSubmit() {
     // Проверяеем наличие ошибок
     showErrorTrigger.value = true
@@ -157,7 +141,7 @@ async function handleSubmit() {
 
         Object.keys(formData).forEach(key => {
             if (key === 'paymentDate') {
-                const date = getCalendarDate(formData.paymentDate)
+                const date = getDottedDate(formData.paymentDate)
                 postData.append(key, date)
             } else {
                 postData.append(key, formData[key])
@@ -181,8 +165,16 @@ async function handleSubmit() {
     }
 }
 
-function formatValue(number) {
-    return new Intl.NumberFormat('ru-RU').format(number)
+function clearInputs() {
+    props.inputs.forEach(input => {
+        if (input.value) {
+            formData[input.name] = input.value
+            formInputs.value[input.name] = { isValid: true, required: input.required }
+        } else {
+            formData[input.name] = ''
+            formInputs.value[input.name] = { isValid: false, required: input.required }
+        }
+    })
 }
 
 function addInputsToDataByMessageType(messageType) {
@@ -212,6 +204,8 @@ function showOverlay() {
     overlayVisible.value = true
 }
 
+// hooks
+
 onBeforeMount(() => {
     // Инициализация данных для валидации
     clearInputs()
@@ -222,6 +216,8 @@ onMounted(() => {
         formDOMElement.value.classList.add('form_gray')
     }
 })
+
+// watchers
 
 watch(
     () => formInputs,
@@ -266,12 +262,12 @@ watch(
                         </span>
                         <span class="form-installment-title-amount">
                             <strong class="form-installment-title-amount__full">
-                                {{ formatValue(formData.paymentMonthlyFull) }} ₽
+                                {{ useValueFormat(formData.paymentMonthlyFull) }} ₽
                             </strong>
                             <i class="pi pi-arrow-right"></i>
                             <div class="form-installment-title-amount__discount">
                                 <strong>
-                                    {{ formatValue(formData.paymentMonthlyDiscount) }} ₽
+                                    {{ useValueFormat(formData.paymentMonthlyDiscount) }} ₽
                                 </strong>
                                 <Badge value="-5%" severity="info" />
                             </div>

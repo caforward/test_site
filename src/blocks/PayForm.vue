@@ -80,7 +80,7 @@ function paymentPay() {
     const { description, amount, email, phone, contractId, receipt } = TPF
 
     TPF.DATA.value = JSON.stringify({
-        contractId: contractId.value,
+        "Paymentpurpose": `Погашение задолженности по договору номер ${contractId.value}`,
     })
 
     TPF.receipt.value = JSON.stringify({
