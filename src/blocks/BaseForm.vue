@@ -38,6 +38,27 @@ const consent = ref(false)
 const formIsValid = ref(false)
 const formData = reactive({})
 const formInputs = ref({})
+
+const paymentPeriodRange = computed(() => {
+    const discount = 0.95
+    const minMontlyPayment = 1500
+    const maxPeriod = 24
+
+    const getPeriods = (N) => [...Array(N).keys()].map(i => i + 1)
+    let periods = getPeriods(maxPeriod)
+
+    if (formData.paymentAmount) {
+        let maxAvailablePeriod = Math.floor(formData.paymentAmount/(minMontlyPayment/discount))
+        maxAvailablePeriod = maxAvailablePeriod === 0 ? 1 : maxAvailablePeriod
+
+        if (maxAvailablePeriod < maxPeriod) {
+            periods = getPeriods(maxAvailablePeriod)
+        }
+    }
+
+    return periods
+})
+
 const paymentInputs = reactive([
     {
         name: 'paymentAmount',
@@ -51,32 +72,7 @@ const paymentInputs = reactive([
         type: 'v-select',
         placeholder: 'Срок погашения',
         value: 6,
-        options: [
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12',
-            '13',
-            '14',
-            '15',
-            '16',
-            '17',
-            '18',
-            '19',
-            '20',
-            '21',
-            '22',
-            '23',
-            '24',
-        ],
+        options: ref(paymentPeriodRange),
         required: true
     },
     {
@@ -91,7 +87,7 @@ const paymentInputs = reactive([
 // for inputs
 const showErrorTrigger = ref(false)
 const resetInputTrigger = ref(false)
-const date = ref('')
+
 
 // DOM elements
 const formDOMElement = ref(null)
@@ -138,7 +134,7 @@ async function handleSubmit() {
 
         // Отправляем данные на сервер
         const postData = new FormData()
-
+        
         Object.keys(formData).forEach(key => {
             if (key === 'paymentDate') {
                 const date = getDottedDate(formData.paymentDate)
@@ -240,6 +236,7 @@ watch(
         addInputsToDataByMessageType(messageType)
     }
 )
+
 </script>
 
 <template>
@@ -249,12 +246,16 @@ watch(
                 <slot name="beforeUserInputs"></slot>
             </div>
             <div class="form__inputs">
+
+                <!-- user info -->
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :options="input.options" :disabled="input.disabled"
                         v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
                         v-model:showError="showErrorTrigger" v-model:resetInput="resetInputTrigger" />
                 </template>
+
+                <!-- installment info -->
                 <div v-if="formData.messageType === 'Рассрочка'" class="form-installment">
                     <div class="form-installment-title">
                         <span>
@@ -273,6 +274,8 @@ watch(
                             </div>
                         </span>
                     </div>
+
+                    <!-- installment inputs -->
                     <template v-for="(input, idx) in paymentInputs" :key="idx">
 
                         <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
@@ -284,6 +287,7 @@ watch(
                                 {{ input.placeholder }}
                             </template>
                         </BaseInput>
+
                     </template>
                 </div>
             </div>
