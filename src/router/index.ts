@@ -30,6 +30,8 @@ const router = createRouter({
             return savedPosition
         }
 
+        if (from) {}
+
         // return desired position
         if (to.hash) {
             return {
