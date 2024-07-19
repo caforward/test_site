@@ -87,6 +87,13 @@ onUnmounted(() => {
 					</span>
 				</a>
 
+				<a v-else-if="link.href.startsWith('tel:')" :href="link.href" class="bottom-menu-list-link">
+					<span class="bottom-menu-list-link__icon" v-html="link.icon"></span>
+					<span>
+						{{ link.title }}
+					</span>
+				</a>
+
 				<a v-else :href="link.href" class="bottom-menu-list-link">
 					<span class="bottom-menu-list-link__icon" v-html="link.icon"></span>
 					<span>
