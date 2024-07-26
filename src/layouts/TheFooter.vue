@@ -3,84 +3,83 @@
         <div class="footer-top">
             <div class="container">
                 <div class="footer-top__inner">
-                    <div class="footer-top__left">
-                        <a href="/" class="footer-top__logo">
-                            <img class="imgForward" src="/assets/images/footer/forward.png"
-                                alt="there was a logo CaForward" />
-                        </a>
-                        <div class="footer-top__address">
-                            г. Новосибирск,<br />ул.  Урицкого, д. 21, этаж 3
+                    <div class="footer-top__logo">
+                        <div class="logo">
+                            <router-link to="/">
+                                <img class="imgForward" src="/assets/images/footer/forward.png"
+                                    alt="there was a logo CaForward" />
+                            </router-link>
                         </div>
+                        <address class="address">
+                            г. Новосибирск,<br> ул. Урицкого, д. 21, этаж 3
+                        </address>
                     </div>
-
-                    <div class="footer-nav">
-                        <div class="footer-nav__inner">
-                            <ul class="footer-nav__list" v-for="(listElem, index) in footerArr" :key="index">
-                                <li v-for="item in listElem" :key="item.name">
-
-                                    <a v-if="item.name === 'Внести платеж'" class="header-bottom-nav__link"
-                                        href="/installment-plan#debt-form">
-                                        {{ item.name }}
-                                    </a>
-
-                                    <a v-else-if="item.name === 'Получить консультацию'" @click.stop="showModal"
-                                        class="header-bottom-nav__link" :href="item.href">
-                                        {{ item.name }}
-                                    </a>
-
-                                    <a v-else-if="item.href.includes('#')" class="header-bottom-nav__link"
-                                        :href="item.href">
-                                        {{ item.name }}
-                                    </a>
-
-                                    <a v-else-if="item.target" class="header-bottom-nav__link" :href="item.href"
-                                        :target="item.target">
-                                        {{ item.name }}
-                                    </a>
-
-                                    <router-link v-else :to="item.href" class="header-bottom-nav__link test">
-                                        {{ item.name }}
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="footer-top__right">
-                        <ul class="footer-top-feedback">
-                            <li>
-                                <a href="#" @click="showModal($event)">
-                                    Обратная связь
+                    <div class="footer-top__nav">
+                        <ul>
+                            <li v-for="link in navbarLinks" :key="link.name">
+                                <a v-if="link.target" :href="link.href" :target="link.target" class="link link_white">
+                                    {{ link.name }}
                                 </a>
-                            </li>
-                            <li>
-                                <a href="tel:+78043334133" class="footer-top-feedback__contact">
-                                    + 7 (804) 333-41-33
+
+                                <a v-else-if="link.modalName" :href="link.href" class="link link_white"
+                                    @click.prevent="modalVisible[link.modalName] = true">
+                                    {{ link.name }}
                                 </a>
-                            </li>
-                            <li>
-                                пн - чт 9:00-18:00
-                            </li>
-                            <li style="padding-bottom: 15px">
-                                пт 9:00-16:45
-                            </li>
-                            <li>Написать на почту</li>
-                            <li>
-                                <a href="mailto:dolg.info@caforward.ru" class="footer-top-feedback__contact">
-                                    dolg.info@caforward.ru
-                                </a>
+
+                                <router-link v-else :to="link.href" class="link link_white">
+                                    {{ link.name }}
+                                </router-link>
                             </li>
                         </ul>
-                        <div class="footer-top-buttons">
-                            <button @click="showModal($event)" class="button">
-                                Обратная связь
-                            </button>
-                            <!-- <li><button class="blueButt">Онлайн чат</button></li> -->
-                            <ul class="footer-top-buttons__social">
-                                <li class="iconContainer" v-for="(iconSrc, index) in iconSrcList" :key="index">
-                                    <img :src="iconSrc.src" alt="there was a icon from SM " />
-                                </li>
-                            </ul>
+                    </div>
+                    <div class="footer-top__contacts">
+                        <div class="contacts">
+                            <div class="contacts__info">
+                                <ul>
+                                    <li>
+                                        Обратная связь
+                                    </li>
+                                    <li>
+                                        <a href="tel:+78043334133" class="link link_white">
+                                            + 7 (804) 333-41-33
+                                        </a>
+                                    </li>
+                                    <li>
+                                        пн - чт 9:00-18:00
+                                    </li>
+                                    <li>
+                                        пт 9:00-16:45
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        Написать на почту
+                                    </li>
+                                    <li>
+                                        <a href="mailto:dolg.info@caforward.ru" class="link link_white">
+                                            dolg.info@caforward.ru
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="contacts__buttons">
+                                <div class="buttons">
+                                    <a href="#" class="button" @click.prevent="ModalConsultationVisible = true">
+                                        Обратная связь
+                                    </a>
+                                    <a href="#" class="button button_blue">
+                                        Онлайн-чат
+                                    </a>
+                                </div>
+
+                                <ul class="social">
+                                    <li v-for="link in socialLinks" :key="link.name">
+                                        <a :href="link.href">
+                                            <img :src="link.src" :alt="link.name">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,250 +87,302 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <ul class="footer-bottom__docs">
-                    <li v-for="(link, idx) in docsLinks" :key="idx">
-                        <a href="#" @click.prevent="openDocsModal(idx)">
-                            {{ link }}
-                        </a>
-                    </li>
-                </ul>
                 <div class="footer-bottom__inner">
-                    <div class="footer-bottom__left">
-                        <span>ООО ПКО "Форвард"</span>
+                    <ul class="docs">
+                        <li v-for="(link, idx) in docsLinks" :key="idx">
+                            <a href="#" class="link link_white" @click.prevent="openDocsModal(idx)">
+                                {{ link }}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="meta">
+                        <div class="meta__left">
+                            <span>ООО ПКО "Форвард"</span>
 
-                        <a target="_blank" href="/policy" class="footer-bottom__link">
-                            Политика конфиденциальности
+                            <a target="_blank" href="/policy" class="link link_white">
+                                Политика конфиденциальности
+                            </a>
+                        </div>
+                        <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo">
+                            Design by freepik
                         </a>
                     </div>
-                    <a class="freepik" target="_blank" href="https://ru.freepik.com/free-photo">
-                        Design by freepik
-                    </a>
                 </div>
             </div>
         </div>
     </footer>
-    <ModalConsultation v-model="modalVisible" />
-    <ModalDocs v-model="modalDocsVisible" :toShowIndex="modalDocsIndex" />
+    <ModalConsultation v-model="modalVisible.modalConsultation" />
+    <ModalDocs v-model="modalVisible.modalDocs" :toShowIndex="modalDocsIndex" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup>
+import { ref, onBeforeMount, reactive } from 'vue'
+import { useRouter } from 'vue-router';
 import ModalConsultation from "./ModalConsultation.vue";
 import ModalDocs from "./ModalDocs.vue";
 
-interface FooterItem {
-    name: string;
-    href: string;
-    fontW?: number;
-    margin?: string;
-    target?: string;
-    scroll?: string;
+const router = useRouter()
+const modalVisible = reactive({
+    modalConsultation: false,
+    modalDocs: false
+})
+
+const ModalConsultationVisible = ref(false)
+const modalDocsVisible = ref(false)
+const modalDocsIndex = ref(0)
+
+const navbarLinks = ref([
+    {
+        name: "О Компании",
+        href: "#",
+    },
+    {
+        name: "Получить рассрочку",
+        href: "#",
+    },
+    {
+        name: "Вакансии",
+        href: "#",
+    },
+    {
+        name: "Получить консультацию",
+        href: "#",
+        modalName: 'modalConsultation'
+    },
+    {
+        name: "Партнёрам",
+        href: "#",
+    },
+    {
+        name: "Внести платеж",
+        href: "/installment-plan#debt-form"
+    },
+    {
+        name: "Получить квитанцию для оплаты",
+        href: "/assets/docs/Квитанция.pdf",
+        target: "_blank"
+    },
+])
+
+const socialLinks = [
+    {
+        href: '#',
+        name: 'vk',
+        src: "/assets/images/footer/1.png"
+    },
+    {
+        href: '#',
+        name: 'telegram',
+        src: "/assets/images/footer/5.png"
+    },
+]
+
+const docsLinks = ref([
+    "Общие сведения",
+    "Учредительные документы",
+    "Эмиссионные документы",
+    "Сообщения",
+])
+
+function openDocsModal(index) {
+    modalVisible.modalDocs = true
+    modalDocsIndex.value = index
 }
 
-interface IconSrc {
-    src: string;
-}
-export default defineComponent({
-    components: {
-        ModalConsultation,
-        ModalDocs,
-    },
-    data() {
-        return {
-            modalVisible: false,
-            modalDocsVisible: false,
-            modalDocsIndex: 0,
-            isMobile: false,
-            footerArr: [
-                [
-                    { name: "О Компании", href: "#" },
-                    { name: "Вакансии", href: "#" },
-                    { name: "Партнёрам", href: "#" },
-                ],
-                [
-                    // { text: "Я не должник", href: ""  },
-                    { name: "Получить рассрочку", href: "#" },
-                    { name: "Получить консультацию", href: "#" },
-                    { name: "Внести платеж", href: "/installment-plan#debt-form" },
-                    { name: "Получить квитанцию для оплаты", href: "/assets/docs/Квитанция.pdf", target: "_blank" },
-                ]
-            ] as FooterItem[][],
-            iconSrcList: [
-                { src: "/assets/images/footer/1.png" },
-                { src: "/assets/images/footer/5.png" },
-            ] as IconSrc[],
-            docsLinks: [
-                "Общие сведения",
-                "Учредительные документы",
-                "Эмиссионные документы",
-                "Сообщения",
-            ]
-        };
-    },
-    mounted() {
-        this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
-        window.addEventListener('resize', this.updateIsMobile)
+onBeforeMount(() => {
+    const routes = router.getRoutes()
 
-    },
-    methods: {
-        showModal(event: any) {
-            event.preventDefault();
-            this.modalVisible = true;
-        },
-        closeModal() {
-            this.modalVisible = false;
-        },
-        openDocsModal(index: any) {
-            this.modalDocsIndex = index
-            this.modalDocsVisible = true
-        },
-        updateIsMobile() {
-            this.isMobile = window.innerWidth <= 1024 && window.innerWidth >= 641
-        },
-    },
-    beforeUnmount() {
-        window.removeEventListener('resize', this.updateIsMobile)
-    },
-    beforeMount() {
-        const routes = this.$router.getRoutes()
+    navbarLinks.value.forEach(item => {
+        routes.forEach(route => {
+            const routeName = String(route.name).toLowerCase()
+            const itemName = item.name.toLowerCase()
 
-        this.footerArr[0].forEach(item => {
-            routes.forEach(route => {
-                const routeName = String(route.name).toLowerCase()
-                const itemName = item.name.toLowerCase()
-
-                if (itemName === routeName) {
-                    item.href = route.path
-                }
-            })
+            if (itemName === routeName) {
+                item.href = route.path
+            }
         })
-        this.footerArr[1].forEach(item => {
-            routes.forEach(route => {
-                const routeName = String(route.name).toLowerCase()
-                const itemName = item.name.toLowerCase()
-
-                if (itemName === routeName) {
-                    item.href = route.path
-                }
-            })
-        })
-    }
-});
+    })
+})
 </script>
 
 <style lang="scss" scoped>
+.container {
+    color: #fff;
+}
+
 .footer {
-    background-color: $black;
-
-    * {
-        font-size: 14px;
-
-        &:not(.button) {
-            color: #fff;
-        }
-    }
+    padding: 70px 0 30px;
+    background-color: $black-accent;
 
     &-top {
-        padding: 70px 0 50px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
         &__inner {
             display: flex;
+            gap: 20px;
             justify-content: space-between;
-            gap: 30px;
+            padding-bottom: 50px;
         }
 
         &__logo {
+            width: 20%;
             max-width: 200px;
-            margin-bottom: 25px;
-        }
-
-        &__address {
-            font-size: 14px;
-            line-height: 171%;
-        }
-
-        &-feedback {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 25px;
 
-            &__contact {
-                font-weight: 700;
+            & .logo {
+                height: 50px;
+
+                a {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            & .address {
+                font-size: 14px;
+                line-height: 171%;
             }
         }
 
-        &__right {
-            flex: none;
-            display: flex;
-            gap: 30px;
-        }
+        &__nav {
+            flex: 1;
+            max-width: 40%;
 
-        &-buttons {
-            flex: none;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-
-            button {
-                height: 40px;
-                max-width: 180px;
-            }
-
-            &__social {
+            & ul {
                 display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 5px;
+                flex-wrap: wrap;
+                gap: 30px;
+                font-size: 14px;
+                font-weight: 500;
+
+                &>li:not(:last-child) {
+                    width: calc(50% - 15px);
+                }
             }
         }
-    }
 
-    &-nav {
-        max-width: 35%;
-
-        &__inner {
+        &__contacts {
             display: flex;
             gap: 30px;
-            margin-bottom: 30px;
-        }
 
-        &__list {
-            display: flex;
-            align-content: start;
-            gap: 30px;
-            flex-wrap: wrap;
+            & .contacts {
+                display: flex;
+                gap: 30px;
 
-            &>li {
-                width: 100%;
+                &__info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    font-size: 14px;
+
+                    & ul {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+
+                        a {
+                            font-weight: 600;
+                        }
+                    }
+                }
+
+                &__buttons {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 30px;
+
+                    .buttons {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                        width: 100%;
+
+                        &>* {
+                            font-size: 14px;
+                            height: 40px;
+                            width: 200px;
+                        }
+                    }
+
+                    .social {
+                        display: flex;
+                        gap: 5px;
+
+                        a {
+                            display: flex;
+                            width: 35px;
+                            height: 35px;
+                        }
+                    }
+                }
             }
         }
     }
 
     &-bottom {
-        padding: 20px 0 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
 
         &__inner {
+            padding-top: 20px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
-            row-gap: 15px;
-        }
+            flex-direction: column;
+            gap: 10px;
+            font-size: 14px;
+            line-height: 171%;
 
-        &__left {
-            flex-wrap: wrap;
-            display: flex;
-            gap: 30px;
-            row-gap: 15px;
-        }
+            & .docs {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+                row-gap: 5px;
+            }
 
-        &__docs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            row-gap: 15px;
-            margin-bottom: 10px;
+            & .meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+                justify-content: space-between;
+
+                &__left {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    row-gap: 5px;
+                }
+
+                &__right {}
+            }
+        }
+    }
+}
+
+@include desktop {
+    .footer {
+        &-top {
+            &__logo {
+                width: 160px;
+            }
+
+            &__nav {
+                max-width: 30%;
+
+                ul>li {
+                    width: 100%;
+
+                    &:not(:last-child) {
+                        width: 100%;
+                    }
+                }
+            }
+
+            &__contacts {
+                & .contacts__buttons {
+                    .buttons>* {
+                        width: 180px;
+                    }
+                }
+            }
         }
     }
 }
@@ -341,50 +392,43 @@ export default defineComponent({
         &-top {
             &__inner {
                 flex-wrap: wrap;
+                gap: 30px;
             }
 
-            &__right {
+            &__nav {
+                flex: none;
                 width: 100%;
-                justify-content: space-between;
+                max-width: unset;
 
-                &>* {
+                & ul>li:not(:last-child) {
                     width: calc(50% - 15px);
                 }
             }
-        }
 
-        &-nav {
-            max-width: 48%;
-        }
-    }
-}
+            &__contacts {
+                width: 100%;
 
-@include tablet {
-    .footer {
-        &-top {
-            &__inner {
-                flex-wrap: wrap;
-            }
+                .contacts {
+                    flex-wrap: wrap;
+                    width: 100%;
+                    justify-content: space-between;
 
-            &__right {
-                flex-wrap: wrap;
+                    &>* {
+                        width: calc(50% - 15px);
+                    }
 
-                &>* {
-                    min-width: max-content;
+                    &__info {
+                        ul {
+                            gap: 15px;
+                        }
+                    }
+
+                    &__buttons {
+                        .buttons>* {
+                            width: 180px;
+                        }
+                    }
                 }
-            }
-
-            &__logo {
-                max-width: 160px;
-                margin-bottom: 20px;
-            }
-        }
-
-        &-nav {
-            max-width: 100%;
-
-            &__list {
-                width: calc(50% - 15px);
             }
         }
     }
@@ -392,17 +436,30 @@ export default defineComponent({
 
 @include mobile {
     .footer {
-        &-top {}
+        &-top {
+            &__nav {
+                ul {
+                    gap: 25px;
 
-        &-nav {
-            &__inner {
-                flex-wrap: wrap;
+                    &>li:not(:last-child) {
+                        width: 100%;
+                    }
+                }
             }
 
-            max-width: 100%;
+            &__contacts {
+                .contacts {
+                    &>* {
+                        width: 100%;
+                    }
 
-            &__list {
-                width: 100%;
+                    &__buttons {
+                        .buttons>* {
+                            width: 100%;
+                            max-width: 260px;
+                        }
+                    }
+                }
             }
         }
     }
