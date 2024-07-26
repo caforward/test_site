@@ -16,27 +16,31 @@
                     <div class="footer-nav">
                         <div class="footer-nav__inner">
                             <ul class="footer-nav__list" v-for="(listElem, index) in footerArr" :key="index">
-                                <li v-for="footerItem in listElem" :key="footerItem.name">
+                                <li v-for="item in listElem" :key="item.name">
 
-                                    <a v-if="footerItem.name === 'Внести платеж'" class="header-bottom-nav__link"
+                                    <a v-if="item.name === 'Внести платеж'" class="header-bottom-nav__link"
                                         href="/installment-plan#debt-form">
-                                        {{ footerItem.name }}
+                                        {{ item.name }}
                                     </a>
 
-                                    <router-link v-else-if="footerItem.href !== '#'" :to="footerItem.href"
-                                        class="header-bottom-nav__link">
-                                        {{ footerItem.name }}
+                                    <a v-else-if="item.name === 'Получить консультацию'" @click.stop="showModal"
+                                        class="header-bottom-nav__link" :href="item.href">
+                                        {{ item.name }}
+                                    </a>
+
+                                    <a v-else-if="item.href.includes('#')" class="header-bottom-nav__link"
+                                        :href="item.href">
+                                        {{ item.name }}
+                                    </a>
+
+                                    <a v-else-if="item.target" class="header-bottom-nav__link" :href="item.href"
+                                        :target="item.target">
+                                        {{ item.name }}
+                                    </a>
+
+                                    <router-link v-else :to="item.href" class="header-bottom-nav__link test">
+                                        {{ item.name }}
                                     </router-link>
-
-                                    <a v-else-if="footerItem.name === 'Получить консультацию'" @click.stop="showModal"
-                                        class="header-bottom-nav__link" :href="footerItem.href">
-                                        {{ footerItem.name }}
-                                    </a>
-
-                                    <a v-else class="header-bottom-nav__link" :href="footerItem.href">
-                                        {{ footerItem.name }}
-                                    </a>
-
                                 </li>
                             </ul>
                         </div>

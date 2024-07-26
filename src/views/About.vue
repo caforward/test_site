@@ -20,10 +20,6 @@ import Advantages from "../components/About/Advantages.vue"
 import Trust from "../components/About/Trust.vue"
 import Faq from "../components/About/Faq.vue"
 import FormFooter from "../components/About/FormFooter.vue"
-
-onMounted(() => {
-    window.scrollTo(0,0)
-})
 </script>
 
 <style></style>

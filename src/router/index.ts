@@ -14,13 +14,34 @@ const routes = [
     { path: "/jobs", name: 'Вакансии', component: Jobs },
     { path: "/about", name: 'О компании', component: About },
     { path: "/for-partners", name: 'Партнёрам', component: PartnerPage },
-    { path: "/installment-plan", name: 'Получить рассрочку', component: Installment },
     { path: "/policy", name: 'Политика конфиденциальности', component: Policy },
+    {
+        path: "/installment-plan",
+        name: 'Получить рассрочку',
+        component: Installment
+    },
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+
+        if (from) {}
+
+        // return desired position
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth',
+            }
+        }
+
+        return { top: 0 }
+    },
 });
 
 export default router;

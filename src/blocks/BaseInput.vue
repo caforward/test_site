@@ -98,6 +98,15 @@ watch(
     }
 )
 
+watch(
+    () => props.options,
+    (options) => {
+        if (input.value && !options.includes(input.value)) {
+            input.value = options[options.length - 1]
+        }
+    }
+)
+
 // обновляет текст ошибки инпута и класс видимости ошибки
 // emits событие @error для перехвата в родительском компоненте
 function updateInputState() {
@@ -184,11 +193,6 @@ function checkTelInputErrors() {
     return ''
 }
 
-// date
-function formatDateToCalend(date) {
-
-}
-
 </script>
 
 <template>
@@ -202,7 +206,7 @@ function formatDateToCalend(date) {
 
         <DatePicker v-else-if="props.type === 'date'" v-model="input.value" dateFormat="dd.mm.yy" showIcon
             iconDisplay="input" :manualInput="false" :minDate="new Date()" :name="input.name" :placeholder="placeholder"
-            :class="input.class" :disabled="props.disabled" @date-select="formatDateToCalend" />
+            :class="input.class" :disabled="props.disabled" />
 
         <input v-else-if="props.type === 'tel'" :name="name" :type="type" :placeholder="placeholder"
             :class="input.class" v-model.trim="input.value" v-mask="'+7 (###) ###-##-##'" :disabled="props.disabled">
