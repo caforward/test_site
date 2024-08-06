@@ -1,6 +1,7 @@
 <script setup>
 import { watch } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue'
+import BaseRateForm from '../blocks/BaseRateForm.vue';
 
 const visible = defineModel()
 
@@ -30,6 +31,8 @@ watch(
                         Ваше обращение отправлено
                     </p>
 
+                    <BaseRateForm />
+
                     <button class="button button_blue" @click="visible = false">
                         Вернуться на сайт
                     </button>
@@ -41,7 +44,7 @@ watch(
 
 <style lang="scss" scoped>
 :deep(.modal__body) {
-    top: 30%;
+    top: 15%;
 }
 
 .modal {
@@ -52,7 +55,7 @@ watch(
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
     }
 
     &__title {
@@ -62,7 +65,7 @@ watch(
     }
 
     &__text {
-        font-size: 18px;
+        font-size: 21px;
     }
 }
 </style>
