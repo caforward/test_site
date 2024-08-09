@@ -3,6 +3,13 @@ import { watch } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue'
 import BaseRateForm from '../blocks/BaseRateForm.vue';
 
+const props = defineProps({
+    needRate: {
+        default: true,
+        type: Boolean
+    }
+})
+
 const visible = defineModel()
 
 watch(
@@ -31,9 +38,9 @@ watch(
                         Ваше обращение отправлено
                     </p>
 
-                    <BaseRateForm />
+                    <BaseRateForm v-if="needRate" @close="visible = false" />
 
-                    <button class="button button_blue" @click="visible = false">
+                    <button v-else class="button button_blue" @click="visible = false">
                         Вернуться на сайт
                     </button>
                 </div>

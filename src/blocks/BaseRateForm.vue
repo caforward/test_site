@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useFetchPost } from '@/composable/useFetch.js'
 
+const emits = defineEmits(['close'])
 const starCount = 5
 const choosedRate = ref(null)
 const messageRate = ref('')
@@ -55,6 +56,8 @@ async function sendRate() {
         } else {
             console.log('error', response.status)
         }
+
+        emits('close')
     }
 }
 
@@ -72,27 +75,39 @@ onMounted(() => {
         <span>
             Пожалуйста, оцените качество работы сайта
         </span>
+        <!-- rate stars -->
         <ul ref='starListWrapper' class="rate-list">
             <li ref="starList" v-for="star in starCount" :key="star" class="rate-list__star pi pi-star-fill"></li>
         </ul>
-        <transition name="fade">
-            <div v-if="rateClicked" class="rate__bottom">
-                <transition name="fade-feedback">
-                    <div v-if="choosedRate < 5">
-                        <div class="rate-input__wrapper">
-                            <label for="rate-message" class="rate-input__label">
-                                Напишите что мы могли бы изменить
-                            </label>
-                            <textarea class="rate-input" name="" id="rate-message" v-model="messageRate"
-                                placeholder="Ваши предложения для улучшения сайта"></textarea>
-                        </div>
+
+        <div class="rate__bottom">
+            <!-- user input field if rate less than 5 -->
+            <transition name="fade-feedback">
+                <div v-if="rateClicked && choosedRate < 5">
+                    <div class="rate-input__wrapper">
+                        <label for="rate-message" class="rate-input__label">
+                            Напишите что мы могли бы изменить
+                        </label>
+                        <textarea class="rate-input" name="" id="rate-message" v-model="messageRate"
+                            placeholder="Ваши предложения для улучшения сайта"></textarea>
                     </div>
-                </transition>
-                <button class="rate__button button button_blue" type="submit" @click.prevent="sendRate">
-                    Отправить оценку
+                </div>
+            </transition>
+
+            <div class="rate__buttons">
+                <button class="button button_blue" @click.prevent="emits('close')">
+                    Вернуться на сайт
                 </button>
+
+                <!-- if user pick the rate then show send button -->
+                <transition name="fade">
+                    <button v-if="rateClicked" type="submit" class="rate__button button button_blue"
+                        @click.prevent="sendRate">
+                        Отправить оценку
+                    </button>
+                </transition>
             </div>
-        </transition>
+        </div>
     </form>
 </template>
 
@@ -133,14 +148,16 @@ onMounted(() => {
         gap: 10px;
     }
 
-    &__button {
-        margin: 20px auto 0;
+    &__buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
     }
 
     &-input {
         border: 1px solid $white-blue;
         border-radius: 5px;
-        max-width: 400px;
         height: 140px;
         padding: 10px;
         resize: none;
