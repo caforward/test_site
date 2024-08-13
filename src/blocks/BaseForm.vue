@@ -151,7 +151,7 @@ async function handleSubmit() {
 
         if (response.value.ok) {
             console.log("Сообщение успешно отправлено");
-
+            
             resetInputTrigger.value = true
             clearInputs()
             emit("submitted")

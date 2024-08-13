@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->setFrom('site-no-reply@caforward.ru', 'Сообщение с сайта');
         $mail->addAddress('dolg.info@caforward.ru');
 
-        $subject = 'Новое сообщение с сайта';
+        $subject = 'Оценка сайта пользователем';
         $mail->Subject = mb_encode_mimeheader($subject, 'UTF-8');
         $mail->isHTML(true);
         $mail->Body = $htmlContent;
