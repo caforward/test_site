@@ -1,7 +1,24 @@
 <template>
     <div class="slider">
-        <swiper class="swiper slider" :slides-per-view="2" :space-between="50" @swiper="onSwiper" :loop="true"
-            :breakpoints="{ 1230: { slidesPerView: 6 }, 1022: { slidesPerView: 5 }, 639: { slidesPerView: 4 }, 520: { slidesPerView: 3 } }">
+        <swiper class="swiper slider" :slides-per-view="2" :space-between="50" @swiper="onSwiper"
+            :breakpoints="{
+                1230: {
+                    slidesPerView: 6,
+                    slidesPerGroup: 5
+                },
+                1022: {
+                    slidesPerView: 5,
+                    slidesPerGroup: 5
+                },
+                639:
+                {
+                    slidesPerView: 4,
+                    slidesPerGroup: 4
+                }, 520: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 2
+                }
+            }">
 
             <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">
                 <img :src="'/assets/images/' + item.img" :alt=item.name>
@@ -159,18 +176,18 @@ export default {
             object-fit: contain;
             width: 100%;
             height: 100%;
-            
-            filter: saturate(0);
-            opacity: .5;
-            transition: opacity .2s, filter .2s;
+
+            // filter: saturate(0);
+            // opacity: .5;
+            // transition: opacity .2s, filter .2s;
         }
 
-        &.swiper-slide-active {
-            img {
-                filter: saturate(1);
-                opacity: 1;
-            }
-        }
+        // &.swiper-slide-active {
+        //     img {
+        //         filter: saturate(1);
+        //         opacity: 1;
+        //     }
+        // }
     }
 
     &-nav {
