@@ -59,7 +59,7 @@ export default {
 </script>
 
 <template>
-    <section class="form">
+    <section id="join-crew-form" class="form">
         <div class="container">
             <div class="form__inner">
                 <div class="plates">
@@ -103,7 +103,8 @@ export default {
 
 <style lang="scss" scoped>
 section {
-    padding: 70px 0 150px;
+    margin-top: -80px;
+    padding: 150px 0 150px;
 }
 
 .plates {

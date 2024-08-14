@@ -10,16 +10,18 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
                 <template v-slot:content>
                     <div class="intro-content">
                         <BaseBreadcrumb class="breadcrumb" />
-                        <h1 class="intro-content__title">
-                            Будь в команде мечты Развивайся и покоряй высоты
-                        </h1>
-                        <p class="intro-content__text">
-                            На данный момент в ООО Форвард открыты следующие вакансии. Если вы хотите работать в
-                            современной и перспективной финансовой компании – свяжитесь с нами.
-                        </p>
-                        <a href="#" class="button button_blue intro-content__button">
+                        <div class="intro-content__wrapper">
+                            <h1 class="intro-content__title">
+                                Будь в команде мечты Развивайся и покоряй высоты
+                            </h1>
+                            <p class="intro-content__text">
+                                На данный момент в ООО Форвард открыты следующие вакансии. Если вы хотите работать в
+                                современной и перспективной финансовой компании – свяжитесь с нами.
+                            </p>
+                        </div>
+                        <!-- <a href="#" class="button button_blue intro-content__button">
                             Смотреть вакансии
-                        </a>
+                        </a> -->
                     </div>
                 </template>
                 <template v-slot:img>
@@ -46,7 +48,6 @@ section {
     font-size: 14px;
     line-height: 143%;
     color: $gray-dark;
-    margin-bottom: 30px;
 }
 
 .intro {
@@ -76,6 +77,13 @@ section {
         padding: 60px 0 60px;
         width: 50%;
 
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
         &__title {
             margin-bottom: 25px;
         }
@@ -84,7 +92,6 @@ section {
             font-weight: 600;
             font-size: 18px;
             line-height: 162%;
-            margin-bottom: 25px;
         }
 
         &__text {
