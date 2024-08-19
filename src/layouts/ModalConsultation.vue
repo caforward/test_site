@@ -3,6 +3,8 @@ import { ref, watch } from "vue";
 import BaseModal from '../blocks/BaseModal.vue';
 import FormBlock from "../blocks/FormBlock.vue";
 import ModalThank from "./ModalThank.vue";
+import BaseFormNew from "../blocks/BaseFormNew.vue";
+import BaseForm from "../blocks/BaseForm.vue";
 
 const visible = defineModel()
 const thankModalVisible = ref(false)
@@ -19,7 +21,7 @@ const inputs = ref([
 		name: 'name',
 		type: 'text',
 		placeholder: 'ФИО*',
-		required: true
+		required: true,
 	},
 	{
 		name: 'tel',
@@ -34,15 +36,33 @@ const inputs = ref([
 	},
 	{
 		name: 'messageType',
-		type: 'v-select',
+		type: 'select',
 		placeholder: 'Тема обращения*',
-		value: '',
+		required: true,
+		value: {
+			name: "Прошу перезвонить",
+			code: "callback"
+		},
 		options: [
-			"Прошу перезвонить",
-			"Узнать номер договора",
-			"Разблокировать счет",
-			"Рассрочка",
-			"Другое",
+			{
+				name: "Прошу перезвонить",
+				code: "callback"
+			},
+			{
+				name: "Узнать номер договора",
+				code: "getContractNumber"
+			},
+			{
+				name: "Разблокировать счет",
+				code: "unblockAccaunt"
+			},
+			{
+				name: "Рассрочка",
+				code: "installment"
+			},
+			{
+				name: "Другое",
+			},
 		],
 	},
 	{
@@ -86,7 +106,7 @@ watch(
 				<h3 class="modal__title">
 					Заполните поля в форме ниже, и мы свяжемся с Вами. 
 				</h3>
-				<FormBlock :inputs="inputs" @submitted="showTnankModal" />
+				<BaseFormNew :inputs="inputs" :grayForm="true" @submitted="showTnankModal" />
 			</template>
 		</BaseModal>
 	</transition>

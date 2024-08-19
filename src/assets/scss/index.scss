@@ -1,19 +1,30 @@
-@import '/src/assets/scss/base/mixins.scss';
-@import '/src/assets/scss/base/variables.scss';
-@import '/src/assets/scss/base/animations';
+@import "/src/assets/scss/base/mixins.scss";
+@import "/src/assets/scss/base/variables.scss";
+@import "/src/assets/scss/base/animations";
 
-@import '/src/assets/scss/libs/normalize';
-@import '/src/assets/scss/libs/fonts';
+@import "/src/assets/scss/libs/normalize";
+@import "/src/assets/scss/libs/fonts";
 
-@import '/src/assets/scss/blocks/default';
-@import '/src/assets/scss/blocks/container';
-@import '/src/assets/scss/blocks/button';
-@import '/src/assets/scss/blocks/header';
-@import '/src/assets/scss/blocks/input';
-@import '/src/assets/scss/blocks/heading';
-@import '/src/assets/scss/blocks/list';
-@import '/src/assets/scss/blocks/link';
-@import '/src/assets/scss/blocks/datepicker';
+@import "/src/assets/scss/blocks/default";
+@import "/src/assets/scss/blocks/container";
+@import "/src/assets/scss/blocks/button";
+@import "/src/assets/scss/blocks/header";
+@import "/src/assets/scss/blocks/input";
+@import "/src/assets/scss/blocks/heading";
+@import "/src/assets/scss/blocks/list";
+@import "/src/assets/scss/blocks/link";
+@import "/src/assets/scss/blocks/datepicker";
 
-// @import 'vue-select/dist/vue-select.css';
-// @import 'nouislider/dist/nouislider.css';
+/* // @import 'vue-select/dist/vue-select.css';
+// @import 'nouislider/dist/nouislider.css'; */
+
+.p-inputtext,
+.p-textarea,
+.p-select {
+    &.p-filled {
+        border-color: $blue;
+    }
+    &.p-inputwrapper-filled { 
+        border-color: $blue;
+    }
+}

@@ -56,7 +56,7 @@ const input = reactive({
 
 onBeforeMount(() => {
     input.class.push(input.defaultClass)
-
+    
     if (props.value) {
         updateInputState()
     }
