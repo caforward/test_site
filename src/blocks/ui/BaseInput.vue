@@ -42,6 +42,7 @@ const value = defineModel()
 const isInvalid = ref(null)
 
 const input = ref(null)
+const inputName = ref(null)
 const errorText = ref('Заполните поле')
 const showError = ref(false)
 
@@ -60,19 +61,29 @@ const readyToSubmit = (computed(() => {
 }))
 
 function showErrorHandler() {
-    isInvalid.value = true
-    showError.value = true
+    if (props.required) {
+        if (isInvalid.value === null) {
+            isInvalid.value = true
+        }
+    
+        showError.value = true
+    }
 }
 
 defineExpose({
     input,
+    inputName,
     readyToSubmit,
     showErrorHandler
 })
 
 onMounted(() => {
+    inputName.value = props.name
+
     if (value.value) {
         isInvalid.value = false
+        showError.value = true
+        errorText.value = ''
     }
 })
 
@@ -100,7 +111,7 @@ function validateInputValue(inputValue) {
 
 function validateInputUserName(value) {
     const hasAtLeastTwoWords = /\D{2,}\s+\D{2,}/g.test(value)
-
+    
     if (value && hasAtLeastTwoWords) {
         isInvalid.value = false
         errorText.value = ''
@@ -147,36 +158,39 @@ function isEmpty(value) {
         <!-- ФИО -->
         <InputText ref="input" v-if="props.type === 'text'" :invalid="isInvalid" v-model="value" type="text"
             class="w-full" placeholder="ФИО*" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showError = true" />
+            @blur="showErrorHandler" />
 
         <!-- E-mail -->
         <InputText ref="input" v-if="props.type === 'email'" :invalid="isInvalid" v-model="value" type="email"
             class="w-full" placeholder="E-mail*" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showError = true" />
+            @blur="showErrorHandler" />
 
         <!-- Телефон -->
         <InputMask ref="input" v-if="props.type === 'tel'" :invalid="isInvalid" v-model="value" type="tel"
-            class="w-full" mask="+7 (999) 999-99-99" :autoClear="false" placeholder="Номер телефона*"
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showError = true" />
+            class="w-full" mask="+7 999 999-99-99" :autoClear="false" placeholder="Номер телефона*"
+            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Select -->
         <Select ref="input" v-if="props.type === 'select'" :invalid="isInvalid" v-model="value" class="w-full"
             :options="options" optionLabel="name" placeholder="Тема обращения*" showClear :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showError = true" />
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :invalid="isInvalid" v-model="value" type="textarea"
             class="w-full max-h-48 min-h-28" placeholder="Кратко опишите Ваш вопрос*" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showError = true" />
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :invalid="isInvalid" v-model="value" showIcon fluid
             iconDisplay="input" placeholder="Дата" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showError = true" />
+            @blur="showErrorHandler" />
 
         <!-- Ошибка инпута -->
-        <span v-if="showError" class="absolute bottom-0 left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md">
-            {{ errorText }}
-        </span>
+        <transition name="fade">
+            <span v-if="showError"
+                class="absolute bottom-0 left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md">
+                {{ errorText }}
+            </span>
+        </transition>
     </div>
 </template>

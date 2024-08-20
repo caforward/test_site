@@ -8,6 +8,7 @@ import BaseForm from "../blocks/BaseForm.vue";
 
 const visible = defineModel()
 const thankModalVisible = ref(false)
+const resp = ref(null)
 
 const props = defineProps({
 	selectDefaultOption: {
@@ -72,7 +73,8 @@ const inputs = ref([
 	}
 ])
 
-function showTnankModal() {
+function showTnankModal(response) {
+	resp.value = response
 	visible.value = false
 	thankModalVisible.value = true
 }
@@ -95,6 +97,13 @@ watch(
 			document.body.style.paddingRight = ''
 			document.body.style.overflow = ''
 		}
+	}
+)
+
+watch(
+	() => resp.value,
+	(val) => {
+		console.log(val, 'changed')
 	}
 )
 </script>

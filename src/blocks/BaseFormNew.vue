@@ -1,6 +1,6 @@
 <script setup>
 // imports
-import { ref, onBeforeMount, watch, onMounted, reactive } from 'vue'
+import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 import BaseInput from './ui/BaseInput.vue'
 import Badge from 'primevue/badge';
 import Checkbox from 'primevue/checkbox';
@@ -32,27 +32,72 @@ const props = defineProps({
 })
 
 // for form
-const consent = ref(false)
-const response = ref(null)
-
-const formData = reactive({})
 const formInputs = reactive({})
 const formDOMElement = ref(null)
+
 const inputRefs = ref(null)
+const consent = ref(null)
+const response = ref(null)
+
+const consentInvalid = (computed(() => {
+    if (consent.value === null) {
+        return null
+    }
+
+    return !consent.value
+}))
+
+
+function isFormValid() {
+    const invalidInputs = inputRefs.value.filter(inputRef => !inputRef.readyToSubmit)
+
+    if (consent.value === null) {
+        consent.value = false
+    }
+
+    if (invalidInputs.length || consentInvalid.value) {
+        // Показать пользователю ошибки на инпутах
+        invalidInputs.forEach(inputRef => {
+            inputRef.showErrorHandler()
+            console.log(inputRef.inputName, inputRef.readyToSubmit)
+        })
+
+        if (consentInvalid.value) {
+            console.log('consent', consent.value)
+        }
+
+        return false
+    } else {
+        return true
+    }
+}
 
 function submitForm() {
-    if (inputRefs.value) {
+    if (isFormValid()) {
+        const formData = new FormData()
 
-        const invalidInputs = inputRefs.value.filter(inputRef => !inputRef.readyToSubmit)
+        Object.keys(formInputs).forEach(key => {
+            if (key === 'messageType') {
+                formData.append(key, formInputs[key].value.name)
+            } else {
+                formData.append(key, formInputs[key].value)
+            }
+        })
 
-        if (invalidInputs) {
-            // Показать пользователю ошибки на инпутах
-            invalidInputs.forEach(inputRef => {
-                inputRef.showErrorHandler()
-            })
-        } else {
+        // formData.entries().forEach(key => {
+        //     console.log(key)
+        // })
 
-        }
+        response.value = fetch('/email.php', {
+            method: 'POST',
+            body: formData
+        })
+
+        emit('submitted', response.value)
+
+        console.log('submit')
+    } else {
+        console.log('form is not valid')
     }
 }
 
@@ -76,7 +121,7 @@ onMounted(() => {
 watch(
     () => formInputs,
     (value) => {
-        console.log('changed', value)
+        // console.log('changed', value)
     },
     {
         deep: true,
@@ -144,7 +189,7 @@ watch(
             </div>
             <div class="form-bottom">
                 <div class="form-bottom-meta">
-                    <Checkbox inputId="form-input-consent" v-model="consent" :binary="true" />
+                    <Checkbox :invalid="consentInvalid" inputId="form-input-consent" v-model="consent" :binary="true" />
                     <label for="form-input-consent" class="form-bottom-meta__label">
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
