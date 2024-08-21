@@ -2,13 +2,13 @@
 import { ref, watch } from "vue";
 import BaseModal from '../blocks/BaseModal.vue';
 import FormBlock from "../blocks/FormBlock.vue";
-import ModalThank from "./ModalThank.vue";
-import BaseFormNew from "../blocks/BaseFormNew.vue";
+// import ModalThank from "./ModalThank.vue";
+import BaseFormNew from "../blocks/form/BaseFormNew.vue";
 import BaseForm from "../blocks/BaseForm.vue";
 
 const visible = defineModel()
 const thankModalVisible = ref(false)
-const resp = ref(null)
+const promise = ref(null)
 
 const props = defineProps({
 	selectDefaultOption: {
@@ -73,10 +73,9 @@ const inputs = ref([
 	}
 ])
 
-function showTnankModal(response) {
-	resp.value = response
+function showTnankModal() {
 	visible.value = false
-	thankModalVisible.value = true
+	// thankModalVisible.value = true
 }
 
 watch(
@@ -99,27 +98,20 @@ watch(
 		}
 	}
 )
-
-watch(
-	() => resp.value,
-	(val) => {
-		console.log(val, 'changed')
-	}
-)
 </script>
 
 <template>
 	<transition name="fade">
 		<BaseModal id="requisites" v-if="visible" @closeModal="visible = false">
 			<template #body>
-				<h3 class="modal__title">
+				<div class="sm:text-2xl text-xl font-bold mb-5">
 					Заполните поля в форме ниже, и мы свяжемся с Вами. 
-				</h3>
-				<BaseFormNew :inputs="inputs" :grayForm="true" @submitted="showTnankModal" />
+				</div>
+				<BaseFormNew :inputs="inputs" :grayForm="true" @submitted="showTnankModal" @closeModal="visible = false" />
 			</template>
 		</BaseModal>
 	</transition>
-	<ModalThank v-model="thankModalVisible" />
+	<!-- <ModalThank v-model="thankModalVisible" /> -->
 </template>
 
 <style lang="scss" scoped>

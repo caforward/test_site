@@ -7,7 +7,7 @@ const emit = defineEmits(['closeModal'])
 		<slot></slot>
 		<div v-if="$slots.body" class="modal__body">
 			<button class="modal__close" @click="emit('closeModal')">
-				<img src="/assets/images/close_x/Vector.png" alt="krestik" />
+				<i class="pi pi-times !text-xl"></i>
 			</button>
 
 			<slot name="body"></slot>
@@ -45,10 +45,10 @@ const emit = defineEmits(['closeModal'])
 
 	&__close {
 		position: absolute;
-		top: 20px;
-		right: 25px;
-		width: 18px;
-		height: 18px;
+		top: 0;
+		right: 0;
+		width: 60px;
+		height: 60px;
 		z-index: 2;
 	}
 }
@@ -57,7 +57,12 @@ const emit = defineEmits(['closeModal'])
 	.modal {
 		&__body {
 			border-radius: 22px;
-			padding: 25px 25px;
+			padding: 40px 25px;
+		}
+
+		&__close {
+			width: 50px;
+			height: 50px;
 		}
 	}
 }

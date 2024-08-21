@@ -1,27 +1,70 @@
 <script setup>
+import Button from 'primevue/button';
+import { watch } from 'vue';
+
+const emit = defineEmits(['closeParentModal'])
+
 const visible = defineModel('visible')
 const status = defineModel('status')
+
+function showStatus() {
+    console.log(status.value)
+}
+
+function closeOverlay() {
+    visible.value = false
+    status.value = null
+}
+
+function closeModal() {
+    closeOverlay()
+    emit('closeParentModal')
+}
 </script>
 
 <template>
-    <div v-if="visible" class="overlay overlay_thank">
-        <span class="icon">
-            <i class="pi pi-check" style="font-size: 4rem"></i>
-        </span>
-        <!-- <span v-if="status === ''" class="icon">
-            <i class="pi pi-check" style="font-size: 4rem"></i>
-        </span> -->
+    <transition name="fade">
+        <div v-if="visible" class="overlay text-slate-900 flex flex-col items-center">
+            <span v-if="status === null" class="icon">
+                <i class="pi pi-spin pi-spinner !text-8xl text-sky-600"></i>
+            </span>
 
-        <div class="overlay__text">
-            Спасибо!
+            <div v-else class="flex flex-col items-center gap-4">
+                <div v-if="status.ok" class="flex flex-col gap-4 items-center">
+                    <span class="icon">
+                        <i class="pi pi-check-circle !text-8xl text-sky-600"></i>
+                    </span>
+                    <div class="flex flex-col gap-1 items-center">
+                        <div class="font-bold text-2xl">
+                            Спасибо!
+                        </div>
+                        <p class="text-xl">
+                            Ваше обращение отправлено.
+                        </p>
+                    </div>
+                </div>
+
+                <div v-else-if="!status.ok" class="flex flex-col gap-6 items-center">
+                    <span class="icon">
+                        <i class="pi pi-times-circle !text-8xl text-red-400"></i>
+                    </span>
+                    <div class="flex flex-col gap-1 items-center">
+                        <div class="font-bold text-2xl">
+                            Ошибка
+                        </div>
+                        <p class="text-xl text-center">
+                            Кажется что-то пошло не так, попробуйте<br> отправить обращение ещё раз.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <Button label="Вернуться на страницу" size="large" severity="secondary" @click="closeModal" />
+                    <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right" @click="closeOverlay" />
+                </div>
+            </div>
         </div>
-        {{ status }}
-        <div>
-            <button class="button button_blue">
-                Вернуться на страницу
-            </button>
-        </div>
-    </div>
+    </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -31,35 +74,9 @@ const status = defineModel('status')
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 20px;
     background-color: #fff;
     border-radius: 30px;
     z-index: 1;
-
-    .icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $blue;
-        border: 4px solid $blue;
-        border-radius: 100%;
-        width: 6rem;
-        height: 6rem;
-
-        &>.pi {
-            &-check {
-                margin-left: 4px;
-            }
-        }
-    }
-
-    &__text {
-        font-size: 20px;
-        font-weight: 500;
-    }
 }
 </style>

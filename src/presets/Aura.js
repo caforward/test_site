@@ -16,10 +16,31 @@ const colors = {
 
     // blue
     blue: '#0096d8',
+    blueAccent: '#20afce',
+    blueAccentDarker: '#20a3bf',
 }
 
 export default definePreset(Aura, {
+    semantic: {
+        colorScheme: {
+            light: {
+                primary: {
+                    color: colors.blue,
+                    contrastColor: '#ffffff',
+                    hoverColor: colors.blueAccent,
+                    activeColor: colors.blueAccentDarker,
+                },
+            },
+        },
+    },
     components: {
+        button: {
+            borderRadius: '30',
+            lg: {
+                paddingX: '30',
+                paddingY: '14',
+            },
+        },
         inputtext: {
             background: 'transparent',
             borderColor: colors.gray,
@@ -104,6 +125,6 @@ export default definePreset(Aura, {
                 hoverBackground: colors.white,
                 hoverBorderColor: colors.blue
             }
-        }
+        },
     }
 })

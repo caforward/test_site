@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue'
 import BaseRateForm from '../blocks/BaseRateForm.vue';
 
@@ -7,6 +7,10 @@ const props = defineProps({
     needRate: {
         default: true,
         type: Boolean
+    },
+    promise: {
+        default: null,
+        type: Promise
     }
 })
 

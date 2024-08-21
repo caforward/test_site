@@ -1,20 +1,22 @@
 <script setup>
 // imports
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
-import BaseInput from './ui/BaseInput.vue'
-import Badge from 'primevue/badge';
+
+import BaseInput from '../ui/BaseInput.vue';
+import Button from 'primevue/button';
+import OverlayThank from '../../layouts/OverlayThank.vue';
 import Checkbox from 'primevue/checkbox';
 
 // composables
 
-import { useFetchPost } from '@/composable/useFetch.js'
-import { getDottedDate } from '@/composable/useCalendar.js'
-import { useValueFormat } from '@/composable/useValueFormat.js'
-import BaseInstallment from './BaseInstallment.vue';
+// import { useFetchPost } from '@/composable/useFetch.js'
+// import { getDottedDate } from '@/composable/useCalendar.js'
+// import { useValueFormat } from '@/composable/useValueFormat.js'
+// import BaseInstallment from './BaseInstallment.vue';
 
 // variables
 
-const emit = defineEmits(['submitted'])
+const emit = defineEmits(['submitted', 'closeModal'])
 
 const props = defineProps({
     inputs: {
@@ -34,10 +36,12 @@ const props = defineProps({
 // for form
 const formInputs = reactive({})
 const formDOMElement = ref(null)
-
 const inputRefs = ref(null)
 const consent = ref(null)
 const response = ref(null)
+const overlayThankVisible = ref(false)
+
+// functions
 
 const consentInvalid = (computed(() => {
     if (consent.value === null) {
@@ -72,7 +76,7 @@ function isFormValid() {
     }
 }
 
-function submitForm() {
+async function submitForm() {
     if (isFormValid()) {
         const formData = new FormData()
 
@@ -88,18 +92,24 @@ function submitForm() {
         //     console.log(key)
         // })
 
-        response.value = fetch('/email.php', {
-            method: 'POST',
-            body: formData
-        })
+        // emit('submitted')
+        overlayThankVisible.value = true
 
-        emit('submitted', response.value)
-
-        console.log('submit')
+        try {
+            // response.value = await fetch('email.php', {
+            //     method: 'POST',
+            //     body: formData
+            // })
+            response.value = await fetch('https://jsonplaceholder.typicode.com/users/10')
+        } catch {
+            response.value = { ok: false }
+        }
     } else {
         console.log('form is not valid')
     }
 }
+
+// hooks
 
 onBeforeMount(() => {
     props.inputs.forEach(input => {
@@ -116,17 +126,6 @@ onMounted(() => {
         formDOMElement.value.classList.add('form_gray')
     }
 })
-
-// watchers
-watch(
-    () => formInputs,
-    (value) => {
-        // console.log('changed', value)
-    },
-    {
-        deep: true,
-    }
-)
 
 </script>
 
@@ -196,12 +195,11 @@ watch(
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
                     </label>
                 </div>
-                <button class="button button_blue form-bottom__button" @click.prevent="submitForm">
-                    Отправить
-                </button>
+                <Button class="sm:w-fit w-full min-w-60" label="Отправить" size="large" @click.prevent="submitForm" />
             </div>
         </div>
     </form>
+    <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response" @closeParentModal="emit('closeModal')" />
 </template>
 
 <style lang="scss" scoped>
