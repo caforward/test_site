@@ -2,9 +2,8 @@
 import { ref, watch } from "vue";
 import BaseModal from '../blocks/BaseModal.vue';
 import FormBlock from "../blocks/FormBlock.vue";
+import BaseForm from "../blocks/form/BaseForm.vue";
 // import ModalThank from "./ModalThank.vue";
-import BaseFormNew from "../blocks/form/BaseFormNew.vue";
-import BaseForm from "../blocks/BaseForm.vue";
 
 const visible = defineModel()
 const thankModalVisible = ref(false)
@@ -63,14 +62,15 @@ const inputs = ref([
 			},
 			{
 				name: "Другое",
+				code: "other"
 			},
 		],
 	},
-	{
-		name: 'message',
-		type: 'textarea',
-		placeholder: 'Кратко опишите Ваш вопрос*',
-	}
+	// {
+	// 	name: 'message',
+	// 	type: 'textarea',
+	// 	placeholder: 'Кратко опишите Ваш вопрос*',
+	// }
 ])
 
 function showTnankModal() {
@@ -107,7 +107,7 @@ watch(
 				<div class="sm:text-2xl text-xl font-bold mb-5">
 					Заполните поля в форме ниже, и мы свяжемся с Вами. 
 				</div>
-				<BaseFormNew :inputs="inputs" :grayForm="true" @submitted="showTnankModal" @closeModal="visible = false" />
+				<BaseForm :inputs="inputs" :grayForm="true" @submitted="showTnankModal" @closeModal="visible = false" />
 			</template>
 		</BaseModal>
 	</transition>

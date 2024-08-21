@@ -2,10 +2,11 @@
 // imports
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 
-import BaseInput from '../ui/BaseInput.vue';
 import Button from 'primevue/button';
 import OverlayThank from '../../layouts/OverlayThank.vue';
 import Checkbox from 'primevue/checkbox';
+import BaseInstallment from './BaseInstallment.vue';
+import BaseInput from '../ui/BaseInput.vue';
 
 // composables
 
@@ -127,6 +128,18 @@ onMounted(() => {
     }
 })
 
+// watchers
+
+watch(
+    () => formInputs.messageType,
+    (messageTypeRef) => {
+        if (messageTypeRef.value) {
+            console.log(messageTypeRef.value.code)
+        }
+    },
+    { deep: true }
+)
+
 </script>
 
 <template>
@@ -145,7 +158,18 @@ onMounted(() => {
                 </template>
 
                 <!-- installment info -->
-                <!-- <BaseInstallment /> -->
+                <template v-if="formInputs.messageType">
+                    <template>
+                        <BaseInput />
+                    </template>
+                    <template v-if="formInputs.messageType.value.code === 'installment'">
+                        <BaseInstallment />
+                    </template>
+                    <!-- 
+                    <template>
+                        <BaseInstallment />
+                    </template> -->
+                </template>
 
                 <!-- <div v-if="formData.messageType === false" class="form-installment"> -->
                 <!-- <div class="form-installment-title">
@@ -199,7 +223,8 @@ onMounted(() => {
             </div>
         </div>
     </form>
-    <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response" @closeParentModal="emit('closeModal')" />
+    <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
+        @closeParentModal="emit('closeModal')" />
 </template>
 
 <style lang="scss" scoped>

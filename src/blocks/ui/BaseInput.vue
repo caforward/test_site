@@ -2,6 +2,7 @@
 import DatePicker from 'primevue/datepicker';
 import FloatLabel from 'primevue/floatlabel';
 import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
@@ -35,6 +36,14 @@ const props = defineProps({
     options: {
         type: Array,
         default: []
+    },
+    min: {
+        type: Number,
+        default: 0
+    },
+    max: {
+        type: Number,
+        default: undefined
     }
 })
 
@@ -65,7 +74,7 @@ function showErrorHandler() {
         if (isInvalid.value === null) {
             isInvalid.value = true
         }
-    
+
         showError.value = true
     }
 }
@@ -111,7 +120,7 @@ function validateInputValue(inputValue) {
 
 function validateInputUserName(value) {
     const hasAtLeastTwoWords = /\D{2,}\s+\D{2,}/g.test(value)
-    
+
     if (value && hasAtLeastTwoWords) {
         isInvalid.value = false
         errorText.value = ''
@@ -154,36 +163,43 @@ function isEmpty(value) {
 </script>
 
 <template>
-    <div class="relative">
+    <div class="relative flex flex-col gap-1">
+        <slot name="inputTitle"></slot>
         <!-- ФИО -->
         <InputText ref="input" v-if="props.type === 'text'" :invalid="isInvalid" v-model="value" type="text"
-            class="w-full" placeholder="ФИО*" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showErrorHandler" />
+            class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- E-mail -->
         <InputText ref="input" v-if="props.type === 'email'" :invalid="isInvalid" v-model="value" type="email"
-            class="w-full" placeholder="E-mail*" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showErrorHandler" />
+            class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+
+        <!-- Number -->
+        <InputNumber ref="input" v-if="props.type === 'number'" :invalid="isInvalid" v-model="value" type="email"
+            class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" :minFractionDigits="0"
+            :maxFractionDigits="2" />
 
         <!-- Телефон -->
         <InputMask ref="input" v-if="props.type === 'tel'" :invalid="isInvalid" v-model="value" type="tel"
-            class="w-full" mask="+7 999 999-99-99" :autoClear="false" placeholder="Номер телефона*"
+            class="w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Select -->
         <Select ref="input" v-if="props.type === 'select'" :invalid="isInvalid" v-model="value" class="w-full"
-            :options="options" optionLabel="name" placeholder="Тема обращения*" showClear :disabled='props.disabled'
+            :options="options" optionLabel="name" :placeholder="props.placeholder" showClear :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :invalid="isInvalid" v-model="value" type="textarea"
-            class="w-full max-h-48 min-h-28" placeholder="Кратко опишите Ваш вопрос*" :disabled='props.disabled'
+            class="w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :invalid="isInvalid" v-model="value" showIcon fluid
-            iconDisplay="input" placeholder="Дата" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showErrorHandler" />
+            iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Ошибка инпута -->
         <transition name="fade">
