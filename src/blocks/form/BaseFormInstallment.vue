@@ -1,14 +1,18 @@
 <script setup>
 import { reactive, ref, computed, onBeforeMount, onMounted } from 'vue';
-
 import BaseInput from '../ui/BaseInput.vue';
 import Badge from 'primevue/badge';
 import { useValueFormat } from '@/composable/useValueFormat.js'
+
 
 const inputData = reactive({})
 const inputRefs = ref(null)
 const discount = 0.95
 const minMonthlyPayment = 1500
+
+defineExpose({
+    inputRefs,
+})
 
 const paymentPeriodRange = computed(() => {
     let currentPeriod = inputData.paymentPeriod.value
@@ -57,7 +61,7 @@ const inputs = reactive([
     {
         name: 'paymentDate',
         type: 'date',
-        value: new Date(),
+        // value: new Date(),
         placeholder: 'Дата ежемесячного платежа',
         required: true
     },
@@ -95,12 +99,6 @@ onBeforeMount(() => {
 
     inputData.paymentMonthlyFull = getPaymentMonthly
     inputData.paymentMonthlyDiscount = getPaymentMonthlyDiscount
-})
-
-onMounted(() => {
-    inputRefs.value.forEach(input => {
-        console.log(input.inputName, input.readyToSubmit)
-    })
 })
 
 </script>

@@ -9,10 +9,6 @@ import Textarea from 'primevue/textarea';
 import { onMounted, ref, watch, computed } from 'vue';
 
 const props = defineProps({
-    value: {
-        type: [String, Number, Object],
-        default: ''
-    },
     name: {
         type: String,
         default: 'name'
@@ -199,7 +195,7 @@ function isEmpty(value) {
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :invalid="isInvalid" v-model="value" showIcon fluid
             iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="new Date()" />
 
         <!-- Ошибка инпута -->
         <transition name="fade">

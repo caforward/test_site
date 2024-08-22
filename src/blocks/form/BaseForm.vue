@@ -3,9 +3,8 @@
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 
 import Button from 'primevue/button';
-import OverlayThank from '../../layouts/OverlayThank.vue';
 import Checkbox from 'primevue/checkbox';
-import BaseInstallment from './BaseInstallment.vue';
+import BaseInstallment from './BaseFormInstallment.vue';
 import BaseInput from '../ui/BaseInput.vue';
 
 // composables
@@ -17,7 +16,7 @@ import BaseInput from '../ui/BaseInput.vue';
 
 // variables
 
-const emit = defineEmits(['submitted', 'closeModal'])
+const emit = defineEmits(['submitted'])
 
 const props = defineProps({
     inputs: {
@@ -36,11 +35,11 @@ const props = defineProps({
 
 // for form
 const formInputs = reactive({})
+const additionalFormBlock = ref(null)
+const additionalInput = ref(null)
 const formDOMElement = ref(null)
 const inputRefs = ref(null)
 const consent = ref(null)
-const response = ref(null)
-const overlayThankVisible = ref(false)
 
 // functions
 
@@ -52,25 +51,39 @@ const consentInvalid = (computed(() => {
     return !consent.value
 }))
 
+function invalidInputsHandler(inputRefs) {
+    const invalidInputs = inputRefs.filter(inputRef => !inputRef.readyToSubmit)
+
+    if (invalidInputs.length) {
+        invalidInputs.forEach(inputRef => {
+            inputRef.showErrorHandler()
+            console.log(inputRef.inputName, inputRef.readyToSubmit)//
+        })
+
+        return true
+    }
+
+    return false
+}
 
 function isFormValid() {
-    const invalidInputs = inputRefs.value.filter(inputRef => !inputRef.readyToSubmit)
+    const hasInvalidInputs = invalidInputsHandler(inputRefs.value)
+    let hasAdditionalInvalidInputs = null
 
     if (consent.value === null) {
         consent.value = false
     }
 
-    if (invalidInputs.length || consentInvalid.value) {
-        // Показать пользователю ошибки на инпутах
-        invalidInputs.forEach(inputRef => {
-            inputRef.showErrorHandler()
-            console.log(inputRef.inputName, inputRef.readyToSubmit)
-        })
+    if (additionalFormBlock.value) {
+        hasAdditionalInvalidInputs = invalidInputsHandler(additionalFormBlock.value.inputRefs)
+    }
 
-        if (consentInvalid.value) {
-            console.log('consent', consent.value)
-        }
+    if (additionalInput.value && !additionalInput.value.readyToSubmit) {
+        additionalInput.value.showErrorHandler()
+        hasAdditionalInvalidInputs = true
+    }
 
+    if (hasInvalidInputs || hasAdditionalInvalidInputs || consentInvalid.value) {
         return false
     } else {
         return true
@@ -93,18 +106,8 @@ async function submitForm() {
         //     console.log(key)
         // })
 
-        // emit('submitted')
-        overlayThankVisible.value = true
+        emit('submitted', formData)
 
-        try {
-            // response.value = await fetch('email.php', {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            response.value = await fetch('https://jsonplaceholder.typicode.com/users/10')
-        } catch {
-            response.value = { ok: false }
-        }
     } else {
         console.log('form is not valid')
     }
@@ -130,15 +133,15 @@ onMounted(() => {
 
 // watchers
 
-watch(
-    () => formInputs.messageType,
-    (messageTypeRef) => {
-        if (messageTypeRef.value) {
-            console.log(messageTypeRef.value.code)
-        }
-    },
-    { deep: true }
-)
+// watch(
+//     () => formInputs.messageType,
+//     (messageTypeRef) => {
+//         if (messageTypeRef.value) {
+//             console.log(messageTypeRef.value.code)
+//         }
+//     },
+//     { deep: true }
+// )
 
 </script>
 
@@ -158,53 +161,15 @@ watch(
                 </template>
 
                 <!-- installment info -->
-                <template v-if="formInputs.messageType">
-                    <template>
-                        <BaseInput />
-                    </template>
+                <template v-if="formInputs.messageType && formInputs.messageType.value">
                     <template v-if="formInputs.messageType.value.code === 'installment'">
-                        <BaseInstallment />
+                        <BaseInstallment ref="additionalFormBlock" />
                     </template>
-                    <!-- 
-                    <template>
-                        <BaseInstallment />
-                    </template> -->
+                    <template v-else>
+                        <BaseInput ref="additionalInput" type="textarea" name="message"
+                            placeholder="Кратко опишите Ваш вопрос*" />
+                    </template>
                 </template>
-
-                <!-- <div v-if="formData.messageType === false" class="form-installment"> -->
-                <!-- <div class="form-installment-title">
-                        <span>
-                            Сумма ежемесячного платежа
-                        </span>
-                        <span class="form-installment-title-amount">
-                            <strong class="form-installment-title-amount__full">
-                                {{ useValueFormat(formData.paymentMonthlyFull) }} ₽
-                            </strong>
-                            <i class="pi pi-arrow-right"></i>
-                            <div class="form-installment-title-amount__discount">
-                                <strong>
-                                    {{ useValueFormat(formData.paymentMonthlyDiscount) }} ₽
-                                </strong>
-                                <Badge value="-5%" severity="info" />
-                            </div>
-                        </span>
-                    </div> -->
-
-                <!-- installment inputs -->
-                <!-- <template v-for="(input, idx) in paymentInputs" :key="idx">
-
-                        <BaseInput v-model:value="formData[input.name]" :name='input.name' :type='input.type'
-                            :placeholder='input.placeholder' :required="input.required" :options="input.options"
-                            v-model:showError='showErrorTrigger' :resetInputTrigger='resetInputTrigger'
-                            @update:resetInputTrigger='resetInputTrigger = $event'>
-
-                            <template #inputTitle>
-                                {{ input.placeholder }}
-                            </template>
-                        </BaseInput>
-
-                    </template> -->
-                <!-- </div> -->
             </div>
 
             <div v-if="$slots.afterUserInputs">
@@ -223,8 +188,6 @@ watch(
             </div>
         </div>
     </form>
-    <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
-        @closeParentModal="emit('closeModal')" />
 </template>
 
 <style lang="scss" scoped>

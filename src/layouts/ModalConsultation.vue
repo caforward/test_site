@@ -3,11 +3,11 @@ import { ref, watch } from "vue";
 import BaseModal from '../blocks/BaseModal.vue';
 import FormBlock from "../blocks/FormBlock.vue";
 import BaseForm from "../blocks/form/BaseForm.vue";
-// import ModalThank from "./ModalThank.vue";
+import OverlayThank from '@/layouts/OverlayThank.vue';
 
 const visible = defineModel()
-const thankModalVisible = ref(false)
-const promise = ref(null)
+const response = ref(null)
+const overlayThankVisible = ref(false)
 
 const props = defineProps({
 	selectDefaultOption: {
@@ -73,9 +73,18 @@ const inputs = ref([
 	// }
 ])
 
-function showTnankModal() {
-	visible.value = false
-	// thankModalVisible.value = true
+async function sendData(formData) {
+	overlayThankVisible.value = true
+
+	try {
+		// response.value = await fetch('email.php', {
+		//     method: 'POST',
+		//     body: formData
+		// })
+		response.value = await fetch('https://jsonplaceholder.typicode.com/users/10')
+	} catch {
+		response.value = { ok: false }
+	}
 }
 
 watch(
@@ -107,11 +116,12 @@ watch(
 				<div class="sm:text-2xl text-xl font-bold mb-5">
 					Заполните поля в форме ниже, и мы свяжемся с Вами. 
 				</div>
-				<BaseForm :inputs="inputs" :grayForm="true" @submitted="showTnankModal" @closeModal="visible = false" />
+				<BaseForm :inputs="inputs" :grayForm="true" @submitted="sendData" />
+				<OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
+					@closeParentModal="visible = false" />
 			</template>
 		</BaseModal>
 	</transition>
-	<!-- <ModalThank v-model="thankModalVisible" /> -->
 </template>
 
 <style lang="scss" scoped>
