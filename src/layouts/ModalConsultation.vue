@@ -8,6 +8,7 @@ import OverlayThank from '@/layouts/OverlayThank.vue';
 const visible = defineModel()
 const response = ref(null)
 const overlayThankVisible = ref(false)
+const userName = ref(null)
 
 const props = defineProps({
 	selectDefaultOption: {
@@ -75,6 +76,11 @@ const inputs = ref([
 
 async function sendData(formData) {
 	overlayThankVisible.value = true
+	userName.value = formData.get('name')
+	
+	formData.entries().forEach(key => {
+		console.log(key)
+	})
 
 	try {
 		// response.value = await fetch('email.php', {
@@ -84,6 +90,27 @@ async function sendData(formData) {
 		response.value = await fetch('https://jsonplaceholder.typicode.com/users/10')
 	} catch {
 		response.value = { ok: false }
+	}
+}
+
+async function sendRating(rateData) {
+	const postData = new FormData()
+	postData.append('rating', rateData.rateValue.value)
+	postData.append('message', rateData.rateMessage.value)
+	postData.append('username', userName.value)
+
+	postData.entries().forEach(key => {
+		console.log(key)
+	})
+
+	try {
+		// await fetch('rate.php', {
+		//     method: 'POST',
+		//     body: formData
+		// })
+		await fetch('https://jsonplaceholder.typicode.com/users/10')
+	} catch {
+		console.log('')
 	}
 }
 
@@ -118,7 +145,7 @@ watch(
 				</div>
 				<BaseForm :inputs="inputs" :grayForm="true" @submitted="sendData" />
 				<OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
-					@closeParentModal="visible = false" />
+					@closeParentModal="visible = false" @sendRating="sendRating" />
 			</template>
 		</BaseModal>
 	</transition>
