@@ -126,5 +126,10 @@ export default definePreset(Aura, {
                 hoverBorderColor: colors.blue
             }
         },
+        rating: {
+            icon: {
+                size: '34px',
+            }
+        }
     }
 })
