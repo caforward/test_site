@@ -16,10 +16,12 @@
                                 </p>
                                 <ol class="list">
                                     <li>
-                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после  заполнения формы получения рассрочки 
+                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы
+                                        получения рассрочки
                                     </li>
                                     <li>
-                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не обременителен для Вашего бюджета
+                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
+                                        обременителен для Вашего бюджета
                                     </li>
                                     <li>
                                         Мы передадим данные о погашении долга в Бюро кредитных историй
@@ -67,8 +69,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showModal">
+                                <a href="#" class="button button_blue slide__button" @click.prevent="showModal">
                                     Получить консультацию
                                 </a>
                             </div>
@@ -115,21 +116,15 @@
             <div class="slider-nav__wrapper">
                 <div class="container">
                     <div class="slider-nav">
-                        <button class="slider-nav__button slider-nav__button_prev" @click="this.swiper.slidePrev()">
-                            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M0.259642 0.251051C0.605832 -0.0836838 1.16712 -0.0836838 1.51331 0.251051L6.67545 5.24239C7.10818 5.6608 7.10819 6.33919 6.67545 6.75761L1.51331 11.7489C1.16712 12.0837 0.605832 12.0837 0.259642 11.7489C-0.0865475 11.4142 -0.0865475 10.8715 0.259642 10.5368L4.95166 6L0.259642 1.46323C-0.0865475 1.1285 -0.0865475 0.585786 0.259642 0.251051Z"
-                                    fill="white" />
-                            </svg>
+                        <button
+                            class="flex items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
+                            @click="this.swiper.slidePrev()">
+                            <i class="pi pi-angle-left !text-xl"></i>
                         </button>
-                        <button class="slider-nav__button slider-nav__button_next" @click="this.swiper.slideNext()">
-                            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M0.259642 0.251051C0.605832 -0.0836838 1.16712 -0.0836838 1.51331 0.251051L6.67545 5.24239C7.10818 5.6608 7.10819 6.33919 6.67545 6.75761L1.51331 11.7489C1.16712 12.0837 0.605832 12.0837 0.259642 11.7489C-0.0865475 11.4142 -0.0865475 10.8715 0.259642 10.5368L4.95166 6L0.259642 1.46323C-0.0865475 1.1285 -0.0865475 0.585786 0.259642 0.251051Z"
-                                    fill="white" />
-                            </svg>
+                        <button
+                            class="flex items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
+                            @click="this.swiper.slideNext()">
+                            <i class="pi pi-angle-right !text-xl"></i>
                         </button>
                     </div>
                     <!-- <Pagination /> -->
