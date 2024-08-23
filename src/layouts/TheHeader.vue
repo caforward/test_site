@@ -37,11 +37,11 @@
                                 </router-link>
 
                                 <a v-else-if="navLink.name === 'Получить консультацию'"
-                                    @click.prevent="modalVisible = true" class="header-bottom-nav__link"
+                                    @click.prevent="showFormModal()" class="header-bottom-nav__link"
                                     :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'"
-                                    @click.prevent="modalVisibleCall = true" class="header-bottom-nav__link"
+                                    @click.prevent="showFormModal('callback')" class="header-bottom-nav__link"
                                     :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
@@ -79,32 +79,28 @@
     </header>
 
     <TheMenuMobile :visible="mobileMenu" @close="mobileMenu = false" />
-    <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
-    <ModalConsultation v-model="modalVisible" />
+    <ModalForm v-model="modalVisible" :type="modalType" />
 </template>
 
-<script lang="ts">
-import ModalCall from './ModalCall.vue'
+<script>
 import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
-import ModalConsultation from './ModalConsultation.vue'
+import ModalForm from './ModalForm.vue'
 
 export default {
     name: "Header",
     components: {
-        ModalConsultation,
-        ModalCall,
+        ModalForm,
         TheMenuMobile,
         ModalRequisites,
     },
     data() {
         return {
             modalVisible: false,
-            modalVisibleCall: false,
             mobileMenu: false,
             requisitesModal: false,
-            thankModal: false,
+            modalType: null,
             paymentDebtFormHref: '/installment-plan#debt-form',
             topNav: [
                 {
@@ -164,7 +160,7 @@ export default {
         };
     },
     methods: {
-        handleNavLink(event: any, navLink: any) {
+        handleNavLink(event, navLink) {
             const contacts = document.getElementById('contacts');
 
             if (contacts && navLink.name === 'Контакты') {
@@ -172,6 +168,15 @@ export default {
                 contacts.scrollIntoView({ behavior: 'smooth' });
             }
         },
+        showFormModal(type) {
+            if (type) {
+                this.modalType = type;
+            } else {
+                this.modalType = null;
+            }
+
+            this.modalVisible = true;
+        }
     },
     beforeMount() {
         const routes = this.$router.getRoutes()

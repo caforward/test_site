@@ -39,13 +39,13 @@
                 </div>
             </div>
         </div>
-        <ModalConsultation v-model="modalVisible" :selectDefaultOption="defaultOption" />
+        <ModalForm v-model="modalVisible" :type="defaultOption" />
     </section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ModalConsultation from '../layouts/ModalConsultation.vue';
+import ModalForm from '../layouts/ModalForm.vue';
 
 interface ListItems {
     id: number;
@@ -58,7 +58,7 @@ interface ListItems {
 
 export default defineComponent({
     components: {
-      ModalConsultation
+        ModalForm
     },
     data() {
         return {
@@ -73,7 +73,7 @@ export default defineComponent({
                     textH3: "Прощение долга",
                     textParagr: "Наша компания поможет полностью избавиться от долгов. Что это значит? С помощью рассчитанного нами оптимального графика платежей Вы сможете быстро выплатить задолженность, и она не будет обременять Вас",
                     background: '#ecf6e7',
-                    }, {
+                }, {
                     id: 2,
                     imageUrl: '/assets/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",

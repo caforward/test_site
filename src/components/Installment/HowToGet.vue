@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ModalConsultation from "../../layouts/ModalConsultation.vue";
+import ModalForm from "../../layouts/ModalForm.vue";
 
 const modalVisible = ref(false)
 
@@ -108,7 +108,7 @@ const contentArr = ref([
             </div>
         </div>
     </section>
-    <ModalConsultation v-model="modalVisible" />
+    <ModalForm v-model="modalVisible" />
 </template>
 
 <style lang="scss" scoped>

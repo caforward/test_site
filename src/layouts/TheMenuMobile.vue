@@ -1,15 +1,13 @@
 <script>
 import BaseModal from '../blocks/BaseModal.vue';
-import ModalCall from '../layouts/ModalCall.vue';
-import ModalConsultation from '../layouts/ModalConsultation.vue';
+import ModalForm from '../layouts/ModalForm.vue';
 import ModalRequisites from '../layouts/ModalRequisites.vue';
 
 export default {
     components: {
         BaseModal,
-        ModalCall,
         ModalRequisites,
-        ModalConsultation,
+        ModalForm,
     },
     props: {
         visible: {
@@ -21,8 +19,8 @@ export default {
     data() {
         return {
             modalVisible: false,
-            modalVisibleCall: false,
             requisitesModal: false,
+            modalType: null,
             links: [
                 // {
                 //     href: '#',
@@ -64,24 +62,21 @@ export default {
         }
     },
     methods: {
-        showModal(event) {
+        showModalForm(type) {
             this.closeMobileMenu()
+
+            if (type) {
+                this.modalType = type;
+            } else {
+                this.modalType = null;
+            }
+
             this.modalVisible = true;
-        },
-        showModalCall(event) {
-            this.closeMobileMenu()
-            this.modalVisibleCall = true;
         },
         openRequisitesModal(e) {
             this.closeMobileMenu()
             e.preventDefault();
             this.requisitesModal = true
-        },
-        closeModal() {
-            this.modalVisible = false;
-        },
-        closeModalCall() {
-            this.modalVisibleCall = false;
         },
         closeRequisitesModal() {
             this.requisitesModal = false
@@ -131,10 +126,10 @@ export default {
                             {{ link.name }}
                         </router-link>
 
-                        <a v-else-if="link.name === 'Получить консультацию'" @click.prevent="showModal($event)"
+                        <a v-else-if="link.name === 'Получить консультацию'" @click.prevent="showModalForm()"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }} </a>
 
-                        <a v-else-if="link.name === 'Заказать звонок'" @click.prevent="showModalCall($event)"
+                        <a v-else-if="link.name === 'Заказать звонок'" @click.prevent="showModalForm('callback')"
                             class="header-bottom-nav__link" :href="link.href">{{ link.name }}</a>
 
                         <a v-else-if="link.name === 'Реквизиты для оплаты'" @click.prevent="openRequisitesModal($event)"
@@ -159,7 +154,7 @@ export default {
                         </a>
                     </div>
                     <div class="menu-footer__buttons">
-                        <a href="#" @click.stop="showModalCall" class="button button_blue button_small">
+                        <a href="#" @click.stop="showModalForm('callback')" class="button button_blue button_small">
                             <span class="button__icon">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -185,9 +180,8 @@ export default {
         </BaseModal>
     </transition>
 
-    <ModalCall v-model="modalVisibleCall" />
     <ModalRequisites v-model="requisitesModal" />
-    <ModalConsultation v-model="modalVisible" />
+    <ModalForm v-model="modalVisible" :type="modalType" />
 </template>
 
 

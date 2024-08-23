@@ -28,3 +28,11 @@
         border-color: $blue;
     }
 }
+
+.p-select {
+    &-label[aria-disabled="true"] {
+        & ~ .p-icon, & ~ .p-select-dropdown {
+            opacity: 0;
+        }
+    }
+}

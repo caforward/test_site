@@ -1,10 +1,17 @@
 <script setup>
 import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
+import ModalRequisites from "./ModalRequisites.vue";
+import ModalForm from "./ModalForm.vue";
 
 const emit = defineEmits(['showModal'])
 
 const visibility = ref(false);
 const bottomMenu = ref(null);
+const modalType = ref(null);
+const modal = ref({
+	form: false,
+	requisites: false
+})
 
 const menuItems = ref([
 	//   {
@@ -19,7 +26,10 @@ const menuItems = ref([
 	{
 		id: 0,
 		href: "#",
-		modalName: "installment",
+		modal: {
+			name: "form",
+			type: "installment",
+		},
 		title: "Рассрочка",
 		icon:
 			'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 491.276 491.276" style="enable-background:new 0 0 491.276 491.276;" xml:space="preserve"><script xmlns=""/><g><g><g><path d="M443.436,218.278c-6.241-6.204-16.319-6.204-22.56,0l-48,48l22.56,22.56l19.04-19.04 c-13.343,105.196-109.438,179.657-214.634,166.314S20.185,326.674,33.528,221.478C45.7,125.521,127.351,53.601,224.076,53.638 v-32C100.364,21.596,0.042,121.85,0,245.562s100.212,224.034,223.924,224.076c115.375,0.039,211.907-87.563,223.032-202.4 l21.76,21.76l22.56-22.56L443.436,218.278z"/><path d="M224.076,165.638v80c-0.025,4.253,1.645,8.34,4.64,11.36l48,48l22.56-22.56l-43.2-43.36v-73.44H224.076z"/></g></g></g><script xmlns=""/></svg>',
@@ -27,8 +37,10 @@ const menuItems = ref([
 	{
 		id: 2,
 		href: "#",
-		modalName: "consultation",
-		// title: 'Отправить обращение',
+		modal: {
+			name: "form",
+			type: "",
+		},
 		title: "Обращение",
 		icon:
 			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-69 1 511 511.99895"><script xmlns=""/><path d="m337.953125 23.273438h-58.179687v-11.636719c0-6.425781-5.210938-11.636719-11.636719-11.636719h-162.910157c-6.425781 0-11.636718 5.210938-11.636718 11.636719v11.636719h-58.179688c-19.273437.019531-34.890625 15.636718-34.910156 34.910156v418.90625c.019531 19.269531 15.636719 34.886718 34.910156 34.910156h302.542969c19.269531-.023438 34.890625-15.640625 34.910156-34.910156v-418.90625c-.019531-19.273438-15.636719-34.890625-34.910156-34.910156zm-221.089844 0h139.636719v46.542968h-139.636719zm232.726563 453.816406c-.007813 6.421875-5.210938 11.628906-11.636719 11.636718h-302.542969c-6.425781-.007812-11.628906-5.214843-11.636718-11.636718v-418.90625c.007812-6.425782 5.210937-11.628906 11.636718-11.636719h58.179688v34.90625c0 6.425781 5.210937 11.636719 11.636718 11.636719h162.910157c6.425781 0 11.636719-5.207032 11.636719-11.636719v-34.90625h58.179687c6.425781.007813 11.628906 5.210937 11.636719 11.636719zm0 0"/><path d="m291.410156 162.910156h-209.457031c-6.425781 0-11.636719 5.207032-11.636719 11.636719 0 6.425781 5.210938 11.636719 11.636719 11.636719h209.457031c6.425782 0 11.636719-5.210938 11.636719-11.636719 0-6.429687-5.210937-11.636719-11.636719-11.636719zm0 0"/><path d="m291.410156 232.726562h-209.457031c-6.425781 0-11.636719 5.210938-11.636719 11.636719s5.210938 11.636719 11.636719 11.636719h209.457031c6.425782 0 11.636719-5.210938 11.636719-11.636719s-5.210937-11.636719-11.636719-11.636719zm0 0"/><path d="m291.410156 302.546875h-209.457031c-6.425781 0-11.636719 5.207031-11.636719 11.636719 0 6.425781 5.210938 11.636718 11.636719 11.636718h209.457031c6.425782 0 11.636719-5.210937 11.636719-11.636718 0-6.429688-5.210937-11.636719-11.636719-11.636719zm0 0"/><path d="m291.410156 372.363281h-209.457031c-6.425781 0-11.636719 5.210938-11.636719 11.636719s5.210938 11.636719 11.636719 11.636719h209.457031c6.425782 0 11.636719-5.210938 11.636719-11.636719s-5.210937-11.636719-11.636719-11.636719zm0 0"/><script xmlns=""/></svg>',
@@ -43,7 +55,10 @@ const menuItems = ref([
 	{
 		id: 4,
 		href: "#",
-		modalName: "call",
+		modal: {
+			name: "form",
+			type: "callback",
+		},
 		title: "Заказать звонок",
 		icon:
 			'<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 32 32" viewBox="0 0 32 32"><script xmlns=""/><path d="m26.974 21.562c-.501-.868-.974-1.686-.974-3.562v-4c0-4.092-2.473-7.613-6-9.159v-.841c0-2.206-1.794-4-4-4s-4 1.794-4 4v.841c-3.527 1.546-6 5.067-6 9.159v4c0 1.876-.473 2.694-.974 3.562-.481.834-1.026 1.778-1.026 3.438 0 1.206.799 3 3 3h5c0 2.206 1.794 4 4 4s4-1.794 4-4h5c2.201 0 3-1.794 3-3 0-1.66-.545-2.604-1.026-3.438zm-12.974-17.562c0-1.103.897-2 2-2s2 .897 2 2v.202c-.646-.132-1.315-.202-2-.202s-1.354.07-2 .202zm2 2c4.411 0 8 3.589 8 8h-16c0-4.411 3.589-8 8-8zm-8 12v-2h16v2c0 .789.078 1.438.197 2h-16.394c.119-.562.197-1.211.197-2zm8 12c-1.103 0-2-.897-2-2h4c0 1.103-.897 2-2 2zm9-4h-18c-.805 0-.988-.55-1-1 0-1.124.318-1.676.758-2.438.102-.176.208-.365.313-.562h17.858c.105.197.211.386.312.562.441.762.759 1.314.759 2.426-.012.462-.194 1.012-1 1.012z"/><script xmlns=""/></svg>',
@@ -61,8 +76,12 @@ function windowResizeHandler() {
 	visibility.value = window.matchMedia("(max-width: 1023px)").matches
 }
 
-function showModalHandler(modalName) {
-	emit('showModal', modalName)
+function showModalHandler(linkModal) {
+	if (linkModal.name === 'form') {
+		modalType.value = linkModal.type
+	}
+
+	modal.value[linkModal.name] = true 
 }
 
 onMounted(() => {
@@ -79,8 +98,8 @@ onUnmounted(() => {
 	<div v-if="visibility" ref="bottomMenu" class="bottom-menu">
 		<ul class="bottom-menu-list">
 			<li v-for="link in menuItems" :key="link.id" class="bottom-menu-list__item">
-				<a v-if="link.modalName" :href="link.href" class="bottom-menu-list-link"
-					@click.prevent="showModalHandler(link.modalName)">
+				<a v-if="link.modal && link.modal.name" :href="link.href" class="bottom-menu-list-link"
+					@click.prevent="showModalHandler(link.modal)">
 					<span class="bottom-menu-list-link__icon" v-html="link.icon"></span>
 					<span>
 						{{ link.title }}
@@ -103,6 +122,8 @@ onUnmounted(() => {
 			</li>
 		</ul>
 	</div>
+	<ModalRequisites v-model="modal.requisites" />
+	<ModalForm v-model="modal.form" :type="modalType" />
 </template>
 
 <style lang="scss" scoped>

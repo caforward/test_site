@@ -35,7 +35,7 @@
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click="modalInstallmentVisible = true">
+                                    @click.prevent="showInstallmentModal">
                                     Получить рассрочку
                                 </a>
                             </div>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="modalVisible = true">
+                                    @click.prevent="showModal">
                                     Получить консультацию
                                 </a>
                             </div>
@@ -100,7 +100,7 @@
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.stop="modalVisible = true">
+                                <a href="#" class="button button_blue slide__button" @click.stop="showModal">
                                     Получить консультацию
                                 </a>
                             </div>
@@ -139,15 +139,13 @@
         </div>
     </section>
 
-    <ModalConsultation v-model="modalVisible" />
-    <ModalInstallment v-model="modalInstallmentVisible" />
+    <ModalForm v-model="modalVisible" :type="modalDefaultOption" />
 </template>
 
 <script>
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import ModalConsultation from "../layouts/ModalConsultation.vue";
-import ModalInstallment from "../layouts/ModalInstallment.vue";
+import ModalForm from "../layouts/ModalForm.vue";
 // import { Pagination, Autoplay } from "swiper/modules";
 
 // swiper style
@@ -158,16 +156,19 @@ export default {
     components: {
         Swiper,
         SwiperSlide,
-        ModalConsultation,
-        ModalInstallment
+        ModalForm,
         // Pagination
     },
     methods: {
         showSwiper(e) {
             console.log(this.swiper)
         },
-        showModal(event) {
-            event.preventDefault();
+        showModal() {
+            this.modalDefaultOption = null;
+            this.modalVisible = true;
+        },
+        showInstallmentModal() {
+            this.modalDefaultOption = 'installment';
             this.modalVisible = true;
         },
         onSwiper(swiper) {
@@ -178,7 +179,7 @@ export default {
         return {
             swiper: null,
             modalVisible: false,
-            modalInstallmentVisible: false,
+            modalDefaultOption: null,
             sliderData: [
                 {
                     img: "introSlider/01.jpg",
@@ -199,25 +200,6 @@ export default {
         };
     },
     mounted() {
-        // let rewind = false
-
-        // const intervalID = setInterval(() => {
-        //     this.swiper.slideNext()
-
-        //     if (this.swiper.activeIndex === this.swiper.slides.length - 1) {
-        //         if (rewind) {
-        //             this.swiper.slideTo(0)
-        //         }
-
-        //         rewind = true
-        //     } else {
-        //         rewind = false
-        //     }
-        // }, 8000)
-
-        // this.swiper.on('destroy', () => {
-        //     clearInterval(intervalID)
-        // })
     }
 };
 </script>

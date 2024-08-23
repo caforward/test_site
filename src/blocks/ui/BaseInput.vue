@@ -50,6 +50,7 @@ const input = ref(null)
 const inputName = ref(null)
 const errorText = ref('Заполните поле')
 const showError = ref(false)
+const inputOptions = ref([])
 
 const readyToSubmit = (computed(() => {
     if (props.required) {
@@ -90,7 +91,39 @@ onMounted(() => {
         showError.value = true
         errorText.value = ''
     }
+    if (props.type === 'select') {
+        selectOptionsHandler(props.options)
+    }
 })
+
+function selectOptionsHandler(selectOptions) {
+    inputOptions.value = selectOptions
+
+    if (typeof value.value === 'string') {
+        let option = null
+
+        if (inputOptions.value.length) {
+            option = inputOptions.value.find(option => {
+                return option.name === value.value || option.code === value.value
+            })
+        } else {
+            option = {
+                name: value.value
+            }
+
+            inputOptions.value.push(option)
+        }
+
+        value.value = option
+    }
+}
+
+watch(
+    () => props.options,
+    (newOptions) => {
+        selectOptionsHandler(newOptions)
+    }
+)
 
 function validateInputValue(inputValue) {
 
@@ -184,8 +217,8 @@ function isEmpty(value) {
 
         <!-- Select -->
         <Select ref="input" v-if="props.type === 'select'" :invalid="isInvalid" v-model="value" class="w-full"
-            :options="options" optionLabel="name" :placeholder="props.placeholder" showClear :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+            :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
+            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :invalid="isInvalid" v-model="value" type="textarea"

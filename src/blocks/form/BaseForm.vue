@@ -19,6 +19,10 @@ import BaseInput from '../ui/BaseInput.vue';
 const emit = defineEmits(['submitted'])
 
 const props = defineProps({
+    showTitle: {
+        type: Boolean,
+        default: false,
+    },
     inputs: {
         type: Array,
         required: true
@@ -57,6 +61,7 @@ function invalidInputsHandler(inputRefs) {
     if (invalidInputs.length) {
         invalidInputs.forEach(inputRef => {
             inputRef.showErrorHandler()
+            console.log(inputRef.inputName)
         })
 
         return true
@@ -158,6 +163,36 @@ onMounted(() => {
 </script>
 
 <template>
+    <div v-if="props.showTitle">
+        <template v-if="!formInputs.messageType || !formInputs.messageType.value">
+            <div class="sm:text-2xl text-xl font-bold mb-5">
+                Заполните поля в форме ниже, и мы свяжемся с Вами. 
+            </div>
+        </template>
+        <template v-else>
+            <template v-if="formInputs.messageType.value.code === 'installment'">
+                <div class="sm:text-2xl text-xl font-bold mb-5">
+                    Получить рассрочку
+                </div>
+            </template>
+            <template v-else-if="formInputs.messageType.value.code === 'callback'">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
+                    Заказать звонок
+                </div>
+                <p class="sm:text-base text-sm mb-6 font-normal">
+                    Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами, чтобы
+                    проконсультировать по
+                    вашей финансовой ситуации.
+                </p>
+            </template>
+            <template v-else>
+                <div class="sm:text-2xl text-xl font-bold mb-5">
+                    Заполните поля в форме ниже, и мы свяжемся с Вами.
+                </div>
+            </template>
+        </template>
+    </div>
+
     <form ref="formDOMElement" action="" class="form" @submit.prevent="handleSubmit">
         <div class="form-container">
             <div v-if="$slots.beforeUserInputs">

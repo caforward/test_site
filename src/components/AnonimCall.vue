@@ -1,3 +1,10 @@
+<script setup>
+import { ref } from 'vue'
+import ModalForm from '../layouts/ModalForm.vue';
+
+const modalVisibleCall = ref(false)
+</script>
+
 <template>
     <section>
         <div class="container">
@@ -26,16 +33,9 @@
             </div>
 
         </div>
-        <ModalCall v-model="modalVisibleCall" />
+        <ModalForm v-model="modalVisibleCall" :type="'callback'" />
     </section>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import ModalCall from '../layouts/ModalCall.vue';
-
-const modalVisibleCall = ref(false)
-</script>
 
 <style lang="scss" scoped>
 section {

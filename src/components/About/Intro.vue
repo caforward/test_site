@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
 import IntroBlock from "../../blocks/IntroBlock.vue";
-import ModalConsultation from "../../layouts/ModalConsultation.vue";
+import ModalForm from '../../layouts/ModalForm.vue';
 
-const modalConsultationVisible = ref(false)
+const modalVisible = ref(false)
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const modalConsultationVisible = ref(false)
                             кредитными и иными организациями.
                         </p>
                         <a href="#" class="button button_blue intro-content__button"
-                            @click="modalConsultationVisible = true">
+                            @click="modalVisible = true">
                             Получить консультацию
                         </a>
                     </div>
@@ -39,7 +39,7 @@ const modalConsultationVisible = ref(false)
             </IntroBlock>
         </div>
     </section>
-    <ModalConsultation v-model="modalConsultationVisible" />
+    <ModalForm v-model="modalVisible" />
 </template>
 
 <style lang="scss" scoped>

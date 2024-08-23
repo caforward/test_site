@@ -138,12 +138,14 @@ onBeforeMount(() => {
             <span>
                 Сумма ежемесячного платежа
             </span>
-            <span class="installment-title-amount">
-                <strong class="installment-title-amount__full">
+            <span class="flex flex-wrap gap-4 items-center font-bold">
+                <strong class="sm:text-lg text-base line-through text-gray-500">
                     {{ useValueFormat(paymentMonthlyFull) }} ₽
                 </strong>
-                <i class="pi pi-arrow-right"></i>
-                <div class="installment-title-amount__discount">
+                <span>
+                    <i class="pi pi-arrow-right"></i>
+                </span>
+                <div class="sm:text-xl text-lg text-sky-500 flex items-center gap-2">
                     <strong>
                         {{ useValueFormat(inputData.paymentMonthlyDiscount) }} ₽
                     </strong>

@@ -1,17 +1,15 @@
 <script setup>
 import { ref, onBeforeMount, reactive } from 'vue'
 import { useRouter } from 'vue-router';
-import ModalConsultation from "./ModalConsultation.vue";
+import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
 
 const router = useRouter()
 const modalVisible = reactive({
-    modalConsultation: false,
+    modalForm: false,
     modalDocs: false
 })
 
-const ModalConsultationVisible = ref(false)
-const modalDocsVisible = ref(false)
 const modalDocsIndex = ref(0)
 
 const navbarLinks = ref([
@@ -30,7 +28,7 @@ const navbarLinks = ref([
     {
         name: "Получить консультацию",
         href: "#",
-        modalName: 'modalConsultation'
+        modalName: 'modalForm'
     },
     {
         name: "Партнёрам",
@@ -166,7 +164,7 @@ onBeforeMount(() => {
                             </div>
                             <div class="contacts__buttons">
                                 <div class="buttons">
-                                    <a href="#" class="button" @click.prevent="modalVisible.modalConsultation = true">
+                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true">
                                         Обратная связь
                                     </a>
                                 </div>
@@ -209,7 +207,7 @@ onBeforeMount(() => {
             </div>
         </div>
     </footer>
-    <ModalConsultation v-model="modalVisible.modalConsultation" />
+    <ModalForm v-model="modalVisible.modalForm" />
     <ModalDocs v-model="modalVisible.modalDocs" :toShowIndex="modalDocsIndex" />
 </template>
 

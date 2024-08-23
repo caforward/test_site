@@ -77,6 +77,7 @@ export default definePreset(Aura, {
             },
             disabled: {
                 background: 'transparent',
+                color: colors.black,
             },
             option: {
                 focusBackground: colors.gray,
@@ -130,6 +131,6 @@ export default definePreset(Aura, {
             icon: {
                 size: '34px',
             }
-        }
+        },
     }
 })

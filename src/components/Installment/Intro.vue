@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
 import IntroBlock from "../../blocks/IntroBlock.vue";
-import ModalInstallment from '../../layouts/ModalInstallment.vue';
+import ModalForm from '../../layouts/ModalForm.vue';
 
 const modalVisible = ref(false);
 
@@ -44,7 +44,7 @@ function scrollToCalculate() {
         </div>
     </section>
 
-    <ModalInstallment v-model="modalVisible" />
+    <ModalForm v-model="modalVisible" :type="'installment'" />
 </template>
 
 <style lang="scss" scoped>
