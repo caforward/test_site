@@ -57,7 +57,6 @@ function invalidInputsHandler(inputRefs) {
     if (invalidInputs.length) {
         invalidInputs.forEach(inputRef => {
             inputRef.showErrorHandler()
-            console.log(inputRef.inputName, inputRef.readyToSubmit)//
         })
 
         return true
@@ -68,14 +67,15 @@ function invalidInputsHandler(inputRefs) {
 
 function isFormValid() {
     const hasInvalidInputs = invalidInputsHandler(inputRefs.value)
-    let hasAdditionalInvalidInputs = null
+    let hasFormBlockInvalidInputs = false
+    let hasAdditionalInvalidInputs = false
 
     if (consent.value === null) {
         consent.value = false
     }
 
     if (additionalFormBlock.value) {
-        hasAdditionalInvalidInputs = invalidInputsHandler(additionalFormBlock.value.inputRefs)
+        hasFormBlockInvalidInputs = invalidInputsHandler(additionalFormBlock.value.inputRefs)
     }
 
     if (additionalInput.value && !additionalInput.value.readyToSubmit) {
@@ -83,7 +83,7 @@ function isFormValid() {
         hasAdditionalInvalidInputs = true
     }
 
-    if (hasInvalidInputs || hasAdditionalInvalidInputs || consentInvalid.value) {
+    if (hasInvalidInputs || hasAdditionalInvalidInputs || hasFormBlockInvalidInputs || consentInvalid.value) {
         return false
     } else {
         return true
@@ -102,9 +102,21 @@ async function submitForm() {
             }
         })
 
-        // formData.entries().forEach(key => {
-        //     console.log(key)
-        // })
+        if (additionalFormBlock.value) {
+            const blockInputs = additionalFormBlock.value.exposeData
+
+            Object.keys(blockInputs).forEach(key => {
+                formData.append(key, blockInputs[key])
+            })
+        }
+
+        if (additionalInput.value && additionalInput.value.input.modelValue) {
+            formData.append(additionalInput.value.inputName, additionalInput.value.input.modelValue)
+        }
+
+        formData.entries().forEach(key => {
+            console.log(key)
+        })
 
         emit('submitted', formData)
 

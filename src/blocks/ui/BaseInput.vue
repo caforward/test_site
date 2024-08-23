@@ -110,7 +110,7 @@ function validateInputValue(inputValue) {
         }
 
     } else {
-        console.log('no validation')
+        // console.log('no validation')
     }
 }
 

@@ -1,10 +1,12 @@
 <script setup>
-import { reactive, ref, computed, onBeforeMount, onMounted } from 'vue';
-import BaseInput from '../ui/BaseInput.vue';
+import { computed, onBeforeMount, reactive, ref, watch } from 'vue';
 import Badge from 'primevue/badge';
-import { useValueFormat } from '@/composable/useValueFormat.js'
+import BaseInput from '../ui/BaseInput.vue';
+import { useValueFormat } from '@/composable/useValueFormat.js';
+import { getDottedDate } from '@/composable/useCalendar.js';
 
 
+const exposeData = ref({})
 const inputData = reactive({})
 const inputRefs = ref(null)
 const discount = 0.95
@@ -12,6 +14,7 @@ const minMonthlyPayment = 1500
 
 defineExpose({
     inputRefs,
+    exposeData,
 })
 
 const paymentPeriodRange = computed(() => {
@@ -35,11 +38,30 @@ const paymentPeriodRange = computed(() => {
         options.push({ name: period })
     })
 
-    if (currentPeriod && !options.includes(currentPeriod)) {
+    if (currentPeriod && !periods.includes(currentPeriod.name)) {
         inputData.paymentPeriod.value.name = periods[periods.length - 1]
     }
 
     return options
+})
+
+const getPaymentMonthly = computed(() => {
+    if (inputData.paymentPeriod.value) {
+        let monthly = (inputData.paymentAmount.value / inputData.paymentPeriod.value.name).toFixed(2)
+        monthly = Number(monthly)
+
+        if (isNaN(monthly)) {
+            return 0
+        }
+
+        return monthly
+    } else {
+        return 0
+    }
+})
+
+const getPaymentMonthlyDiscount = computed(() => {
+    return (paymentMonthlyFull.value * discount).toFixed(2)
 })
 
 const inputs = reactive([
@@ -61,29 +83,32 @@ const inputs = reactive([
     {
         name: 'paymentDate',
         type: 'date',
-        // value: new Date(),
+        value: new Date(),
         placeholder: 'Дата ежемесячного платежа',
         required: true
     },
 ])
 
-const getPaymentMonthly = computed(() => {
-    if (inputData.paymentPeriod.value) {
-        let monthly = (inputData.paymentAmount.value / inputData.paymentPeriod.value.name).toFixed(2)
-        monthly = Number(monthly)
+const paymentMonthlyFull = getPaymentMonthly
 
-        if (isNaN(monthly)) {
-            return 0
-        }
+const getExposeValue = (computed(() => {
+    console.log(oldValue)
+    return 1
+}))
 
-        return monthly
-    } else {
-        return 0
-    }
+// computed, get value
+
+const getPaymentDate = (computed(() => {
+    console.log()
+    return getDottedDate(inputData.paymentDate.value)
+}))
+
+const getPaymentPeriod = computed(() => {
+    return inputData.paymentPeriod.value.name
 })
 
-const getPaymentMonthlyDiscount = computed(() => {
-    return (inputData.paymentMonthlyFull * discount).toFixed(2)
+const getPaymentAmount = computed(() => {
+    return inputData.paymentAmount.value
 })
 
 // hooks
@@ -91,14 +116,18 @@ const getPaymentMonthlyDiscount = computed(() => {
 onBeforeMount(() => {
     inputs.forEach(input => {
         inputData[input.name] = {
-            value: input.value ? input.value : '',
+            value: ref(input.value ? input.value : ''),
             isValid: input.value ? true : false,
             required: input.required ? true : false,
         }
     })
 
-    inputData.paymentMonthlyFull = getPaymentMonthly
     inputData.paymentMonthlyDiscount = getPaymentMonthlyDiscount
+
+    exposeData.value.paymentMonthlyDiscount = getPaymentMonthlyDiscount
+    exposeData.value.paymentPeriod = getPaymentPeriod
+    exposeData.value.paymentDate= getPaymentDate
+    exposeData.value.paymentAmount = getPaymentAmount
 })
 
 </script>
@@ -111,7 +140,7 @@ onBeforeMount(() => {
             </span>
             <span class="installment-title-amount">
                 <strong class="installment-title-amount__full">
-                    {{ useValueFormat(inputData.paymentMonthlyFull) }} ₽
+                    {{ useValueFormat(paymentMonthlyFull) }} ₽
                 </strong>
                 <i class="pi pi-arrow-right"></i>
                 <div class="installment-title-amount__discount">

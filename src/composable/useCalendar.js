@@ -5,7 +5,7 @@ export function getDottedDate(dateInstance) {
     const date = new Date(dateInstance)
 
     let day = date.getDate()
-    let month = date.getMonth()
+    let month = date.getMonth() + 1
     const year = date.getFullYear()
 
     day = day < 10 ? `0${day}` : day
