@@ -1,27 +1,3 @@
-<template>
-    <section>
-        <div class="container">
-            <FormBlock :inputs=inputs @submitted="showThankModal">
-                <template v-slot:info>
-                    <div class="form-block-info">
-                        <h2 class="form-block-info__title">
-                            Стать партнером
-                        </h2>
-                        <p class="form-block-info__text">
-                            Если вас заинтересовало сотрудничество с ПКО «Форвард» – свяжитесь с нами любым удобным
-                            способом, и мы предложим вам уникальный и взаимовыгодный вариант партнерства.
-                        </p>
-                        <span class="form-block-info__text form-block-info__text_meta">
-                            * поле для обязательного заполнения
-                        </span>
-                    </div>
-                </template>
-            </FormBlock>
-        </div>
-    </section>
-    <ModalThank v-model="thankModalVisible" />
-</template>
-
 <script>
 import FormBlock from '../../blocks/FormBlock.vue';
 import ModalThank from '../../layouts/ModalThank.vue';
@@ -65,9 +41,34 @@ export default {
 };
 </script>
 
+<template>
+    <section id="join-team-form">
+        <div class="container">
+            <FormBlock :inputs=inputs @submitted="showThankModal">
+                <template v-slot:info>
+                    <div class="form-block-info">
+                        <h2 class="form-block-info__title">
+                            Стать партнером
+                        </h2>
+                        <p class="form-block-info__text">
+                            Если вас заинтересовало сотрудничество с ПКО «Форвард» – свяжитесь с нами любым удобным
+                            способом, и мы предложим вам уникальный и взаимовыгодный вариант партнерства.
+                        </p>
+                        <span class="form-block-info__text form-block-info__text_meta">
+                            * поле для обязательного заполнения
+                        </span>
+                    </div>
+                </template>
+            </FormBlock>
+        </div>
+    </section>
+    <ModalThank v-model="thankModalVisible" />
+</template>
+
 <style lang="scss" scoped>
 section {
-    padding: 35px 0 110px;
+    margin-top: -150px;
+    padding: 185px 0 110px;
     background-color: $gray-white;
 }
 

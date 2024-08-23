@@ -20,7 +20,7 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
                             Несмотря на текущую макроэкономическую ситуацию, сделка вызвала интерес у инвесторов, и
                             купонная ставка по итогам размещения составила 10,1% годовых. 
                         </p>
-                        <a href="#" class="button button_blue intro-content__button">
+                        <a href="#join-team-form" class="button button_blue intro-content__button">
                             Стать партнером
                         </a>
                     </div>
