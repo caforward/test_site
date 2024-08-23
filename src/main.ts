@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router';
 import PrimeVue from 'primevue/config';
 import primeVueRu from '@/service/locale/primeVue/ru.json'
-import forwardPreset from '@/presets/Aura.js'
+import forwardPreset from './presets/Aura.js'
 
 import vSelect from 'vue-select'
 import VueMask from '@ssibrahimbas/v-mask';

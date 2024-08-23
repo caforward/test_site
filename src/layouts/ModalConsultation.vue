@@ -83,11 +83,10 @@ async function sendData(formData) {
 	})
 
 	try {
-		// response.value = await fetch('email.php', {
-		//     method: 'POST',
-		//     body: formData
-		// })
-		response.value = await fetch('https://jsonplaceholder.typicode.com/users/10')
+		response.value = await fetch('email.php', {
+		    method: 'POST',
+		    body: formData
+		})
 	} catch {
 		response.value = { ok: false }
 	}
@@ -104,11 +103,10 @@ async function sendRating(rateData) {
 	})
 
 	try {
-		// await fetch('rate.php', {
-		//     method: 'POST',
-		//     body: formData
-		// })
-		await fetch('https://jsonplaceholder.typicode.com/users/10')
+		await fetch('rate.php', {
+		    method: 'POST',
+		    body: formData
+		})
 	} catch {
 		console.log('')
 	}
