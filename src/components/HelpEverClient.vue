@@ -12,9 +12,6 @@
                             <h3>{{ item.textH3 }}</h3>
                             <p>{{ item.textParagr }}</p>
                         </div>
-                        <!-- @click="unhide" -->
-                        <!-- <button v-if="isMobile" class="unhide-btn">Развернуть<img
-                                src="/assets/images/HelpEverClient/vector-img.png" alt="vector"></button> -->
                     </div>
                     <div class="wrapButt">
                         <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
@@ -29,9 +26,6 @@
                             <h3>{{ item.textH3 }}</h3>
                             <p>{{ item.textParagr }}</p>
                         </div>
-                        <!-- @click="unhide" -->
-                        <!-- <button class="unhide-btn">Развернуть<img src="/assets/images/HelpEverClient/vector-img.png"
-                                alt="vector"></button> -->
                         <div class="wrapButt">
                             <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                         </div>

@@ -1,45 +1,40 @@
 <template>
     <div class="slider">
-        <swiper class="swiper slider" :slides-per-view="2" :space-between="50" @swiper="onSwiper"
-            :breakpoints="{
-                1230: {
-                    slidesPerView: 6,
-                    slidesPerGroup: 5
-                },
-                1022: {
-                    slidesPerView: 5,
-                    slidesPerGroup: 5
-                },
-                639:
-                {
-                    slidesPerView: 4,
-                    slidesPerGroup: 4
-                }, 520: {
-                    slidesPerView: 3,
-                    slidesPerGroup: 2
-                }
-            }">
+        <swiper class="swiper slider" :slides-per-view="2" :space-between="50" @swiper="onSwiper" :breakpoints="{
+            1230: {
+                slidesPerView: 6,
+                slidesPerGroup: 5
+            },
+            1022: {
+                slidesPerView: 5,
+                slidesPerGroup: 5
+            },
+            639:
+            {
+                slidesPerView: 4,
+                slidesPerGroup: 4
+            }, 520: {
+                slidesPerView: 3,
+                slidesPerGroup: 2
+            }
+        }">
 
             <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">
-                <img :src="'/assets/images/' + item.img" :alt=item.name>
+                <img :src="'/images/' + item.img" :alt=item.name>
             </swiper-slide>
 
         </swiper>
         <div class="slider-nav__wrapper">
             <div class="slider-nav">
-                <button class="slider-nav__button slider-nav__button_prev" @click="swiper.slidePrev()">
-                    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M6.74036 11.7489C6.39417 12.0837 5.83288 12.0837 5.48669 11.7489L0.324553 6.75761C-0.108182 6.3392 -0.108187 5.66081 0.324553 5.24239L5.48669 0.251052C5.83288 -0.0836831 6.39417 -0.0836831 6.74036 0.251052C7.08655 0.585787 7.08655 1.1285 6.74036 1.46323L2.04834 6L6.74036 10.5368C7.08655 10.8715 7.08655 11.4142 6.74036 11.7489Z"
-                            fill="#E3E6E8" />
-                    </svg>
+                <button
+                    class="flex items-center justify-center border-2 border-gray-300 text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
+                    @click="swiper.slidePrev()">
+                    <i class="pi pi-angle-left !text-xl"></i>
                 </button>
-                <button class="slider-nav__button slider-nav__button_next" @click="swiper.slideNext()">
-                    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M6.74036 11.7489C6.39417 12.0837 5.83288 12.0837 5.48669 11.7489L0.324553 6.75761C-0.108182 6.3392 -0.108187 5.66081 0.324553 5.24239L5.48669 0.251052C5.83288 -0.0836831 6.39417 -0.0836831 6.74036 0.251052C7.08655 0.585787 7.08655 1.1285 6.74036 1.46323L2.04834 6L6.74036 10.5368C7.08655 10.8715 7.08655 11.4142 6.74036 11.7489Z"
-                            fill="#E3E6E8" />
-                    </svg>
+                <button
+                    class="flex items-center justify-center border-2 border-gray-300 text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
+                    @click="swiper.slideNext()">
+                    <i class="pi pi-angle-right !text-xl"></i>
                 </button>
                 <!-- <Pagination /> -->
                 <!-- <div class="slider-pagination"></div> -->
@@ -75,6 +70,14 @@ export default {
             },
             dataSlider: [
                 {
+                    name: "sberbank",
+                    img: "suppliers/sber.png",
+                },
+                {
+                    name: "vtb-bank",
+                    img: "suppliers/vtb.png",
+                },
+                {
                     name: "alpha-bank",
                     img: "suppliers/alpha.png",
                 },
@@ -83,20 +86,12 @@ export default {
                     img: "suppliers/mdm.png",
                 },
                 {
-                    name: "vtb-bank",
-                    img: "suppliers/vtb.png",
-                },
-                {
                     name: "expo-bank",
                     img: "suppliers/expo.png",
                 },
                 {
                     name: "home-credit",
                     img: "suppliers/home.png",
-                },
-                {
-                    name: "sberbank",
-                    img: "suppliers/sber.png",
                 },
                 {
                     name: "otp-bank",

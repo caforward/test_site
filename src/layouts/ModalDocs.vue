@@ -179,7 +179,7 @@ onUpdated(() => {
         <BaseModal v-if="visible">
             <div class="modal-body">
                 <div class="close-button" @click="visible = false">
-                    <img src="/assets/images/close_x/Vector.png" alt="krestik" />
+                    <i class="pi pi-times !text-xl"></i>
                 </div>
                 <h2 class="modal-body__title">
                     {{ docs[toShowIndex].title }}
@@ -283,8 +283,13 @@ onUpdated(() => {
 
 .close-button {
     position: absolute;
-    top: 35px;
-    right: 40px;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
