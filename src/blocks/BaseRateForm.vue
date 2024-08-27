@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useFetchPost } from '@/composable/useFetch.js'
+// import { useFetchPost } from '@/composable/useFetch.js'
 
 const emits = defineEmits(['close'])
 const starCount = 5

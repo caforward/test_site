@@ -119,9 +119,9 @@ async function submitForm() {
             formData.append(additionalInput.value.inputName, additionalInput.value.input.modelValue)
         }
 
-        formData.entries().forEach(key => {
-            console.log(key)
-        })
+        // formData.entries().forEach(key => {
+        //     console.log(key)
+        // })
 
         emit('submitted', formData)
 

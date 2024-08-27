@@ -80,6 +80,7 @@ async function sendData(formData) {
             method: 'POST',
             body: formData
         })
+
     } catch {
         response.value = { ok: false }
     }
@@ -91,17 +92,17 @@ async function sendRating(rateData) {
     postData.append('message', rateData.rateMessage.value)
     postData.append('username', userName.value)
 
-    postData.entries().forEach(key => {
-        console.log(key)
-    })
+    // postData.entries().forEach(key => {
+    //     console.log(key)
+    // })
 
     try {
         await fetch('rate.php', {
             method: 'POST',
-            body: formData
+            body: postData
         })
-    } catch {
-        console.log('')
+    } catch (err) {
+        console.log('error rate', err.message)
     }
 }
 

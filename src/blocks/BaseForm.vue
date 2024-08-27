@@ -8,7 +8,7 @@ import Badge from 'primevue/badge';
 
 // composables
 
-import { useFetchPost } from '@/composable/useFetch.js'
+// import { useFetchPost } from '@/composable/useFetch.js'
 import { getDottedDate } from '@/composable/useCalendar.js'
 import { useValueFormat } from '@/composable/useValueFormat.js'
 
