@@ -153,7 +153,7 @@
                                     </button>
                                 </div>
                                 <div class="card__img">
-                                    <img src="/assets/images/offers/calc.png" alt="the was a img">
+                                    <img src="/images/offers/calc.png" alt="the was a img">
                                 </div>
                             </div>
                         </div>

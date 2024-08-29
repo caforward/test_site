@@ -195,9 +195,9 @@ onUpdated(() => {
                     </ul>
                     <ul class="modal-body-content__list modal-body-content__list_files">
                         <li v-for="(file, idx) in docs[toShowIndex].files" :key="idx">
-                            <a :href="'/assets/docs/' + file.filename" :title="file.name" target="_blank">
+                            <a :href="'/docs/' + file.filename" :title="file.name" target="_blank">
                                 <div>
-                                    <img src="/assets/images/pdf.png" alt="">
+                                    <img src="/images/pdf.png" alt="">
                                 </div>
                                 <div>
                                     <div>

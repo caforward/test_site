@@ -15,9 +15,9 @@
 <script setup>
 import { onMounted } from "vue";
 
+// import Offers from "../components/Offers.vue";
 import IntroSlider from "../components/IntroSlider.vue";
 import AboutInNumbersVue from "../components/AboutInNumbers.vue";
-import Offers from "../components/Offers.vue";
 import HelpEverClientVue from "../components/HelpEverClient.vue";
 import PigFinance from "../components/PigFinance.vue";
 import Suppliers from "../components/Suppliers.vue";

@@ -6,7 +6,7 @@
                 <div class="advantages-plates">
                     <div class="advantages-plates-item" v-for="(plate, idx) in advantagesPlates" :key="idx">
                         <div class="advantages-plates-item__img">
-                            <img :src="'assets/images/' + plate.imgSrc" alt="" />
+                            <img :src="'/images/' + plate.imgSrc" alt="" />
                         </div>
                         <div class="advantages-plates-item__text">
                             {{ plate.text }}
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="advantages__img">
-                    <img src="/assets/images/blocks/about/advantages/person.png" alt="">
+                    <img src="/images/blocks/about/advantages/person.png" alt="">
                 </div>
             </div>
         </div>

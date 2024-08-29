@@ -84,7 +84,7 @@ watch(
                             Оплата через приложение банка
                         </div>
                         <div>
-                            <img src="/assets/images/QR-code.png" alt="">
+                            <img src="/images/QR-code.png" alt="">
                         </div>
                     </div>
                 </div>

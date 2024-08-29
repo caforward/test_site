@@ -29,7 +29,7 @@
                 <div class="content__img">
                     <div class="content-award">
                         <div class="content-award__img">
-                            <img src="/assets/images/blocks/partners/aboutCompany/top-18.svg" alt="">
+                            <img src="/images/blocks/partners/aboutCompany/top-18.svg" alt="">
                         </div>
                         <span>
                             коллекторских <br> агентств России 
@@ -40,7 +40,7 @@
             <div class="plates">
                 <div class="plates-item" v-for="(item, index) in items" :key="index">
                     <div class="plates-item__img">
-                        <img :src='"/assets/images/" + item.img' alt="">
+                        <img :src='"/images/" + item.img' alt="">
                     </div>
                     <h3 class="plates-item__title">{{ item.title }}</h3>
                     <span class="plates-item__text">

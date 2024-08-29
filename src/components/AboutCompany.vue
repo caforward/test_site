@@ -30,7 +30,7 @@
     </section>
     <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
         <template v-slot:toolbar="{ toolbarMethods }">
-            <a href="/assets/images/AboutCompany/svo.pdf" target="_blank" class="lightbox-button button button_blue">Загрузить</a>
+            <a href="/images/AboutCompany/svo.pdf" target="_blank" class="lightbox-button button button_blue">Загрузить</a>
         </template>
     </vue-easy-lightbox>
 </template>
@@ -43,7 +43,7 @@ const visibleRef = ref(false)
 const indexRef = ref(0)
 const imgsRef = [
     {
-        src: '/assets/images/AboutCompany/svo.jpg',
+        src: '/images/AboutCompany/svo.jpg',
         title:
             'Свидетельство о включении в Реестр юридических лиц, \
             осуществляющих деятельность по возврату просроченной \

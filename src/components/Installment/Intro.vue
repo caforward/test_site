@@ -37,7 +37,7 @@ function scrollToCalculate() {
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/assets/images/blocks/installment/intro/01.png" alt="" />
+                        <img src="/images/blocks/installment/intro/01.png" alt="" />
                     </div>
                 </template>
             </IntroBlock>

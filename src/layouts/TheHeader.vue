@@ -23,7 +23,7 @@
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
                         <a href="/">
-                            <img src="/assets/images/logo.svg" alt="" />
+                            <img src="/images/logo.svg" alt="" />
                         </a>
                     </div>
 

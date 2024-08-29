@@ -63,19 +63,19 @@ export default defineComponent({
             items: [
                 {
                     id: 1,
-                    imageUrl: '/assets/images/HelpEverClient/1img.png',
+                    imageUrl: '/images/HelpEverClient/1img.png',
                     textH3: "Прощение долга",
                     textParagr: "Наша компания поможет полностью избавиться от долгов. Что это значит? С помощью рассчитанного нами оптимального графика платежей Вы сможете быстро выплатить задолженность, и она не будет обременять Вас",
                     background: '#ecf6e7',
                 }, {
                     id: 2,
-                    imageUrl: '/assets/images/HelpEverClient/2img.png',
+                    imageUrl: '/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
                     textParagr: "Наша компания поможет быстро и эффективно разблокировать счета, благодаря чему Вы забудете о проблемах с приставами",
                     background: '#f0f1f9'
                 }, {
                     id: 3,
-                    imageUrl: '/assets/images/HelpEverClient/3img.png',
+                    imageUrl: '/images/HelpEverClient/3img.png',
                     textH3: "Узнать номер вашего договора",
                     textParagr: "Не знаете номер своего договора? Оставьте свои контактные данные, и наши специалисты со всем разберутся. Если Вы не можете разобраться в юридических сложностях, просто позвоните нам – в ООО ПКО «Форвард» работают юристы высокого класса, которые помогут даже в самой сложной ситуации. ",
                     background: '#EEF1F3'

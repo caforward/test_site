@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"assets/images/" + "introSlider/03.jpg"' alt="" />
+                            <img :src='"/images/" + "introSlider/03.jpg"' alt="" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"assets/images/" + "introSlider/01.jpg"' alt="There was img" />
+                            <img :src='"/images/" + "introSlider/01.jpg"' alt="There was img" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src="'/assets/images/' + 'introSlider/02.jpg'
+                            <img :src="'/images/' + 'introSlider/02.jpg'
                                 " alt="" />
                         </div>
                     </div>

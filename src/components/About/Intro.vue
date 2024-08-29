@@ -33,7 +33,7 @@ const modalVisible = ref(false)
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/assets/images/blocks/about/intro/01.png" alt="" />
+                        <img src="/images/blocks/about/intro/01.png" alt="" />
                     </div>
                 </template>
             </IntroBlock>

@@ -27,7 +27,7 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/assets/images/blocks/partners/intro/01.png" alt="" />
+                        <img src="/images/blocks/partners/intro/01.png" alt="" />
                     </div>
                 </template>
             </IntroBlock>

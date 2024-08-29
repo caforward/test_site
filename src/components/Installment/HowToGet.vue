@@ -8,27 +8,27 @@ const contentArr = ref([
     {
         id: 1, pBold: "Снижение процентной ставки",
         p: "погашение задолженности облегчается за счет уменьшения процентной ставки или комиссии. ",
-        src: '/assets/images/blocks/installment/HowToGet/1.png'
+        src: '/images/blocks/installment/HowToGet/1.png'
     },
     {
         id: 2, pBold: "Гибкость в сроках",
         p: "коллекторское агентство пересмотрит сроки платежей, адаптировав их к Вашим финансовым возможностям. С учетом Вашей платежеспособности наши специалисты составят новый график платежей, который позволит Вам погашать задолженность небольшими частями.",
-        src: '/assets/images/blocks/installment/HowToGet/2.png'
+        src: '/images/blocks/installment/HowToGet/2.png'
     },
     {
         id: 3, pBold: "Отсрочка платежа",
         p: "если у Вас временные финансовые проблемы, коллекторское агентство может предоставить Вам отсрочку и просто перенести дату очередного платежа. ",
-        src: '/assets/images/blocks/installment/HowToGet/3.png'
+        src: '/images/blocks/installment/HowToGet/3.png'
     },
     {
         id: 4, pBold: "Прекращение действий по взысканию ",
         p: "если Вы показываете активную готовность решить вопрос, коллекторы могут приостановить или полностью прекратить действия по взысканию, чтобы Вы получили дополнительное время на решение Ваших проблем.",
-        src: '/assets/images/blocks/installment/HowToGet/4.png'
+        src: '/images/blocks/installment/HowToGet/4.png'
     },
     {
         id: 5, pBold: "Реструктуризация",
         p: "если характер финансовых проблем продолжительный, то сумма платежа может быть уменьшена, но сроки увеличены.",
-        src: '/assets/images/blocks/installment/HowToGet/5.png'
+        src: '/images/blocks/installment/HowToGet/5.png'
     },
 ])
 </script>
