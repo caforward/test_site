@@ -21,8 +21,12 @@
                     <button @click="$router.push('/about')" class="button">Подробнее</button>
                 </div>
                 <div class="imgContainer">
-                    <div v-for="(img, idx) in imgsRef" :key="idx">
-                        <img :src="img.src" :alt="img.title" @click="showImg(idx)" />
+                    <div>
+                        <source srcset="/images/AboutCompany/svo.webp" type="image/webp">
+                        <source srcset="/images/AboutCompany/svo.jpg" type="image/jpeg">
+                        <img src="/images/AboutCompany/svo.jpg"
+                            alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
+                            @click="showImg()" />
                     </div>
                 </div>
             </div>
@@ -30,7 +34,8 @@
     </section>
     <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
         <template v-slot:toolbar="{ toolbarMethods }">
-            <a href="/images/AboutCompany/svo.pdf" target="_blank" class="lightbox-button button button_blue">Загрузить</a>
+            <a href="/images/AboutCompany/svo.pdf" target="_blank"
+                class="lightbox-button button button_blue">Загрузить</a>
         </template>
     </vue-easy-lightbox>
 </template>
@@ -51,8 +56,8 @@ const imgsRef = [
     },
 ]
 
-const showImg = (index) => {
-    indexRef.value = index
+const showImg = () => {
+    indexRef.value = 0
     visibleRef.value = true
     document.body.style.paddingRight = '10px'
 }

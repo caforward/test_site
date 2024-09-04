@@ -29,7 +29,12 @@ const modalVisibleCall = ref(false)
                     </div>
                     <button @click="modalVisibleCall = true" class="button_blue callOrderButt">Заказать звонок</button>
                 </div>
-                <div class="imgContent"><img src="/images/AnonimCall/1Img.png" alt="there was a pic"></div>
+                <!-- <div class="imgContent"><img src="/images/AnonimCall/1Img.png" alt="there was a pic"></div> -->
+                <div>
+                    <source srcset="/images/AnonimCall/1Img.webp" type="image/webp">
+                    <source srcset="/images/AnonimCall/1Img.png" type="image/png">
+                    <img src="/images/AnonimCall/1Img.png" alt="Анонимный звонок" />
+                </div>
             </div>
 
         </div>
