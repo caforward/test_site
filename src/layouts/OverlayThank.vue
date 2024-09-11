@@ -10,6 +10,14 @@ const emit = defineEmits(['closeParentModal', 'sendRating'])
 const visible = defineModel('visible')
 const status = defineModel('status')
 
+// props
+const props = defineProps({
+    isModal: {
+        type: Boolean,
+        default: false,
+    }
+})
+
 // variables
 const rating = ref(null)
 const ratingMessage = ref('')
@@ -42,7 +50,7 @@ function sendRating() {
 
 <template>
     <transition name="fade">
-        <div v-if="visible" class="overlay text-slate-900 flex flex-col items-center px-6 py-4">
+        <div v-if="visible" :class="['overlay', 'text-slate-900', isModal ? 'min-h-96' : 'px-6 py-4 absolute top-0 left-0']">
             <span v-if="status === null" class="icon">
                 <i class="pi pi-spin pi-spinner !text-8xl text-sky-600"></i>
             </span>
@@ -94,9 +102,15 @@ function sendRating() {
                         </p>
                     </div>
                     <div class="flex gap-4">
-                        <Button label="Вернуться на страницу" size="large" severity="secondary" @click="closeModal" />
-                        <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right"
-                            @click="closeOverlay" />
+                        <template v-if="!isModal">
+                            <Button label="Вернуться на страницу" size="large" severity="secondary"
+                                @click="closeModal" />
+
+                            <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right"
+                                @click="closeOverlay" />
+                        </template>
+
+                        <Button v-else label="Вернуться на страницу" size="large" @click="closeModal" />
                     </div>
                 </div>
             </div>
@@ -145,14 +159,19 @@ function sendRating() {
 }
 
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+
     width: 100%;
     height: 100%;
     justify-content: center;
     background-color: #fff;
     border-radius: 30px;
     z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>

@@ -8,6 +8,8 @@ import Jobs from "../views/Jobs.vue"
 import PartnerPage from "../views/PartnerPage.vue";
 import Installment from "../views/Installment.vue";
 import Policy from "../components/PrivacyPolicy/Policy.vue";
+import NotFound from "../views/NotFound.vue";
+import PageComplaint from "../views/PageComplaint.vue";
 
 const routes = [
     { path: "/", name: 'Главная', component: MainPage },
@@ -20,6 +22,8 @@ const routes = [
         name: 'Получить рассрочку',
         component: Installment
     },
+    { path: "/notFound", name: 'Ошибка 404', component: NotFound },
+    { path: "/complaint", name: 'Отправить жалобу', component: PageComplaint },
 ];
 
 const router = createRouter({

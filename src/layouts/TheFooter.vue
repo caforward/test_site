@@ -3,6 +3,7 @@ import { ref, onBeforeMount, reactive } from 'vue'
 import { useRouter } from 'vue-router';
 import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
+import Button from 'primevue/button';
 
 const router = useRouter()
 const modalVisible = reactive({
@@ -169,12 +170,19 @@ onBeforeMount(() => {
                                     </a>
                                 </div>
 
-                                <ul class="social">
+                                <ul class="social mb-auto">
                                     <li v-for="link in socialLinks" :key="link.name">
                                         <a :href="link.href" :target="link.target" :aria-label="link.name"
                                             v-html="link.icon"></a>
                                     </li>
                                 </ul>
+
+                                <router-link to="/complaint">
+                                    <span class="flex items-bottom gap-1 text-orange-200 text-sm hover:text-orange-300 transition-colors">
+                                        Пожаловаться
+                                        <i class="pi pi-exclamation-circle text-sm !flex items-center"></i>
+                                    </span>
+                                </router-link>
                             </div>
                         </div>
                     </div>

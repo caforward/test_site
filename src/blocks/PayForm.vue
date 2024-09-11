@@ -79,6 +79,8 @@ function paymentPay() {
 
     const { description, amount, email, phone, contractId, receipt } = TPF
 
+    description.value = contractId.value
+    
     TPF.DATA.value = JSON.stringify({
         "Paymentpurpose": `Оплата по договору номер ${contractId.value}`,
     })
@@ -101,7 +103,7 @@ function paymentPay() {
         ]
     });
 
-    pay(TPF)
+    // pay(TPF)
 }
 
 onBeforeMount(() => {
@@ -155,7 +157,8 @@ watch(
         <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
         <input class="payform__input" type="hidden" name="frame" value="false">
         <input class="payform__input" type="hidden" name="language" value="ru">
-        <input class="payform__input" type="hidden" placeholder="Номер заказа" name="order">
+        <input class="payform__input" type="hidden" name="order">
+        <input class="payform__input" type="hidden" name="description">
         <input class="payform__input" type="hidden" name="receipt" value="">
         <input class="payform-tinkoff-row" type="hidden" name="DATA" value="">
 

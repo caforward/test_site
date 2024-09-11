@@ -4,15 +4,15 @@ import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import BaseInstallment from './BaseFormInstallment.vue';
+import BaseFormInstallment from './BaseFormInstallment.vue';
 import BaseInput from '../ui/BaseInput.vue';
+import BaseFormComplaint from './BaseFormComplaint.vue';
 
 // composables
 
 // import { useFetchPost } from '@/composable/useFetch.js'
 // import { getDottedDate } from '@/composable/useCalendar.js'
 // import { useValueFormat } from '@/composable/useValueFormat.js'
-// import BaseInstallment from './BaseInstallment.vue';
 
 // variables
 
@@ -207,11 +207,19 @@ onMounted(() => {
                         :disabled="input.disabled" :options="input.options" />
                 </template>
 
-                <!-- installment info -->
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
+
+                    <!-- installment block -->
                     <template v-if="formInputs.messageType.value.code === 'installment'">
-                        <BaseInstallment ref="additionalFormBlock" />
+                        <BaseFormInstallment ref="additionalFormBlock" />
                     </template>
+
+                    <!-- complaint block -->
+                    <template v-if="formInputs.messageType.value.code === 'complaint'">
+                        <BaseFormComplaint ref="additionalFormBlock" />
+                    </template>
+
+                    <!-- default -->
                     <template v-else>
                         <BaseInput ref="additionalInput" type="textarea" name="message"
                             placeholder="Кратко опишите Ваш вопрос*" />
