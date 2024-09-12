@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'tel' => 'Телефон',
         'email' => 'Email',
         'employeeName' => 'ФИО сотрудника',
-        'complaintMessage' => 'Текст жалобы',
+        'complaintMessage' => 'Текст обращения',
     ];
 
     $htmlContent = '<html><head><meta charset="UTF-8"></head><body></body></html>';

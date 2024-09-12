@@ -50,7 +50,8 @@ function sendRating() {
 
 <template>
     <transition name="fade">
-        <div v-if="visible" :class="['overlay', 'text-slate-900', isModal ? 'min-h-96' : 'px-6 py-4 absolute top-0 left-0']">
+        <div v-if="visible"
+            :class="['overlay', 'text-slate-900', isModal ? 'min-h-96' : 'px-6 py-4 absolute top-0 left-0']">
             <span v-if="status === null" class="icon">
                 <i class="pi pi-spin pi-spinner !text-8xl text-sky-600"></i>
             </span>
@@ -85,7 +86,10 @@ function sendRating() {
                     </transition>
 
                     <div class="flex gap-4">
-                        <Button label="Вернуться на страницу" size="large" @click="closeModal" />
+                        <Button v-if="!isModal" label="Вернуться на страницу" size="large" @click="closeModal" />
+
+                        <Button v-else as="router-link" to="/" label="Вернуться на главную" severity="secondary" size="large"
+                            @click="closeModal" />
                     </div>
                 </div>
 
@@ -110,7 +114,13 @@ function sendRating() {
                                 @click="closeOverlay" />
                         </template>
 
-                        <Button v-else label="Вернуться на страницу" size="large" @click="closeModal" />
+                        <template v-else>
+                            <Button as="router-link" to="/" label="Вернуться на главную" severity="secondary"
+                                size="large" @click="closeModal" />
+
+                            <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right"
+                                @click="closeModal" />
+                        </template>
                     </div>
                 </div>
             </div>
