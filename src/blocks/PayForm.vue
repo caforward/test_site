@@ -103,7 +103,7 @@ function paymentPay() {
         ]
     });
 
-    // pay(TPF)
+    pay(TPF)
 }
 
 onBeforeMount(() => {
