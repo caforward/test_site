@@ -101,7 +101,7 @@ async function sendRating(rateData) {
                         <div>
                             <ul class="text-xl font-bold mb-5 max-lg:text-lg max-lg:mb-2 max-sm:text-base">
                                 <li class="">
-                                    Столкнулись с некомпетным поведением сотрудника?
+                                    Столкнулись с некомпетентным поведением сотрудника?
                                 </li>
                                 <li class="">
                                     Возникла конфликтная ситуация?

@@ -1,9 +1,9 @@
 <template>
     <main>
         <IntroSlider />
+        <BaseComplainBlock />
         <AboutInNumbersVue />
         <HelpEverClientVue />
-
         <!-- <Offers /> Временно убрано до подключения Ю-кассы -->
         <PigFinance />
         <Suppliers />
@@ -23,6 +23,7 @@ import PigFinance from "../components/PigFinance.vue";
 import Suppliers from "../components/Suppliers.vue";
 import AboutCompany from "../components/AboutCompany.vue";
 import AnonimCallVue from "../components/AnonimCall.vue";
+import BaseComplainBlock from "../blocks/BaseComplainBlock.vue";
 </script>
 
 <style></style>
