@@ -1,7 +1,40 @@
+<script setup>
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import Button from 'primevue/button';
+import ModalForm from '../layouts/ModalForm.vue';
+import { ref } from 'vue';
+
+const props = defineProps({
+    light: {
+        type: Boolean,
+        default: false
+    }
+})
+
+const modalVisible = ref(false)
+const modalDefaultOption = ref(null)
+
+const modules = [Navigation, Pagination, Autoplay];
+
+function showModal() {
+    modalDefaultOption.value = null;
+    modalVisible.value = true;
+}
+
+function showInstallmentModal() {
+    modalDefaultOption.value = 'installment';
+    modalVisible.value = true;
+}
+</script>
+
 <template>
-    <section class="">
-        <div class="slider">
-            <swiper class="swiper" @swiper="onSwiper" :slides-per-view="1" :speed="700">
+    <section class="intro-slider">
+        <div class="slider__inner">
+            <swiper class="swiper" :modules="modules" :slides-per-view="1" :speed="700" :loop="true"
+                :autoplay="{ delay: 5000 }"
+                :navigation="{ nextEl: '.slider-nav-button__next', prevEl: '.slider-nav-button__prev' }"
+                :pagination="{ clickable: true, el: '.slider-pagination' }">
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
@@ -115,20 +148,18 @@
             </swiper>
             <div class="slider-nav__wrapper">
                 <div class="container">
-                    <div class="slider-nav">
+                    <div class="slider-nav flex items-center">
                         <button
-                            class="flex items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
-                            @click="this.swiper.slidePrev()">
+                            class="slider-nav-button slider-nav-button__prev flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-left !text-xl"></i>
                         </button>
                         <button
-                            class="flex items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500"
-                            @click="this.swiper.slideNext()">
+                            class="slider-nav-button slider-nav-button__next flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-right !text-xl"></i>
                         </button>
+                        <!-- <Pagination /> -->
+                        <div class="slider-pagination"></div>
                     </div>
-                    <!-- <Pagination /> -->
-                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
@@ -137,237 +168,178 @@
     <ModalForm v-model="modalVisible" :type="modalDefaultOption" />
 </template>
 
-<script>
-import { ref } from "vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import ModalForm from "../layouts/ModalForm.vue";
-// import { Pagination, Autoplay } from "swiper/modules";
+<style lang="scss">
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/scrollbar';
 
-// swiper style
-import "swiper/css";
-
-export default {
-    name: "IntroSlider",
-    components: {
-        Swiper,
-        SwiperSlide,
-        ModalForm,
-        // Pagination
-    },
-    methods: {
-        showSwiper(e) {
-            console.log(this.swiper)
-        },
-        showModal() {
-            this.modalDefaultOption = null;
-            this.modalVisible = true;
-        },
-        showInstallmentModal() {
-            this.modalDefaultOption = 'installment';
-            this.modalVisible = true;
-        },
-        onSwiper(swiper) {
-            this.swiper = swiper;
-        },
-    },
-    data() {
-        return {
-            swiper: null,
-            modalVisible: false,
-            modalDefaultOption: null,
-            sliderData: [
-                {
-                    img: "introSlider/01.jpg",
-                    title: "Платите столько, сколько можете",
-                    content: {},
-                },
-                {
-                    img: "introSlider/02.jpg",
-                    title: "Отзовем исполнительное производство",
-                    content: {},
-                },
-                {
-                    img: "introSlider/03.jpg",
-                    title: "Улучшите свою кредитную историю",
-                    content: {},
-                },
-            ],
-        };
-    },
-    mounted() {
-    }
-};
-</script>
-
-<style scoped lang="scss">
-section {
+.intro-slider {
     margin-top: -80px;
-}
 
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .list {
+        &>li {
+            line-height: 140%;
+            margin-bottom: 10px;
+            font-weight: 500;
 
-.link {
-    color: $blue;
-}
-
-.list {
-    &>li {
-        line-height: 140%;
-        margin-bottom: 10px;
-        font-weight: 500;
-
-        b {
-            color: $blue;
-        }
-    }
-}
-
-.slider {
-    position: relative;
-    overflow: hidden;
-    background-color: #eaecee;
-
-    &__container {
-        display: flex;
-        flex-wrap: nowrap;
-        transition: transform 0.2s;
-    }
-
-    &__slide {
-        padding-top: 130px;
-        padding-bottom: 100px;
-        height: 800px;
-        display: flex;
-        align-items: center;
-
-        position: relative;
-        z-index: 1;
-        min-width: 100%;
-    }
-
-    &-nav {
-        display: flex;
-        gap: 10px;
-
-        &__wrapper {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            z-index: 1;
-        }
-
-        &__button {
-            border: 2px solid #fff;
-            border-radius: 30px;
-            width: 40px;
-            height: 40px;
-
-            &_prev {
-                rotate: 180deg;
+            b {
+                color: $blue;
             }
         }
     }
-}
 
-.slide {
-    &__img {
-        position: absolute;
-        top: 17px;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background-color: $white-blue;
-
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #e3e6eb 30%, transparent 50%)
-        }
-    }
-
-    &-content {
-
-        &__title {
-            font-weight: 700;
-            font-size: 48px;
-            line-height: 104%;
-            margin-bottom: 22px;
-        }
-
-        &__text {
-            width: 540px;
-            font-size: 16px;
-            line-height: 175%;
-            margin-bottom: 33px;
-
-            p:not(:last-child) {
-                margin-bottom: 15px;
-            }
-        }
-
-        &__buttons {
-            display: flex;
-
-            &>*:not(:last-child) {
-                margin-right: 30px;
-            }
-        }
-    }
-}
-
-@include desktopXl {
-    .slider__slide {
-        // padding-top: 80px;
-        // height: 660px;
-    }
-}
-
-@include desktop {
     .slider {
+        &__inner {
+            position: relative;
+            overflow: hidden;
+            background-color: #eaecee;
+        }
+
+        &__container {
+            display: flex;
+            flex-wrap: nowrap;
+            transition: transform 0.2s;
+        }
+
         &__slide {
-            // height: 750px;
+            padding-top: 130px;
+            padding-bottom: 100px;
+            height: 800px;
+            display: flex;
+            align-items: center;
+
+            position: relative;
+            z-index: 1;
+            min-width: 100%;
         }
 
         &-nav {
+            display: flex;
+            gap: 10px;
+
             &__wrapper {
+                position: absolute;
                 bottom: 30px;
+                width: 100%;
+                z-index: 1;
+            }
+
+            &-button {}
+        }
+
+        &-pagination {
+            .swiper-pagination-bullet {
+                margin: 0 2px;
+                width: 6px;
+                height: 6px;
+                opacity: 1;
+                background-color: $white;
+
+                &-active {
+                    background-color: $blue;
+                }
             }
         }
     }
 
     .slide {
         &__img {
-            img {
-                object-position: 47%;
-            }
+            position: absolute;
+            top: 17px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: $white-blue;
 
             &::before {
-                background: linear-gradient(90deg, #e3e6eb 30%, transparent 70%)
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, #e3e6eb 30%, transparent 50%)
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
         }
 
         &-content {
+
             &__title {
-                font-size: 44px;
+                font-weight: 700;
+                font-size: 48px;
+                line-height: 104%;
+                margin-bottom: 22px;
             }
 
             &__text {
-                width: 363px;
-                font-size: 14px;
+                width: 540px;
+                font-size: 16px;
+                line-height: 175%;
+                margin-bottom: 33px;
+
+                p:not(:last-child) {
+                    margin-bottom: 15px;
+                }
             }
 
             &__buttons {
+                display: flex;
+
                 &>*:not(:last-child) {
-                    margin-right: 15px;
+                    margin-right: 30px;
+                }
+            }
+        }
+    }
+}
+
+@include desktop {
+    .intro-slider {
+        .slider {
+            &__slide {
+                // height: 750px;
+            }
+
+            &-nav {
+                &__wrapper {
+                    bottom: 30px;
+                }
+            }
+        }
+
+        .slide {
+            &__img {
+                img {
+                    object-position: 47%;
+                }
+
+                &::before {
+                    background: linear-gradient(90deg, #e3e6eb 30%, transparent 70%)
+                }
+            }
+
+            &-content {
+                &__title {
+                    font-size: 44px;
+                }
+
+                &__text {
+                    width: 363px;
+                    font-size: 14px;
+                }
+
+                &__buttons {
+                    &>*:not(:last-child) {
+                        margin-right: 15px;
+                    }
                 }
             }
         }
@@ -375,98 +347,101 @@ img {
 }
 
 @include laptop {
-    section {
+    .intro-slider {
         margin-top: -80px;
-    }
 
-    .slider {
-        &__slide {
-            padding-top: 120px;
-            height: 750px;
+        .slider {
+            &__slide {
+                padding-top: 120px;
+                height: 750px;
 
-            &_fix {
-                padding-top: 100px;
-            }
-        }
-    }
-
-    .slide {
-        &__img {
-            img {
-                object-position: 54%;
-            }
-
-            &::before {
-                background: linear-gradient(90deg, #e3e6eb 30%, transparent 80%)
+                &_fix {
+                    padding-top: 100px;
+                }
             }
         }
 
-        &-content {
-            &__title {
-                font-size: 30px;
-                margin-bottom: 10px;
+        .slide {
+            &__img {
+                img {
+                    object-position: 54%;
+                }
+
+                &::before {
+                    background: linear-gradient(90deg, #e3e6eb 30%, transparent 80%)
+                }
             }
 
-            &__text {
-                // width: 279px;
-                width: 450px;
-                line-height: 171%;
-                margin-bottom: 25px;
+            &-content {
+                &__title {
+                    font-size: 30px;
+                    margin-bottom: 10px;
+                }
+
+                &__text {
+                    // width: 279px;
+                    width: 450px;
+                    line-height: 171%;
+                    margin-bottom: 25px;
+                }
             }
         }
     }
 }
 
 @include mobile {
-    .slider {
-        &__slide {
-            align-items: start;
-            height: unset;
-            padding-bottom: 240px;
+    .intro-slider {
 
-            &_fix {
-                padding-top: 120px;
+        .slider {
+            &__slide {
+                align-items: start;
+                height: unset;
+                padding-bottom: 240px;
+
+                &_fix {
+                    padding-top: 120px;
+                }
+            }
+
+            &-nav {
+                &__wrapper {
+                    bottom: 20px;
+                }
             }
         }
 
-        &-nav {
-            &__wrapper {
-                bottom: 20px;
-            }
-        }
-    }
+        .slide {
+            &__img {
+                padding-top: 260px;
 
-    .slide {
-        &__img {
-            padding-top: 260px;
+                img {
+                    object-position: 80%;
+                }
 
-            img {
-                object-position: 80%;
+                &::before {
+                    background: transparent
+                }
             }
 
-            &::before {
-                background: transparent
-            }
-        }
+            &-content {
+                &__title {
+                    margin-bottom: 25px;
+                }
 
-        &-content {
-            &__title {
-                margin-bottom: 25px;
-            }
+                &__text {
+                    display: none;
+                }
 
-            &__text {
-                display: none;
-            }
+                &__buttons {
+                    flex-wrap: wrap;
+                    gap: 10px;
 
-            &__buttons {
-                flex-wrap: wrap;
-                gap: 10px;
+                    &>* {
+                        width: fit-content;
 
-                &>* {
-                    width: fit-content;
-
-                    &:not(:last-child) {
-                        margin: 0;
+                        &:not(:last-child) {
+                            margin: 0;
+                        }
                     }
                 }
             }
@@ -475,18 +450,20 @@ img {
 }
 
 @include mobileS {
-    .slide {
-        &__img {
-            padding-top: 300px;
+    .intro-slider {
+        .slide {
+            &__img {
+                padding-top: 300px;
 
-            img {
-                object-position: 90%;
+                img {
+                    object-position: 90%;
+                }
             }
-        }
 
-        &-content {
-            &__title {
-                font-size: 20px;
+            &-content {
+                &__title {
+                    font-size: 20px;
+                }
             }
         }
     }

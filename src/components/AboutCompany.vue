@@ -1,45 +1,3 @@
-<template>
-    <section>
-        <div class="container">
-            <div class="flexContainer">
-                <div class="textContent">
-                    <h3>О компании</h3>
-                    <p>
-                        ООО ПКО «Форвард» – коллекторское агентство, осуществляющее
-                        деятельность по возврату просроченной задолженности в качестве
-                        основного вида деятельности. Компания действует в соответствии с
-                        действующим законодательством и договорами, заключенными с
-                        кредитными и иными организациями. «Форвард» законно и правомерно
-                        осуществляет действия, направленные на возврат задолженности на
-                        основании любого из нижеприведенных видов
-                        договоров в соответствии с Федеральным законом от 03.07.2016 N
-                        230-ФЗ «О защите прав и законных интересов физических лиц при
-                        осуществлении деятельности по возврату просроченной
-                        задолженности и о внесении изменений в ФЗ «О микрофинансовой
-                        деятельности и микрофинансовых организациях».
-                    </p>
-                    <button @click="$router.push('/about')" class="button">Подробнее</button>
-                </div>
-                <div class="imgContainer">
-                    <div>
-                        <source srcset="/images/AboutCompany/svo.webp" type="image/webp">
-                        <source srcset="/images/AboutCompany/svo.jpg" type="image/jpeg">
-                        <img src="/images/AboutCompany/svo.jpg"
-                            alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
-                            @click="showImg()" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
-        <template v-slot:toolbar="{ toolbarMethods }">
-            <a href="/images/AboutCompany/svo.pdf" target="_blank"
-                class="lightbox-button button button_blue">Загрузить</a>
-        </template>
-    </vue-easy-lightbox>
-</template>
-
 <script setup>
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { defineComponent, ref } from "vue";
@@ -68,6 +26,48 @@ const onHide = () => {
 }
 
 </script>
+
+<template>
+    <section>
+        <div class="container">
+            <div class="flexContainer">
+                <div class="textContent">
+                    <h3>О компании</h3>
+                    <p>
+                        ООО ПКО «Форвард» – коллекторское агентство, осуществляющее
+                        деятельность по возврату просроченной задолженности в качестве
+                        основного вида деятельности. Компания действует в соответствии с
+                        действующим законодательством и договорами, заключенными с
+                        кредитными и иными организациями. «Форвард» законно и правомерно
+                        осуществляет действия, направленные на возврат задолженности на
+                        основании любого из нижеприведенных видов
+                        договоров в соответствии с Федеральным законом от 03.07.2016 N
+                        230-ФЗ «О защите прав и законных интересов физических лиц при
+                        осуществлении деятельности по возврату просроченной
+                        задолженности и о внесении изменений в ФЗ «О микрофинансовой
+                        деятельности и микрофинансовых организациях».
+                    </p>
+                    <button @click="$router.push('/about')" class="button">Подробнее</button>
+                </div>
+                <div class="imgContainer">
+                    <div class="img-thumbnail">
+                        <source srcset="/images/AboutCompany/svo.webp" type="image/webp">
+                        <source srcset="/images/AboutCompany/svo.jpg" type="image/jpeg">
+                        <img src="/images/AboutCompany/svo.jpg"
+                            alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
+                            @click="showImg()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
+        <template v-slot:toolbar="{ toolbarMethods }">
+            <a href="/images/AboutCompany/svo.pdf" target="_blank"
+                class="lightbox-button button button_blue">Загрузить</a>
+        </template>
+    </vue-easy-lightbox>
+</template>
 
 <style lang="scss" scoped>
 .vel {
@@ -138,11 +138,19 @@ button {
     display: flex;
 }
 
-img {
-    max-width: 236px;
-    max-height: 334px;
-    min-width: 175px;
-    min-height: 247px;
+.img {
+    &-thumbnail {
+        max-width: 236px;
+        max-height: 334px;
+        min-width: 175px;
+        min-height: 247px;
+    }
+
+    &-preview {
+        max-height: 100vh;
+        max-width: 100vw;
+        padding: 20px;
+    }
 }
 
 @media screen and (max-width: 1370px) and (min-width: 1025px) {

@@ -1,5 +1,6 @@
 <template>
     <main>
+        <!-- <IntroSlider /> -->
         <IntroSlider />
         <BaseComplainBlock />
         <AboutInNumbersVue />
