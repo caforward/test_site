@@ -79,6 +79,8 @@ function paymentPay() {
 
     const { description, amount, email, phone, contractId, receipt } = TPF
 
+    const unitAmount = amount.value * 100
+
     description.value = contractId.value
     
     TPF.DATA.value = JSON.stringify({
@@ -92,9 +94,9 @@ function paymentPay() {
         "Items": [
             {
                 "Name": `Оплата по договору номер ${contractId.value}`,
-                "Price": amount.value + '00',
+                "Price": unitAmount,
                 "Quantity": 1.00,
-                "Amount": amount.value + '00',
+                "Amount": unitAmount,
                 "PaymentMethod": "credit_payment",
                 "PaymentObject": "payment",
                 "Tax": "none",
@@ -153,7 +155,7 @@ watch(
 </script>
 
 <template>
-    <form ref="form" class="payform" @submit.prevent="validateForm">
+    <form ref="form" novalidate class="payform" @submit.prevent="validateForm">
         <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
         <input class="payform__input" type="hidden" name="frame" value="false">
         <input class="payform__input" type="hidden" name="language" value="ru">
@@ -203,7 +205,7 @@ watch(
         </div>
 
         <div class="payform__bottom">
-            <button class="button button_blue payform__button">
+            <button class="button button_blue payform__button" @click="">
                 Оплатить картой
             </button>
             <div class="payform__meta">
