@@ -1,19 +1,19 @@
-@import "/src/assets/scss/base/mixins.scss";
-@import "/src/assets/scss/base/variables.scss";
-@import "/src/assets/scss/base/animations";
+@import "base/mixins.scss";
+@import "base/variables.scss";
+@import "base/animations";
 
-@import "/src/assets/scss/libs/normalize";
-@import "/src/assets/scss/libs/fonts";
+@import "libs/normalize";
+@import "libs/fonts";
 
-@import "/src/assets/scss/blocks/default";
-@import "/src/assets/scss/blocks/container";
-@import "/src/assets/scss/blocks/button";
-@import "/src/assets/scss/blocks/header";
-@import "/src/assets/scss/blocks/input";
-@import "/src/assets/scss/blocks/heading";
-@import "/src/assets/scss/blocks/list";
-@import "/src/assets/scss/blocks/link";
-@import "/src/assets/scss/blocks/datepicker";
+@import "blocks/default";
+@import "blocks/container";
+@import "blocks/button";
+@import "blocks/header";
+@import "blocks/input";
+@import "blocks/heading";
+@import "blocks/list";
+@import "blocks/link";
+@import "blocks/datepicker";
 
 /* // @import 'vue-select/dist/vue-select.css';
 // @import 'nouislider/dist/nouislider.css'; */

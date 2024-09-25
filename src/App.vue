@@ -8,6 +8,7 @@ import { onMounted, ref } from 'vue'
 
 <template>
 	<TheHeader />
+
 	<router-view v-slot="{ Component, route }">
 		<transition name="fade" mode="out-in">
 			<template #default>
@@ -15,7 +16,9 @@ import { onMounted, ref } from 'vue'
 			</template>
 		</transition>
 	</router-view>
+
 	<TheFooter />
+
 	<TheMenuBottom />
 </template>
 
