@@ -33,8 +33,8 @@ function showInstallmentModal() {
         <div class="slider__inner">
             <swiper class="swiper" :modules="modules" :slides-per-view="1" :speed="700" :loop="true"
                 :autoplay="{ delay: 5000 }"
-                :navigation="{ nextEl: '.slider-nav-button__next', prevEl: '.slider-nav-button__prev' }"
-                :pagination="{ clickable: true, el: '.slider-pagination' }">
+                :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
+                :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="container">
                         <div class="slide-content">
@@ -150,15 +150,15 @@ function showInstallmentModal() {
                 <div class="container">
                     <div class="slider-nav flex items-center">
                         <button
-                            class="slider-nav-button slider-nav-button__prev flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
+                            class="slider-nav-button intro-slider-nav-button__prev flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-left !text-xl"></i>
                         </button>
                         <button
-                            class="slider-nav-button slider-nav-button__next flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
+                            class="slider-nav-button intro-slider-nav-button__next flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-right !text-xl"></i>
                         </button>
                         <!-- <Pagination /> -->
-                        <div class="slider-pagination"></div>
+                        <div class="intro-slider-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -176,6 +176,20 @@ function showInstallmentModal() {
 
 .intro-slider {
     margin-top: -80px;
+
+    &-pagination {
+        .swiper-pagination-bullet {
+            margin: 0 2px !important;
+            width: 6px;
+            height: 6px;
+            opacity: 1;
+            background-color: $white;
+
+            &-active {
+                background-color: $blue;
+            }
+        }
+    }
 
     .list {
         &>li {
@@ -226,20 +240,6 @@ function showInstallmentModal() {
             }
 
             &-button {}
-        }
-
-        &-pagination {
-            .swiper-pagination-bullet {
-                margin: 0 2px;
-                width: 6px;
-                height: 6px;
-                opacity: 1;
-                background-color: $white;
-
-                &-active {
-                    background-color: $blue;
-                }
-            }
         }
     }
 
