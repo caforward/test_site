@@ -18,13 +18,16 @@
 /* // @import 'vue-select/dist/vue-select.css';
 // @import 'nouislider/dist/nouislider.css'; */
 
+.p-inputwrapper.p-inputwrapper-filled {
+    & .p-inputtext {
+        border-color: $blue;
+    }
+}
+
 .p-inputtext,
 .p-textarea,
 .p-select {
     &.p-filled {
-        border-color: $blue;
-    }
-    &.p-inputwrapper-filled { 
         border-color: $blue;
     }
 }

@@ -1,17 +1,15 @@
 <script setup>
-import BaseInput from '@/blocks/BaseInput.vue'
+import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
-import { ref, onBeforeMount, watch, computed, onMounted } from 'vue';
+import { ref, reactive, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279447')
 
-const resetInputTrigger = ref(false)
-const checkErrorTrigger = ref(false)
-const isFormValid = ref(false)
+const formInputs = reactive({})
+const inputRefs = ref(false)
 const contactType = ref('phone')
-const formError = ref(null)
+const contactInput = ref(null)
 
-const paymentData = ref({})
 const form = ref(null)
 
 const props = defineProps({
@@ -34,6 +32,7 @@ const props = defineProps({
                 name: 'email',
                 type: 'email',
                 placeholder: 'E-mail',
+                required: true
             },
             {
                 name: 'phone',
@@ -52,37 +51,56 @@ const props = defineProps({
 })
 
 function clearForm() {
-    resetInputTrigger.value = !resetInputTrigger.value
-
-    Object.keys(paymentData.value).forEach((input) => {
-        paymentData.value[input].value = ''
-    })
-
     contactType.value = 'phone'
 }
 
-function validateForm() {
-    if (isFormValid.value) {
-        try {
-            paymentPay()
-            clearForm()
-        } catch (e) {
-            console.log(e)
-        }
+function invalidInputsHandler(inputRefs) {
+    const invalidInputs = inputRefs.filter(inputRef => !inputRef.readyToSubmit)
+
+    if (invalidInputs.length) {
+        invalidInputs.forEach(inputRef => {
+            inputRef.showErrorHandler()
+            console.log(inputRef.inputName)
+        })
+
+        return true
+    }
+
+    return false
+}
+
+function isFormValid() {
+    const hasInvalidInputs = invalidInputsHandler(inputRefs.value)
+    const hasInvalidContactInput = !contactInput.value[0].readyToSubmit
+
+    if (!contactInput.value[0].readyToSubmit) {
+        contactInput.value[0].showErrorHandler()
+        console.log(contactInput.value[0].inputName)
+    }
+
+    if (hasInvalidInputs || hasInvalidContactInput) {
+        return false
     } else {
-        checkErrorTrigger.value = !checkErrorTrigger.value
+        return true
+    }
+}
+
+function validateForm() {
+    if (isFormValid()) {
+        paymentPay()
     }
 }
 
 function paymentPay() {
     const TPF = form.value
 
-    const { description, amount, email, phone, contractId, receipt } = TPF
+    const { name, amount, email, phone, contractId } = formInputs
+    const { description, receipt } = TPF
 
     const unitAmount = amount.value * 100
 
     description.value = contractId.value
-    
+
     TPF.DATA.value = JSON.stringify({
         "Paymentpurpose": `Оплата по договору номер ${contractId.value}`,
     })
@@ -105,26 +123,27 @@ function paymentPay() {
         ]
     });
 
-    pay(TPF)
+    console.log('valid')
+    // pay(TPF)
 }
 
 onBeforeMount(() => {
     props.inputs.forEach(input => {
-        paymentData.value[input.name] = {
-            value: '',
-            isValid: false,
-            required: input.required
+        formInputs[input.name] = {
+            value: input.value ? input.value : null,
+            isValid: input.value ? true : false,
+            required: input.required ? true : false,
         }
     })
 })
 
 watch(
-    () => paymentData.value,
+    () => formInputs.value,
     (value) => {
-        const paymentDataKeys = Object.keys(paymentData.value)
+        const paymentDataKeys = Object.keys(formInputs.value)
 
         const invalidInputNames = paymentDataKeys.filter(inputName => {
-            const paymentInput = paymentData.value[inputName]
+            const paymentInput = formInputs.value[inputName]
 
             if (paymentInput.required && !paymentInput.isValid) {
                 return paymentInput
@@ -144,11 +163,11 @@ watch(
     () => contactType.value,
     (value) => {
         if (value === 'phone') {
-            paymentData.value.email.required = false
-            paymentData.value.phone.required = true
+            formInputs.email.required = false
+            formInputs.phone.required = true
         } else if (value === 'email') {
-            paymentData.value.phone.required = false
-            paymentData.value.email.required = true
+            formInputs.phone.required = false
+            formInputs.email.required = true
         }
     }
 )
@@ -166,11 +185,10 @@ watch(
 
         <div class="payform__inputs">
             <template v-for="input in props.inputs" :key="input">
-                <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" :name="input.name" :type="input.type"
-                    :placeholder="input.placeholder" :required="input.required" :options="input.options"
-                    :disabled="input.disabled" v-model:value="paymentData[input.name].value"
-                    v-model:isValid="paymentData[input.name].isValid" v-model:showError="checkErrorTrigger"
-                    v-model:resetInput="resetInputTrigger" />
+                <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" ref="inputRefs"
+                    v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
+                    :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled"
+                    :options="input.options" />
             </template>
             <div class="payform-radios">
                 <div class="">
@@ -190,17 +208,13 @@ watch(
             </div>
 
             <template v-for="input in props.inputs" :key="input">
-                <BaseInput v-if="input.type === 'tel' && contactType === 'phone'" :name="input.name" :type="input.type"
-                    :placeholder="input.placeholder" :options="input.options" :disabled="input.disabled"
-                    :required="paymentData[input.name].required" v-model:value="paymentData[input.name].value"
-                    v-model:isValid="paymentData[input.name].isValid" v-model:showError="checkErrorTrigger"
-                    v-model:resetInput="resetInputTrigger" />
+                <BaseInput ref="contactInput" v-if="input.type === 'tel' && contactType === 'phone'"
+                    v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
+                    :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled" />
 
-                <BaseInput v-else-if="input.type === 'email' && contactType === 'email'" :name="input.name"
-                    :type="input.type" :placeholder="input.placeholder" :options="input.options"
-                    :disabled="input.disabled" :required="paymentData[input.name].required"
-                    v-model:value="paymentData[input.name].value" v-model:isValid="paymentData[input.name].isValid"
-                    v-model:showError="checkErrorTrigger" v-model:resetInput="resetInputTrigger" />
+                <BaseInput ref="contactInput" v-else-if="input.type === 'email' && contactType === 'email'"
+                    v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
+                    :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled" />
             </template>
         </div>
 
