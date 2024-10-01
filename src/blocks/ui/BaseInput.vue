@@ -195,39 +195,39 @@ function isEmpty(value) {
     <div class="relative flex flex-col gap-1">
         <slot name="inputTitle"></slot>
         <!-- ФИО -->
-        <InputText ref="input" v-if="props.type === 'text'" :invalid="isInvalid" v-model="value" type="text"
-            class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+        <InputText ref="input" v-if="props.type === 'text'" :name="props.name" :invalid="isInvalid" v-model="value"
+            type="text" class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- E-mail -->
-        <InputText ref="input" v-if="props.type === 'email'" :invalid="isInvalid" v-model="value" type="email"
-            class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+        <InputText ref="input" v-if="props.type === 'email'" :name="props.name" :invalid="isInvalid" v-model="value"
+            type="email" class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Number -->
-        <InputNumber ref="input" v-if="props.type === 'number'" :invalid="isInvalid" v-model="value" type="email"
+        <InputNumber ref="input" v-if="props.type === 'number'" :invalid="isInvalid" v-model="value" type="text"
             class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" :minFractionDigits="0"
             :maxFractionDigits="2" />
 
         <!-- Телефон -->
-        <InputMask ref="input" v-if="props.type === 'tel'" :invalid="isInvalid" v-model="value" type="tel"
-            class="w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
+        <InputMask ref="input" v-if="props.type === 'tel'" :name="props.name" :invalid="isInvalid" v-model="value"
+            type="tel" class="w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Select -->
-        <Select ref="input" v-if="props.type === 'select'" :invalid="isInvalid" v-model="value" class="w-full"
-            :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
+        <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
+            class="w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Textarea -->
-        <Textarea ref="input" v-if="props.type === 'textarea'" :invalid="isInvalid" v-model="value" type="textarea"
-            class="w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
+        <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
+            type="textarea" class="w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->
-        <DatePicker ref="input" v-if="props.type === 'date'" :invalid="isInvalid" v-model="value" showIcon fluid
-            iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
+        <DatePicker ref="input" v-if="props.type === 'date'" :name="props.name" :invalid="isInvalid" v-model="value"
+            showIcon fluid iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="new Date()" />
 
         <!-- Ошибка инпута -->
