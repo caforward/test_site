@@ -95,10 +95,9 @@ function paymentPay() {
     const TPF = form.value
 
     const { description, receipt, name, amount, email, phone, contractId } = TPF
-    
+
     const { userAmount } = formInputs
-    const unitAmount = userAmount.value * 100
-    
+    const unitAmount = Math.round(userAmount.value * 100)
     amount.value = userAmount.value
 
     description.value = contractId.value
@@ -132,46 +131,9 @@ onBeforeMount(() => {
     props.inputs.forEach(input => {
         formInputs[input.name] = {
             value: input.value ? input.value : null,
-            isValid: input.value ? true : false,
-            required: input.required ? true : false,
         }
     })
 })
-
-watch(
-    () => formInputs.value,
-    (value) => {
-        const paymentDataKeys = Object.keys(formInputs.value)
-
-        const invalidInputNames = paymentDataKeys.filter(inputName => {
-            const paymentInput = formInputs.value[inputName]
-
-            if (paymentInput.required && !paymentInput.isValid) {
-                return paymentInput
-            }
-        })
-
-        if (!invalidInputNames.length) {
-            isFormValid.value = true
-        } else {
-            isFormValid.value = false
-        }
-    },
-    { deep: true }
-)
-
-watch(
-    () => contactType.value,
-    (value) => {
-        if (value === 'phone') {
-            formInputs.email.required = false
-            formInputs.phone.required = true
-        } else if (value === 'email') {
-            formInputs.phone.required = false
-            formInputs.email.required = true
-        }
-    }
-)
 </script>
 
 <template>
