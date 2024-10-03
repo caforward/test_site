@@ -85,7 +85,7 @@ defineExpose({
 
 onMounted(() => {
     inputName.value = props.name
-
+    
     if (value.value) {
         isInvalid.value = false
         showError.value = true
@@ -93,6 +93,9 @@ onMounted(() => {
     }
     if (props.type === 'select') {
         selectOptionsHandler(props.options)
+    }
+    if (props.type === 'number') {
+        input.value.rootEl.firstChild.setAttribute('name', props.name)
     }
 })
 
@@ -204,7 +207,7 @@ function isEmpty(value) {
             type="email" class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
-        <!-- Number -->
+        <!-- Number !name is not supported -->
         <InputNumber ref="input" v-if="props.type === 'number'" :invalid="isInvalid" v-model="value" type="text"
             class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" :minFractionDigits="0"

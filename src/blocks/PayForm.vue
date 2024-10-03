@@ -23,7 +23,7 @@ const props = defineProps({
                 required: true
             },
             {
-                name: 'amount',
+                name: 'userAmount',
                 type: 'number',
                 placeholder: 'Сумма',
                 required: true
@@ -60,7 +60,7 @@ function invalidInputsHandler(inputRefs) {
     if (invalidInputs.length) {
         invalidInputs.forEach(inputRef => {
             inputRef.showErrorHandler()
-            console.log(inputRef.inputName)
+            // console.log(inputRef.inputName)
         })
 
         return true
@@ -75,7 +75,7 @@ function isFormValid() {
 
     if (!contactInput.value[0].readyToSubmit) {
         contactInput.value[0].showErrorHandler()
-        console.log(contactInput.value[0].inputName)
+        // console.log(contactInput.value[0].inputName)
     }
 
     if (hasInvalidInputs || hasInvalidContactInput) {
@@ -94,10 +94,12 @@ function validateForm() {
 function paymentPay() {
     const TPF = form.value
 
-    const { name, amount, email, phone, contractId } = formInputs
-    const { description, receipt } = TPF
-
-    const unitAmount = amount.value * 100
+    const { description, receipt, name, amount, email, phone, contractId } = TPF
+    
+    const { userAmount } = formInputs
+    const unitAmount = userAmount.value * 100
+    
+    amount.value = userAmount.value
 
     description.value = contractId.value
 
@@ -123,8 +125,7 @@ function paymentPay() {
         ]
     });
 
-    console.log('valid')
-    // pay(TPF)
+    pay(TPF)
 }
 
 onBeforeMount(() => {
@@ -181,6 +182,7 @@ watch(
         <input class="payform__input" type="hidden" name="order">
         <input class="payform__input" type="hidden" name="description">
         <input class="payform__input" type="hidden" name="receipt" value="">
+        <input class="payform-tinkoff-row" type="hidden" name="amount" value="">
         <input class="payform-tinkoff-row" type="hidden" name="DATA" value="">
 
         <div class="payform__inputs">
