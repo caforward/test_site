@@ -1,5 +1,156 @@
+<script setup>
+import TheMenuMobile from './TheMenuMobile.vue';
+import ModalRequisites from './ModalRequisites.vue';
+import ModalForm from './ModalForm.vue'
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const header = ref(null)
+
+// modals
+const modalType = ref(null)
+const visibleModal = ref(false)
+const visibleMobileMenu = ref(false)
+const visibleMobileRequisites = ref(false)
+
+// links lists
+const topNav = ref([
+    {
+        name: "О компании",
+        scroll: '',
+        href: ''
+    },
+    {
+        name: "Контакты",
+        href: "#contacts",
+        scroll: '',
+
+    },
+    {
+        name: "Партнёрам",
+        scroll: '',
+        href: ''
+    },
+    {
+        name: "Вакансии",
+        scroll: '',
+        href: ''
+    },
+    {
+        name: "Реквизиты для оплаты",
+        href: "#",
+        scroll: ''
+    },
+])
+const bottomNav = ref([
+    {
+        name: "Главная",
+        href: "/",
+        scroll: ''
+    },
+    {
+        name: "Получить рассрочку",
+        scroll: '',
+        href: ''
+    },
+    {
+        name: "Получить консультацию",
+        href: "#",
+        scroll: '',
+
+    },
+    {
+        name: "Заказать звонок",
+        href: "#",
+        scroll: ''
+    },
+])
+
+// variables
+const debounce = 10
+let lastScrollPosition = ref(null)
+let headerMinimized = ref(null)
+
+// functions
+function handleNavLink(event, navLink) {
+    const contacts = document.getElementById('contacts');
+
+    if (contacts && navLink.name === 'Контакты') {
+        event.preventDefault();
+        contacts.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function showFormModal(type) {
+    if (type) {
+        modalType.value = type;
+    } else {
+        modalType.value = null;
+    }
+
+    visibleModal.value = true;
+}
+
+function fillRoutes() {
+    const routes = router.getRoutes()
+
+    topNav.value.forEach(item => {
+        const eqNameRoute = routes.find(route => route.name === item.name)
+        if (eqNameRoute) {
+            item.href = eqNameRoute.path
+        }
+    })
+    bottomNav.value.forEach(item => {
+        const eqNameRoute = routes.find(route => route.name === item.name)
+        if (eqNameRoute) {
+            item.href = eqNameRoute.path
+        }
+    })
+}
+
+function minimizeHeader() {
+    const diff = lastScrollPosition.value - window.scrollY
+
+    // Недоработана
+    if (Math.abs(diff) > debounce) {
+
+        if (diff > 0 && headerMinimized.value) {
+            // console.log('scroll up')
+
+            header.value.classList.remove('header__minimized')
+            headerMinimized.value = false
+
+        } else if (diff < 0 && !headerMinimized.value) {
+            // console.log('scroll down')
+
+            header.value.classList.add('header__minimized')
+            headerMinimized.value = true
+        }
+
+        lastScrollPosition.value = window.scrollY
+    }
+
+}
+
+// hooks
+onBeforeMount(() => {
+    fillRoutes()
+})
+
+onMounted(() => {
+    minimizeHeader()
+    window.addEventListener('scroll', minimizeHeader)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', minimizeHeader)
+})
+</script>
+
+
 <template>
-    <header class="header">
+    <header ref="header" class="header">
         <div class="header-top">
             <div class="container">
                 <ul class="header-top-nav">
@@ -8,8 +159,9 @@
                             :to="navLink.href || ''" class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
-                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'" @click.prevent="requisitesModal = true"
-                            class="header-top-nav__link" :href="navLink.href">{{ navLink.name }}</a>
+                        <a v-else-if="navLink.name === 'Реквизиты для оплаты'"
+                            @click.prevent="visibleMobileRequisites = true" class="header-top-nav__link"
+                            :href="navLink.href">{{ navLink.name }}</a>
                         <a v-else class="header-top-nav__link" :href="navLink.href"
                             @click.prevent="handleNavLink($event, navLink)">
                             {{ navLink.name }}
@@ -36,9 +188,8 @@
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'"
-                                    @click.prevent="showFormModal()" class="header-bottom-nav__link"
-                                    :href="navLink.href">{{ navLink.name }}</a>
+                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.prevent="showFormModal()"
+                                    class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'"
                                     @click.prevent="showFormModal('callback')" class="header-bottom-nav__link"
@@ -64,7 +215,7 @@
                         </a>
                     </div>
                     <div class="header-button__menu">
-                        <a href="#" @click.prevent="mobileMenu = !mobileMenu">
+                        <a href="#" @click.prevent="visibleMobileMenu = !visibleMobileMenu">
                             <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -78,126 +229,29 @@
         </div>
     </header>
 
-    <TheMenuMobile :visible="mobileMenu" @close="mobileMenu = false" />
-    <ModalRequisites v-model="requisitesModal" />
-    <ModalForm v-model="modalVisible" :type="modalType" />
+    <TheMenuMobile :visible="visibleMobileMenu" @close="visibleMobileMenu = false" />
+    <ModalRequisites v-model="visibleMobileRequisites" />
+    <ModalForm v-model="visibleModal" :type="modalType" />
 </template>
 
-<script>
-import TheMenuMobile from './TheMenuMobile.vue';
-import ModalRequisites from './ModalRequisites.vue';
-import ModalForm from './ModalForm.vue'
-
-export default {
-    name: "Header",
-    components: {
-        ModalForm,
-        TheMenuMobile,
-        ModalRequisites,
-    },
-    data() {
-        return {
-            modalVisible: false,
-            mobileMenu: false,
-            requisitesModal: false,
-            modalType: null,
-            paymentDebtFormHref: '/installment-plan#debt-form',
-            topNav: [
-                {
-                    name: "О компании",
-                    scroll: '',
-                    href: ''
-                },
-                {
-                    name: "Контакты",
-                    href: "#contacts",
-                    scroll: '',
-
-                },
-                {
-                    name: "Партнёрам",
-                    scroll: '',
-                    href: ''
-                },
-                {
-                    name: "Вакансии",
-                    scroll: '',
-                    href: ''
-                },
-                {
-                    name: "Реквизиты для оплаты",
-                    href: "#",
-                    scroll: ''
-                },
-            ],
-            bottomNav: [
-                // {
-                //     name: "Я не должник",
-                //     href: "/installment-plan",
-                // },
-                {
-                    name: "Главная",
-                    href: "/",
-                    scroll: ''
-                },
-                {
-                    name: "Получить рассрочку",
-                    scroll: '',
-                    href: ''
-                },
-                {
-                    name: "Получить консультацию",
-                    href: "#",
-                    scroll: '',
-
-                },
-                {
-                    name: "Заказать звонок",
-                    href: "#",
-                    scroll: ''
-                },
-            ],
-        };
-    },
-    methods: {
-        handleNavLink(event, navLink) {
-            const contacts = document.getElementById('contacts');
-
-            if (contacts && navLink.name === 'Контакты') {
-                event.preventDefault();
-                contacts.scrollIntoView({ behavior: 'smooth' });
-            }
-        },
-        showFormModal(type) {
-            if (type) {
-                this.modalType = type;
-            } else {
-                this.modalType = null;
-            }
-
-            this.modalVisible = true;
-        }
-    },
-    beforeMount() {
-        const routes = this.$router.getRoutes()
-        this.topNav.forEach(item => {
-            const eqNameRoute = routes.find(route => route.name === item.name)
-            if (eqNameRoute) {
-                item.href = eqNameRoute.path
-            }
-        })
-        this.bottomNav.forEach(item => {
-            const eqNameRoute = routes.find(route => route.name === item.name)
-            if (eqNameRoute) {
-                item.href = eqNameRoute.path
-            }
-        })
-    }
-};
-</script>
 
 <style lang="scss" scoped>
 .header {
+    border-bottom: 1px solid $gray;
+    transition: top .2s;
+
+    &__minimized {
+        top: -40px;
+
+        & .header-bottom {
+            padding: 15px 0;
+
+            &__logo {
+                height: 35px;
+            }
+        }
+    }
+
     &-top {
         background-color: #292d32;
 
@@ -233,6 +287,7 @@ export default {
         &__logo {
             height: 45px;
             margin-right: 15px;
+            transition: height .2s;
 
             &>a {
                 display: flex;
@@ -245,7 +300,6 @@ export default {
         &__right {
             display: flex;
             align-items: center;
-            margin-top: 5px;
         }
 
         &-tel {

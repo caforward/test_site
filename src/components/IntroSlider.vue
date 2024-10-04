@@ -32,7 +32,7 @@ function showInstallmentModal() {
     <section class="intro-slider">
         <div class="slider__inner">
             <swiper class="swiper" :modules="modules" :slides-per-view="1" :speed="700" :loop="true"
-                :autoplay="{ delay: 5000 }"
+                :autoplay="{ delay: 15000 }"
                 :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
                 :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
                 <swiper-slide class="slider__slide slider__slide_fix">
