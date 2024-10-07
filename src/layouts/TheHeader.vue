@@ -2,7 +2,7 @@
 import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
 import ModalForm from './ModalForm.vue'
-import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -71,6 +71,8 @@ const bottomNav = ref([
 const debounce = 10
 let lastScrollPosition = ref(null)
 let headerMinimized = ref(null)
+let scrollListenerIsActive = ref(null)
+let isMobile = computed(() => matchMedia('(max-width: 1023px)').matches)
 
 // functions
 function handleNavLink(event, navLink) {
@@ -110,27 +112,34 @@ function fillRoutes() {
 }
 
 function minimizeHeader() {
-    const diff = lastScrollPosition.value - window.scrollY
+    const scrollDiff = lastScrollPosition.value - window.scrollY
 
-    // Недоработана
-    if (Math.abs(diff) > debounce) {
-
-        if (diff > 0 && headerMinimized.value) {
-            // console.log('scroll up')
-
+    if (Math.abs(scrollDiff) > debounce) {
+        if (scrollDiff > 0 && headerMinimized.value) {
             header.value.classList.remove('header__minimized')
             headerMinimized.value = false
 
-        } else if (diff < 0 && !headerMinimized.value) {
-            // console.log('scroll down')
-
+        } else if (scrollDiff < 0 && !headerMinimized.value) {
             header.value.classList.add('header__minimized')
             headerMinimized.value = true
         }
 
         lastScrollPosition.value = window.scrollY
     }
+}
 
+function toMobileHandler() {
+
+    if (isMobile.value && scrollListenerIsActive.value) {
+        window.removeEventListener('scroll', minimizeHeader)
+        header.value.classList.remove('header__minimized')
+        scrollListenerIsActive.value = false
+
+    } else if (!isMobile.value && !scrollListenerIsActive.value) {
+        minimizeHeader()
+        window.addEventListener('scroll', minimizeHeader)
+        scrollListenerIsActive.value = true
+    }
 }
 
 // hooks
@@ -139,12 +148,15 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-    minimizeHeader()
-    window.addEventListener('scroll', minimizeHeader)
+    toMobileHandler()
+    window.addEventListener('resize', toMobileHandler)
 })
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', minimizeHeader)
+    if (scrollListenerIsActive.value) {
+        window.removeEventListener('scroll', minimizeHeader)
+    }
+    window.removeEventListener('resize', toMobileHandler)
 })
 </script>
 
