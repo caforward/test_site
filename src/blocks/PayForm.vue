@@ -137,6 +137,8 @@ onBeforeMount(() => {
 </script>
 
 <template>
+        
+
     <form ref="form" novalidate class="payform" @submit.prevent="validateForm">
         <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
         <input class="payform__input" type="hidden" name="frame" value="false">
@@ -201,13 +203,13 @@ onBeforeMount(() => {
                     Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру телефона
                     <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
                 </div>
-                <div>
+                <!-- <div>
                     Если у вас возникнут сложности с оплатой через нашу форму, Вы можете воспользоваться
                     <a href="https://pay.mandarinbank.com/?m=4971" class="link" target="_blank">
                         оплатой через MANDARIN
                     </a>
                     (Взимается комиссия 3%).
-                </div>
+                </div> -->
             </div>
         </div>
     </form>

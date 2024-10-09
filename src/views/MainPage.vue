@@ -5,7 +5,7 @@
         <BaseComplainBlock />
         <AboutInNumbersVue />
         <HelpEverClientVue />
-        <!-- <Offers /> Временно убрано до подключения Ю-кассы -->
+        <Offers /> <!-- Временно убрано до подключения Ю-кассы -->
         <PigFinance />
         <Suppliers />
         <AboutCompany />
@@ -16,7 +16,7 @@
 <script setup>
 import { onMounted } from "vue";
 
-// import Offers from "../components/Offers.vue";
+import Offers from "../components/Offers.vue";
 import IntroSlider from "../components/IntroSlider.vue";
 import AboutInNumbersVue from "../components/AboutInNumbers.vue";
 import HelpEverClientVue from "../components/HelpEverClient.vue";

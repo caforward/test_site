@@ -105,7 +105,7 @@ function sendRating() {
                             Кажется что-то пошло не так, попробуйте<br> отправить обращение ещё раз.
                         </p>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 flex-wrap max-sm:justify-center">
                         <template v-if="!isModal">
                             <Button label="Вернуться на страницу" size="large" severity="secondary"
                                 @click="closeModal" />

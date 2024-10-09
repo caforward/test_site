@@ -3,9 +3,10 @@ import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
 import ModalForm from './ModalForm.vue'
 import { onBeforeMount, onMounted, onUnmounted, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter()
+const route = useRoute()
 const header = ref(null)
 
 // modals
@@ -75,6 +76,8 @@ let scrollListenerIsActive = ref(null)
 let isMobile = computed(() => matchMedia('(max-width: 1023px)').matches)
 
 // functions
+const currentRoute = computed(() => route)
+
 function handleNavLink(event, navLink) {
     const contacts = document.getElementById('contacts');
 
@@ -221,7 +224,7 @@ onUnmounted(() => {
                                 </svg>
                             </a>
                         </div>
-                        <a href="/installment-plan#debt-form"
+                        <a :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
                             class="button button_blue button_small header-bottom__payment">
                             Внести платёж
                         </a>
