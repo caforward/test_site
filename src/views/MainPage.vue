@@ -5,7 +5,7 @@
         <BaseComplainBlock />
         <AboutInNumbersVue />
         <HelpEverClientVue />
-        <Offers /> <!-- Временно убрано до подключения Ю-кассы -->
+        <Offers />
         <PigFinance />
         <Suppliers />
         <AboutCompany />

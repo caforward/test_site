@@ -137,8 +137,6 @@ onBeforeMount(() => {
 </script>
 
 <template>
-        
-
     <form ref="form" novalidate class="payform" @submit.prevent="validateForm">
         <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
         <input class="payform__input" type="hidden" name="frame" value="false">
