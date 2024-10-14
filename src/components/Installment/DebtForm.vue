@@ -1,160 +1,73 @@
+<script setup>
+import Button from 'primevue/button';
+import PayForm from '../../blocks/PayForm.vue';
+import Popover from 'primevue/popover';
+import BaseModal from '../../blocks/BaseModal.vue';
+import { ref, watch } from 'vue';
+
+const secureTextModal = ref(false)
+const securePopover = ref(null)
+
+function toggle(event) {
+    if (window.innerWidth > 1023) {
+        securePopover.value.toggle(event);
+    } else {
+        secureTextModal.value = true
+    }
+}
+
+function scrollToCalc() {
+    window.location.href = '/installment-plan#calculate'
+}
+
+watch(
+    secureTextModal,
+    (modalActive) => {
+        if (modalActive) {
+            document.body.style.overflow = 'hidden'
+            document.body.style.paddingRight = '10px'
+        } else {
+            document.body.style.overflow = ''
+            document.body.style.paddingRight = ''
+        }
+    }
+)
+</script>
+
 <template>
     <div id="debt-form" class="scroll-fix-offset">
         <section class="section">
             <div class="container">
-                <!-- <h2 class="title">
-                Оплатите задолженность онлайн!
-            </h2> -->
-                <div class="switcher">
-                    <div v-if="formVisible" class="switcher__steps">
-                        <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.userData.name"
-                            :class="{ 'switcher-step_active': tabs.contract.userData.isActive }">
-                            <div class="switcher-step__number">1</div>
-                            <span class="switcher-step__text">
-                                Укажите ваши данные
-                            </span>
-                        </button>
-                        <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.payment.name"
-                            :class="{ 'switcher-step_active': tabs.contract.payment.isActive }">
-                            <div class="switcher-step__number">2</div>
-                            <span class="switcher-step__text">
-                                Укажите сумму платежа
-                            </span>
-                        </button>
-                        <button @click="chooseStep" class="switcher-step" :data-tab="tabs.contract.debt.name"
-                            :class="{ 'switcher-step_active': tabs.contract.debt.isActive }">
-                            <div class="switcher-step__number">3</div>
-                            <span class="switcher-step__text">
-                                Оплатите задолженность
-                            </span>
-                        </button>
-                    </div>
-                    <div class="switcher-body__wrapper">
-                        <div class="block__left">
-                            <h2 class="title">
+                <div class="debt-form__inner">
+                    <div class="block__left">
+                        <div class="title flex gap-2 items-center">
+                            <h2 class="">
                                 Оплатите задолженность онлайн
                             </h2>
-                            <!-- Форма оплаты -->
-                            <PayForm class="payform" />
-
-                            <!-- Форма для ввода данных для погащения, отключена до подключения системы оплаты -->
-                             <!-- 
-                            <div v-if="formVisible" class="switcher-progressbar">
-                                <span class="switcher-progressbar__thumb"></span>
-                            </div>
-                            <form v-if="formVisible" action="" class="switcher-body form">
-                                <transition name="switcher-body-item">
-                                    <div v-if="tabs.contract.userData.isActive" :id="tabs.contract.userData.name"
-                                        class="switcher-body__tab switcher-body__tab_active">
-                                        <div class="form__title">
-                                            Введите свои данные в поля Фамилия, Имя, Отчество, Дата рождения.
-                                        </div>
-                                        <div class="form__inputs">
-                                            <input type="text" class="input" placeholder="Фамилия"
-                                                v-model="userData.lastname">
-                                            <input type="text" class="input" placeholder="Имя"
-                                                v-model="userData.firstname">
-                                            <input type="text" class="input" placeholder="Отчество"
-                                                v-model="userData.patronymic">
-                                            <input type="text" class="input" placeholder="Дата рождения"
-                                                v-model="userData.birthdate">
-                                        </div>
-                                        <div class="form-bottom">
-                                            <div class="form-bottom__metatext">
-                                                Нажимая кнопку «Оплатить долг», вы соглашаетесь с
-                                                <a href="#" class="link">Договором оферты</a> и
-                                                <a href="#" class="link">политикой конфиденциальности.</a>
-                                            </div>
-                                            <button class="button button_blue form-bottom__button" @click="nextStep">
-                                                Далее
-                                            </button>
-                                        </div>
-                                    </div>
-                                </transition>
-                                <transition name="switcher-body-item">
-                                    <div v-if="tabs.contract.payment.isActive" :id="tabs.contract.payment.name"
-                                        class="switcher-body__tab">
-                                        <div class="form__title">
-                                            Желаете совершить оплату по договору № {{ userData.contractId }}
-                                        </div>
-                                        <div class="form__inputs">
-                                            <input type="text" class="input" placeholder="Введите ваш № договора"
-                                                v-model="userData.contractId">
-                                            <input type="tel" class="input" placeholder="+7 - ___ - ___ - __ - __"
-                                                v-model="userData.phone">
-                                            <input type="email" class="input" placeholder="E-mail"
-                                                v-model="userData.email">
-                                            <input type="text" class="input" placeholder="Сумма"
-                                                v-model="userData.repayment">
-                                        </div>
-                                        <div class="form-bottom">
-                                            <div class="form-bottom__metatext">
-                                                Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру
-                                                телефона
-                                                <a href="tel:+78043334133" class="link link_phone">
-                                                    + 7 (804) 333-41-33
-                                                </a>
-                                            </div>
-                                            <button class="button button_blue form-bottom__button" @click="nextStep">
-                                                Далее
-                                            </button>
-                                        </div>
-                                    </div>
-                                </transition>
-                                <transition name="switcher-body-item">
-                                    <div v-if="tabs.contract.debt.isActive" :id="tabs.contract.debt.name"
-                                        class="switcher-body__tab">
-                                        <div class="form-data">
-                                            <div class="form-data__payment">
-                                                <div class="form-data__title">
-                                                    Сумма платежа
-                                                </div>
-                                                <div class="form-data__amount">
-                                                    {{ userData.repayment }}
-                                                </div>
-                                            </div>
-                                            <div class="form-data__payment">
-                                                <div class="form-data__title">
-                                                    Итого вместе с комисией
-                                                </div>
-                                                <div class="form-data__amount">
-                                                    {{ userData.totalPayment }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a href="https://pay.mandarinbank.com/?m=4971"
-                                            class="button button_blue form-submit">
-                                            Оплатить картой
-                                        </a>
-                                        <div class="form-bottom">
-                                            <div class="form-bottom__metatext">
-                                                Нажимая кнопку «Оплатить картой», вы соглашаетесь с
-                                                <a href="#" class="link">Договором оферты</a> и
-                                                <a href="#" class="link">политикой конфиденциальности.</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </transition>
-                            </form>
-                             -->
+                            <Button type="button" class="flex-none !border-green-500" icon="pi pi-shield text-green-500 !text-xl" label=""
+                                rounded outlined @click="toggle" />
                         </div>
-                        <div class="block__right">
-                            <div class="card">
-                                <div class="card__wrapper">
-                                    <div class="card__title">
-                                        Рассчитать график платежей
-                                    </div>
-                                    <div class="card__text">
-                                        Сделать это легко: просто выберите сумму вашего долга, настройте срок погашения
-                                        – и вы увидите, каким будет ежемесячный платеж.
-                                    </div>
-                                    <button @click="scrollToCalc" class="button">
-                                        Раcсчитать график платежей
-                                    </button>
+
+                        <!-- Форма оплаты -->
+                        <PayForm class="payform" />
+                    </div>
+                    <div class="block__right">
+                        <div class="card">
+                            <div class="card__wrapper">
+                                <div class="card__title">
+                                    Рассчитать график платежей
                                 </div>
-                                <div class="card__img">
-                                    <img src="/images/offers/calc.png" alt="the was a img">
+                                <div class="card__text">
+                                    Сделать это легко: просто выберите сумму вашего долга, настройте срок
+                                    погашения
+                                    – и вы увидите, каким будет ежемесячный платеж.
                                 </div>
+                                <button @click="scrollToCalc" class="button">
+                                    Раcсчитать график платежей
+                                </button>
+                            </div>
+                            <div class="card__img">
+                                <img src="/images/offers/calc.png" alt="the was a img">
                             </div>
                         </div>
                     </div>
@@ -162,168 +75,50 @@
             </div>
         </section>
     </div>
+
+    <transition name="fade">
+        <BaseModal v-if="secureTextModal" @closeModal="secureTextModal = false">
+            <template #body>
+                <div class="mb-4">
+                    <span class="text-2xl font-bold">
+                        Безопасно
+                    </span>
+                    <i class="pi pi-shield text-green-400 !text-xl"></i>
+                </div>
+                <p class="mb-4">
+                    Интернет-эквайринг Т-Банка использует технологию 3D-Secure, она повышает безопасность платежей.
+                </p>
+                <p class="mb-4">
+                    3D-Secure помогает магазинам и банкам еще раз удостовериться, что покупку оплачивает владелец карты,
+                    а не
+                    мошенник.
+                </p>
+                <p class="mb-4">
+                    Обычно покупатель вводит в платежной форме номер карты, срок ее действия и код CVC2.
+                    С технологией 3D-Secure после ввода данных карты покупателю нужно дополнительно ввести код из СМС.
+                    Этот код
+                    отправляет банк, который выпустил карту, и ответственность за отправку лежит на нем.
+                </p>
+
+                <Button type="button" size="large" label="Понятно" @click="secureTextModal = false"  />
+            </template>
+        </BaseModal>
+    </transition>
+    <Popover ref="securePopover" class="text-sm max-w-[32rem]">
+        <p class="mb-4">
+            Интернет-эквайринг Т-Банка использует технологию 3D-Secure, она повышает безопасность платежей.
+        </p>
+        <p class="mb-4">
+            3D-Secure помогает магазинам и банкам еще раз удостовериться, что покупку оплачивает владелец карты, а не
+            мошенник.
+        </p>
+        <p>
+            Обычно покупатель вводит в платежной форме номер карты, срок ее действия и код CVC2.
+            С технологией 3D-Secure после ввода данных карты покупателю нужно дополнительно ввести код из СМС. Этот код
+            отправляет банк, который выпустил карту, и ответственность за отправку лежит на нем.
+        </p>
+    </Popover>
 </template>
-
-<script>
-import PayForm from '../../blocks/PayForm.vue';
-
-export default {
-    components: {
-        PayForm
-    },
-    data() {
-        return {
-            formVisible: false,
-            terminalKey: '1718781279200DEMO',
-            contractId: '',
-            userData: {
-                lastname: '',
-                firstname: '',
-                patronymic: '',
-                birthdate: '',
-                phone: '',
-                contractId: '',
-                email: '',
-                repayment: '',
-                totalPayment: '',
-            },
-            tabs: {
-                choosenTabs: 'contract',
-                contract: {
-                    activeTab: 'userData',
-                    userData: {
-                        id: 0,
-                        name: 'userData',
-                        isActive: true,
-                        next: 'payment'
-                    },
-                    payment: {
-                        id: 1,
-                        name: 'payment',
-                        isActive: false,
-                        next: 'debt'
-                    },
-                    debt: {
-                        id: 2,
-                        name: 'debt',
-                        isActive: false,
-                    }
-                }
-            }
-        }
-    },
-    methods: {
-        payformPay(e) {
-            const TPF = e.target
-            const { description, amount, email, phone, receipt } = TPF;
-
-            if (receipt) {
-                if (!email.value && !phone.value)
-                    return alert("Поле E-mail или Phone не должно быть пустым");
-
-                // Здесь нужно получать id контракта
-                // this.contractId = '00000000000'
-
-                TPF.receipt.value = JSON.stringify({
-                    "EmailCompany": "dolg.info@caforward.ru",
-                    "Taxation": "osn",
-                    "FfdVersion": "1.2",
-                    "Items": [
-                        {
-                            "Name": `Погашение задолженности по договору #${this.contractId}`,
-                            "Price": amount.value + '00',
-                            "Quantity": 1.00,
-                            "Amount": amount.value + '00',
-                            "PaymentMethod": "credit_payment",
-                            "PaymentObject": "service",
-                            "Tax": "none",
-                            "MeasurementUnit": 'pc'
-                        }
-                    ]
-                });
-            }
-            console.log(TPF.receipt.value);
-            pay(TPF);
-        },
-        scrollToCalc() {
-            window.location.href = '/installment-plan#calculate'
-        },
-        calculatePayment(e) {
-            console.log(e)
-        },
-        nextStep(e) {
-            e.preventDefault();
-
-            // Выбранный тип формы (по номеру договора или по ФИО)
-            const tabs = this.tabs[this.tabs.choosenTabs]
-
-            // получаем обьект по id в текущем шаге
-            const stepName = e.target.closest('.switcher-body__tab').id
-            const curTab = tabs[stepName]
-
-            // если следуещего шага нет, то отправляем форму
-            if (!curTab.next) {
-                // Отравка формы
-                return
-            }
-
-            // Меняем видимость шагов
-            this.switchTab(tabs, curTab, tabs[curTab.next])
-        },
-        chooseStep(e) {
-            e.preventDefault();
-
-            // Выбранный тип формы (по номеру договора или по ФИО)
-            const tabs = this.tabs[this.tabs.choosenTabs]
-
-            // получаем имя по выбранному шагу на панели шагов
-            const stepName = e.target.closest('.switcher-step').dataset.tab
-
-            // Меняем видимость шагов
-            this.switchTab(tabs, tabs[tabs.activeTab], tabs[stepName])
-        },
-        switchTab(tabs, curTab, nextTab) {
-            // Текущему активному шагу убираем видимость
-            curTab.isActive = false
-            // Выбранному шагу добавляем видимость
-            nextTab.isActive = true
-            // Меняем глобальное имя активного шага
-            tabs.activeTab = nextTab.name
-            // 
-            this.updateSwitcherProgress(tabs)
-
-            if (curTab.name === 'payment') {
-                if (this.userData.repayment === '') {
-                    this.userData.repayment = 0
-                }
-
-                this.userData.totalPayment = this.userData.repayment * 1.025
-            }
-        },
-        updateSwitcherProgress(tabs) {
-            // получаем элементы прогресс бара
-            const switcherProgress = document.querySelector('.switcher-progressbar')
-            const switcherThumb = switcherProgress.querySelector('.switcher-progressbar__thumb')
-            // получаем список ключей
-            const tabsObjList = Object.keys(tabs)
-
-            // фильтруем ключи чтобы получить список табов
-            const tabsList = tabsObjList.filter(tab => tabs[tab].name)
-            // получаем индекс текущего таба
-            const activeTabIndex = tabsList.indexOf(tabs.activeTab) + 1
-
-            // получаем прогресс в процентах от 0 до 100%
-            const progress = Math.ceil(activeTabIndex / tabsList.length * 100)
-
-            switcherThumb.style.width = `${progress}%`
-        },
-    },
-    mounted() {
-        // const tabs = this.tabs[this.tabs.choosenTabs]
-        // this.updateSwitcherProgress(tabs)
-    }
-}
-</script>
 
 <style lang="scss" scoped>
 .payform {
@@ -468,6 +263,17 @@ export default {
         display: block;
         font-weight: 700;
         text-decoration: none;
+    }
+}
+
+.debt-form {
+    &__inner {
+        display: flex;
+        gap: 30px;
+
+        &>* {
+            width: 50%;
+        }
     }
 }
 
@@ -748,15 +554,19 @@ export default {
         }
     }
 
+    .debt-form {
+        &__inner {
+            flex-direction: column;
+
+            &>* {
+                width: 100%;
+            }
+        }
+    }
+
     .switcher {
         &-body {
-            &__wrapper {
-                flex-direction: column;
-
-                &>* {
-                    width: 100%;
-                }
-            }
+            &__wrapper {}
         }
 
         &-tab {

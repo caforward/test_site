@@ -6,6 +6,7 @@ import router from './router';
 import PrimeVue from 'primevue/config';
 import primeVueRu from '@/service/locale/primeVue/ru.json'
 import forwardPreset from './presets/Aura.js'
+import Tooltip from 'primevue/tooltip';
 
 import vSelect from 'vue-select'
 import VueMask from '@ssibrahimbas/v-mask';
@@ -25,6 +26,7 @@ app.component("v-select", vSelect);
 
 // Provide noUiSlider
 app.provide('noUiSlider', noUiSlider);
+app.directive('tooltip', Tooltip);
 
 app.use(router);
 app.use(VueMask);
