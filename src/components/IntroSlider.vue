@@ -238,8 +238,6 @@ function showInstallmentModal() {
                 width: 100%;
                 z-index: 1;
             }
-
-            &-button {}
         }
     }
 

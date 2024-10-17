@@ -106,8 +106,6 @@ section {
             max-width: 420px;
         }
     }
-
-    &-form {}
 }
 
 @include desktopXl {
@@ -129,13 +127,13 @@ section {
         }
 
         &-block {
+            padding: 40px 50px;
+            width: 100%;
+
             &__title {
                 font-size: 22px;
                 line-height: 28px;
             }
-
-            padding: 40px 50px;
-            width: 100%;
         }
 
         &__img {
@@ -159,8 +157,6 @@ section {
         &-block {
             width: 100%;
         }
-
-        &__img {}
     }
 }
 
