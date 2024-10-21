@@ -50,6 +50,7 @@ const inputName = ref(null)
 const errorText = ref('Заполните поле')
 const showError = ref(false)
 const inputOptions = ref([])
+const minDate = ref(null)
 
 const readyToSubmit = (computed(() => {
     if (props.required) {
@@ -92,6 +93,9 @@ onMounted(() => {
     }
     if (props.type === 'select') {
         selectOptionsHandler(props.options)
+    }
+    if (props.type === 'date') {
+        minDate.value = value.value
     }
 })
 
@@ -227,7 +231,7 @@ function isEmpty(value) {
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :name="props.name" :invalid="isInvalid" v-model="value"
             showIcon fluid iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="new Date()" />
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="minDate" />
 
         <!-- Ошибка инпута -->
         <transition name="fade">
