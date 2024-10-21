@@ -9,9 +9,7 @@ export default defineConfig({
 		preprocessorOptions: {
 			scss: {
 				api: 'modern-compiler',
-				additionalData: `
-          @import "/src/assets/scss/index.scss";
-        `
+				additionalData: `@import "/src/assets/scss/index.scss";`
 			}
 		}
 	},

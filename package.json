@@ -36,7 +36,7 @@
     "@babel/preset-env": "^7.25.4",
     "@types/vue-select": "^3.16.8",
     "@vitejs/plugin-vue": "^5.1.4",
-    "@vue/test-utils": "^2.4.0-alpha.2",
+    "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwind": "^4.0.0",
