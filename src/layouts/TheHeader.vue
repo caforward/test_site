@@ -69,7 +69,7 @@ const bottomNav = ref([
 ])
 
 // variables
-const debounce = 10
+const debounce = 20
 let lastScrollPosition = ref(null)
 let headerMinimized = ref(null)
 let scrollListenerIsActive = ref(null)
@@ -116,8 +116,9 @@ function fillRoutes() {
 
 function minimizeHeader() {
     const scrollDiff = lastScrollPosition.value - window.scrollY
+    
+    if (Math.abs(scrollDiff) > debounce && window.scrollY > 0) {
 
-    if (Math.abs(scrollDiff) > debounce) {
         if (scrollDiff > 0 && headerMinimized.value) {
             header.value.classList.remove('header__minimized')
             headerMinimized.value = false
