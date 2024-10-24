@@ -442,6 +442,118 @@ describe('Textarea', () => {
         })
     })
 })
+
+// Select
+
+describe('Select', () => {
+    const props = {
+        name: 'paymentPeriod',
+        type: 'select',
+        placeholder: 'Выберите срок погашения',
+        value: null,
+        options: [
+            { name: 'Option 1' },
+            { name: 'Option 2' },
+            { name: 'Option 3' },
+            { name: 'Option 4' },
+        ],
+        required: true
+    }
+
+    const wrapper = mount(BaseInput, { ...options, props })
+    const inputWrapper = wrapper.find('[data-pc-section="root"]')
+    const inputLabel = wrapper.find('.p-select-label')
+
+    describe('render', () => {
+        it('should render label', () => {
+            expect(inputLabel.exists()).toBeTruthy()
+        })
+    })
+
+    describe('attributes', () => {
+        it('should be correct attributes', () => {
+            const inputAttr = {
+                name: inputWrapper.attributes('name'),
+                placeholder: inputLabel.attributes('aria-label'),
+                type: inputWrapper.attributes('data-pc-name'),
+                disabled: inputWrapper.isDisabled()
+            }
+
+            expect(inputAttr.name).toEqual(props.name)
+            expect(inputAttr.type).toEqual(props.type)
+            expect(inputAttr.placeholder).toEqual(props.placeholder)
+            expect(inputAttr.disabled).toBeFalsy()
+        })
+    })
+
+    describe('errors', () => {
+        it('should be hidden error element', () => {
+            expect(wrapper.vm.showError).toBeFalsy()
+        })
+
+        it('should show error element', async () => {
+            await inputLabel.trigger('blur')
+            expect(wrapper.vm.showError).toBeTruthy()
+        })
+
+        it('should show error text', async () => {
+            await inputLabel.trigger('blur')
+            expect(wrapper.vm.showError).toBeTruthy()
+            expect(wrapper.vm.errorText).toEqual('Заполните поле')
+        })
+
+        it('should hide error text', async () => {
+            await inputLabel.trigger('click')
+            const selectMenu = document.querySelector('.p-select-overlay')
+            const selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
+
+            await selectOption.click()
+            await inputLabel.trigger('blur')
+
+            expect(inputLabel.text()).toEqual('Option 3')
+            expect(wrapper.vm.showError).toBeTruthy()
+            expect(wrapper.vm.errorText).toEqual('')
+        })
+    })
+
+    describe('value', () => {
+
+        it('should change value', async () => {
+            await inputLabel.trigger('click')
+            const selectMenu = document.querySelector('.p-select-overlay')
+            const selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
+
+            await selectOption.click()
+            await inputLabel.trigger('blur')
+
+            expect(inputLabel.text()).toEqual('Option 3')
+        })
+
+        it('should be correct value', async () => {
+            await inputLabel.trigger('click')
+            const selectMenu = document.querySelector('.p-select-overlay')
+            let selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
+
+            await selectOption.click()
+            await inputLabel.trigger('blur')
+            expect(wrapper.vm.readyToSubmit).toBeTruthy()
+
+            selectOption = selectMenu.querySelector('[aria-label="Option 4"]')
+            await selectOption.click()
+            await inputLabel.trigger('blur')
+            expect(wrapper.vm.readyToSubmit).toBeTruthy()
+        })
+
+        it('should be incorrect value', async () => {
+            const clearBtn = inputWrapper.find('.p-select-clear-icon')
+            await clearBtn.trigger('click')
+
+            expect(inputLabel.text()).toEqual(props.placeholder)
+            expect(wrapper.vm.readyToSubmit).toBeFalsy()
+        })
+    })
+})
+
 // DatePicker
 /*
 describe('DatePicker input', () => {
@@ -527,114 +639,3 @@ describe('DatePicker input', () => {
     // })
 })
 */
-
-// Select
-
-describe('Select', () => {
-    const props = {
-        name: 'paymentPeriod',
-        type: 'select',
-        placeholder: 'Выберите срок погашения',
-        value: null,
-        options: [
-            { name: 'Option 1' },
-            { name: 'Option 2' },
-            { name: 'Option 3' },
-            { name: 'Option 4' },
-        ],
-        required: true
-    }
-
-    const wrapper = mount(BaseInput, { ...options, props })
-    const inputWrapper = wrapper.find('[data-pc-section="root"]')
-    const inputLabel = wrapper.find('.p-select-label')
-
-    describe('render', () => {
-        it('should render label', () => {
-            expect(inputLabel.exists()).toBeTruthy()
-        })
-    })
-
-    describe('attributes', () => {
-        it('should be correct attributes', () => {
-            const inputAttr = {
-                name: inputWrapper.attributes('name'),
-                placeholder: inputLabel.attributes('aria-label'),
-                type: inputWrapper.attributes('data-pc-name'),
-                disabled: inputWrapper.isDisabled()
-            }
-
-            expect(inputAttr.name).toEqual(props.name)
-            expect(inputAttr.type).toEqual(props.type)
-            expect(inputAttr.placeholder).toEqual(props.placeholder)
-            expect(inputAttr.disabled).toBeFalsy()
-        })
-    })
-
-    describe('errors', () => {
-        it('should be hidden error element', () => {
-            expect(wrapper.vm.showError).toBeFalsy()
-        })
-
-        it('should show error element', async () => {
-            await inputLabel.trigger('blur')
-            expect(wrapper.vm.showError).toBeTruthy()
-        })
-
-        it('should show error text', async () => {
-            await inputLabel.trigger('blur')
-            expect(wrapper.vm.showError).toBeTruthy()
-            expect(wrapper.vm.errorText).toEqual('Заполните поле')
-        })
-
-        it('should hide error text', async () => {
-            await inputLabel.trigger('click')
-            const selectMenu = document.querySelector('.p-select-overlay')
-            const selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
-
-            await selectOption.click()
-            await inputLabel.trigger('blur')
-            
-            expect(inputLabel.text()).toEqual('Option 3')
-            expect(wrapper.vm.showError).toBeTruthy()
-            expect(wrapper.vm.errorText).toEqual('')
-        })
-    })
-
-    describe('value', () => {
-        
-        it('should change value', async () => {
-            await inputLabel.trigger('click')
-            const selectMenu = document.querySelector('.p-select-overlay')
-            const selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
-
-            await selectOption.click()
-            await inputLabel.trigger('blur')
-            
-            expect(inputLabel.text()).toEqual('Option 3')
-        })
-
-        it('should be correct value', async () => {
-            await inputLabel.trigger('click')
-            const selectMenu = document.querySelector('.p-select-overlay')
-            let selectOption = selectMenu.querySelector('[aria-label="Option 3"]')
-
-            await selectOption.click()
-            await inputLabel.trigger('blur')
-            expect(wrapper.vm.readyToSubmit).toBeTruthy()
-
-            selectOption = selectMenu.querySelector('[aria-label="Option 4"]')
-            await selectOption.click()
-            await inputLabel.trigger('blur')
-            expect(wrapper.vm.readyToSubmit).toBeTruthy()
-        })
-
-        it('should be incorrect value', async () => {
-            const clearBtn = inputWrapper.find('.p-select-clear-icon')
-            await clearBtn.trigger('click')
-
-            expect(inputLabel.text()).toEqual(props.placeholder)
-            expect(wrapper.vm.readyToSubmit).toBeFalsy()
-        })
-    })
-})

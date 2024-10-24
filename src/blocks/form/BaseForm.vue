@@ -202,7 +202,7 @@ onMounted(() => {
 
                 <!-- user info -->
                 <template v-for="(input, idx) in inputs" :key="idx">
-                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" :name="input.name"
+                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper" :name="input.name"
                         :type="input.type" :placeholder="input.placeholder" :required="input.required"
                         :disabled="input.disabled" :options="input.options" />
                 </template>

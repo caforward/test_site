@@ -199,38 +199,38 @@ function isEmpty(value) {
         <slot name="inputTitle"></slot>
         <!-- ФИО -->
         <InputText ref="input" v-if="props.type === 'text'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="text" class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+            type="text" class="t-input w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- E-mail -->
         <InputText ref="input" v-if="props.type === 'email'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="email" class="w-full" :placeholder="props.placeholder" :disabled='props.disabled'
+            type="email" class="t-input w-full" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Number !name is not supported, so here is used pass through option! -->
         <InputNumber ref="input" v-if="props.type === 'number'" :pt="{ pcinputtext: { root: { name: props.name } } }"
-            :invalid="isInvalid" v-model="value" type="text" class="w-full" :placeholder="props.placeholder"
+            :invalid="isInvalid" v-model="value" type="text" class="t-input w-full" :placeholder="props.placeholder"
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler"
             :minFractionDigits="0" :maxFractionDigits="2" />
 
         <!-- Телефон -->
         <InputMask ref="input" v-if="props.type === 'tel'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="tel" class="w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
+            type="tel" class="t-input w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Select -->
         <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
-            class="w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
+            class="t-input w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="textarea" class="w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
+            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :name="props.name" :invalid="isInvalid" v-model="value"
-            showIcon fluid iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
+            class="t-input" showIcon fluid iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
             @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="minDate" />
 
         <!-- Ошибка инпута -->
