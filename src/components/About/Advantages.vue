@@ -28,19 +28,19 @@ export default {
         return {
             advantagesPlates: [
                 {
-                    imgSrc: "blocks/about/advantages/01.png",
+                    imgSrc: "blocks/about/advantages/01.svg",
                     text: "С нами вы сможете списать до 70% от суммы основного долга",
                 },
                 {
-                    imgSrc: "blocks/about/advantages/02.png",
+                    imgSrc: "blocks/about/advantages/02.svg",
                     text: "С нами вам не нужно бояться, что весь ваш доход будет уходить на погашение долга",
                 },
                 {
-                    imgSrc: "blocks/about/advantages/03.png",
+                    imgSrc: "blocks/about/advantages/03.svg",
                     text: "По окончании выплат получаете полный набор документов",
                 },
                 {
-                    imgSrc: "blocks/about/advantages/04.png",
+                    imgSrc: "blocks/about/advantages/04.svg",
                     text: "Нам доверяют не только клиенты, но и многие компании",
                 },
             ],
