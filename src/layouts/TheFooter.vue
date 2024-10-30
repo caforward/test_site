@@ -178,10 +178,12 @@ onBeforeMount(() => {
                                 </ul>
 
                                 <router-link to="/complaint">
-                                    <span class="flex items-bottom gap-1 text-orange-200 text-sm hover:text-orange-300 transition-colors">
-                                        Пожаловаться
+                                    <div class="flex items-bottom gap-2 text-sky-400 text-sm hover:text-sky-300 transition-colors">
                                         <i class="pi pi-exclamation-circle text-sm !flex items-center"></i>
-                                    </span>
+                                        <span>
+                                            Обратная связь
+                                        </span>
+                                    </div>
                                 </router-link>
                             </div>
                         </div>
