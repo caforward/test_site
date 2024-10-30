@@ -73,7 +73,7 @@ function showThankModal() {
 					<div class="sum-element bott-sum-element">
 						{{ useValueFormat(repaymentMonthly.toFixed()) }} ₽
 					</div>
-					<div class="pre-form">Заполните поле ниже и мы <br> свяжемся с Вами:</div>
+					<div class="pre-form">Заполните поля ниже и мы <br> свяжемся с Вами:</div>
 
 					<FormBlock :inputs="formInputs" :additionalData="{
 						repaymentAmount: repaymentAmount,

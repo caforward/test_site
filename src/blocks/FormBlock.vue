@@ -1,6 +1,13 @@
 <script setup>
-import { ref, onBeforeMount, watch } from 'vue'
-import BaseInput from './BaseInput.vue'
+import { ref, watch, onBeforeMount, reactive } from 'vue'
+import BaseInput from './ui/BaseInput.vue';
+import BaseCheckbox from './ui/BaseCheckbox.vue';
+import Button from 'primevue/button';
+
+// composable
+import { useInputValidation, createFormData } from '@/composable/useForm.js'
+
+// variables
 
 const emit = defineEmits(['submitted'])
 
@@ -15,104 +22,70 @@ const props = defineProps({
     }
 })
 
-const consent = ref(false)
-const formIsValid = ref(false)
-
-const checkErrorTrigger = ref(true)
-const resetInputTrigger = ref(false)
-const consentDOMElement = ref(null)
-
-const formData = ref(new FormData())
-const formInputs = ref({})
+const formInputs = reactive({})
+const inputRefs = ref(null)
+const consentRef = ref(null)
+const consentValue = ref(null)
 
 onBeforeMount(() => {
-    // Инициализация данных для валидации
     props.inputs.forEach(input => {
-        if (input.value) {
-            formData.value[input.name] = input.value
-            formInputs.value[input.name] = { isValid: true, required: input.required }
-        } else {
-            formData.value[input.name] = ''
-            formInputs.value[input.name] = { isValid: false, required: input.required }
+        formInputs[input.name] = {
+            value: input.value ? input.value : '',
         }
     })
 })
 
-function clearInputs() {
-    resetInputTrigger.value = !resetInputTrigger.value
+async function sendData(data) {
 
-    props.inputs.forEach(input => {
-        if (input.value) {
-            formData.value[input.name] = input.value
-            formInputs.value[input.name] = { isValid: true, required: input.required }
-        } else {
-            formData.value[input.name] = ''
-            formInputs.value[input.name] = { isValid: false, required: input.required }
-        }
+    /* \/ temporary solution */
+    // use inputRefs instead that
+    Object.keys(props.additionalData).forEach(key => {
+        data.append(key, props.additionalData[key])
     })
-}
 
-async function handleSubmit() {
-    // Проверяеем наличие ошибок
-    checkErrorTrigger.value = !checkErrorTrigger.value
+    // for (let key of data.entries()) {
+    //     console.log(`${key[0]}: ${key[1]}`)
+    // }
+    /* /\ temporary solution */
 
-    if (!consent.value) {
-        consentDOMElement.value.classList.add('checkbox_error')
 
-        setTimeout(() => {
-            consentDOMElement.value.classList.remove('checkbox_error')
-        }, 300)
-
-        return
-    }
-
-    // Проверяем валидна ли форма
-    if (formIsValid.value) {
-        // Отправляем данные на сервер
-        // получаем дополнительные данные если есть
-        Object.keys(props.additionalData).forEach((key) => {
-            formData.value[key] = props.additionalData[key]
+    try {
+        const response = await fetch("email.php", {
+            method: "POST",
+            body: data.value
         })
 
-        // Вносим данные в тип Form Data
-        Object.keys(formData.value).forEach((key) => {
-            formData.value.append(key, formData.value[key])
-        })
+        if (response.ok) {
+            console.log("Сообщение успешно отправлено");
 
-        try {
-            const response = await fetch("email.php", {
-                method: "POST",
-                body: formData.value
-            })
-
-            if (response.ok) {
-                console.log("Сообщение успешно отправлено");
-
-                clearInputs()
-                emit("submitted")
-            } else {
-                console.error("Ошибка при отправке сообщения");
-            }
-        } catch (error) {
-            console.error("Ошибка при отправке сообщения:", error);
+            emit("submitted")
+        } else {
+            console.error("Ошибка при отправке сообщения");
         }
+    } catch (error) {
+        console.error("Ошибка при отправке сообщения:", error);
     }
 }
 
-watch(
-    () => formInputs,
-    (inputs) => {
-        const inputsNames = Object.keys(inputs.value)
-        formIsValid.value = true
+function submitForm() {
 
-        const invalidInputs = inputsNames.find(inputName => inputs.value[inputName].required && !inputs.value[inputName].isValid)
+    // collect input refs from form
+    let formInputRefs = [...inputRefs.value]
 
-        if (invalidInputs) {
-            formIsValid.value = false
-        }
-    },
-    { deep: true }
-)
+    // check inputs validation and emit submit
+    const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
+
+    if (isFormValid) {
+        const formData = createFormData(formInputRefs)
+
+        sendData(formData)
+        inputRefs.value.forEach(inputRef => inputRef.clearValue())
+
+        // emit('submitted', formData)
+    } else {
+        // console.log('form is not valid')
+    }
+}
 </script>
 
 <template>
@@ -121,26 +94,25 @@ watch(
         <form novalidate action="" class="form-block__form" @submit.prevent="handleSubmit">
             <div class="form-block__inputs">
                 <template v-for="(input, idx) in inputs" :key="idx">
-                    <BaseInput :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :options="input.options" :disabled="input.disabled"
-                        v-model:value="formData[input.name]" v-model:isValid="formInputs[input.name].isValid"
-                        v-model:showError="checkErrorTrigger" :resetInputTrigger="resetInputTrigger"
-                        @update:resetInputTrigger="resetInputTrigger = $event" />
+                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
+                        :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                        :required="input.required" :disabled="input.disabled" :options="input.options" />
                 </template>
             </div>
             <div class="form-block__bottom">
-                <div class="form-block-meta">
-                    <input ref="consentDOMElement" id="personal-data-agree-checkbox" type="checkbox"
-                        class="checkbox form-block-meta__checkbox" v-model="consent">
-                    <label for="personal-data-agree-checkbox" class="form-block-meta__label">
+
+                <!-- personal data checkbox -->
+                <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
+                    :required="true" v-model="consentValue" class="text-sm">
+                    <template #label>
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
-                    </label>
-                </div>
-                <button class="button button_blue form-block__button">
-                    Отправить
-                </button>
+                    </template>
+                </BaseCheckbox>
+
+                <!-- submit button -->
+                <Button class="sm:w-fit w-full min-w-60" label="Отправить" size="large" @click.prevent="submitForm" />
             </div>
         </form>
     </div>

@@ -31,15 +31,31 @@ export default {
                 },
                 {
                     name: 'messageType',
-                    type: 'v-select',
+                    type: 'select',
                     placeholder: 'Тема обращения*',
+                    required: true,
+                    value: "Прошу перезвонить",
                     options: [
-                        "Прошу перезвонить",
-                        "Узнать номер договора",
-                        "Разблокировать счет",
-                        "Рассрочка",
-                        "Другое",
-
+                        {
+                            name: "Прошу перезвонить",
+                            code: "callback"
+                        },
+                        {
+                            name: "Узнать номер договора",
+                            code: "getContractNumber"
+                        },
+                        {
+                            name: "Разблокировать счет",
+                            code: "unblockAccaunt"
+                        },
+                        {
+                            name: "Рассрочка",
+                            code: "installment"
+                        },
+                        {
+                            name: "Другое",
+                            code: "other"
+                        },
                     ],
                 },
                 {

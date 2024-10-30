@@ -1,7 +1,3 @@
-<template>
-	<Slider v-model="value" :lazy="false" :min="props.min" :max="props.max" :step="props.step" :tooltips="false" />
-</template>
-
 <script setup>
 import Slider from '@vueform/slider';
 import { ref } from 'vue';
@@ -28,6 +24,10 @@ const props = defineProps({
 const value = defineModel()
 
 </script>
+
+<template>
+	<Slider v-model="value" :lazy="false" :min="props.min" :max="props.max" :step="props.step" :tooltips="false" />
+</template>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/base/variables.scss' as var;

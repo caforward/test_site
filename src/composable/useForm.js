@@ -18,13 +18,13 @@ export const createFormData = (inputRefs) => {
         }
     })
 
+    // for (let key of formData.entries()) {
+    //     console.log(`${key[0]}: ${key[1]}`)
+    // }
     return formData
     
     // for debugging
     
-    // for (let key of formData.entries()) {
-    //     console.log(`${key[0]}: ${key[1]}`)
-    // }
     // formData.entries().forEach(key => {
     //     console.log(key)
     // })
@@ -40,7 +40,7 @@ export const useInputValidation = (inputRefs) => {
             inputRef.showErrorHandler()
 
             // for debugging
-            console.log(inputRef.inputName)
+            // console.log(inputRef.inputName, inputRef.value)
         })
 
         return false

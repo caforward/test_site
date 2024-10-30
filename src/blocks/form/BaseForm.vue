@@ -130,7 +130,7 @@ onMounted(() => {
     </div>
 
     <!-- form -->
-    <form ref="formDOMElement" action="" class="form" @submit.prevent="handleSubmit">
+    <form ref="formDOMElement" action="" class="form">
         <div class="form-container">
 
             <!-- slot for before inputs -->

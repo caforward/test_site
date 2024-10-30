@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue'
-import BaseRateForm from '../blocks/BaseRateForm.vue';
+import BaseFormRate from '../blocks/form/BaseFormRate.vue';
 
 const props = defineProps({
     needRate: {
@@ -42,7 +42,7 @@ watch(
                         Ваше обращение отправлено
                     </p>
 
-                    <BaseRateForm v-if="needRate" @close="visible = false" />
+                    <BaseFormRate v-if="needRate" @close="visible = false" />
 
                     <button v-else class="button button_blue" @click="visible = false">
                         Вернуться на сайт
