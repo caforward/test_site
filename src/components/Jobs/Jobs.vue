@@ -131,6 +131,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 75px 0 90px;
 }
@@ -145,7 +148,7 @@ section {
     }
 
     &-item {
-        background-color: $gray-white;
+        background-color: var.$gray-white;
         border-radius: 30px;
         padding: 30px 70px;
 
@@ -224,7 +227,7 @@ section {
     &-button {
         margin: 0 auto;
         border: 1px solid #d9d9d9;
-        color: $gray-dark;
+        color: var.$gray-dark;
         transition: color .2s, background-color .2s, border-color .2s;
 
         img {
@@ -234,7 +237,7 @@ section {
         }
 
         &:hover {
-            border-color: $blue;
+            border-color: var.$blue;
         }
     }
 
@@ -243,7 +246,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     section {
         padding: 80px 0 80px;
     }
@@ -279,7 +282,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     section {
         padding: 60px 0 60px;
     }
@@ -321,7 +324,7 @@ section {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     section {
         padding: 50px 0 50px;
     }

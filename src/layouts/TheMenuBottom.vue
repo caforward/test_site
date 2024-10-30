@@ -139,6 +139,9 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .bottom-menu {
 	position: sticky;
 	bottom: 0;
@@ -175,30 +178,30 @@ onUnmounted(() => {
 			padding: 10px;
 			text-align: center;
 			font-size: 13px;
-			// background-color: $black-gray;
+			// background-color: var.$black-gray;
 			gap: 10px;
 			transition: color 0.2s, background-color 0.2s;
 
 			&:hover {
-				background-color: $blue;
+				background-color: var.$blue;
 				color: white;
 			}
 
 			&:active {
-				background-color: $blue-light;
+				background-color: var.$blue-light;
 			}
 
 			&__icon {
 				width: 24px;
 				height: 24px;
-				fill: $blue;
+				fill: var.$blue;
 				transition: fill 0.2s;
 			}
 		}
 	}
 }
 
-@include mobile {
+@include mixin.tablet {
 	.bottom-menu {
 		padding: 5px;
 
@@ -212,7 +215,7 @@ onUnmounted(() => {
 	}
 }
 
-@include mobileS {
+@include mixin.mobileS {
 	.bottom-menu {
 		&-list {
 			&-link {

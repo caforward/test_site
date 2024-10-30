@@ -224,6 +224,8 @@ function checkTelInputErrors() {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+
 textarea {
     resize: vertical;
     min-height: 50px;
@@ -236,11 +238,11 @@ textarea {
     transition: border-color .2s;
 
     &:focus {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 
     &_valid {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 
     &_error {
@@ -325,7 +327,7 @@ textarea {
             color: unset;
 
             &::placeholder {
-                color: $gray-dark;
+                color: var.$gray-dark;
             }
         }
 

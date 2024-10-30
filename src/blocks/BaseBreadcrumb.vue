@@ -41,6 +41,8 @@ const mainPage = ref({
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -54,7 +56,7 @@ const mainPage = ref({
     &-link {
         font-size: 14px;
         line-height: 143%;
-        color: $gray-dark;
+        color: var.$gray-dark;
 
         &_current {
             color: #292d32;

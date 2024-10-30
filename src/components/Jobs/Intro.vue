@@ -35,6 +35,9 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     background-color: #F3F7FA;
 }
@@ -47,7 +50,7 @@ section {
     font-weight: 400;
     font-size: 14px;
     line-height: 143%;
-    color: $gray-dark;
+    color: var.$gray-dark;
 }
 
 .intro {
@@ -107,7 +110,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .intro {
         &__img {
             width: 65%;
@@ -127,7 +130,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .intro {
         &__img {
             padding: 80px 0 60px;
@@ -150,7 +153,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .intro {
         &-block {
             height: unset;
@@ -158,7 +161,7 @@ section {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .intro {
         &__img {
             width: 100%;

@@ -112,6 +112,8 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity .4s ease, height .4s;
@@ -156,7 +158,7 @@ onMounted(() => {
     }
 
     &-input {
-        border: 1px solid $white-blue;
+        border: 1px solid var.$white-blue;
         border-radius: 5px;
         height: 140px;
         padding: 10px;
@@ -177,7 +179,7 @@ onMounted(() => {
         &__star {
             padding: 0;
             padding-right: 10px;
-            color: $black-gray;
+            color: var.$black-gray;
             font-size: 36px;
 
             &:last-child {
@@ -189,7 +191,7 @@ onMounted(() => {
             }
 
             &_active {
-                color: $blue;
+                color: var.$blue;
             }
         }
     }

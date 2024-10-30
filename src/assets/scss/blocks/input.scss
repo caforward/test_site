@@ -1,10 +1,12 @@
+@use '../base/variables.scss' as var;
+
 %input {
     font-size: 14px;
     line-height: 24px;
     width: 100%;
     border-radius: 5px;
     padding: 12px 20px;
-    color: $black;
+    color: var.$black;
 }
 
 .input {
@@ -25,7 +27,7 @@
 
 .checkbox {
     appearance: none;
-    background-color: $white;
+    background-color: var.$white;
     width: 30px;
     height: 30px;
     flex: none;

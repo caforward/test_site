@@ -48,8 +48,11 @@ function scrollToCalculate() {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
-    background-color: $blue-white;
+    background-color: var.$blue-white;
 }
 
 .container {
@@ -60,7 +63,7 @@ section {
     font-weight: 400;
     font-size: 14px;
     line-height: 143%;
-    color: $gray-dark;
+    color: var.$gray-dark;
     margin-bottom: 30px;
 }
 
@@ -104,7 +107,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .intro {
         &-content {
             &__subtitle {
@@ -120,7 +123,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .intro {
         &__img {
             position: relative;
@@ -140,7 +143,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .intro {
         &__img {
             img {
@@ -154,7 +157,7 @@ section {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .intro {
         &__img {
             width: 100%;

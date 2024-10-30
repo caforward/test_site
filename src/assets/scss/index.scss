@@ -1,26 +1,26 @@
-@import "base/mixins.scss";
-@import "base/variables.scss";
-@import "base/animations";
+@use "base/mixins.scss" as mixin;
+@use "base/variables.scss" as var;
+@use "base/animations";
 
-@import "libs/normalize";
-@import "libs/fonts";
+@use "libs/normalize";
+@use "libs/fonts";
 
-@import "blocks/default";
-@import "blocks/container";
-@import "blocks/button";
-@import "blocks/header";
-@import "blocks/input";
-@import "blocks/heading";
-@import "blocks/list";
-@import "blocks/link";
-@import "blocks/datepicker";
+@use "blocks/default";
+@use "blocks/container";
+@use "blocks/button";
+@use "blocks/header";
+@use "blocks/input";
+@use "blocks/heading";
+@use "blocks/list";
+@use "blocks/link";
+@use "blocks/datepicker";
 
-/* // @import 'vue-select/dist/vue-select.css';
-// @import 'nouislider/dist/nouislider.css'; */
+/* // @use 'vue-select/dist/vue-select.css';
+// @use 'nouislider/dist/nouislider.css'; */
 
 .p-inputwrapper.p-inputwrapper-filled {
     & .p-inputtext {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 }
 
@@ -28,7 +28,7 @@
 .p-textarea,
 .p-select {
     &.p-filled {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 }
 

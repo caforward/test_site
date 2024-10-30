@@ -40,6 +40,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 40px 0 80px;
 }
@@ -56,12 +59,12 @@ p {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     p {
         font-size: 14px;
     }
 }
-@include tablet {
+@include mixin.tablet {
     h2 {
         margin-bottom: 15px;
     }

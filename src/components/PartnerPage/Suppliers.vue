@@ -27,7 +27,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
 
 section {
     padding: 40px 0 80px;
@@ -44,7 +45,7 @@ section {
     width: 74%;
 }
 
-@include desktop {
+@include mixin.tablet {
     .text {
         width: 100%;
     }

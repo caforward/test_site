@@ -138,10 +138,12 @@ const dataSlider = ref([
 </template>
 
 <style lang="scss">
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination';
-@import 'swiper/css/scrollbar';
+@use '@/assets/scss/base/variables.scss' as var;
+
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+@use 'swiper/css/scrollbar';
 
 .comspanies-slider {
 
@@ -151,10 +153,10 @@ const dataSlider = ref([
             width: 6px;
             height: 6px;
             opacity: 1;
-            background-color: $gray;
+            background-color: var.$gray;
 
             &-active {
-                background-color: $blue;
+                background-color: var.$blue;
             }
         }
     }
@@ -179,7 +181,7 @@ const dataSlider = ref([
             gap: 10px;
 
             &__button {
-                border: 2px solid $gray-milk;
+                border: 2px solid var.$gray-milk;
                 border-radius: 30px;
                 width: 40px;
                 height: 40px;

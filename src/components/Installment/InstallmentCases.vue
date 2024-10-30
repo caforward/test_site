@@ -41,6 +41,9 @@
 <script setup></script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .section {
     padding: 80px 0;
 }
@@ -58,7 +61,7 @@
     &-card {
         flex: 1;
         width: 33%;
-        background-color: $gray-white;
+        background-color: var.$gray-white;
         border-radius: 30px;
         position: relative;
 
@@ -74,7 +77,7 @@
             border-radius: 100%;
             width: 60px;
             height: 60px;
-            background-color: $black-gray;
+            background-color: var.$black-gray;
             font-weight: 500;
             font-size: 24px;
         }
@@ -90,7 +93,7 @@
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .title {
         margin-bottom: 25px;
     }
@@ -109,7 +112,7 @@
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .section {
         padding: 60px 0;
     }
@@ -140,7 +143,7 @@
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .section {
         padding: 50px 0;
     }

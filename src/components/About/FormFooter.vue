@@ -89,6 +89,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 70px 0 150px;
     background-color: #fafbfd;
@@ -114,7 +117,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .form {
         &-block {
             &>* {
@@ -134,7 +137,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     section {
         padding: 25px 0 80px;
     }

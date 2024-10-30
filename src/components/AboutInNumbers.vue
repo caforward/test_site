@@ -35,6 +35,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 80px 0 70px;
     background-color: #F9FAFB;
@@ -70,7 +73,7 @@ section {
 
 }
 
-@include desktop {
+@include mixin.tablet {
     .numbers {
         &-info {
             &__top {
@@ -80,7 +83,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .numbers {
         &-info {
             width: 40%;
@@ -95,7 +98,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .numbers {
         &-info {
             &__top {

@@ -1,4 +1,7 @@
-@include desktop {
+@use '../base/mixins.scss' as mixin;
+
+
+@include mixin.desktop {
     h1 {
         font-size: 30px;
     }
@@ -7,7 +10,7 @@
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     h1 {
         font-size: 26px;
         line-height: 115%;
@@ -17,7 +20,7 @@
     }
 }
 
-@include mobile {
+@include mixin.mobile {
     h1 {
         font-size: 24px;
     }

@@ -10,6 +10,9 @@
 <script setup></script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .intro {
     &-block {
         &__inner {
@@ -19,7 +22,7 @@
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .intro {
         &-block {
             &__inner {

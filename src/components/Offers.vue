@@ -53,6 +53,9 @@ import PayForm from '../blocks/PayForm.vue';
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 100px 0 60px;
     background-color: #F9FAFB;
@@ -108,7 +111,7 @@ section {
     }
 }
 
-@include desktopXl {
+@include mixin.desktopXl {
     .payment {
         &-block {
             padding: 45px 60px;
@@ -116,7 +119,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .payment {
         &__title {
             font-size: 30px;
@@ -147,7 +150,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .payment {
 
         &__blocks {
@@ -160,7 +163,7 @@ section {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .payment {
         &__title {
             font-size: 24px;
@@ -176,7 +179,7 @@ section {
     }
 }
 
-@include mobileS {
+@include mixin.mobileS {
     .payment {
         &__blocks {
             gap: 0;

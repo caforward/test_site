@@ -44,10 +44,10 @@ const modules = [Navigation, Pagination];
 </template>
 
 <style lang="scss">
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination';
-@import 'swiper/css/scrollbar';
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+@use 'swiper/css/scrollbar';
 
 .swiper {
     &-pagination {

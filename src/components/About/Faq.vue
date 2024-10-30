@@ -236,6 +236,9 @@ const accordionData = ref([
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 80px 0 70px;
     background-color: #fafbfd;
@@ -263,7 +266,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .faq {
         &__text {
             font-size: 14px;
@@ -271,7 +274,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     section {
         padding: 50px 0 25px;
     }

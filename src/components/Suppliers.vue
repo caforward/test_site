@@ -33,6 +33,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 100px 0 50px;
 }
@@ -87,7 +90,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .title {
         font-size: 30px;
         margin-bottom: 25px;

@@ -88,12 +88,15 @@ function showThankModal() {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 // clean form
 :deep(.form-block) {
 	padding: 0;
 	background-color: transparent;
 	border-radius: 0;
-	color: $black;
+	color: var.$black;
 
 	&::before {
 		display: none;

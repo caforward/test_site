@@ -129,6 +129,9 @@ function sendRating() {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity .4s ease;

@@ -102,6 +102,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     margin-top: -80px;
     padding: 150px 0 150px;
@@ -140,7 +143,7 @@ section {
             padding-left: 20px;
 
             ::marker {
-                color: $blue;
+                color: var.$blue;
             }
 
             li {
@@ -196,7 +199,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .plates {
         &-item {
             padding: 40px 30px;
@@ -226,7 +229,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .plates {
         flex: none;
         gap: 15px;
@@ -265,7 +268,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     section {
         padding: 25px 0 80px;
     }

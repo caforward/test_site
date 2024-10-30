@@ -1,3 +1,5 @@
+@use '../base/mixins.scss' as mixin;
+
 .container {
     max-width: 1370px;
     width: 100%;
@@ -6,27 +8,27 @@
     color: rgb(46, 46, 46);
 }
 
-@include desktop {
+@include mixin.desktop {
     .container {
         max-width: 1070px;
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .container {
         padding: 0 25px;
         max-width: 798px;
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .container {
         max-width: 620px;
         padding: 0 15px;
     }
 }
 
-// @include mobile {
+// @include mixin.tablet {
 //     .container {
 //         max-width: 606px;
 //     }

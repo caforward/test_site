@@ -220,6 +220,9 @@ onUpdated(() => {
 
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .modal {
     display: flex;
     justify-content: center;
@@ -263,7 +266,7 @@ onUpdated(() => {
                     display: flex;
                     align-items: center;
                     gap: 15px;
-                    color: $black;
+                    color: var.$gray;
                     transition: color .2s;
 
                     img {
@@ -273,7 +276,7 @@ onUpdated(() => {
                     }
 
                     &:hover {
-                        color: $blue;
+                        color: var.$blue;
                     }
                 }
             }
@@ -293,7 +296,7 @@ onUpdated(() => {
     cursor: pointer;
 }
 
-@include mobile {
+@include mixin.tablet {
     .modal {
         &-body {
             padding: 30px 20px;

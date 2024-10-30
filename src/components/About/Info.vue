@@ -49,17 +49,20 @@
 <script setup></script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 80px 0 40px;
 }
 
 a {
-    color: $blue;
-    border-bottom: 1px solid $blue;
+    color: var.$blue;
+    border-bottom: 1px solid var.$blue;
     transition: color 0.2s, border-color 0.1s;
 
     &:hover {
-        color: $blue-light;
+        color: var.$blue-light;
         border-color: transparent;
     }
 }
@@ -81,7 +84,7 @@ a {
             font-weight: 500;
             font-size: 18px;
             line-height: 167%;
-            border-left: 8px solid $blue;
+            border-left: 8px solid var.$blue;
             padding-left: 30px;
             margin: 0;
             margin-top: 30px;
@@ -106,7 +109,7 @@ a {
                 left: 0;
                 border-radius: 100%;
                 transform: translateY(-50%);
-                background-color: $blue;
+                background-color: var.$blue;
                 display: block;
                 width: 5px;
                 height: 5px;
@@ -115,7 +118,7 @@ a {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .info {
         &__inner {
             width: 100%;
@@ -135,7 +138,7 @@ a {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     section {
         padding: 50px 0 25px;
     }
@@ -152,7 +155,7 @@ a {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .info {
         &__text {
             margin-bottom: 15px;

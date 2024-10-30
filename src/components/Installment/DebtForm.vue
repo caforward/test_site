@@ -121,6 +121,9 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .payform {
     display: flex;
     flex-direction: column;
@@ -151,7 +154,7 @@ watch(
     padding: 0;
     background-color: transparent;
     border-radius: 0;
-    color: $black;
+    color: var.$black;
 
     &::before {
         display: none;
@@ -231,7 +234,7 @@ watch(
 
 .section {
     padding: 80px 0 150px;
-    background-color: $gray-white;
+    background-color: var.$gray-white;
 }
 
 .title {
@@ -249,10 +252,10 @@ watch(
 
 .link {
     text-decoration: underline;
-    color: $blue;
+    color: var.$blue;
 
     &:hover {
-        color: $blue-light;
+        color: var.$blue-light;
     }
 
     &:active {
@@ -311,8 +314,8 @@ watch(
 
 
         &_active {
-            background-color: $blue-light;
-            border-color: $blue-light;
+            background-color: var.$blue-light;
+            border-color: var.$blue-light;
             color: #fff;
         }
     }
@@ -330,7 +333,7 @@ watch(
 
         &_active {
             & .switcher-step__number {
-                background-color: $blue-light;
+                background-color: var.$blue-light;
                 color: #fff;
             }
         }
@@ -375,7 +378,7 @@ watch(
             width: 0%;
             height: 100%;
             border-radius: 5px;
-            background-color: $blue-light;
+            background-color: var.$blue-light;
             transition: width .3s;
         }
     }
@@ -492,7 +495,7 @@ watch(
     }
 }
 
-@include desktopXl {
+@include mixin.desktopXl {
     .section {
         padding-bottom: 120px;
     }
@@ -538,7 +541,7 @@ watch(
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .scroll-fix-offset {
         margin-top: -90px;
         padding-top: 90px;
@@ -619,14 +622,14 @@ watch(
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .scroll-fix-offset {
         margin-top: -50px;
         padding-top: 50px;
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .switcher {
         &__tabs {
             margin-bottom: 10px;

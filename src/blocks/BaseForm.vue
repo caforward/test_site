@@ -314,6 +314,9 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .slider {
     &__title {
         display: flex;
@@ -329,7 +332,7 @@ watch(
         font-weight: 400;
         font-size: 14px;
         line-height: 214%;
-        color: $gray-dark;
+        color: var.$gray-dark;
     }
 }
 
@@ -379,7 +382,7 @@ watch(
             gap: 10px;
 
             &__checkbox {
-                border: 1px solid $gray;
+                border: 1px solid var.$gray;
                 transition: border-color .2s, background-color .3s;
 
                 &.checkbox_error {
@@ -387,7 +390,7 @@ watch(
                 }
 
                 &:checked {
-                    border-color: $blue;
+                    border-color: var.$blue;
                 }
             }
 
@@ -434,7 +437,7 @@ watch(
 
                 &__full {
                     font-size: 20px;
-                    color: $gray-dark;
+                    color: var.$gray-dark;
                     text-decoration: line-through;
                 }
             }
@@ -442,7 +445,7 @@ watch(
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .form {
         &-installment {
             &-title {

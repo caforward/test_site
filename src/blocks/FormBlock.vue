@@ -147,8 +147,11 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .form-block {
-    background-color: $black;
+    background-color:var.$gray;
     border-radius: 20px;
     padding: 70px 85px 60px;
     color: #fff;
@@ -172,7 +175,7 @@ watch(
         z-index: -1;
         height: 1px;
         aspect-ratio: 1 / 1;
-        // background: radial-gradient(circle, $blue 0%, rgba(0,0,0,0) 70%);
+        // background: radial-gradient(circle, var.$blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
     }
 
@@ -229,7 +232,7 @@ watch(
 
             .link {
                 display: inline;
-                color: $white;
+                color: var.$white;
                 text-decoration: underline;
             }
         }
@@ -249,11 +252,11 @@ watch(
     transition: border-color .2s;
 
     &:focus {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 
     &_valid {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 
     &_error {
@@ -302,7 +305,7 @@ watch(
     border-radius: 5px;
 
     &.input_valid {
-        border-color: $blue;
+        border-color: var.$blue;
     }
 
     &.vs {
@@ -311,13 +314,13 @@ watch(
         }
 
         &--open {
-            border-color: $blue;
+            border-color: var.$blue;
         }
     }
 
     .vs {
         &__selected {
-            color: $black;
+            color:var.$gray;
             font-size: 14px;
         }
 
@@ -330,16 +333,16 @@ watch(
             }
 
             &-menu {
-                color: $black;
+                color:var.$gray;
                 font-size: 14px;
             }
         }
 
         &__search {
-            color: $black;
+            color:var.$gray;
 
             &::placeholder {
-                color: $black;
+                color:var.$gray;
                 font-size: 14px;
             }
         }
@@ -404,7 +407,7 @@ textarea {
     height: 100px;
 }
 
-@include desktopXl {
+@include mixin.desktopXl {
     .form {
         &-block {
             &__bottom {
@@ -424,7 +427,7 @@ textarea {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .form {
         &-block {
             padding: 50px;
@@ -432,7 +435,7 @@ textarea {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .form {
         &-block {
             padding: 30px;
@@ -440,7 +443,7 @@ textarea {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .form {
         &-block {
             &-meta {

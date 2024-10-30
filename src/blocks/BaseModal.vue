@@ -16,6 +16,9 @@ const emit = defineEmits(['closeModal'])
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .fade-leave-active.modal {
 	padding-right: 0 !important;
 }
@@ -53,7 +56,7 @@ const emit = defineEmits(['closeModal'])
 	}
 }
 
-@include tablet {
+@include mixin.tablet {
 	.modal {
 		&__body {
 			border-radius: 22px;

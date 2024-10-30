@@ -1,16 +1,18 @@
+@use '../base/variables.scss' as var;
+
 .link {
-    color: $blue;
+    color: var.$blue;
     transition: color .2s;
 
     &:hover {
-        color: $blue-light;
+        color: var.$blue-light;
     }
 
     &_white {
         color: #fff;
 
         &:hover {
-            color: $blue-light;
+            color: var.$blue-light;
         }
     }
 }

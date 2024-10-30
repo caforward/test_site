@@ -252,8 +252,11 @@ onUnmounted(() => {
 
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .header {
-    border-bottom: 1px solid $gray;
+    border-bottom: 1px solid var.$gray;
     transition: top .2s;
 
     &__minimized {
@@ -291,7 +294,7 @@ onUnmounted(() => {
     }
 
     &-bottom {
-        background-color: $white;
+        background-color: var.$white;
         padding: 22px 0;
 
         &__inner {
@@ -366,7 +369,7 @@ onUnmounted(() => {
     }
 }
 
-@include desktopXl {
+@include mixin.desktopXl {
     .header {
         &-bottom {
             &-tel {
@@ -382,7 +385,7 @@ onUnmounted(() => {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .header {
         &-top {
             &-nav {
@@ -431,7 +434,7 @@ onUnmounted(() => {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .header {
         &-top {
             display: none;
@@ -451,7 +454,7 @@ onUnmounted(() => {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .header {
         &-bottom {
             padding: 10px 0;

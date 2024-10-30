@@ -74,9 +74,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 50px 0 35px;
-    background-color: $gray-white;
+    background-color: var.$gray-white;
 }
 
 .title {
@@ -104,9 +107,9 @@ section {
             width: 45px;
             height: 45px;
             border-radius: 15px;
-            color: $white;
+            color: var.$white;
             font-weight: 700;
-            background-color: $blue-light;
+            background-color: var.$blue-light;
             flex: none;
             line-height: 187%;
             margin-right: 35px;
@@ -137,7 +140,7 @@ section {
                         height: 3px;
                         transform: translate(-50%, -50%);
                         border-radius: 100%;
-                        background-color: $black;
+                        background-color: var.$black;
                     }
                 }
             }
@@ -145,7 +148,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .text {
         font-size: 14px;
     }
@@ -163,7 +166,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .points {
         grid-template-columns: repeat(1, 1fr);
         gap: 30px;

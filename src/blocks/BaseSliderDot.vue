@@ -30,13 +30,16 @@ const value = defineModel()
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 :deep(.slider-base) {
-	background-color: $gray;
+	background-color: var.$gray;
 
 	.slider {
 
 		&-connect {
-			background-color: $blue;
+			background-color: var.$blue;
 		}
 
 		&-handle {
@@ -46,7 +49,7 @@ const value = defineModel()
 			height: 26px;
 			background-color: white;
 			box-shadow: none;
-			border: 4px solid $blue;
+			border: 4px solid var.$blue;
 		}
 
 

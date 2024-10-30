@@ -56,6 +56,9 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .accordion {
     border-bottom: 1px solid rgba(217, 217, 217, 0.5);
 
@@ -104,7 +107,7 @@ onMounted(() => {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .accordion {
         &_opened {
             & .accordion__content {
@@ -123,7 +126,7 @@ onMounted(() => {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .accordion {
         &_opened {
             & .accordion__content {

@@ -1,10 +1,12 @@
+@use '../base/variables.scss' as var;
+
 .list {
     list-style-type: disc;
     padding-left: 20px;
     &> li {
         margin-bottom: 25px;
         &::marker {
-            color: $blue;
+            color: var.$blue;
         }
     }
 }

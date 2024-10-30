@@ -1,3 +1,5 @@
+@use '../base/variables.scss' as var;
+
 *,
 :after,
 :before {
@@ -9,7 +11,7 @@
 *::-webkit-scrollbar {
     width: 10px;
     &-thumb {
-        background-color: $blue;
+        background-color: var.$blue;
         border-radius: 4px;
     }
     &-track {

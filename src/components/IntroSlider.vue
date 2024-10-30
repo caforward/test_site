@@ -169,10 +169,13 @@ function showInstallmentModal() {
 </template>
 
 <style lang="scss">
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination';
-@import 'swiper/css/scrollbar';
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+@use 'swiper/css/scrollbar';
 
 .intro-slider {
     margin-top: -80px;
@@ -183,10 +186,10 @@ function showInstallmentModal() {
             width: 6px;
             height: 6px;
             opacity: 1;
-            background-color: $white;
+            background-color: var.$white;
 
             &-active {
-                background-color: $blue;
+                background-color: var.$blue;
             }
         }
     }
@@ -198,7 +201,7 @@ function showInstallmentModal() {
             font-weight: 500;
 
             b {
-                color: $blue;
+                color: var.$blue;
             }
         }
     }
@@ -249,7 +252,7 @@ function showInstallmentModal() {
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-color: $white-blue;
+            background-color: var.$white-blue;
 
             &::before {
                 content: '';
@@ -299,7 +302,7 @@ function showInstallmentModal() {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .intro-slider {
         .slider {
             &__slide {
@@ -344,7 +347,7 @@ function showInstallmentModal() {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .intro-slider {
         margin-top: -80px;
 
@@ -387,7 +390,7 @@ function showInstallmentModal() {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .intro-slider {
 
         .slider {
@@ -447,7 +450,7 @@ function showInstallmentModal() {
     }
 }
 
-@include mobileS {
+@include mixin.mobileS {
     .intro-slider {
         .slide {
             &__img {

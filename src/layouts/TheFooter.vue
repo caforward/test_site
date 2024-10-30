@@ -221,13 +221,16 @@ onBeforeMount(() => {
 
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .container {
     color: #fff;
 }
 
 .footer {
     padding: 70px 0 30px;
-    background-color: $black;
+    background-color: var.$black;
 
     &-top {
         &__inner {
@@ -339,7 +342,7 @@ onBeforeMount(() => {
                             }
 
                             &:hover {
-                                background-color: $blue;
+                                background-color: var.$blue;
 
                                 & * {
                                     fill: #fff;
@@ -389,7 +392,7 @@ onBeforeMount(() => {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .footer {
         &-top {
             &__logo {
@@ -424,7 +427,7 @@ onBeforeMount(() => {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .footer {
         padding: 30px 0;
 
@@ -473,7 +476,7 @@ onBeforeMount(() => {
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     .footer {
 
         &-top {

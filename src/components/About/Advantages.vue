@@ -50,6 +50,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 40px 0;
 }
@@ -96,7 +99,7 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .advantages {
         &__inner {
             gap: 30px;
@@ -113,7 +116,7 @@ section {
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .advantages {
         &__img {
             height: 220px;
@@ -127,7 +130,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .advantages {
         &__inner {
             grid-template-columns: repeat(1, 1fr);

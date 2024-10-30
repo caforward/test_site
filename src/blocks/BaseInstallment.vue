@@ -120,6 +120,9 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .installment {
     display: flex;
     flex-direction: column;
@@ -146,7 +149,7 @@ onMounted(() => {
 
             &__full {
                 font-size: 20px;
-                color: $gray-dark;
+                color: var.$gray-dark;
                 text-decoration: line-through;
             }
         }

@@ -94,6 +94,8 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.4s ease;
@@ -168,7 +170,7 @@ watch(
     cursor: pointer;
 }
 
-@include mobile {
+@include mixin.mobile {
     .modal {
         &-body {
             padding: 30px 20px;

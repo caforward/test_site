@@ -186,6 +186,9 @@ export default {
 
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 .slide-enter-active,
 .slide-leave-active {
     transition: opacity .2s;
@@ -217,7 +220,7 @@ export default {
 
 .menu {
     width: 320px;
-    background-color: $white;
+    background-color: var.$white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -230,7 +233,7 @@ export default {
             padding: 20px 15px;
             font-weight: 600;
             font-size: 16px;
-            color: $black;
+            color: var.$black;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
             &.router-link-exact-active {
@@ -241,7 +244,7 @@ export default {
 
     &-footer {
         padding: 30px 15px;
-        background-color: $black-accent;
+        background-color: var.$black-accent;
 
         &-contacts {
             display: flex;
@@ -259,7 +262,7 @@ export default {
                 & svg {
                     width: 22px;
                     height: 22px;
-                    fill: $black-accent;
+                    fill: var.$black-accent;
                     transition: fill .4s;
                 }
 
@@ -286,13 +289,13 @@ export default {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     #mobile-menu.modal {
         width: 100%;
     }
 }
 
-@include mobile {
+@include mixin.tablet {
     #mobile-menu.modal {
         top: 50px;
     }

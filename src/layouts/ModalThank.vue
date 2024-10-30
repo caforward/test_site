@@ -54,6 +54,9 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 :deep(.modal__body) {
     top: 15%;
 }
@@ -71,7 +74,7 @@ watch(
 
     &__title {
         font-size: 34px;
-        color: $blue;
+        color: var.$blue;
         font-weight: 700;
     }
 

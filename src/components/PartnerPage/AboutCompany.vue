@@ -89,6 +89,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
 section {
     padding: 80px 0 40px;
 }
@@ -133,7 +136,7 @@ section {
         width: 100%;
         border-radius: 0 25px;
         padding: 55px 25px 45px;
-        background-color: $gray-light;
+        background-color: var.$gray-light;
         line-height: 150%;
         text-align: center;
 
@@ -168,13 +171,13 @@ section {
     }
 }
 
-@include desktop {
+@include mixin.tablet {
     .plates {
         width: 100%;
     }
 }
 
-@include laptop {
+@include mixin.laptop {
     .content {
         &__text {
             width: 50%;
@@ -194,7 +197,7 @@ section {
     }
 }
 
-@include tablet {
+@include mixin.tablet {
     .content {
         font-size: 14px;
         &__text {
