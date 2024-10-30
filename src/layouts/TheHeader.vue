@@ -116,7 +116,7 @@ function fillRoutes() {
 
 function minimizeHeader() {
     const scrollDiff = lastScrollPosition.value - window.scrollY
-    
+
     if (Math.abs(scrollDiff) > debounce && window.scrollY > 0) {
 
         if (scrollDiff > 0 && headerMinimized.value) {
@@ -171,8 +171,8 @@ onUnmounted(() => {
             <div class="container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
-                        <router-link :onclick="navLink.scroll" v-if="navLink.href && navLink.href[0] !== '#'"
-                            :to="navLink.href || ''" class="header-top-nav__link" exact>
+                        <router-link v-if="navLink.href && navLink.href[0] !== '#'" :to="navLink.href || ''"
+                            class="header-top-nav__link" exact>
                             {{ navLink.name }}
                         </router-link>
                         <a v-else-if="navLink.name === 'Реквизиты для оплаты'"
@@ -199,7 +199,7 @@ onUnmounted(() => {
                         <ul class="header-bottom-nav">
                             <li v-for="navLink in bottomNav" :key="navLink.name"
                                 @click="handleNavLink($event, navLink)">
-                                <router-link :onclick="navLink.scroll" v-if="navLink.href[0] !== '#'" :to="navLink.href"
+                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href"
                                     class="header-bottom-nav__link">
                                     {{ navLink.name }}
                                 </router-link>

@@ -1,5 +1,9 @@
 <script setup>
 import Button from 'primevue/button';
+
+onMounted(() => {
+    window.scrollTo(0, 0)
+})
 </script>
 
 <template>

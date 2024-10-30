@@ -2,7 +2,7 @@
 import Button from 'primevue/button';
 import BaseForm from '../blocks/form/BaseForm.vue';
 import OverlayThank from '../layouts/OverlayThank.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue';
 
 const overlayThankVisible = ref(false)
@@ -76,6 +76,10 @@ async function sendRating(rateData) {
         console.log('error rate', err.message)
     }
 }
+
+onMounted(() => {
+    window.scrollTo(0, 0)
+})
 
 </script>
 
