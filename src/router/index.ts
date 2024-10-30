@@ -34,9 +34,10 @@ const router = createRouter({
             return savedPosition
         }
 
-        if (from) {}
+        if (from && from.path === to.path) {
+            return { top: 0 }
+        }
 
-        // return desired position
         if (to.hash) {
             return {
                 el: to.hash,
