@@ -6,44 +6,28 @@ export const createFormData = (inputRefs) => {
     inputRefs.forEach(inputRef => {
         const inputName = inputRef.inputName
         let value = null
-        
+
         if (inputName === 'messageType') {
             value = inputRef.value.name
         } else {
             value = inputRef.value
         }
 
-        if (value === undefined) {
-            console.log(inputRef)
+        if (value) {
+            formData.append(inputName, value)
         }
-
-        formData.append(inputName, value)
     })
 
+    return formData
+    
+    // for debugging
+    
     // for (let key of formData.entries()) {
     //     console.log(`${key[0]}: ${key[1]}`)
     // }
     // formData.entries().forEach(key => {
     //     console.log(key)
     // })
-
-    return formData
-}
-
-/*      form validation         */
-
-export const useFormValidation = (inputRefs, consentRef) => {
-    const hasInvalidInputs = useInputValidation(inputRefs)
-
-    if (consentRef.value === null) {
-        consentRef.value = false
-    }
-
-    if (hasInvalidInputs || !consentRef.value) {
-        return false
-    }
-
-    return true
 }
 
 /*      inputs validation       */
@@ -56,11 +40,11 @@ export const useInputValidation = (inputRefs) => {
             inputRef.showErrorHandler()
 
             // for debugging
-            // console.log(inputRef.inputName)
+            console.log(inputRef.inputName)
         })
 
-        return true
+        return false
     }
 
-    return false
+    return true
 }

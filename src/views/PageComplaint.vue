@@ -43,9 +43,6 @@ const inputs = ref([
 async function sendData(formData) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
-    formData.entries().forEach(key => {
-        console.log(key)
-    })
 
     try {
         response.value = await fetch('complaint.php', {

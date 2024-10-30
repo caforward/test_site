@@ -7,9 +7,10 @@ import Checkbox from 'primevue/checkbox';
 import BaseFormInstallment from './BaseFormInstallment.vue';
 import BaseInput from '../ui/BaseInput.vue';
 import BaseFormComplaint from './BaseFormComplaint.vue';
+import BaseCheckbox from '../ui/BaseCheckbox.vue';
 
 // composables
-import { useFormValidation, createFormData } from '@/composable/useForm.js'
+import { useInputValidation, createFormData } from '@/composable/useForm.js'
 
 // variables
 
@@ -35,42 +36,39 @@ const props = defineProps({
 })
 
 // for form
+const inputRefs = ref(null)
 const formInputs = reactive({})
+
 const additionalFormBlock = ref(null)
 const additionalInput = ref(null)
+
+const consentRef = ref(null)
+const consentValue = ref(null)
+
 const formDOMElement = ref(null)
-const inputRefs = ref(null)
-const consent = ref(null)
 
 // functions
 
-const consentInvalid = (computed(() => {
-    if (consent.value === null) {
-        return null
-    }
-
-    return !consent.value
-}))
-
 function submitForm() {
+    // collect input refs from form
     let formInputRefs = [...inputRefs.value]
 
     if (additionalFormBlock.value) {
         formInputRefs.push(...additionalFormBlock.value.inputRefs)
     }
-
     if (additionalInput.value) {
         formInputRefs.push(additionalInput.value)
     }
 
-    const isFormValid = useFormValidation(formInputRefs, consent)
+    // check inputs validation and emit submit
+    const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
 
     if (isFormValid) {
         const formData = createFormData(formInputRefs)
 
-        // emit('submitted', formData)
+        emit('submitted', formData)
     } else {
-        console.log('form is not valid')
+        // console.log('form is not valid')
     }
 }
 
@@ -80,8 +78,6 @@ onBeforeMount(() => {
     props.inputs.forEach(input => {
         formInputs[input.name] = {
             value: input.value ? input.value : '',
-            isValid: input.value ? true : false,
-            required: input.required ? true : false,
         }
     })
 })
@@ -95,18 +91,24 @@ onMounted(() => {
 </script>
 
 <template>
+    <!-- form title, choosed by message type select -->
     <div v-if="props.showTitle">
+        <!-- default title -->
         <template v-if="!formInputs.messageType || !formInputs.messageType.value">
             <div class="sm:text-2xl text-xl font-bold mb-5">
                 Заполните поля в форме ниже, и мы свяжемся с Вами. 
             </div>
         </template>
+
         <template v-else>
+            <!-- installment title. select - Рассрочка -->
             <template v-if="formInputs.messageType.value.code === 'installment'">
                 <div class="sm:text-2xl text-xl font-bold mb-5">
                     Получить рассрочку
                 </div>
             </template>
+
+            <!-- callback title. select - Перезвоните мне -->
             <template v-else-if="formInputs.messageType.value.code === 'callback'">
                 <div class="sm:text-2xl text-xl font-bold mb-2">
                     Заказать звонок
@@ -117,6 +119,8 @@ onMounted(() => {
                     вашей финансовой ситуации.
                 </p>
             </template>
+
+            <!-- default -->
             <template v-else>
                 <div class="sm:text-2xl text-xl font-bold mb-5">
                     Заполните поля в форме ниже, и мы свяжемся с Вами.
@@ -125,11 +129,16 @@ onMounted(() => {
         </template>
     </div>
 
+    <!-- form -->
     <form ref="formDOMElement" action="" class="form" @submit.prevent="handleSubmit">
         <div class="form-container">
+
+            <!-- slot for before inputs -->
             <div v-if="$slots.beforeUserInputs">
                 <slot name="beforeUserInputs"></slot>
             </div>
+
+            <!-- form inputs wrapper -->
             <div class="form__inputs">
 
                 <!-- user info -->
@@ -139,6 +148,7 @@ onMounted(() => {
                         :required="input.required" :disabled="input.disabled" :options="input.options" />
                 </template>
 
+                <!-- optional info, choosed by message type select -->
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
 
                     <!-- installment block -->
@@ -156,21 +166,29 @@ onMounted(() => {
                         <BaseInput ref="additionalInput" type="textarea" name="message"
                             placeholder="Кратко опишите Ваш вопрос*" />
                     </template>
+
                 </template>
             </div>
 
+            <!-- slot for after inputs -->
             <div v-if="$slots.afterUserInputs">
                 <slot name="afterUserInputs"></slot>
             </div>
+
+            <!-- form bottom -->
             <div class="form-bottom">
-                <div class="form-bottom-meta">
-                    <Checkbox :invalid="consentInvalid" inputId="form-input-consent" v-model="consent" :binary="true" />
-                    <label for="form-input-consent" class="form-bottom-meta__label">
+
+                <!-- personal data checkbox -->
+                <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
+                    :required="true" v-model="consentValue" class="text-sm">
+                    <template #label>
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
                         <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
-                    </label>
-                </div>
+                    </template>
+                </BaseCheckbox>
+
+                <!-- submit button -->
                 <Button class="sm:w-fit w-full min-w-60" label="Отправить" size="large" @click.prevent="submitForm" />
             </div>
         </div>
