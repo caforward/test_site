@@ -52,6 +52,9 @@ const showError = ref(false)
 const inputOptions = ref([])
 const minDate = ref(null)
 
+const skipValidation = ref(false)
+const defaultValue = value.value
+
 const readyToSubmit = (computed(() => {
     if (props.required) {
 
@@ -68,6 +71,7 @@ const readyToSubmit = (computed(() => {
 
 function showErrorHandler() {
     if (props.required) {
+
         if (isInvalid.value === null) {
             isInvalid.value = true
         }
@@ -76,12 +80,35 @@ function showErrorHandler() {
     }
 }
 
+function clearValue() {
+    skipValidation.value = true
+
+    if (defaultValue) {
+        value.value = defaultValue
+        isInvalid.value = false
+        showError.value = false
+        errorText.value = ''
+
+        if (props.type === 'select') {
+            selectOptionsHandler(props.options)
+        }
+
+    } else {
+        value.value = ''
+        isInvalid.value = null
+        showError.value = false
+        errorText.value = 'Заполните поле'
+    }
+    
+}
+
 defineExpose({
     input,
     value,
     inputName,
     readyToSubmit,
-    showErrorHandler
+    showErrorHandler,
+    clearValue,
 })
 
 onMounted(() => {
@@ -174,16 +201,23 @@ function validateInputEmail(value) {
 }
 
 function validateInputTel(value) {
+
+    if (skipValidation.value) {
+        skipValidation.value = false
+        return
+    }
+
     if (input.value.isCompleted()) {
         isInvalid.value = false
         errorText.value = ''
     } else {
-        isInvalid.value = !input.value.isCompleted()
+        isInvalid.value = true
         errorText.value = 'Заполните поле'
     }
 }
 
 function isEmpty(value) {
+
     if (!!value) {
         isInvalid.value = false
         errorText.value = ''
@@ -216,8 +250,9 @@ function isEmpty(value) {
 
         <!-- Телефон -->
         <InputMask ref="input" v-if="props.type === 'tel'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="tel" class="t-input w-full" mask="+7 999 999-99-99" :autoClear="false" :placeholder="props.placeholder"
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+            type="tel" class="t-input w-full" mask="+7 999 999-99-99" :autoClear="false"
+            :placeholder="props.placeholder" :disabled='props.disabled' @update:modelValue="validateInputValue"
+            @blur="showErrorHandler" />
 
         <!-- Select -->
         <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
@@ -226,13 +261,14 @@ function isEmpty(value) {
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder"
+            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->
         <DatePicker ref="input" v-if="props.type === 'date'" :name="props.name" :invalid="isInvalid" v-model="value"
-            class="t-input" showIcon fluid iconDisplay="input" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" :minDate="minDate" />
+            class="t-input" showIcon fluid iconDisplay="input" :placeholder="props.placeholder"
+            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler"
+            :minDate="minDate" />
 
         <!-- Ошибка инпута -->
         <transition name="fade">
