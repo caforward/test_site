@@ -42,7 +42,7 @@ export default definePreset(Aura, {
             },
         },
         inputtext: {
-            background: 'transparent',
+            background: 'white',
             borderColor: colors.gray,
             paddingX: '20',
             paddingY: '12',

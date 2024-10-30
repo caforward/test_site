@@ -151,7 +151,7 @@ watch(
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
 .form-block {
-    background-color:var.$gray;
+    background-color: var.$black;
     border-radius: 20px;
     padding: 70px 85px 60px;
     color: #fff;
@@ -320,7 +320,7 @@ watch(
 
     .vs {
         &__selected {
-            color:var.$gray;
+            color: var.$gray;
             font-size: 14px;
         }
 
@@ -333,16 +333,16 @@ watch(
             }
 
             &-menu {
-                color:var.$gray;
+                color: var.$gray;
                 font-size: 14px;
             }
         }
 
         &__search {
-            color:var.$gray;
+            color: var.$gray;
 
             &::placeholder {
-                color:var.$gray;
+                color: var.$gray;
                 font-size: 14px;
             }
         }
