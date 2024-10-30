@@ -78,6 +78,7 @@ function showErrorHandler() {
 
 defineExpose({
     input,
+    value,
     inputName,
     readyToSubmit,
     showErrorHandler

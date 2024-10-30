@@ -9,10 +9,7 @@ import BaseInput from '../ui/BaseInput.vue';
 import BaseFormComplaint from './BaseFormComplaint.vue';
 
 // composables
-
-// import { useFetchPost } from '@/composable/useFetch.js'
-// import { getDottedDate } from '@/composable/useCalendar.js'
-// import { useValueFormat } from '@/composable/useValueFormat.js'
+import { useFormValidation, createFormData } from '@/composable/useForm.js'
 
 // variables
 
@@ -55,76 +52,23 @@ const consentInvalid = (computed(() => {
     return !consent.value
 }))
 
-function invalidInputsHandler(inputRefs) {
-    const invalidInputs = inputRefs.filter(inputRef => !inputRef.readyToSubmit)
-
-    if (invalidInputs.length) {
-        invalidInputs.forEach(inputRef => {
-            inputRef.showErrorHandler()
-            console.log(inputRef.inputName)
-        })
-
-        return true
-    }
-
-    return false
-}
-
-function isFormValid() {
-    const hasInvalidInputs = invalidInputsHandler(inputRefs.value)
-    let hasFormBlockInvalidInputs = false
-    let hasAdditionalInvalidInputs = false
-
-    if (consent.value === null) {
-        consent.value = false
-    }
+function submitForm() {
+    let formInputRefs = [...inputRefs.value]
 
     if (additionalFormBlock.value) {
-        hasFormBlockInvalidInputs = invalidInputsHandler(additionalFormBlock.value.inputRefs)
+        formInputRefs.push(...additionalFormBlock.value.inputRefs)
     }
 
-    if (additionalInput.value && !additionalInput.value.readyToSubmit) {
-        additionalInput.value.showErrorHandler()
-        hasAdditionalInvalidInputs = true
+    if (additionalInput.value) {
+        formInputRefs.push(additionalInput.value)
     }
 
-    if (hasInvalidInputs || hasAdditionalInvalidInputs || hasFormBlockInvalidInputs || consentInvalid.value) {
-        return false
-    } else {
-        return true
-    }
-}
+    const isFormValid = useFormValidation(formInputRefs, consent)
 
-async function submitForm() {
-    if (isFormValid()) {
-        const formData = new FormData()
+    if (isFormValid) {
+        const formData = createFormData(formInputRefs)
 
-        Object.keys(formInputs).forEach(key => {
-            if (key === 'messageType') {
-                formData.append(key, formInputs[key].value.name)
-            } else {
-                formData.append(key, formInputs[key].value)
-            }
-        })
-
-        if (additionalFormBlock.value) {
-            const blockInputs = additionalFormBlock.value.exposeData
-
-            Object.keys(blockInputs).forEach(key => {
-                formData.append(key, blockInputs[key])
-            })
-        }
-
-        if (additionalInput.value && additionalInput.value.input.modelValue) {
-            formData.append(additionalInput.value.inputName, additionalInput.value.input.modelValue)
-        }
-
-        // formData.entries().forEach(key => {
-        //     console.log(key)
-        // })
-
-        emit('submitted', formData)
-
+        // emit('submitted', formData)
     } else {
         console.log('form is not valid')
     }
@@ -147,18 +91,6 @@ onMounted(() => {
         formDOMElement.value.classList.add('form_gray')
     }
 })
-
-// watchers
-
-// watch(
-//     () => formInputs.messageType,
-//     (messageTypeRef) => {
-//         if (messageTypeRef.value) {
-//             console.log(messageTypeRef.value.code)
-//         }
-//     },
-//     { deep: true }
-// )
 
 </script>
 
@@ -202,9 +134,9 @@ onMounted(() => {
 
                 <!-- user info -->
                 <template v-for="(input, idx) in inputs" :key="idx">
-                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper" :name="input.name"
-                        :type="input.type" :placeholder="input.placeholder" :required="input.required"
-                        :disabled="input.disabled" :options="input.options" />
+                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
+                        :name="input.name" :type="input.type" :placeholder="input.placeholder"
+                        :required="input.required" :disabled="input.disabled" :options="input.options" />
                 </template>
 
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
@@ -215,7 +147,7 @@ onMounted(() => {
                     </template>
 
                     <!-- complaint block -->
-                    <template v-if="formInputs.messageType.value.code === 'complaint'">
+                    <template v-else-if="formInputs.messageType.value.code === 'complaint'">
                         <BaseFormComplaint ref="additionalFormBlock" />
                     </template>
 
