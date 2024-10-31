@@ -184,22 +184,6 @@ watch(
     input[type='checkbox'] {
         border: 1px solid#EAECEE;
     }
-
-    .vSelect {
-        background-color: #EAECEE;
-
-        &.vs--open {
-            background-color: transparent;
-        }
-
-        &.input_valid {
-            background-color: transparent;
-        }
-
-        input {
-            background-color: transparent;
-        }
-    }
 }
 
 :deep(.payform) {

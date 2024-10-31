@@ -15,9 +15,6 @@
 @use "blocks/link";
 @use "blocks/datepicker";
 
-/* // @use 'vue-select/dist/vue-select.css';
-// @use 'nouislider/dist/nouislider.css'; */
-
 .p-inputwrapper.p-inputwrapper-filled {
     & .p-inputtext {
         border-color: var.$blue;
@@ -34,8 +31,20 @@
 
 .p-select {
     &-label[aria-disabled="true"] {
-        & ~ .p-icon, & ~ .p-select-dropdown {
+        & ~ .p-icon,
+        & ~ .p-select-dropdown {
             opacity: 0;
         }
+    }
+}
+
+.p-slider-horizontal {
+    & .p-slider-range {
+        border-radius: 5px;
+    }
+
+    & .p-slider-handle::before {
+        width: 18px;
+        height: 18px;
     }
 }

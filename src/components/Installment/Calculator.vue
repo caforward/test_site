@@ -131,22 +131,6 @@ function showThankModal() {
 		border: 1px solid#EAECEE;
 	}
 
-	.vSelect {
-		background-color: #EAECEE;
-
-		&.vs--open {
-			background-color: transparent;
-		}
-
-		&.input_valid {
-			background-color: transparent;
-		}
-
-		input {
-			background-color: transparent;
-		}
-	}
-
 	.form-block__bottom {
 		gap: 15px
 	}
@@ -234,7 +218,7 @@ p {
 	max-width: 540px;
 	padding: 44px 41px 60px 43px;
 	border-radius: 30px;
-	fill: #fff;
+	background: #fff;
 	box-shadow: 0 20px 30px 0 rgba(0, 55, 145, 0.1);
 
 	::placeholder {
@@ -393,7 +377,7 @@ p {
 		background: rgb(0, 150, 216);
 		width: 100%;
 		height: 50px;
-		fill: rgb(0, 150, 216);
+		background: rgb(0, 150, 216);
 		padding: 10px 50px 10px 50px;
 		color: rgb(255, 255, 255);
 	}

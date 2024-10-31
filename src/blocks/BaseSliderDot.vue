@@ -1,5 +1,5 @@
 <script setup>
-import Slider from '@vueform/slider';
+import Slider from 'primevue/slider';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -26,7 +26,7 @@ const value = defineModel()
 </script>
 
 <template>
-	<Slider v-model="value" :lazy="false" :min="props.min" :max="props.max" :step="props.step" :tooltips="false" />
+	<Slider v-model="value" :min="props.min" :max="props.max" :step="props.step" />
 </template>
 
 <style lang="scss" scoped>

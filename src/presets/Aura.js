@@ -34,6 +34,18 @@ export default definePreset(Aura, {
         },
     },
     components: {
+        slider: {
+            track: {
+                size: '6px',
+                borderRadius: '5px',
+            },
+            handle: {
+                width: '26px',
+                height: '26px',
+                background: colors.blue,
+                hoverBackground: colors.blueAccent
+            }
+        },
         button: {
             borderRadius: '30',
             lg: {
