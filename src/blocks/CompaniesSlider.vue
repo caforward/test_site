@@ -105,12 +105,11 @@ const dataSlider = ref([
                     slidesPerView: 5,
                     slidesPerGroup: 5
                 },
-                639:
-                {
+                639: {
                     slidesPerView: 4,
                     slidesPerGroup: 4
                 }, 520: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
                     slidesPerGroup: 2
                 }
             }">

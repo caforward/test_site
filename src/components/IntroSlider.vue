@@ -413,7 +413,7 @@ function showInstallmentModal() {
 
         .slide {
             &__img {
-                padding-top: 260px;
+                padding-top: 190px;
 
                 img {
                     object-position: 80%;
@@ -450,23 +450,33 @@ function showInstallmentModal() {
     }
 }
 
-@include mixin.mobileS {
+@include mixin.mobile {
     .intro-slider {
         .slide {
             &__img {
-                padding-top: 300px;
-
-                img {
-                    object-position: 90%;
-                }
-            }
-
-            &-content {
-                &__title {
-                    font-size: 20px;
-                }
+                padding-top: 240px;
             }
         }
     }
 }
+
+// @include mixin.mobileS {
+//     .intro-slider {
+//         .slide {
+//             &__img {
+//                 padding-top: 300px;
+
+//                 img {
+//                     object-position: 90%;
+//                 }
+//             }
+
+//             &-content {
+//                 &__title {
+//                     font-size: 20px;
+//                 }
+//             }
+//         }
+//     }
+// }
 </style>

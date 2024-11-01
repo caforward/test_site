@@ -1,10 +1,10 @@
 <template>
-    <section>
+    <section class="suppliers">
         <div class="container">
-            <h2 class="title">
+            <h2 class="suppliers__title">
                 Нам доверяют не только клиенты, <br> но и многие компании
             </h2>
-            <p class="text">
+            <p class="suppliers__text">
                 Мы активно расширяем ряды наших партнеров. Они выбрали нас, потому что мы имеем общие ценности: для нас
                 важен не только постоянный рост и высокая
                 эффективность бизнеса, но и человеческий подход, когда каждый клиент ценен и важен.
@@ -36,27 +36,26 @@ export default {
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
-section {
+.suppliers {
     padding: 100px 0 50px;
-}
 
-.title {
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 40px;
-    margin-bottom: 33px;
-}
+    &__title {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 40px;
+        margin-bottom: 33px;
+    }
 
-.text {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 187%;
-    width: 76%;
-    margin-bottom: 30px;
+    &__text {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 187%;
+        width: 76%;
+        margin-bottom: 30px;
+    }
 }
 
 .slider {
-
     &__container {
         display: flex;
         flex-wrap: nowrap;
@@ -90,15 +89,27 @@ section {
     }
 }
 
-@include mixin.tablet {
-    .title {
-        font-size: 30px;
-        margin-bottom: 25px;
+@include mixin.desktop {
+    .suppliers {
+        padding: 60px 0 50px;
     }
+}
 
-    .text {
-        font-size: 14px;
-        margin-bottom: 25px;
+@include mixin.tablet {
+    .suppliers {
+        padding: 40px 0 40px;
+
+        &__title {
+            font-size: 24px;
+            line-height: normal;
+            margin-bottom: 25px;
+        }
+
+        &__text {
+            font-size: 14px;
+            margin-bottom: 25px;
+            width: 100%;
+        }
     }
 }
 </style>

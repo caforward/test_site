@@ -5,8 +5,8 @@ import PayForm from '../blocks/PayForm.vue';
 </script>
 
 <template>
-    <section>
-        <div id="payment" class="container payment">
+    <section class="payment">
+        <div id="payment" class="container">
             <h2 class="payment__title">
                 Попрощайтесь с долгами онлайн <br> на своих условиях
             </h2>
@@ -56,12 +56,10 @@ import PayForm from '../blocks/PayForm.vue';
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
-section {
+.payment {
     padding: 100px 0 60px;
     background-color: #F9FAFB;
-}
 
-.payment {
     &__title {
         font-size: 36px;
         margin-bottom: 30px;
@@ -113,6 +111,8 @@ section {
 
 @include mixin.desktopXl {
     .payment {
+        padding: 60px 0 50px;
+        
         &-block {
             padding: 45px 60px;
         }
@@ -152,6 +152,7 @@ section {
 
 @include mixin.laptop {
     .payment {
+        padding: 30px 0 30px;
 
         &__blocks {
             gap: 20px;
