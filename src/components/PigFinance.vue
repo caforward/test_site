@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="container">
+        <div class="custom-container">
             <div class="flexContainer">
                 <div class="textContainer">
                     <h3>Обращаем ваше внимание!</h3>

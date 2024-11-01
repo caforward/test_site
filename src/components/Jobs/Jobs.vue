@@ -1,6 +1,6 @@
 <template>
     <section class="vacancy">
-        <div class="container">
+        <div class="custom-container">
             <h2 class="vacancy__title">Вакансии</h2>
             <div class="vacancy__items">
 
@@ -49,7 +49,7 @@
             </button>
         </div>
     </section>
-    <div class="container">
+    <div class="custom-container">
         <div class="vacancy-section__border"></div>
     </div>
 </template>

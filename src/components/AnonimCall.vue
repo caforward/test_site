@@ -7,7 +7,7 @@ const modalVisibleCall = ref(false)
 
 <template>
     <section>
-        <div class="container">
+        <div class="custom-container">
             <div class="flexContainer">
                 <div class="textContent">
                     <h3>Анонимный звонок</h3>

@@ -1,6 +1,6 @@
 <template>
     <section class="faq">
-        <div class="container">
+        <div class="custom-container">
             <div class="faq__wrapper">
                 <div class="faq__head">
                     <h2 class="faq__title">Вопросы и ответы</h2>

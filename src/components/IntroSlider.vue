@@ -36,7 +36,7 @@ function showInstallmentModal() {
                 :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
                 :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
                 <swiper-slide class="slider__slide slider__slide_fix">
-                    <div class="container">
+                    <div class="custom-container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Избавьтесь от <br> задолженности с нами!
@@ -81,7 +81,7 @@ function showInstallmentModal() {
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
-                    <div class="container">
+                    <div class="custom-container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Платите столько, <br> сколько можете
@@ -113,7 +113,7 @@ function showInstallmentModal() {
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
-                    <div class="container">
+                    <div class="custom-container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Улучшите свою <br> кредитную историю
@@ -147,7 +147,7 @@ function showInstallmentModal() {
                 </swiper-slide>
             </swiper>
             <div class="slider-nav__wrapper">
-                <div class="container">
+                <div class="custom-container">
                     <div class="slider-nav flex items-center">
                         <button
                             class="slider-nav-button intro-slider-nav-button__prev flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">

@@ -1,6 +1,6 @@
 <template>
     <section class="advantages">
-        <div class="container">
+        <div class="custom-container">
             <h2 class="advantages__title">Наши преимущества</h2>
             <div class="advantages__inner">
                 <div class="advantages-plates">

@@ -83,7 +83,7 @@ onMounted(() => {
 <template>
     <section class="border-t">
         <div class="py-14">
-            <div class="container">
+            <div class="custom-container">
                 <div class="mb-5">
                     <h1 class="mb-2 text-sky-500 text-4xl max-xl:text-3xl max-sm:text-2xl">
                         Оставить обращение

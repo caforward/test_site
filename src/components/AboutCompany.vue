@@ -29,7 +29,7 @@ const onHide = () => {
 
 <template>
     <section>
-        <div class="container">
+        <div class="custom-container">
             <div class="flexContainer">
                 <div class="textContent">
                     <h3>О компании</h3>

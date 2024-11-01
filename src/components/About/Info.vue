@@ -1,6 +1,6 @@
 <template>
     <section class="info">
-        <div class="container">
+        <div class="custom-container">
             <div class="info__inner">
                 <h2 class="info__title">
                     Компания действует в соответствии с действующим

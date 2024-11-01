@@ -1,6 +1,6 @@
 @use '../base/mixins.scss' as mixin;
 
-.container {
+.custom-container {
     max-width: 1370px;
     width: 100%;
     padding: 0 50px;
@@ -9,20 +9,20 @@
 }
 
 @include mixin.desktop {
-    .container {
+    .custom-container {
         max-width: 1070px;
     }
 }
 
 @include mixin.laptop {
-    .container {
+    .custom-container {
         padding: 0 25px;
         max-width: 798px;
     }
 }
 
 @include mixin.tablet {
-    .container {
+    .custom-container {
         max-width: 620px;
         padding: 0 15px;
     }

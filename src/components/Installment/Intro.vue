@@ -14,7 +14,7 @@ function scrollToCalculate() {
 
 <template>
     <section class="section">
-        <div class="container">
+        <div class="custom-container">
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">

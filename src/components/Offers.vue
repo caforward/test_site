@@ -6,7 +6,7 @@ import PayForm from '../blocks/PayForm.vue';
 
 <template>
     <section class="payment">
-        <div id="payment" class="container">
+        <div id="payment" class="custom-container">
             <h2 class="payment__title">
                 Попрощайтесь с долгами онлайн <br> на своих условиях
             </h2>

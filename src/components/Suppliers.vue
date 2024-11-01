@@ -5,7 +5,7 @@ import CompaniesSlider from "../blocks/CompaniesSlider.vue";
 
 <template>
     <section class="suppliers">
-        <div class="container">
+        <div class="custom-container">
             <h2 class="suppliers__title">
                 Нам доверяют не только клиенты, <br> но и многие компании
             </h2>

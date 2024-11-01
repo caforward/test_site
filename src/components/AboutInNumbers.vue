@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="container">
+        <div class="custom-container">
             <div class="numbers">
                 <ul v-for="item in items" :key="item.id" class="numbers-info">
                     <li class="numbers-info__top">{{ item.upInfo }}</li>

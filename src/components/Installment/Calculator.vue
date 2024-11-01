@@ -38,10 +38,10 @@ function showThankModal() {
 
 <template>
 	<section id="calculate" class="section">
-		<div class="container">
+		<div class="custom-container">
 			<h2>Рассчитать расрочку</h2>
 			<div class="flex-container">
-				<div class="container-slides">
+				<div class="custom-container-slides">
 					<div class="slider">
 						<p>Сумма вашего долга</p>
 						<div class="current-value">

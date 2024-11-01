@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="container">
+        <div class="custom-container">
             <h2 class="title">
                 Нам доверяют не только клиенты, но и многие компании
             </h2>

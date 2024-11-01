@@ -102,7 +102,7 @@ onBeforeMount(() => {
 <template>
     <footer id="contacts" class="footer">
         <div class="footer-top">
-            <div class="container">
+            <div class="custom-container">
                 <div class="footer-top__inner">
                     <div class="footer-top__logo">
                         <div class="logo">
@@ -192,7 +192,7 @@ onBeforeMount(() => {
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="container">
+            <div class="custom-container">
                 <div class="footer-bottom__inner">
                     <ul class="docs">
                         <li v-for="(link, idx) in docsLinks" :key="idx">

@@ -168,7 +168,7 @@ onUnmounted(() => {
 <template>
     <header ref="header" class="header">
         <div class="header-top">
-            <div class="container">
+            <div class="custom-container">
                 <ul class="header-top-nav">
                     <li v-for="navLink in topNav" :key="navLink.name">
                         <router-link v-if="navLink.href && navLink.href[0] !== '#'" :to="navLink.href || ''"
@@ -187,7 +187,7 @@ onUnmounted(() => {
             </div>
         </div>
         <div class="header-bottom">
-            <div class="container">
+            <div class="custom-container">
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
                         <a href="/">
@@ -280,7 +280,7 @@ onUnmounted(() => {
 
             &__link {
                 color: #fff;
-                padding: 10px 20px;
+                padding: 8px 20px;
                 font-weight: 400;
                 font-size: 16px;
                 transition: color .2s, background-color .2s;

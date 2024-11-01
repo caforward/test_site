@@ -76,7 +76,7 @@ export default {
 
 <template>
     <section id="join-crew-form" class="form">
-        <div class="container">
+        <div class="custom-container">
             <div class="form__inner">
                 <div class="plates">
                     <div class="plates-item plates-item_top">

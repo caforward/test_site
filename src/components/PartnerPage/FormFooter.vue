@@ -43,7 +43,7 @@ export default {
 
 <template>
     <section id="join-team-form">
-        <div class="container">
+        <div class="custom-container">
             <FormBlock :inputs=inputs @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">

@@ -37,7 +37,7 @@ watch(
 <template>
     <div id="debt-form" class="scroll-fix-offset">
         <section class="section">
-            <div class="container">
+            <div class="custom-container">
                 <div class="debt-form__inner">
                     <div class="block__left">
                         <div class="title flex gap-2 items-center">

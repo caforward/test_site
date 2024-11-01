@@ -5,7 +5,7 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
 
 <template>
     <section class="section">
-        <div class="container">
+        <div class="custom-container">
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">

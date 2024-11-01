@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <div class="container">
+        <div class="custom-container">
             <h2 class="title">
                 Рассрочка может стать доступной в следующих случаях:
             </h2>

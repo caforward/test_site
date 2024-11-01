@@ -35,7 +35,7 @@ const contentArr = ref([
 
 <template>
     <section class="section">
-        <div class="container">
+        <div class="custom-container">
             <h2>Как получить рассрочку?</h2>
             <p>
                 Первое, что от Вас требуется – проявить заинтересованность

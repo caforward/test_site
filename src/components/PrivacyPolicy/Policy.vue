@@ -1,6 +1,6 @@
 <template>
 	<section class="section">
-		<div class="container">
+		<div class="custom-container">
 			<h2>Согласие на обработку персональных данных</h2>
 			<p>Согласие на обработку персональных данных
 				Настоящим в соответствии с требованиями Федерального
