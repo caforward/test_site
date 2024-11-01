@@ -57,7 +57,7 @@ import PayForm from '../blocks/PayForm.vue';
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
 .payment {
-    padding: 100px 0 60px;
+    padding: 60px 0;
     background-color: #F9FAFB;
 
     &__title {
@@ -111,8 +111,6 @@ import PayForm from '../blocks/PayForm.vue';
 
 @include mixin.desktopXl {
     .payment {
-        padding: 60px 0 50px;
-        
         &-block {
             padding: 45px 60px;
         }
@@ -152,7 +150,7 @@ import PayForm from '../blocks/PayForm.vue';
 
 @include mixin.laptop {
     .payment {
-        padding: 30px 0 30px;
+        padding: 40px 0 40px;
 
         &__blocks {
             gap: 20px;

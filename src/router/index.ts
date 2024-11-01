@@ -10,6 +10,7 @@ import Installment from "../views/Installment.vue";
 import Policy from "../components/PrivacyPolicy/Policy.vue";
 import NotFound from "../views/NotFound.vue";
 import PageComplaint from "../views/PageComplaint.vue";
+import PagePayment from "../views/PagePayment.vue";
 
 const routes = [
     { path: "/", name: 'Главная', component: MainPage },
@@ -24,6 +25,7 @@ const routes = [
     },
     { path: "/notFound", name: 'Ошибка 404', component: NotFound },
     { path: "/complaint", name: 'Отправить жалобу', component: PageComplaint },
+    { path: "/payment", name: 'Оплатить', component: PagePayment },
 ];
 
 const router = createRouter({
