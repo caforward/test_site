@@ -606,7 +606,7 @@ watch(
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .scroll-fix-offset {
         margin-top: -50px;
         padding-top: 50px;

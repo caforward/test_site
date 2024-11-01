@@ -93,7 +93,7 @@
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .title {
         margin-bottom: 25px;
     }

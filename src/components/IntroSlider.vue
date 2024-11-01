@@ -302,7 +302,7 @@ function showInstallmentModal() {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .intro-slider {
         .slider {
             &__slide {

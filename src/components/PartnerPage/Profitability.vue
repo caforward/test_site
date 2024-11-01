@@ -88,7 +88,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .text {
         font-size: 14px;
     }

@@ -107,7 +107,7 @@ onMounted(() => {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .accordion {
         &_opened {
             & .accordion__content {

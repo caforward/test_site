@@ -291,7 +291,7 @@ textarea {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .form {
         &-block {
             padding: 50px;

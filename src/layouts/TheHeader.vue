@@ -385,7 +385,7 @@ onUnmounted(() => {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .header {
         &-top {
             &-nav {

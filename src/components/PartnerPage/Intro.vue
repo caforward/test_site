@@ -98,7 +98,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .intro {
         &__img {
             width: 65%;

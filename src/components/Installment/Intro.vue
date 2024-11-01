@@ -107,7 +107,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .intro {
         &-content {
             &__subtitle {

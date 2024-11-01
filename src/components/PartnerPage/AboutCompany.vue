@@ -171,7 +171,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .plates {
         width: 100%;
     }

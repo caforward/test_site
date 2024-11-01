@@ -215,7 +215,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .plates {
         &-item {
             padding: 40px 30px;

@@ -118,7 +118,7 @@ a {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .info {
         &__inner {
             width: 100%;

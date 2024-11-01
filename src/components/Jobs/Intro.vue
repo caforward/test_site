@@ -43,7 +43,6 @@ section {
 }
 
 .container {
-    min-height: 560px;
 }
 
 .breadcrumb {
@@ -110,7 +109,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .intro {
         &__img {
             width: 65%;
@@ -155,23 +154,19 @@ section {
 
 @include mixin.tablet {
     .intro {
-        &-block {
-            height: unset;
-        }
-    }
-}
-
-@include mixin.tablet {
-    .intro {
         &__img {
             width: 100%;
             padding: 0;
             height: 305px;
-
+            
             img {
                 width: 100%;
                 object-position: center bottom;
             }
+        }
+        
+        &-block {
+            height: unset;
         }
 
         &-content {

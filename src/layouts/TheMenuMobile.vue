@@ -289,7 +289,7 @@ export default {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     #mobile-menu.modal {
         width: 100%;
     }

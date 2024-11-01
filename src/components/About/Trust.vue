@@ -59,7 +59,7 @@ p {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     p {
         font-size: 14px;
     }

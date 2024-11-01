@@ -99,7 +99,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .advantages {
         &__inner {
             gap: 30px;

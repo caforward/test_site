@@ -394,7 +394,7 @@ onBeforeMount(() => {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .footer {
         &-top {
             &__logo {

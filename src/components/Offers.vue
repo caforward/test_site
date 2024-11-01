@@ -119,7 +119,7 @@ section {
     }
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .payment {
         &__title {
             font-size: 30px;

@@ -73,7 +73,7 @@ section {
 
 }
 
-@include mixin.tablet {
+@include mixin.desktop {
     .numbers {
         &-info {
             &__top {
