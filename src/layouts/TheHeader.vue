@@ -280,7 +280,7 @@ onUnmounted(() => {
 
             &__link {
                 color: #fff;
-                padding: 8px 20px;
+                padding: 10px 20px;
                 font-weight: 400;
                 font-size: 16px;
                 transition: color .2s, background-color .2s;

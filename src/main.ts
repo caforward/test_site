@@ -12,6 +12,7 @@ import VueEasyLightbox from 'vue-easy-lightbox/dist/external-css/vue-easy-lightb
 
 import 'primeicons/primeicons.css'
 import '@/assets/tailwind.css'
+import '@/assets/scss/index.scss'
 
 const app = createApp(App);
 

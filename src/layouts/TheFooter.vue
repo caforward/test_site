@@ -226,13 +226,10 @@ onBeforeMount(() => {
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
-.container {
-    color: #fff;
-}
-
 .footer {
     padding: 70px 0 30px;
     background-color: var.$black;
+    color: #fff;
 
     &-top {
         &__inner {

@@ -85,7 +85,7 @@ onMounted(() => {
         <div class="py-14">
             <div class="custom-container">
                 <div class="mb-5">
-                    <h1 class="mb-2 text-sky-500 text-4xl max-xl:text-3xl max-sm:text-2xl">
+                    <h1 class="mb-2 text-sky-500 font-bold text-4xl max-xl:text-3xl max-sm:text-2xl">
                         Оставить обращение
                     </h1>
                     <span class="font-bold text-xl max-xl:text-lg max-sm:text-base">
