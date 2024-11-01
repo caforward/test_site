@@ -181,7 +181,7 @@ onBeforeMount(() => {
                                     <div class="flex items-bottom gap-2 text-sky-400 text-sm hover:text-sky-300 transition-colors">
                                         <i class="pi pi-exclamation-circle text-sm !flex items-center"></i>
                                         <span>
-                                            Обратная связь
+                                            Защитите ваши права
                                         </span>
                                     </div>
                                 </router-link>
