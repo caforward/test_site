@@ -5,6 +5,9 @@ import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
+
+import BaseSelect from './BaseSelect.vue';
+
 import { onMounted, ref, watch, computed } from 'vue';
 
 const props = defineProps({
@@ -258,6 +261,8 @@ function isEmpty(value) {
         <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
             class="t-input w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+
+        <!-- <BaseSelect v-if="props.type === 'select'" /> -->
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
