@@ -102,7 +102,7 @@ function clearValue() {
         showError.value = false
         errorText.value = 'Заполните поле'
     }
-    
+
 }
 
 defineExpose({
@@ -262,7 +262,9 @@ function isEmpty(value) {
             class="t-input w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
-        <!-- <BaseSelect v-if="props.type === 'select'" /> -->
+        <!-- <BaseSelect v-if="props.type === 'select'" v-model="value" :invalid="isInvalid" :options="props.options"
+            :placeholder="props.placeholder" :name="props.name" :disabled='props.disabled'
+            @update:modelValue="validateInputValue" @blur="showErrorHandler" /> -->
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
