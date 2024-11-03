@@ -102,14 +102,14 @@ onMounted(() => {
 
         <template v-else>
             <!-- installment title. select - Рассрочка -->
-            <template v-if="formInputs.messageType.value.code === 'installment'">
+            <template v-if="formInputs.messageType.value === 'Рассрочка'">
                 <div class="sm:text-2xl text-xl font-bold mb-5">
                     Получить рассрочку
                 </div>
             </template>
 
             <!-- callback title. select - Перезвоните мне -->
-            <template v-else-if="formInputs.messageType.value.code === 'callback'">
+            <template v-else-if="formInputs.messageType.value === 'Прошу перезвонить'">
                 <div class="sm:text-2xl text-xl font-bold mb-2">
                     Заказать звонок
                 </div>
@@ -152,14 +152,14 @@ onMounted(() => {
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
 
                     <!-- installment block -->
-                    <template v-if="formInputs.messageType.value.code === 'installment'">
+                    <template v-if="formInputs.messageType.value === 'Рассрочка'">
                         <BaseFormInstallment ref="additionalFormBlock" />
                     </template>
 
                     <!-- complaint block -->
-                    <template v-else-if="formInputs.messageType.value.code === 'complaint'">
+                    <!-- <template v-else-if="formInputs.messageType.value === 'Жалоба'">
                         <BaseFormComplaint ref="additionalFormBlock" />
-                    </template>
+                    </template> -->
 
                     <!-- default -->
                     <template v-else>

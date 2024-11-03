@@ -5,26 +5,20 @@ export const createFormData = (inputRefs) => {
 
     inputRefs.forEach(inputRef => {
         const inputName = inputRef.inputName
-        let value = null
-
-        if (inputName === 'messageType') {
-            value = inputRef.value.name
-        } else {
-            value = inputRef.value
-        }
+        let value = inputRef.value
 
         if (value) {
             formData.append(inputName, value)
         }
     })
 
-    // for (let key of formData.entries()) {
-    //     console.log(`${key[0]}: ${key[1]}`)
-    // }
+    for (let key of formData.entries()) {
+        console.log(`${key[0]}: ${key[1]}`)
+    }
     return formData
-    
+
     // for debugging
-    
+
     // formData.entries().forEach(key => {
     //     console.log(key)
     // })

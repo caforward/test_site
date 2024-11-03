@@ -36,26 +36,11 @@ export default {
                     required: true,
                     value: "Прошу перезвонить",
                     options: [
-                        {
-                            name: "Прошу перезвонить",
-                            code: "callback"
-                        },
-                        {
-                            name: "Узнать номер договора",
-                            code: "getContractNumber"
-                        },
-                        {
-                            name: "Разблокировать счет",
-                            code: "unblockAccaunt"
-                        },
-                        {
-                            name: "Рассрочка",
-                            code: "installment"
-                        },
-                        {
-                            name: "Другое",
-                            code: "other"
-                        },
+                        "Прошу перезвонить",
+                        "Узнать номер договора",
+                        "Разблокировать счет",
+                        "Рассрочка",
+                        "Другое",
                     ],
                 },
                 {

@@ -35,11 +35,11 @@ const paymentPeriodRange = computed(() => {
 
     const options = []
     periods.forEach(period => {
-        options.push({ name: period })
+        options.push(period)
     })
 
-    if (currentPeriod && !periods.includes(currentPeriod.name)) {
-        inputData.paymentPeriod.value.name = periods[periods.length - 1]
+    if (currentPeriod && !periods.includes(currentPeriod)) {
+        inputData.paymentPeriod.value = periods[periods.length - 1]
     }
 
     return options
@@ -47,7 +47,7 @@ const paymentPeriodRange = computed(() => {
 
 const getPaymentMonthly = computed(() => {
     if (inputData.paymentPeriod.value) {
-        let monthly = (inputData.paymentAmount.value / inputData.paymentPeriod.value.name).toFixed(2)
+        let monthly = (inputData.paymentAmount.value / inputData.paymentPeriod.value).toFixed(2)
         monthly = Number(monthly)
 
         if (isNaN(monthly)) {
@@ -104,7 +104,7 @@ const getPaymentDate = (computed(() => {
 }))
 
 const getPaymentPeriod = computed(() => {
-    return inputData.paymentPeriod.value.name
+    return inputData.paymentPeriod.value
 })
 
 const getPaymentAmount = computed(() => {

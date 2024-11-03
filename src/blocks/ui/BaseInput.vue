@@ -130,6 +130,7 @@ onMounted(() => {
     }
 })
 
+// need rework
 function selectOptionsHandler(selectOptions) {
     inputOptions.value = selectOptions
 
@@ -137,13 +138,9 @@ function selectOptionsHandler(selectOptions) {
         let option = null
 
         if (inputOptions.value.length) {
-            option = inputOptions.value.find(option => {
-                return option.name === value.value || option.code === value.value
-            })
+            option = inputOptions.value.find(option => option === value.value)
         } else {
-            option = {
-                name: value.value
-            }
+            option = value.value
 
             inputOptions.value.push(option)
         }
@@ -258,13 +255,13 @@ function isEmpty(value) {
             @blur="showErrorHandler" />
 
         <!-- Select -->
-        <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
+        <!-- <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
             class="t-input w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" /> -->
 
-        <!-- <BaseSelect v-if="props.type === 'select'" v-model="value" :invalid="isInvalid" :options="props.options"
+        <BaseSelect v-if="props.type === 'select'" v-model="value" :invalid="isInvalid" :options="props.options"
             :placeholder="props.placeholder" :name="props.name" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" /> -->
+            @update:modelValue="validateInputValue" />
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
