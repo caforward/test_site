@@ -1,6 +1,6 @@
 <script setup>
-import Button from 'primevue/button';
 import PayForm from '../blocks/PayForm.vue';
+import BaseButton from '../blocks/ui/BaseButton.vue';
 
 </script>
 
@@ -38,9 +38,10 @@ import PayForm from '../blocks/PayForm.vue';
                             обсудить
                             детали, заключить договор и получить скидку на ваш долг!
                         </p>
-                        <Button as="router-link" to="/installment-plan"
-                            class="hover:!bg-slate-300 !text-base max-sm:!text-sm" label="Раcсчитать график платежей"
-                            severity="secondary" size="large" />
+
+                        <BaseButton as="router-link" to="/installment-plan" severity="secondary" size="large" class="hover:!bg-slate-300">
+                            Раcсчитать график платежей
+                        </BaseButton>
                     </div>
 
                     <div class="payment__img">

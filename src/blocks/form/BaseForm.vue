@@ -2,7 +2,7 @@
 // imports
 import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
 
-import Button from 'primevue/button';
+import BaseButton from '../ui/BaseButton.vue';
 import Checkbox from 'primevue/checkbox';
 import BaseFormInstallment from './BaseFormInstallment.vue';
 import BaseInput from '../ui/BaseInput.vue';
@@ -189,7 +189,9 @@ onMounted(() => {
                 </BaseCheckbox>
 
                 <!-- submit button -->
-                <Button class="sm:w-fit w-full min-w-60" label="Отправить" size="large" @click.prevent="submitForm" />
+                <BaseButton class="sm:w-fit w-full min-w-60" size="large" @click.prevent="submitForm">
+                    Отправить
+                </BaseButton>
             </div>
         </div>
     </form>

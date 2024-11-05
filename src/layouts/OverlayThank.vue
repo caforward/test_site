@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import Button from 'primevue/button';
 import Rating from 'primevue/rating';
 import BaseInput from '../blocks/ui/BaseInput.vue';
+import BaseButton from '../blocks/ui/BaseButton.vue';
 
 const emit = defineEmits(['closeParentModal', 'sendRating'])
 
@@ -80,16 +81,22 @@ function sendRating() {
                             </transition>
 
                             <transition name="fade">
-                                <Button v-if="rating" label="Подтвердить" link @click.prevent="sendRating" />
+                                <a v-if="rating" href="#" @click.prevent="sendRating">
+                                    Подтвердить
+                                </a>
                             </transition>
                         </form>
                     </transition>
 
                     <div class="flex gap-4">
-                        <Button v-if="!isModal" label="Вернуться на страницу" size="large" @click="closeModal" />
+                        <BaseButton v-if="!isModal" size="large" @click="closeModal">
+                            Вернуться на страницу
+                        </BaseButton>
 
-                        <Button v-else as="router-link" to="/" label="Вернуться на главную" severity="secondary" size="large"
-                            @click="closeModal" />
+                        <BaseButton v-else as="router-link" to="/" severity="secondary" size="large"
+                            @click="closeModal">
+                            Вернуться на страницу
+                        </BaseButton>
                     </div>
                 </div>
 
@@ -107,19 +114,33 @@ function sendRating() {
                     </div>
                     <div class="flex gap-4 flex-wrap max-sm:justify-center">
                         <template v-if="!isModal">
-                            <Button label="Вернуться на страницу" size="large" severity="secondary"
-                                @click="closeModal" />
+                            <BaseButton size="large" severity="secondary" @click="closeModal">
+                                Вернуться на страницу
+                            </BaseButton>
 
-                            <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right"
-                                @click="closeOverlay" />
+                            <BaseButton size="large" @click="closeModal">
+                                <div class="flex items-center gap-2">
+                                    <span>
+                                        К форме
+                                    </span>
+                                    <i class="pi pi-arrow-right"></i>
+                                </div>
+                            </BaseButton>
                         </template>
 
                         <template v-else>
-                            <Button as="router-link" to="/" label="Вернуться на главную" severity="secondary"
-                                size="large" @click="closeModal" />
+                            <BaseButton as="router-link" to="/" severity="secondary" size="large" @click="closeModal">
+                                Вернуться на главную
+                            </BaseButton>
 
-                            <Button label="К форме" size="large" icon="pi pi-arrow-right" iconPos="right"
-                                @click="closeModal" />
+                            <BaseButton size="large" @click="closeModal">
+                                <div class="flex items-center gap-2">
+                                    <span>
+                                        К форме
+                                    </span>
+                                    <i class="pi pi-arrow-right"></i>
+                                </div>
+                            </BaseButton>
                         </template>
                     </div>
                 </div>

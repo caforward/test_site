@@ -1,7 +1,6 @@
 <script setup>
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import Button from 'primevue/button';
 import ModalForm from '../layouts/ModalForm.vue';
 import { ref } from 'vue';
 
@@ -153,6 +152,7 @@ function showInstallmentModal() {
                             class="slider-nav-button intro-slider-nav-button__prev flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-left !text-xl"></i>
                         </button>
+
                         <button
                             class="slider-nav-button intro-slider-nav-button__next flex flex-none items-center justify-center border-2 border-white text-white rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
                             <i class="pi pi-angle-right !text-xl"></i>
@@ -478,5 +478,4 @@ function showInstallmentModal() {
 //             }
 //         }
 //     }
-// }
-</style>
+// }</style>

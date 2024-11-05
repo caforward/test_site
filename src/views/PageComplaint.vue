@@ -1,5 +1,4 @@
 <script setup>
-import Button from 'primevue/button';
 import BaseForm from '../blocks/form/BaseForm.vue';
 import OverlayThank from '../layouts/OverlayThank.vue';
 import { onMounted, ref } from 'vue';

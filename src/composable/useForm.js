@@ -12,9 +12,9 @@ export const createFormData = (inputRefs) => {
         }
     })
 
-    for (let key of formData.entries()) {
-        console.log(`${key[0]}: ${key[1]}`)
-    }
+    // for (let key of formData.entries()) {
+    //     console.log(`${key[0]}: ${key[1]}`)
+    // }
     return formData
 
     // for debugging

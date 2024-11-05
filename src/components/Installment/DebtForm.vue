@@ -1,5 +1,5 @@
 <script setup>
-import Button from 'primevue/button';
+import BaseButton from '../../blocks/ui/BaseButton.vue';
 import PayForm from '../../blocks/PayForm.vue';
 import Popover from 'primevue/popover';
 import BaseModal from '../../blocks/BaseModal.vue';
@@ -44,8 +44,11 @@ watch(
                             <h2 class="">
                                 Оплатите задолженность онлайн
                             </h2>
-                            <Button type="button" class="flex-none !border-green-500" icon="pi pi-shield text-green-500 !text-xl" label=""
-                                rounded outlined @click="toggle" />
+
+                            <div @click="toggle"
+                                class="rounded-full transition-colors flex items-center justify-center border w-10 h-10 border-green-500 text-green-500 hover:cursor-pointer hover:bg-green-500 hover:text-white">
+                                <i class="pi pi-shield !text-xl"></i>
+                            </div>
                         </div>
 
                         <!-- Форма оплаты -->
@@ -100,7 +103,9 @@ watch(
                     отправляет банк, который выпустил карту, и ответственность за отправку лежит на нем.
                 </p>
 
-                <Button type="button" size="large" label="Понятно" @click="secureTextModal = false"  />
+                <BaseButton size="large" @click="secureTextModal = false">
+                    Понятно
+                </BaseButton>
             </template>
         </BaseModal>
     </transition>

@@ -3,7 +3,6 @@ import { ref, onBeforeMount, reactive } from 'vue'
 import { useRouter } from 'vue-router';
 import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
-import Button from 'primevue/button';
 
 const router = useRouter()
 const modalVisible = reactive({

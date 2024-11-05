@@ -1,6 +1,7 @@
 <script setup>
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
+import BaseButton from './ui/BaseButton.vue';
 import { ref, reactive, onBeforeMount, watch, computed, onMounted } from 'vue';
 
 const terminalKey = ref('1718781279447')
@@ -183,9 +184,10 @@ onBeforeMount(() => {
         </div>
 
         <div class="payform__bottom">
-            <button class="button button_blue payform__button" @click="">
+            <BaseButton class="button button_blue payform__button">
                 Оплатить картой
-            </button>
+            </BaseButton>
+
             <div class="payform__meta">
                 <div>
                     Нажимая кнопку «Оплатить картой», вы соглашаетесь с

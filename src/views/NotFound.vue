@@ -1,5 +1,5 @@
 <script setup>
-import Button from 'primevue/button';
+import BaseButton from '../blocks/ui/BaseButton.vue';
 
 onMounted(() => {
     window.scrollTo(0, 0)
@@ -16,7 +16,10 @@ onMounted(() => {
                 <p class="mb-6 font-bold">
                     Кажется такой страницы не существует. <br>
                 </p>
-                <Button as="router-link" to="/" label="Перейти на главную" size="large" />
+
+                <BaseButton as="router-link" to="/" size="large">
+                    Перейти на главную
+                </BaseButton>
             </div>
         </div>
     </section>

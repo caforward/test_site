@@ -3,6 +3,7 @@ import { ref, watch, onBeforeMount, reactive } from 'vue'
 import BaseInput from './ui/BaseInput.vue';
 import BaseCheckbox from './ui/BaseCheckbox.vue';
 import Button from 'primevue/button';
+import BaseButton from './ui/BaseButton.vue';
 
 // composable
 import { useInputValidation, createFormData } from '@/composable/useForm.js'
@@ -112,7 +113,9 @@ function submitForm() {
                 </BaseCheckbox>
 
                 <!-- submit button -->
-                <Button class="w-full min-w-60" label="Отправить" size="large" @click.prevent="submitForm" />
+                <BaseButton class="w-full min-w-60" size="large" @click.prevent="submitForm">
+                    Отправить
+                </BaseButton>
             </div>
         </form>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import Button from 'primevue/button';
+import BaseButton from './ui/BaseButton.vue';
 
 </script>
 
@@ -11,7 +11,10 @@ import Button from 'primevue/button';
                 <p class="text-base flex-1 xl:text-lg">
                     Поделитесь своим опытом о взаимодействии с нашим колл-центром, это поможет нам стать лучше.
                 </p>
-                <Button as="router-link" to="/complaint" label="Оставить обращение" size="medium" severity="secondary" />
+
+                <BaseButton as="router-link" to="/complaint" severity="secondary">
+                    Оставить обращение
+                </BaseButton>
             </div>
         </div>
     </section>
