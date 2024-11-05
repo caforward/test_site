@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
 import Badge from 'primevue/badge';
 import BaseInput from '../ui/BaseInput.vue';
 import { useValueFormat } from '@/composable/useValueFormat.js';
@@ -9,6 +9,7 @@ import { getDottedDate } from '@/composable/useCalendar.js';
 const exposeData = ref({})
 const inputData = reactive({})
 const inputRefs = ref(null)
+const paymentMonthlyDiscountInputRef = ref(null)
 const discount = 0.95
 const minMonthlyPayment = 1500
 
@@ -126,8 +127,13 @@ onBeforeMount(() => {
 
     exposeData.value.paymentMonthlyDiscount = getPaymentMonthlyDiscount
     exposeData.value.paymentPeriod = getPaymentPeriod
-    exposeData.value.paymentDate= getPaymentDate
+    exposeData.value.paymentDate = getPaymentDate
     exposeData.value.paymentAmount = getPaymentAmount
+})
+
+onMounted(() => {
+    // inputRefs.push(paymentMonthlyDiscountInputRef)
+    console.log(inputRefs)
 })
 
 </script>
@@ -138,7 +144,7 @@ onBeforeMount(() => {
             <span>
                 Сумма ежемесячного платежа
             </span>
-            <span class="flex flex-wrap gap-4 items-center font-bold">
+            <div class="flex flex-wrap gap-4 items-center font-bold">
                 <strong class="sm:text-lg text-base line-through text-gray-500">
                     {{ useValueFormat(paymentMonthlyFull) }} ₽
                 </strong>
@@ -151,7 +157,9 @@ onBeforeMount(() => {
                     </strong>
                     <Badge value="-5%" severity="info" />
                 </div>
-            </span>
+            </div>
+            <input class="hidden" ref="paymentMonthlyDiscountInputRef"
+                :value="useValueFormat(inputData.paymentMonthlyDiscount)">
         </div>
 
         <!-- installment inputs -->
