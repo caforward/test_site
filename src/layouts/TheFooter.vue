@@ -207,6 +207,9 @@ onBeforeMount(() => {
                             <a target="_blank" href="/policy" class="link link_white">
                                 Политика конфиденциальности
                             </a>
+                            <a target="_blank" href="/docs/PPK.pdf" class="link link_white">
+                                Политика по противодействию коррупции
+                            </a>
                         </div>
                         <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo">
                             Design by freepik
