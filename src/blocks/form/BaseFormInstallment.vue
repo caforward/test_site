@@ -92,11 +92,6 @@ const inputs = reactive([
 
 const paymentMonthlyFull = getPaymentMonthly
 
-const getExposeValue = (computed(() => {
-    console.log(oldValue)
-    return 1
-}))
-
 // computed, get value
 
 const getPaymentDate = (computed(() => {
@@ -132,8 +127,8 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-    // inputRefs.push(paymentMonthlyDiscountInputRef)
-    console.log(inputRefs)
+    paymentMonthlyDiscountInputRef.value.value = getPaymentMonthlyDiscount
+    inputRefs.value.push(paymentMonthlyDiscountInputRef.value)
 })
 
 </script>
@@ -158,8 +153,9 @@ onMounted(() => {
                     <Badge value="-5%" severity="info" />
                 </div>
             </div>
-            <input class="hidden" ref="paymentMonthlyDiscountInputRef"
-                :value="useValueFormat(inputData.paymentMonthlyDiscount)">
+
+            <BaseInput ref="paymentMonthlyDiscountInputRef" :value="useValueFormat(inputData.paymentMonthlyDiscount)"
+                name="paymentMonthlyDiscount" type="text" class="hidden" />
         </div>
 
         <!-- installment inputs -->

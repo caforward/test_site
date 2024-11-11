@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import ModalForm from "../../layouts/ModalForm.vue";
+import BaseButton from "../../blocks/ui/BaseButton.vue";
 
 const modalVisible = ref(false)
 
@@ -49,17 +50,19 @@ const contentArr = ref([
             <div class="flex-container">
                 <div class="content-wrap" v-for="content in contentArr" :key="content.id">
                     <img :src="content.src" alt="img">
-                    <p class="p-bold">{{ content.pBold }}</p>
+                    <h4 class="font-bold text-lg mb-2">{{ content.pBold }}</h4>
                     <p>{{ content.p }}</p>
                 </div>
                 <div class="content-wrap last-content">
-                    <h2>Нужна консультация</h2>
-                    <p>Наши специалисты получают все заявки на обратную связь
-                        и отвечают на них максимально быстро.</p>
-                    <div class="btn">
-                        <a href="#" @click.prevent="modalVisible = true" class="button button_blue">Получить консультацию</a>
-                    </div>
+                    <h4 class="font-bold text-lg mb-2">Нужна консультация</h4>
+                    <p class="mb-4">
+                        Наши специалисты получают все заявки на обратную связь
+                        и отвечают на них максимально быстро.
+                    </p>
 
+                    <BaseButton large="large" class="px-4 text-base" @click.prevent="modalVisible = true">
+                        Получить консультацию
+                    </BaseButton>
                 </div>
             </div>
             <div class="under-content-wrap">
@@ -169,10 +172,6 @@ img {
     margin-top: 23px;
     margin-bottom: 37px;
 
-    h2 {
-        margin-bottom: 20px;
-    }
-
     .last-content {
         padding: 120px 30px 90px 30px;
     }
@@ -182,12 +181,6 @@ img {
         font-size: 16px;
         line-height: 187%;
         color: #2e2e2e;
-    }
-
-    p {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 171%;
     }
 }
 

@@ -118,7 +118,7 @@ function sendRating() {
                                 Вернуться на страницу
                             </BaseButton>
 
-                            <BaseButton size="large" @click="closeModal">
+                            <BaseButton size="large" @click="closeOverlay">
                                 <div class="flex items-center gap-2">
                                     <span>
                                         К форме

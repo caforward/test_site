@@ -41,7 +41,7 @@ function showThankModal() {
 		<div class="custom-container">
 			<h2>Рассчитать расрочку</h2>
 			<div class="flex-container">
-				<div class="custom-container-slides">
+				<div class="custom-container-slides w-full flex-1">
 					<div class="slider">
 						<p>Сумма вашего долга</p>
 						<div class="current-value">

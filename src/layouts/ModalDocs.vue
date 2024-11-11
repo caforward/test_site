@@ -199,7 +199,7 @@ onUpdated(() => {
                                 <div>
                                     <img src="/images/pdf.png" alt="">
                                 </div>
-                                <div>
+                                <div class="text-slate-800 hover:text-sky-600">
                                     <div>
                                         <b>
                                             {{ file.name }}
