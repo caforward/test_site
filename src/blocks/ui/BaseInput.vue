@@ -31,6 +31,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    visible: {
+        type: Boolean,
+        default: true
+    },
     options: {
         type: Array,
         default: []
@@ -260,7 +264,7 @@ function isEmpty(value) {
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" /> -->
 
         <BaseSelect v-if="props.type === 'select'" v-model="value" :invalid="isInvalid" :options="props.options"
-            :placeholder="props.placeholder" :name="props.name" :disabled='props.disabled'
+            :placeholder="props.placeholder" :name="props.name" :disabled='props.disabled' :visible="props.visible"
             @update:modelValue="validateInputValue" />
 
         <!-- Textarea -->

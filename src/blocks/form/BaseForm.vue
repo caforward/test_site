@@ -145,7 +145,8 @@ onMounted(() => {
                 <template v-for="(input, idx) in inputs" :key="idx">
                     <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
                         :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :disabled="input.disabled" :options="input.options" />
+                        :required="input.required" :disabled="input.disabled" :visible="input.visible"
+                        :options="input.options" />
                 </template>
 
                 <!-- optional info, choosed by message type select -->

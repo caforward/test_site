@@ -16,10 +16,6 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    disabled: {
-        type: Boolean,
-        default: false
-    },
     placeholder: {
         type: String,
         default: "Выберите опцию",
@@ -31,6 +27,14 @@ const props = defineProps({
     invalid: {
         type: Boolean,
         default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false
+    },
+    visible: {
+        type: Boolean,
+        default: true,
     }
 })
 
@@ -103,18 +107,20 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div ref="inputWrapperRef" class="custom-select relative">
+    <div ref="inputWrapperRef" class="custom-select relative" :class="{ 'hidden': props.visible === false }">
         <!-- input wrapper -->
         <div class="py-3 px-5 border rounded-md relative bg-white transition-colors hover:border-gray-400 hover:cursor-pointer select-none"
-            :class="{ 'border-sky-500 hover:border-sky-300': state.selectedOption !== null, 'border-red-500 hover:border-red-300': props.invalid === true }"
+            :class="{ 'border-sky-500 hover:border-sky-300': state.selectedOption !== null, 'border-red-500 hover:border-red-300': props.invalid === true, 'border-sky-500 bg-gray-50 pointer-events-none': props.disabled === true }"
             @click="handleInput">
 
             <!-- input -->
             <input ref="inputRef" type="text" class="pointer-events-none w-full placeholder:text-gray-500"
-                :placeholder="props.placeholder" :value="value" readonly>
+                :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder" :value="value"
+                readonly>
 
             <!-- icons -->
-            <div class="absolute right-3 top-0 h-full flex gap-3 items-center">
+            <div class="absolute right-3 top-0 h-full flex gap-3 items-center"
+                :class="{ 'hidden': props.disabled === true }">
                 <i class="pi pi-times text-gray-400 transition-colors hover:text-gray-600" @click.stop="clearInput"></i>
                 <i class="pi pi-chevron-down text-gray-400"></i>
             </div>
