@@ -191,10 +191,10 @@ onBeforeMount(() => {
             <div class="payform__meta">
                 <div>
                     Нажимая кнопку «Оплатить картой», вы соглашаетесь с
-                    <a href="#" class="link">
+                    <!-- <a href="#" class="link">
                         Договором оферты
                     </a>
-                    и
+                    и -->
                     <a href="/policy" target="_blank" class="link">
                         политикой конфиденциальности.
                     </a>
