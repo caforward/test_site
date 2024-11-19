@@ -16,6 +16,10 @@ const props = defineProps({
     isModal: {
         type: Boolean,
         default: false,
+    },
+    inBlock: {
+        type: Boolean,
+        default: false,
     }
 })
 
@@ -89,13 +93,22 @@ function sendRating() {
                     </transition>
 
                     <div class="flex gap-4">
-                        <BaseButton v-if="!isModal" size="large" @click="closeModal">
+                        <BaseButton v-if="inBlock" size="large" @click="closeOverlay">
+                            <div class="flex items-center gap-2">
+                                <i class="pi pi-times"></i>
+                                <span>
+                                    Закрыть
+                                </span>
+                            </div>
+                        </BaseButton>
+
+                        <BaseButton v-else-if="!isModal" size="large" @click="closeModal">
                             Вернуться на страницу
                         </BaseButton>
 
                         <BaseButton v-else as="router-link" to="/" severity="secondary" size="large"
                             @click="closeModal">
-                            Вернуться на страницу
+                            Вернуться на главную
                         </BaseButton>
                     </div>
                 </div>
@@ -113,7 +126,19 @@ function sendRating() {
                         </p>
                     </div>
                     <div class="flex gap-4 flex-wrap max-sm:justify-center">
-                        <template v-if="!isModal">
+
+                        <template v-if="inBlock">
+                            <BaseButton size="large" @click="closeOverlay">
+                                <div class="flex items-center gap-2">
+                                    <span>
+                                        К форме
+                                    </span>
+                                    <i class="pi pi-arrow-right"></i>
+                                </div>
+                            </BaseButton>
+                        </template>
+
+                        <template v-else-if="!isModal">
                             <BaseButton size="large" severity="secondary" @click="closeModal">
                                 Вернуться на страницу
                             </BaseButton>
