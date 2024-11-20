@@ -22,7 +22,7 @@ function showModal() {
 }
 
 function showInstallmentModal() {
-    modalDefaultOption.value = 'installment';
+    modalDefaultOption.value = 'Рассрочка';
     modalVisible.value = true;
 }
 </script>

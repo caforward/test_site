@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
     <div ref="inputWrapperRef" class="custom-select relative" :class="{ 'hidden': props.visible === false }">
         <!-- input wrapper -->
         <div class="py-3 px-5 border rounded-md relative bg-white transition-colors hover:border-gray-400 hover:cursor-pointer select-none"
-            :class="{ 'border-sky-500 hover:border-sky-300': state.selectedOption !== null, 'border-red-500 hover:border-red-300': props.invalid === true, 'border-sky-500 bg-gray-50 pointer-events-none': props.disabled === true }"
+            :class="{ 'border-sky-500 hover:border-sky-300': state.selectedOption !== null, 'border-red-500 hover:border-red-300': props.invalid === true, 'border-sky-500 !bg-gray-50 pointer-events-none': props.disabled === true }"
             @click="handleInput">
 
             <!-- input -->
