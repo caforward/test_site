@@ -1,6 +1,7 @@
 <script setup>
 import PayForm from '../blocks/PayForm.vue';
 import BaseButton from '../blocks/ui/BaseButton.vue';
+import PayFormQr from '../blocks/PayFormQr.vue';
 
 </script>
 
@@ -23,6 +24,7 @@ import BaseButton from '../blocks/ui/BaseButton.vue';
                         Заполните необходимые поля:
                     </p>
 
+                    <!-- <PayFormQr /> -->
                     <PayForm />
                 </div>
                 <div class="payment-block payment-block_right relative">

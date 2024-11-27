@@ -4,12 +4,18 @@ import RadioButton from 'primevue/radiobutton';
 import BaseButton from './ui/BaseButton.vue';
 import { ref, reactive, onBeforeMount, watch, computed, onMounted } from 'vue';
 
-const terminalKey = ref('1718781279447')
+const terminalKeyCard = ref('1718781279447')
+const terminalKeyFPS = ref('1731918302262')
+const terminalKey = ref(null)
 
 const formInputs = reactive({})
 const inputRefs = ref(false)
 const contactType = ref('phone')
+const paymentType = ref('card')
+
 const contactInput = ref(null)
+const terminalKeyInput = ref(null)
+const isFPSPaymentInited = ref(false)
 
 const form = ref(null)
 
@@ -92,6 +98,23 @@ function validateForm() {
     }
 }
 
+function createFPSPaymentData() {
+    return {
+        terminalKey: terminalKeyFPS.value,
+        paymentItems: [
+            {
+                container: document.getElementById("FPS-payment-button"),
+                paymentInfo: function () {
+                    return {
+                        paymentData: document.forms.TinkoffPayForm,
+                    };
+                },
+            },
+        ],
+        paymentSystems: { TinkoffFps: {} },
+    };
+}
+
 function paymentPay() {
     const TPF = form.value
 
@@ -125,7 +148,13 @@ function paymentPay() {
         ]
     });
 
-    pay(TPF)
+    if (paymentType.value === 'fps') {
+        const widgetParameters = createFPSPaymentData()
+        initPayments(widgetParameters)
+        isFPSPaymentInited.value = true
+    } else {
+        pay(TPF)
+    }
 }
 
 onBeforeMount(() => {
@@ -135,26 +164,60 @@ onBeforeMount(() => {
         }
     })
 })
+
+watch(
+    () => paymentType.value,
+    (value) => {
+        if (paymentType.value === 'fps') {
+            terminalKey.value = terminalKeyFPS.value
+        } else {
+            terminalKey.value = terminalKeyCard.value
+        }   
+    },
+    { immediate: true }
+)
 </script>
 
 <template>
-    <form ref="form" novalidate class="payform" @submit.prevent="validateForm">
+    <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
+        <input v-if="paymentType === 'card'" class="payform__input" type="hidden" name="frame" value="false">
+
         <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
-        <input class="payform__input" type="hidden" name="frame" value="false">
         <input class="payform__input" type="hidden" name="language" value="ru">
+        <input class="payform__input" type="hidden" name="receipt" value="">
         <input class="payform__input" type="hidden" name="order">
         <input class="payform__input" type="hidden" name="description">
-        <input class="payform__input" type="hidden" name="receipt" value="">
-        <input class="payform-tinkoff-row" type="hidden" name="amount" value="">
-        <input class="payform-tinkoff-row" type="hidden" name="DATA" value="">
+        <input class="payform__input" type="hidden" name="amount" value="">
+        <input class="payform__input" type="hidden" name="DATA" value="">
 
         <div class="payform__inputs">
+            <!-- radio for phone/email -->
+            <div class="payform-radios">
+                <div class="">
+                    <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-card"
+                        name="payment-contact-type" value="card" />
+                    <label for="payment-payment-type-card">
+                        Оплата картой
+                    </label>
+                </div>
+                <div class="">
+                    <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-fps"
+                        name="payment-contact-type" value="fps" />
+                    <label for="payment-payment-type-fps">
+                        Оплата через СБП
+                    </label>
+                </div>
+            </div>
+
+            <!-- inputs -->
             <template v-for="input in props.inputs" :key="input">
                 <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" ref="inputRefs"
                     v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
                     :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled"
                     :options="input.options" />
             </template>
+
+            <!-- radio for phone/email -->
             <div class="payform-radios">
                 <div class="">
                     <RadioButton type="radio" v-model="contactType" inputId="payment-contact-type-phone"
@@ -184,13 +247,19 @@ onBeforeMount(() => {
         </div>
 
         <div class="payform__bottom">
-            <BaseButton class="button button_blue payform__button">
+            <BaseButton v-if="paymentType === 'card'" class="button button_blue payform__button">
                 Оплатить картой
             </BaseButton>
+            <template v-else>
+                <BaseButton v-if="!isFPSPaymentInited" class="button button_blue payform__button">
+                    Оплатить через СБП
+                </BaseButton>
+                <div v-show="isFPSPaymentInited" id="FPS-payment-button"></div>
+            </template>
 
             <div class="payform__meta">
                 <div>
-                    Нажимая кнопку «Оплатить картой», вы соглашаетесь с
+                    Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
                     <!-- <a href="#" class="link">
                         Договором оферты
                     </a>
