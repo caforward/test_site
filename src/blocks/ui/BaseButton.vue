@@ -37,6 +37,9 @@ function setButtonStyle() {
     }
 
     switch (props.size) {
+        case 'small':
+            sizeClass.value = 'px-2 py-1'
+            break;
         case 'medium':
             sizeClass.value = 'px-3 py-2'
             break;

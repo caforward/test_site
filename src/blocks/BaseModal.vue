@@ -3,7 +3,7 @@ const emit = defineEmits(['closeModal'])
 </script>
 
 <template>
-	<div class="modal">
+	<div class="modal" @click.self="emit('closeModal')">
 		<slot></slot>
 		<div v-if="$slots.body" class="modal__body">
 			<button class="modal__close" @click="emit('closeModal')">

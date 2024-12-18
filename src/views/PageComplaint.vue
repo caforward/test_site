@@ -27,11 +27,6 @@ const inputs = ref([
         placeholder: 'E-mail*',
     },
     {
-        name: 'employeeName',
-        type: 'text',
-        placeholder: 'ФИО сотрудника',
-    },
-    {
         name: 'complaintMessage',
         type: 'textarea',
         placeholder: 'Опишите вашу жалобу',
@@ -100,15 +95,18 @@ onMounted(() => {
                         class="flex flex-col items-center justify-center p-10 bg-sky-500 text-white rounded-xl w-1/2 max-xl:w-5/12 max-xl:p-8 max-lg:w-full max-lg:p-6">
                         <div>
                             <ul class="text-xl font-bold mb-5 max-lg:text-lg max-lg:mb-2 max-sm:text-base">
+                                <li>
+                                    Нашли неисправность на сайте?
+                                </li>
                                 <li class="">
                                     Столкнулись с некомпетентным поведением сотрудника?
                                 </li>
                                 <li class="">
                                     Возникла конфликтная ситуация?
                                 </li>
-                                <li>
+                                <!-- <li>
                                     Ваши права были нарушены?
-                                </li>
+                                </li> -->
                             </ul>
                             <p class="text-lg max-xl:text-base">
                                 Для нас обратная связь - возможность стать лучше и сохранить хорошие отношения с

@@ -16,15 +16,16 @@ import PayFormQr from '../blocks/PayFormQr.vue';
                     <h3 class="payment-block__title">
                         Оплатите задолженность онлайн!
                     </h3>
-                    <p class="payment-block__text">
-                        С ООО ПКО «Форвард» вы можете легко оплатить задолженность онлайн!
+                    <p class="payment-block__text mb-6 font-medium">
+                        С ООО ПКО «Форвард» вы можете легко оплатить задолженность онлайн и 
+                        <span class="text-sky-500">без дополнительных комиссий!</span>
                         Вам не нужно никуда идти, поэтому
                         погашение вашего долга будет максимально безопасным.
-                        <br><br>
+                    </p>
+                    <p class="mb-6">
                         Заполните необходимые поля:
                     </p>
 
-                    <!-- <PayFormQr /> -->
                     <PayForm />
                 </div>
                 <div class="payment-block payment-block_right relative">
@@ -94,7 +95,6 @@ import PayFormQr from '../blocks/PayFormQr.vue';
         &__text {
             font-size: 16px;
             line-height: 24px;
-            margin-bottom: 25px;
         }
     }
 

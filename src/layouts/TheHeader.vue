@@ -56,10 +56,9 @@ const bottomNav = ref([
         href: ''
     },
     {
-        name: "Получить консультацию",
+        name: "Разблокировать счет",
         href: "#",
         scroll: '',
-
     },
     {
         name: "Заказать звонок",
@@ -204,7 +203,7 @@ onUnmounted(() => {
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Получить консультацию'" @click.prevent="showFormModal()"
+                                <a v-else-if="navLink.name === 'Разблокировать счет'" @click.prevent="showFormModal('Разблокировать счет')"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'"

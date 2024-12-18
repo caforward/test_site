@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'name' => 'Имя',
         'tel' => 'Телефон',
         'email' => 'Email',
-        'employeeName' => 'ФИО сотрудника',
         'complaintMessage' => 'Текст обращения',
     ];
 
