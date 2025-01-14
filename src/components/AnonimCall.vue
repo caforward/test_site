@@ -38,7 +38,7 @@ const modalVisibleCall = ref(false)
             </div>
 
         </div>
-        <ModalForm v-model="modalVisibleCall" :type="'callback'" />
+        <ModalForm v-model="modalVisibleCall" />
     </section>
 </template>
 

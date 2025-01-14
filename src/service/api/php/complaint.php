@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    $htmlContent .= '<small>Если письмо пустое, значит это ошибка, сообщите об этом руководителю отдела: скрипт письма - complaint.php.</small>';
     $htmlContent .= '</body></html>';
 
     $mail = new PHPMailer(true);

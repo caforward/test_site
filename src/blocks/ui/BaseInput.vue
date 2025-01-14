@@ -165,7 +165,10 @@ function validateInputValue(inputValue) {
     if (props.required) {
 
         if (props.name === 'name') {
-            inputValue = inputValue.trim()
+            if (typeof inputValue === 'string') {
+                inputValue = inputValue.trim()
+            }
+            
             validateInputUserName(inputValue)
         }
         else if (props.type === 'email') {
@@ -175,7 +178,10 @@ function validateInputValue(inputValue) {
             validateInputTel(inputValue)
         }
         else {
-            inputValue = inputValue.trim()
+            if (typeof inputValue === 'string') {
+                inputValue = inputValue.trim()
+            }
+
             isEmpty(inputValue)
         }
 

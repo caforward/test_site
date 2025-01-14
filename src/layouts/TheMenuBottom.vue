@@ -28,7 +28,7 @@ const menuItems = ref([
 		href: "#",
 		modal: {
 			name: "form",
-			type: "installment",
+			type: "Рассрочка",
 		},
 		title: "Рассрочка",
 		icon: 'pi pi-calendar-clock'
@@ -60,7 +60,7 @@ const menuItems = ref([
 		href: "#",
 		modal: {
 			name: "form",
-			type: "callback",
+			type: "Прошу перезвонить",
 		},
 		title: "Звонок",
 		icon: 'pi pi-bell'
@@ -106,7 +106,6 @@ onUnmounted(() => {
 			<li v-for="link in menuItems" :key="link.id" class="bottom-menu-list__item">
 				<a v-if="link.modal && link.modal.name" :href="link.href" class="group/link bottom-menu-list-link"
 					@click.prevent="showModalHandler(link.modal)">
-					<!-- <span class="bottom-menu-list-link__icon" v-html="link.icon"></span> -->
 					<i
 						:class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
 					<span>
@@ -115,7 +114,6 @@ onUnmounted(() => {
 				</a>
 
 				<a v-else-if="link.href.startsWith('tel:')" :href="link.href" class="group/link bottom-menu-list-link">
-					<!-- <span class="bottom-menu-list-link__icon" v-html="link.icon"></span> -->
 					<i
 						:class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
 					<span>
@@ -124,7 +122,6 @@ onUnmounted(() => {
 				</a>
 
 				<a v-else :href="link.href" class="group/link bottom-menu-list-link">
-					<!-- <span class="bottom-menu-list-link__icon" v-html="link.icon"></span> -->
 					<i
 						:class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
 					<span>
