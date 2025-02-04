@@ -49,6 +49,9 @@ async function sendData(data) {
     // }
     /* /\ temporary solution */
 
+    // Для тестирования пустых писем
+    formData.append('fromComponent', 'FormBlock')
+    // Для тестирования пустых писем
 
     try {
         const response = await fetch("email.php", {
