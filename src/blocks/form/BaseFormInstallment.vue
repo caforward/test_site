@@ -140,17 +140,20 @@ onMounted(() => {
                 Сумма ежемесячного платежа
             </span>
             <div class="flex flex-wrap gap-4 items-center font-bold">
-                <strong class="sm:text-lg text-base line-through text-gray-500">
+                <!-- <strong class="sm:text-lg text-base line-through text-gray-500">
                     {{ useValueFormat(paymentMonthlyFull) }} ₽
                 </strong>
                 <span>
                     <i class="pi pi-arrow-right"></i>
-                </span>
+                </span> -->
                 <div class="sm:text-xl text-lg text-sky-500 flex items-center gap-2">
                     <strong>
+                        {{ useValueFormat(paymentMonthlyFull) }} ₽
+                    </strong>
+                    <!-- <strong>
                         {{ useValueFormat(inputData.paymentMonthlyDiscount) }} ₽
                     </strong>
-                    <Badge value="-5%" severity="info" />
+                    <Badge value="-5%" severity="info" /> -->
                 </div>
             </div>
 
@@ -185,7 +188,7 @@ onMounted(() => {
         display: flex;
         font-size: 18px;
         flex-direction: column;
-        gap: 15px;
+        gap: 8px;
         font-weight: 500;
 
         &-amount {

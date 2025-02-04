@@ -195,21 +195,27 @@ watch(
 
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
-                <div class="payform-radios flex items-center">
-                    <div class="">
+                <div class="flex gap-3 flex-col">
+                    <div class="flex gap-2 items-center">
+
                         <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-card"
                             name="payment-contact-type" value="card" />
-                        <label for="payment-payment-type-card">
-                            Оплата картой
+                        <label for="payment-payment-type-card" class="flex gap-2 items-center">
+                            <span>Оплата картой</span>
+                            <i class="pi pi-credit-card !text-xl text-sky-500"></i>
                         </label>
+
                     </div>
                     <div class="flex items-center gap-2">
-                        <div>
+                        <div class="flex gap-2 items-center">
+
                             <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-fps"
                                 name="payment-contact-type" value="fps" />
-                            <label for="payment-payment-type-fps">
-                                Оплата через СБП
+                            <label for="payment-payment-type-fps" class="flex gap-2 items-center">
+                                <span>Оплата через СБП</span>
+                                <img src="/images/sbp.svg" alt="СБП" class="w-5">
                             </label>
+
                         </div>
                         <span @click="showFPSInfoModal = true">
                             <i
@@ -256,11 +262,11 @@ watch(
             </div>
 
             <div class="payform__bottom">
-                <BaseButton v-if="paymentType === 'card'" class="button button_blue payform__button">
+                <BaseButton v-if="paymentType === 'card'" size="large">
                     Оплатить картой
                 </BaseButton>
                 <template v-else>
-                    <BaseButton v-if="!isFPSPaymentInited" class="button button_blue payform__button">
+                    <BaseButton v-if="!isFPSPaymentInited" size="large" class="text-md bg-green-500 border-green-500 hover:bg-emerald-500 hover:border-emerald-500 active:bg-green-600 active:border-green-600">
                         Оплатить через СБП
                     </BaseButton>
                     <div v-show="isFPSPaymentInited" id="FPS-payment-button"></div>
@@ -304,7 +310,7 @@ watch(
                         </strong>
                         - это современный способ оплаты,
                         который позволяет моментально переводить деньги на счет
-                        <span class="text-sky-500">без дополнительных коммиссий</span>.
+                        <span class="text-sky-500">без дополнительных комиссий</span>.
                         Используя СБП, вы сможете оплтатить долг быстро и удобно:
                     </p>
 

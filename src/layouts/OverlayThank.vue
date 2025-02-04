@@ -27,10 +27,16 @@ const props = defineProps({
 const rating = ref(null)
 const ratingMessage = ref('')
 const ratingVisible = ref(true)
+const ratingFeedback = ref('')
 
 // functions
 function showStatus() {
     console.log(status.value)
+}
+
+function chooseRatingFeedback(option, button) {
+    ratingFeedback.value = option
+    console.log(button)
 }
 
 function closeOverlay() {
@@ -43,13 +49,16 @@ function closeModal() {
     emit('closeParentModal')
 }
 
-function sendRating() {
+function sendRatingAndCloseModal() {
     ratingVisible.value = false
 
     emit('sendRating', {
         rateValue: rating,
-        rateMessage: ratingMessage
+        rateMessage: ratingMessage,
+        rateFeedback: ratingFeedback
     })
+
+    closeModal()
 }
 </script>
 
@@ -66,7 +75,7 @@ function sendRating() {
                     <span class="border-8 border-sky-600 rounded-full flex items-center justify-center w-24 h-24 mb-6">
                         <i class="pi pi-check text-sky-600 !font-bold !text-6xl"></i>
                     </span>
-                    <div class="flex flex-col gap-1 items-center mb-6">
+                    <div class="flex flex-col gap-1 items-center mb-2">
                         <div class="font-bold text-2xl">
                             Спасибо!
                         </div>
@@ -76,18 +85,53 @@ function sendRating() {
                     </div>
                     <transition name="rating-animation">
                         <form v-if="ratingVisible" class="flex flex-col items-center w-full mb-4">
-                            <Rating v-model="rating" :stars="5" class="mb-2" />
+                            <div class="font-bold mb-2">
+                                Оцените работу сайта
+                            </div>
+                            <Rating v-model="rating" :stars="5" class="mb-4" />
+
+                            <transition name="fade">
+                                <div v-if="rating && rating < 5"
+                                    class="flex flex-wrap gap-3 max-w-lg justify-center mb-5">
+                                    <BaseButton size="small" severity="secondary"
+                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Ошибка на сайте'}"
+                                        @click.prevent="chooseRatingFeedback('Ошибка на сайте', self)">
+                                        Ошибка на сайте
+                                    </BaseButton>
+
+                                    <BaseButton size="small" severity="secondary"
+                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Неудобно пользоваться'}"
+                                        @click.prevent="chooseRatingFeedback('Неудобно пользоваться')">
+                                        Неудобно пользоваться
+                                    </BaseButton>
+
+                                    <BaseButton size="small" severity="secondary"
+                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Не загружается или тормозит'}"
+                                        @click.prevent="chooseRatingFeedback('Не загружается или тормозит')">
+                                        Не загружается или тормозит
+                                    </BaseButton>
+
+                                    <BaseButton size="small" severity="secondary"
+                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Другое'}"
+                                        @click.prevent="chooseRatingFeedback('Другое')">
+                                        Другое
+                                    </BaseButton>
+                                </div>
+                            </transition>
 
                             <transition name="fade-feedback">
-                                <BaseInput v-if="rating && rating < 5" v-model="ratingMessage" class="w-full max-w-96"
-                                    type="textarea" name="message" placeholder="Напишите, что бы мы могли улучшить"
-                                    style="will-change: auto;" />
+                                <BaseInput v-if="ratingFeedback === 'Другое'" v-model="ratingMessage"
+                                    class="w-full max-w-96 mb-4" type="textarea" name="message"
+                                    placeholder="Напишите, что бы мы могли улучшить" style="will-change: auto;" />
                             </transition>
 
                             <transition name="fade">
-                                <a v-if="rating" href="#" @click.prevent="sendRating">
+                                <!-- <a v-if="rating" href="#" @click.prevent="sendRating">
                                     Подтвердить
-                                </a>
+                                </a> -->
+                                <BaseButton v-if="rating" size="large" @click="sendRatingAndCloseModal">
+                                    Оценить
+                                </BaseButton>
                             </transition>
                         </form>
                     </transition>
@@ -102,11 +146,11 @@ function sendRating() {
                             </div>
                         </BaseButton>
 
-                        <BaseButton v-else-if="!isModal" size="large" @click="closeModal">
+                        <!-- <BaseButton v-else-if="!isModal" size="large" @click="closeModal">
                             Вернуться на страницу
-                        </BaseButton>
+                        </BaseButton> -->
 
-                        <BaseButton v-else as="router-link" to="/" severity="secondary" size="large"
+                        <BaseButton v-else-if="isModal" as="router-link" to="/" severity="secondary" size="large"
                             @click="closeModal">
                             Вернуться на главную
                         </BaseButton>

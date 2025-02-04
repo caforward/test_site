@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fields = [
         'username' => 'Пользователь',
         'rate' => 'Оценка',
+        'feedback' => 'Быстрый отзыв',
         'message' => 'Предложения по улучшению от пользователя',
     ];
 
