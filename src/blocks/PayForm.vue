@@ -266,7 +266,7 @@ watch(
                     Оплатить картой
                 </BaseButton>
                 <template v-else>
-                    <BaseButton v-if="!isFPSPaymentInited" size="large" class="text-md bg-green-500 border-green-500 hover:bg-emerald-500 hover:border-emerald-500 active:bg-green-600 active:border-green-600">
+                    <BaseButton v-if="!isFPSPaymentInited" size="large" class="text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600">
                         Оплатить через СБП
                     </BaseButton>
                     <div v-show="isFPSPaymentInited" id="FPS-payment-button"></div>
