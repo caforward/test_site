@@ -18,25 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'paymentPeriod' => 'Срок погашения',
         'paymentDate' => 'Дата ежемесячного платежа',
         'paymentMonthlyDiscount' => 'Сумма ежемесячного платежа с учетом скидки в 5%',
-        'fromComponent' => 'Компонент-инициатор письма',
-    ];
+s    ];
 
     $htmlContent = '<html><head><meta charset="UTF-8"></head><body></body></html>';
     $htmlContent .= '<h2>Сообщение с сайта:</h2>';
 
     foreach ($fields as $key => $label) {
-        if (!empty($_POST[$key]) && $key !== 'fromComponent') {
+        if (!empty($_POST[$key])) {
             $htmlContent .= "<p><strong>$label:</strong> " . htmlspecialchars($_POST[$key], ENT_QUOTES, 'UTF-8') . "</p>";
         }
     }
 
     $htmlContent .= '<small>Если письмо пустое, значит это ошибка, сообщите об этом руководителю отдела: скрипт письма - email.php.</small>';
-    // Добавляем вывод компонента-инициатора письма
-    if (!empty($_POST['fromComponent'])) {
-        $htmlContent .= "<small><strong>Компонент-инициатор письма:</strong> " . htmlspecialchars($_POST['fromComponent'], ENT_QUOTES, 'UTF-8') . "</small>";
-    } else {
-        $htmlContent .= "<small><strong>Компонент-инициатор письма:</strong> Не указан</small>";
-    }
 
     $htmlContent .= '</body></html>';
 
