@@ -38,6 +38,10 @@ async function sendData(formData) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
 
+    // Для тестирования пустых писем
+    formData.append('fromComponent', 'Calculator')
+    // Для тестирования пустых писем
+
     try {
         response.value = await fetch('email.php', {
             method: 'POST',

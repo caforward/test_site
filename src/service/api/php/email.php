@@ -18,18 +18,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'paymentPeriod' => 'Срок погашения',
         'paymentDate' => 'Дата ежемесячного платежа',
         'paymentMonthlyDiscount' => 'Сумма ежемесячного платежа с учетом скидки в 5%',
-s    ];
+        'fromComponent' => 'Компонент-инициатор письма',
+    ];
 
     $htmlContent = '<html><head><meta charset="UTF-8"></head><body></body></html>';
     $htmlContent .= '<h2>Сообщение с сайта:</h2>';
 
     foreach ($fields as $key => $label) {
-        if (!empty($_POST[$key])) {
+        if (!empty($_POST[$key]) && $key !== 'fromComponent') {
             $htmlContent .= "<p><strong>$label:</strong> " . htmlspecialchars($_POST[$key], ENT_QUOTES, 'UTF-8') . "</p>";
         }
     }
 
     $htmlContent .= '<small>Если письмо пустое, значит это ошибка, сообщите об этом руководителю отдела: скрипт письма - email.php.</small>';
+    // Добавляем вывод компонента-инициатора письма
+    if (!empty($_POST['fromComponent'])) {
+        $htmlContent .= "<small><strong>Компонент-инициатор письма:</strong> " . htmlspecialchars($_POST['fromComponent'], ENT_QUOTES, 'UTF-8') . "</small>";
+    } else {
+        $htmlContent .= "<small><strong>Компонент-инициатор письма:</strong> Не указан</small>";
+    }
 
     $htmlContent .= '</body></html>';
 
@@ -41,7 +48,7 @@ s    ];
         $mail->Host = 'smtp.mail.ru'; 
         $mail->SMTPAuth = true;
         $mail->Username = 'site-no-reply@caforward.ru'; 
-        $mail->Password = ''; 
+        $mail->Password = 'qLg3rh57qVJWBnwzW7S4'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
         $mail->Port = 465; 
 
