@@ -38,8 +38,14 @@ function showInstallmentModal() {
                     <div class="custom-container">
                         <div class="slide-content">
                             <div class="slide-content__title">
-                                Избавьтесь от <br> задолженности с нами!
+                                <span>
+                                    Избавьтесь от <br> задолженности с нами!
+                                </span>
                             </div>
+                            <p class="mb-4 slide-content__text slide-content__text_mobile">
+                                Мы простим Вам <b class="text-sky-500">5%</b> от суммы долга сразу же после заполнения формы
+                                получения рассрочки
+                            </p>
                             <div class="slide-content__text">
                                 <p>
                                     <b>
@@ -85,6 +91,9 @@ function showInstallmentModal() {
                             <div class="slide-content__title">
                                 Платите столько, <br> сколько можете
                             </div>
+                            <p class="slide-content__text slide-content__text_mobile">
+                                Актуализируйте свои контактные данные.
+                            </p>
                             <div class="slide-content__text">
                                 <p>
                                     Сумма платежа рассчитывается таким образом, что
@@ -289,6 +298,12 @@ function showInstallmentModal() {
                 p:not(:last-child) {
                     margin-bottom: 15px;
                 }
+
+                &_mobile {
+                    display: none;
+                    font-size: 16px;
+                    line-height: 1;
+                }
             }
 
             &__buttons {
@@ -431,6 +446,15 @@ function showInstallmentModal() {
 
                 &__text {
                     display: none;
+                    
+                    &_mobile {
+                        display: block;
+                        width: unset;
+                        font-size: 16px;
+                        line-height: normal;
+                        margin-top: -12px; // нужно будет убрать
+                        margin-bottom: 14px;
+                    }
                 }
 
                 &__buttons {
@@ -439,6 +463,7 @@ function showInstallmentModal() {
 
                     &>* {
                         width: fit-content;
+                        height: 40px;
 
                         &:not(:last-child) {
                             margin: 0;
