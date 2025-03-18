@@ -42,10 +42,21 @@ function showInstallmentModal() {
                                     Избавьтесь от <br> задолженности с нами!
                                 </span>
                             </div>
-                            <p class="mb-4 slide-content__text slide-content__text_mobile">
-                                Мы простим Вам <b class="text-sky-500">5%</b> от суммы долга сразу же после заполнения формы
-                                получения рассрочки
-                            </p>
+                            <div class="mb-4 slide-content__text slide-content__text_mobile">
+                                <ol class="list">
+                                    <li>
+                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы
+                                        получения рассрочки
+                                    </li>
+                                    <li>
+                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
+                                        обременителен для Вашего бюджета
+                                    </li>
+                                    <li>
+                                        Мы передадим данные о погашении долга в Бюро кредитных историй
+                                    </li>
+                                </ol>
+                            </div>
                             <div class="slide-content__text">
                                 <p>
                                     <b>
@@ -91,9 +102,19 @@ function showInstallmentModal() {
                             <div class="slide-content__title">
                                 Платите столько, <br> сколько можете
                             </div>
-                            <p class="slide-content__text slide-content__text_mobile">
-                                Актуализируйте свои контактные данные.
-                            </p>
+                            <div class="mb-4 slide-content__text slide-content__text_mobile">
+                                <ol class="list">
+                                    <li>
+                                        Мы рассчитываем сумму так, чтобы она была удобна для Вас!
+                                    </li>
+                                    <li>
+                                        С нами Вы сможете погашать долг без стресса.
+                                    </li>
+                                    <li>
+                                        Вы забудете времена когда весь доход уходил на погашение задолженности.
+                                    </li>
+                                </ol>
+                            </div>
                             <div class="slide-content__text">
                                 <p>
                                     Сумма платежа рассчитывается таким образом, что
@@ -104,9 +125,6 @@ function showInstallmentModal() {
                                     Наши специалисты помогут подобрать ту
                                     сумму, которую Вам будет комфортно вносить
                                     для погашения задолженности без ущерба для вашего бюджета.
-                                    <br>
-                                    Минимальный платеж - 1500 рублей в месяц.
-
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
@@ -125,6 +143,19 @@ function showInstallmentModal() {
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Улучшите свою <br> кредитную историю
+                            </div>
+                            <div class="mb-4 slide-content__text slide-content__text_mobile">
+                                <ol class="list">
+                                    <li>
+                                        Списание до <b>20%</b> от общей суммы долга.
+                                    </li>
+                                    <li>
+                                        Мы готовы заключить мировое соглашение на любой стадии производства.
+                                    </li>
+                                    <li>
+                                        После выплат Вы получите все необходимые документы, включая справку о погашении.
+                                    </li>
+                                </ol>
                             </div>
                             <div class="slide-content__text">
                                 <p>
@@ -446,7 +477,7 @@ function showInstallmentModal() {
 
                 &__text {
                     display: none;
-                    
+
                     &_mobile {
                         display: block;
                         width: unset;
@@ -479,7 +510,19 @@ function showInstallmentModal() {
     .intro-slider {
         .slide {
             &__img {
-                padding-top: 240px;
+                padding-top: 400px;
+            }
+
+            &-content__title {
+                font-size: 26px;
+            }
+        }
+
+        .list {
+            font-size: 16px;
+
+            &>li::marker {
+                left: 10px;
             }
         }
     }

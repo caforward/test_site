@@ -32,6 +32,9 @@ const props = defineProps({
     additionalData: {
         type: Object,
         default: {}
+    },
+    formType: {
+        type: String,
     }
 })
 
@@ -88,6 +91,14 @@ onMounted(() => {
     }
 })
 
+// computed
+
+const formAttributeType = computed(() => {
+    if (props.formType) return props.formType;
+    if (formInputs && formInputs.messageType && formInputs.messageType.value) return formInputs.messageType.value;
+    return ''
+})
+
 </script>
 
 <template>
@@ -129,8 +140,9 @@ onMounted(() => {
         </template>
     </div>
 
+    <slot name="preformText"></slot>
     <!-- form -->
-    <form ref="formDOMElement" action="" class="form">
+    <form ref="formDOMElement" action="" class="form" :data-type="formAttributeType">
         <div class="form-container">
 
             <!-- slot for before inputs -->

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="wrapButt">
-                        <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
+                        <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <div class="wrapButt">
-                            <button @click="redirectModalPage(item.id)" class="button">Подробнее</button>
+                            <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее</button>
                         </div>
                     </div>
                 </div>
@@ -43,6 +43,7 @@ import ModalForm from '../layouts/ModalForm.vue';
 
 interface ListItems {
     id: number;
+    type: string;
     imageUrl: string;
     textH3: string;
     textParagr: string;
@@ -63,22 +64,25 @@ export default defineComponent({
             items: [
                 {
                     id: 1,
+                    type: "debt-forgive",
                     imageUrl: '/images/HelpEverClient/1img.png',
                     textH3: "Прощение долга",
                     textParagr: "Наша компания поможет полностью избавиться от долгов. Что это значит? С помощью рассчитанного нами оптимального графика платежей Вы сможете быстро выплатить задолженность, и она не будет обременять Вас",
                     background: '#ecf6e7',
                 }, {
                     id: 2,
+                    type: "unblock-accounts",
                     imageUrl: '/images/HelpEverClient/2img.png',
                     textH3: "Разблокируем ваши счета",
                     textParagr: "Наша компания поможет быстро и эффективно разблокировать счета, благодаря чему Вы забудете о проблемах с приставами",
-                    background: '#f0f1f9'
+                    background: '#f0f1f9',
                 }, {
                     id: 3,
+                    type: "find-number",
                     imageUrl: '/images/HelpEverClient/3img.png',
                     textH3: "Узнать номер вашего договора",
                     textParagr: "Не знаете номер своего договора? Оставьте свои контактные данные, и наши специалисты со всем разберутся. Если Вы не можете разобраться в юридических сложностях, просто позвоните нам – в ООО ПКО «Форвард» работают юристы высокого класса, которые помогут даже в самой сложной ситуации. ",
-                    background: '#EEF1F3'
+                    background: '#EEF1F3',
                 }
 
             ] as ListItems[]

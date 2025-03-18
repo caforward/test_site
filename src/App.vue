@@ -4,6 +4,7 @@ import TheFooter from "@/layouts/TheFooter.vue";
 
 import TheMenuBottom from "@/layouts/TheMenuBottom.vue";
 import { onMounted, ref } from 'vue'
+import BaseNotification from "./blocks/ui/BaseNotification.vue";
 </script>
 
 <template>
@@ -19,13 +20,12 @@ import { onMounted, ref } from 'vue'
 
 	<TheFooter />
 
+	<BaseNotification />
 	<TheMenuBottom />
 </template>
 
 
 <style lang="scss">
-
-
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.2s ease;

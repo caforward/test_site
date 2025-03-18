@@ -14,9 +14,53 @@ const props = defineProps({
     type: {
         type: String,
         default: ''
+    },
+    showTitle: {
+        type: Boolean,
+        default: true,
+    },
+    fetchUrl: {
+        type: String,
+        default: 'email.php'
+    },
+    inputs: {
+        type: Array,
+        default: [
+            {
+                name: 'name',
+                type: 'text',
+                placeholder: 'ФИО*',
+                required: true,
+            },
+            {
+                name: 'tel',
+                type: 'tel',
+                placeholder: 'Номер телефона*',
+                required: true
+            },
+            {
+                name: 'email',
+                type: 'email',
+                placeholder: 'E-mail*',
+            },
+            {
+                name: 'messageType',
+                type: 'select',
+                placeholder: 'Тема обращения*',
+                required: true,
+                value: "Прошу перезвонить",
+                options: [
+                    "Прошу перезвонить",
+                    "Узнать номер договора",
+                    "Разблокировать счет",
+                    "Рассрочка",
+                    "Другое",
+                ],
+            },
+        ]
     }
 })
-
+/*
 const inputs = ref([
     {
         name: 'name',
@@ -55,17 +99,20 @@ const inputs = ref([
     // 	placeholder: 'Кратко опишите Ваш вопрос*',
     // }
 ])
+*/
 
 async function sendData(formData) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
-
+    
     // Для тестирования пустых писем
     formData.append('fromComponent', 'ModalForm')
     // Для тестирования пустых писем
 
+    console.log(props.fetchUrl)
+
     try {
-        response.value = await fetch('email.php', {
+        response.value = await fetch(props.fetchUrl, {
             method: 'POST',
             body: formData
         })
@@ -98,7 +145,7 @@ async function sendRating(rateData) {
 
 onMounted(() => {
     const option = props.type
-    const messageTypeInput = inputs.value.find(input => input.name === 'messageType')
+    const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
 
     if (messageTypeInput) {
         if (option) {
@@ -114,7 +161,7 @@ onMounted(() => {
 watch(
     () => props.type,
     (option) => {
-        const messageTypeInput = inputs.value.find(input => input.name === 'messageType')
+        const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
 
         if (option) {
             messageTypeInput.value = props.type
@@ -144,7 +191,9 @@ watch(
     <transition name="fade">
         <BaseModal id="requisites" v-if="visible" @closeModal="visible = false">
             <template #body>
-                <BaseForm :showTitle="true" :inputs="inputs" :grayForm="true" @submitted="sendData" />
+                <slot name="topBodyContent"></slot>
+
+                <BaseForm :showTitle="showTitle" :inputs="inputs" :grayForm="true" @submitted="sendData" />
                 <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
                     @closeParentModal="visible = false" @sendRating="sendRating" />
             </template>

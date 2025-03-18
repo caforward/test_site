@@ -1,8 +1,19 @@
 <script setup>
-import { watch } from 'vue'
+import { watch, ref } from 'vue'
 import BaseModal from '../blocks/BaseModal.vue';
+import BaseButton from '../blocks/ui/BaseButton.vue';
 
 const visible = defineModel()
+const moreInfo = ref(false);
+const showQR = ref(false);
+
+function toggleInfo() {
+    moreInfo.value = !moreInfo.value;
+
+    if (!moreInfo.value) {
+        showQR.value = false;
+    }
+}
 
 watch(
     () => visible.value,
@@ -25,11 +36,37 @@ watch(
                 <div class="close-button" @click="visible = false">
                     <i class="pi pi-times !text-xl"></i>
                 </div>
-                <h2 class="modal-body__title">
+                <h2 class="mb-2">
                     Реквизиты для оплаты
                 </h2>
+                <div class="text-lg font-bold flex flex-col items-center mb-2 text-stone-700">
+                    <span>
+                        Перейти к оплате
+                    </span>
+                    <img class="w-64" src="/images/qr-less.png" alt="">
+                </div>
                 <div class="modal-body-content">
                     <ul class="modal-body-content__list">
+                        <li>
+                            ИНН:
+                        </li>
+                        <li>
+                            5406796664
+                        </li>
+                        <li>
+                            КПП:
+                        </li>
+                        <li>
+                            540701001
+                        </li>
+                        <li class="mb-0">
+                            Назначение платежа:
+                        </li>
+                        <li class="mb-0">
+                            укажите ФИО , номер КД
+                        </li>
+                    </ul>
+                    <ul v-show="moreInfo" class="modal-body-content__list">
                         <li>
                             Получатель:
                         </li>
@@ -60,32 +97,34 @@ watch(
                         <li>
                             30101810450040000861
                         </li>
-                        <li>
-                            ИНН:
-                        </li>
-                        <li>
-                            5406796664
-                        </li>
-                        <li>
-                            КПП:
-                        </li>
-                        <li>
-                            540701001
-                        </li>
-                        <li>
-                            Назначение платежа:
-                        </li>
-                        <li>
-                            укажите ФИО , номер КД
-                        </li>
                     </ul>
-                    <div class="modal-body-content__qr">
+                    <div v-if="moreInfo" class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
+                        @click="showQR = !showQR">
+                        <span v-if="!showQR">
+                            Оплатить в приложении банка
+                        </span>
+                    </div>
+                    <div v-if="showQR" class="modal-body-content__qr">
                         <div>
                             Оплата через приложение банка
                         </div>
                         <div>
                             <img src="/images/QR-code.png" alt="">
                         </div>
+                    </div>
+                    <div class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
+                        @click="toggleInfo">
+                        <span v-if="moreInfo">
+                            Скрыть
+                        </span>
+                        <span v-else>
+                            Показать полные реквизиты
+                        </span>
+                    </div>
+                    <div class="flex justify-center mt-6">
+                        <BaseButton as="link" to="#payment" size="large" @click="visible = false">
+                            К оплате
+                        </BaseButton>
                     </div>
                 </div>
             </div>
@@ -123,16 +162,15 @@ watch(
         width: 500px;
         padding: 40px;
 
-        &__title {
-            margin-bottom: 20px;
-        }
-
         &-content {
             &__list {
                 display: flex;
                 flex-wrap: wrap;
-                margin-bottom: 20px;
                 font-weight: 600;
+
+                &:last-child {
+                    margin-bottom: 20px;
+                }
 
                 &>:nth-child(2n) {
                     font-weight: 400;
