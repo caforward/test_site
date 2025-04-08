@@ -21,6 +21,11 @@ function showModal() {
     modalVisible.value = true;
 }
 
+function showUnblockAccauntModal() {
+    modalDefaultOption.value = 'Разблокировать счет';
+    modalVisible.value = true;
+}
+
 function showInstallmentModal() {
     modalDefaultOption.value = 'Рассрочка';
     modalVisible.value = true;
@@ -99,19 +104,23 @@ function showInstallmentModal() {
                 <swiper-slide class="slider__slide">
                     <div class="custom-container">
                         <div class="slide-content">
-                            <div class="slide-content__title">
+                            <div class="slide-content__title desktop">
                                 Платите столько, <br> сколько можете
+                            </div>
+                            <div class="slide-content__title mobile">
+                                Разблокируем счет
                             </div>
                             <div class="mb-4 slide-content__text slide-content__text_mobile">
                                 <ol class="list">
                                     <li>
-                                        Мы рассчитываем сумму так, чтобы она была удобна для Вас!
+                                        Разблокируем счет - мы поможем вам вернуть доступ к вашим финансам!
                                     </li>
                                     <li>
-                                        С нами Вы сможете погашать долг без стресса.
+                                        Отзовем исполнительные документы - избавьтесь от долговых обязательств и проблем
+                                        с приставами!
                                     </li>
                                     <li>
-                                        Вы забудете времена когда весь доход уходил на погашение задолженности.
+                                        Начните новую жизнь без долгов - дайте себе второй шанс на финансовую свободу!
                                     </li>
                                 </ol>
                             </div>
@@ -128,7 +137,12 @@ function showInstallmentModal() {
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.prevent="showModal">
+                                <a href="#" class="button button_blue slide__button mobile"
+                                    @click.prevent="showUnblockAccauntModal">
+                                    Разблокировать счет
+                                </a>
+
+                                <a href="#" class="button button_blue slide__button desktop" @click.prevent="showModal">
                                     Получить консультацию
                                 </a>
                             </div>
@@ -216,6 +230,20 @@ function showInstallmentModal() {
 @use 'swiper/css/navigation';
 @use 'swiper/css/pagination';
 @use 'swiper/css/scrollbar';
+
+
+
+@media (min-width: 799px) {
+    .mobile {
+        display: none !important;
+    }
+}
+
+@media (max-width: 798px) {
+    .desktop {
+        display: none !important;
+    }
+}
 
 .intro-slider {
     margin-top: -80px;
@@ -459,7 +487,7 @@ function showInstallmentModal() {
 
         .slide {
             &__img {
-                padding-top: 190px;
+                padding-top: 260px;
 
                 img {
                     object-position: 80%;

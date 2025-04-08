@@ -1,11 +1,13 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import BaseForm from '../form/BaseForm.vue';
 import BaseModal from '../BaseModal.vue';
 import ModalForm from '../../layouts/ModalForm.vue';
 
 const visible = ref(true);
 const modalVisible = ref(false);
+
+const closeTimeoutId = ref(null);
 
 const inputs = ref([
     {
@@ -27,13 +29,23 @@ const inputs = ref([
     },
 ])
 
+function onCloseSelf() {
+    visible.value = false;
+    clearTimeout(closeTimeoutId.value);
+}
+
+onMounted(() => {
+    closeTimeoutId.value = setTimeout(() => {
+        visible.value = false;
+    }, 6000);
+})
 </script>
 
 <template>
     <div v-if="visible">
         <div
             class="fixed bottom-20 md:bottom-24 lg:bottom-3 right-3 bg-sky-500 text-white py-6 px-6 md:py-8 md:px-6 rounded-2xl z-[1] border border-sky-400">
-            <button class="absolute top-0 right-0 py-1.5 px-2.5 z-20" @click.stop="visible = false">
+            <button class="absolute top-0 right-0 py-1.5 px-2.5 z-20" @click.stop="onCloseSelf">
                 <i class="pi pi-times !text-xl"></i>
             </button>
 
@@ -56,7 +68,7 @@ const inputs = ref([
                 </h5>
                 <p class="text-base font-medium mb-4">
                     Обновите свои контактные данные, и мы ускорим процесс погашения задолженности.
-                    Должники с актуальной информацией получают приоритет в обработке платежей и 
+                    Должники с актуальной информацией получают приоритет в обработке платежей и
                     обращений.
                 </p>
             </template>

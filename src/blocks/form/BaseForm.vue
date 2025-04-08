@@ -94,9 +94,24 @@ onMounted(() => {
 // computed
 
 const formAttributeType = computed(() => {
-    if (props.formType) return props.formType;
-    if (formInputs && formInputs.messageType && formInputs.messageType.value) return formInputs.messageType.value;
-    return ''
+    let type = "";
+
+    const types = {
+        "Прошу перезвонить": "callback",
+        "Узнать номер договора": "get-contract-number",
+        "Разблокировать счет": "unblock-account",
+        "Рассрочка": "installment",
+        "Другое": "other",
+    }
+
+    if (props.formType) {
+        type = types[props.formType];
+    }
+    if (formInputs && formInputs.messageType && formInputs.messageType.value) {
+        type = types[formInputs.messageType.value];
+    }
+
+    return type;
 })
 
 </script>
@@ -142,7 +157,7 @@ const formAttributeType = computed(() => {
 
     <slot name="preformText"></slot>
     <!-- form -->
-    <form ref="formDOMElement" action="" class="form" :data-type="formAttributeType">
+    <form ref="formDOMElement" action="" class="form" :id="formAttributeType">
         <div class="form-container">
 
             <!-- slot for before inputs -->
