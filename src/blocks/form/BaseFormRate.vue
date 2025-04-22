@@ -51,11 +51,11 @@ async function sendRate() {
             body: postData
         })
 
-        if (response.ok) {
-            console.log('received rate')
-        } else {
-            console.log('error', response.status)
-        }
+        // if (response.ok) {
+        //     console.log('received rate')
+        // } else {
+        //     console.log('error', response.status)
+        // }
 
         emits('close')
     }

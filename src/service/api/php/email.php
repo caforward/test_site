@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'name' => 'Имя',
         'tel' => 'Телефон',
         'email' => 'Email',
+        'birthday' => 'День рождения',
         'messageType' => 'Выбрана тема',
         'message' => 'Текст',
         'companyName' => 'Наименование компании',

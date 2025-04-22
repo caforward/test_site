@@ -207,7 +207,7 @@ onUnmounted(() => {
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'"
-                                    @click.prevent="showFormModal('Прошу перезвонить')" class="header-bottom-nav__link"
+                                    @click.prevent="showFormModal('callback')" class="header-bottom-nav__link"
                                     :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>

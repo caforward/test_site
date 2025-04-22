@@ -36,7 +36,6 @@ function showStatus() {
 
 function chooseRatingFeedback(option, button) {
     ratingFeedback.value = option
-    console.log(button)
 }
 
 function closeOverlay() {

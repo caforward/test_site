@@ -100,10 +100,10 @@ export default defineComponent({
             if (id === 1) {
                 window.location.href = '/installment-plan#calculate'
             } else if (id === 2) {
-                this.defaultOption = 'Разблокировать счет';
+                this.defaultOption = 'account-unblock';
                 this.modalVisible = true
             } else if (id === 3) {
-                this.defaultOption = 'Узнать номер договора';
+                this.defaultOption = '';// 'Узнать номер договора';
                 this.modalVisible = true
             }
         },

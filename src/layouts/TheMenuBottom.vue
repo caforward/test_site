@@ -28,7 +28,7 @@ const menuItems = ref([
 		href: "#",
 		modal: {
 			name: "form",
-			type: "Рассрочка",
+			type: "installment",
 		},
 		title: "Рассрочка",
 		icon: 'pi pi-calendar-clock'
@@ -60,7 +60,7 @@ const menuItems = ref([
 		href: "#",
 		modal: {
 			name: "form",
-			type: "Прошу перезвонить",
+			type: "callback",
 		},
 		title: "Звонок",
 		icon: 'pi pi-bell'

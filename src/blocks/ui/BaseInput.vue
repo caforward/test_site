@@ -46,6 +46,10 @@ const props = defineProps({
     max: {
         type: Number,
         default: undefined
+    },
+    minDate: {
+        type: Object,
+        default: () => {}
     }
 })
 
@@ -129,8 +133,8 @@ onMounted(() => {
     if (props.type === 'select') {
         selectOptionsHandler(props.options)
     }
-    if (props.type === 'date') {
-        minDate.value = value.value
+    if (props.type === 'date' && props.minDate) {
+        minDate.value = props.minDate
     }
 })
 

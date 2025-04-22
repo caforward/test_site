@@ -44,17 +44,34 @@ const props = defineProps({
                 placeholder: 'E-mail*',
             },
             {
+                name: 'birthdayDate',
+                type: 'date',
+                value: '',
+                placeholder: 'Дата рождения*',
+                required: true
+            },
+            {
                 name: 'messageType',
                 type: 'select',
                 placeholder: 'Тема обращения*',
                 required: true,
-                value: "Прошу перезвонить",
+                value: "Информация о долге",
                 options: [
-                    "Прошу перезвонить",
-                    "Узнать номер договора",
-                    "Разблокировать счет",
-                    "Рассрочка",
-                    "Другое",
+                    // "Прошу перезвонить",
+                    // "Узнать номер договора",
+                    // "Разблокировать счет",
+                    // "Рассрочка",
+                    // "Другое",
+                    "Информация о долге",
+                    "Запрос на оферту",
+                    "Внесение изменений в БКИ",
+                    "Информация о мобилизации",
+                    "О возврате денежных средств",
+                    "Разблокировка счетов",
+                    "Отказ от взаимодействия",
+                    "Претензия",
+                    "Справка о погашении задолженности",
+                    "Справка о состоянии задолженности",
                 ],
             },
         ]
@@ -104,12 +121,10 @@ const inputs = ref([
 async function sendData(formData) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
-    
+
     // Для тестирования пустых писем
     formData.append('fromComponent', 'ModalForm')
     // Для тестирования пустых писем
-
-    console.log(props.fetchUrl)
 
     try {
         response.value = await fetch(props.fetchUrl, {
@@ -143,40 +158,43 @@ async function sendRating(rateData) {
     }
 }
 
+function setSelectorByType(type) {
+    const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
+    
+    if (messageTypeInput) {
+        if (type) {
+            const types = {
+                "callback": 0,
+                "installment": 1,
+                "account-unblock": 5,
+            }
+
+            let option = messageTypeInput.options[0]
+            
+            if (types[type]) {
+                option = messageTypeInput.options[types[type]]
+            }
+
+            messageTypeInput.value = option
+            messageTypeInput.disabled = true
+        } else {
+            messageTypeInput.value = messageTypeInput.options[0]
+            messageTypeInput.disabled = false
+        }
+    }
+}
+
 onMounted(() => {
     const option = props.type
-    const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
-
-    if (messageTypeInput) {
-        if (option) {
-            messageTypeInput.value = props.type
-            messageTypeInput.disabled = true
-        } else {
-            messageTypeInput.value = messageTypeInput.options[0]
-            messageTypeInput.disabled = false
-        }
-    }
+    setSelectorByType(option)
 })
-
-watch(
-    () => props.type,
-    (option) => {
-        const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
-
-        if (option) {
-            messageTypeInput.value = props.type
-            messageTypeInput.disabled = true
-        } else {
-            messageTypeInput.value = messageTypeInput.options[0]
-            messageTypeInput.disabled = false
-        }
-    }
-)
 
 watch(
     () => visible.value,
     () => {
         if (visible.value) {
+            setSelectorByType(props.type);
+
             document.body.style.overflow = 'hidden'
             document.body.style.paddingRight = '10px'
         } else {

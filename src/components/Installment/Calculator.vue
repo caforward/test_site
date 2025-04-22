@@ -25,9 +25,9 @@ const inputs = [
         type: 'select',
         placeholder: 'Тема обращения*',
         required: true,
-        value: "Рассрочка",
+        value: "Запрос на оферту",
         options: [
-            "Рассрочка",
+            "Запрос на оферту",
         ],
         disabled: true,
         visible: false,

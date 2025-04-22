@@ -44,7 +44,7 @@ function scrollToCalculate() {
         </div>
     </section>
 
-    <ModalForm v-model="modalVisible" :type="'Рассрочка'" />
+    <ModalForm v-model="modalVisible" :type="'installment'" />
 </template>
 
 <style lang="scss" scoped>

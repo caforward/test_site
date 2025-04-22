@@ -96,12 +96,24 @@ onMounted(() => {
 const formAttributeType = computed(() => {
     let type = "";
 
+    // типы форм, принимает название, возвращает тип
     const types = {
         "Прошу перезвонить": "callback",
-        "Узнать номер договора": "get-contract-number",
-        "Разблокировать счет": "unblock-account",
-        "Рассрочка": "installment",
+        // "Узнать номер договора": "get-contract-number",
+        // "Разблокировать счет": "unblock-account",
+        // "Рассрочка": "installment",
         "Другое": "other",
+
+        "Запрос на оферту": "installment",
+        "Разблокировка счетов": "account-unblock",
+        "Внесение изменений в БКИ": "",
+        "Информация о долге": "",
+        "Информация о мобилизации": "",
+        "О возврате денежных средств": "",
+        "Отказ от взаимодействия": "",
+        "Претензия": "",
+        "Справка о погашении задолженности": "",
+        "Справка о состоянии задолженности": "",
     }
 
     if (props.formType) {
@@ -128,14 +140,14 @@ const formAttributeType = computed(() => {
 
         <template v-else>
             <!-- installment title. select - Рассрочка -->
-            <template v-if="formInputs.messageType.value === 'Рассрочка'">
+            <template v-if="formAttributeType === 'installment'">
                 <div class="sm:text-2xl text-xl font-bold mb-5">
                     Получить рассрочку
                 </div>
             </template>
 
             <!-- callback title. select - Перезвоните мне -->
-            <template v-else-if="formInputs.messageType.value === 'Прошу перезвонить'">
+            <template v-else-if="formAttributeType === 'callback'">
                 <div class="sm:text-2xl text-xl font-bold mb-2">
                     Заказать звонок
                 </div>
@@ -173,14 +185,14 @@ const formAttributeType = computed(() => {
                     <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
                         :name="input.name" :type="input.type" :placeholder="input.placeholder"
                         :required="input.required" :disabled="input.disabled" :visible="input.visible"
-                        :options="input.options" />
+                        :options="input.options" :minDate="input.minDate" />
                 </template>
 
                 <!-- optional info, choosed by message type select -->
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
 
                     <!-- installment block -->
-                    <template v-if="formInputs.messageType.value === 'Рассрочка'">
+                    <template v-if="formAttributeType === 'installment'">
                         <BaseFormInstallment ref="additionalFormBlock" />
                     </template>
 

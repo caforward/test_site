@@ -85,6 +85,7 @@ const inputs = reactive([
         name: 'paymentDate',
         type: 'date',
         value: new Date(),
+        minDate: new Date(),
         placeholder: 'Дата ежемесячного платежа',
         required: true
     },
@@ -95,7 +96,6 @@ const paymentMonthlyFull = getPaymentMonthly
 // computed, get value
 
 const getPaymentDate = (computed(() => {
-    console.log()
     return getDottedDate(inputData.paymentDate.value)
 }))
 
@@ -162,7 +162,7 @@ onMounted(() => {
         <template v-for="(input, idx) in inputs" :key="idx">
             <BaseInput ref="inputRefs" v-model="inputData[input.name].value" :name="input.name" :type="input.type"
                 :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled"
-                :options="input.options" :min="input.min">
+                :options="input.options" :minDate="input.minDate">
 
                 <template #inputTitle>
                     {{ input.placeholder }}

@@ -25,11 +25,6 @@ function showUnblockAccauntModal() {
     modalDefaultOption.value = 'Разблокировать счет';
     modalVisible.value = true;
 }
-
-function showInstallmentModal() {
-    modalDefaultOption.value = 'Рассрочка';
-    modalVisible.value = true;
-}
 </script>
 
 <template>
@@ -91,8 +86,8 @@ function showInstallmentModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showInstallmentModal">
-                                    Получить рассрочку
+                                    @click.prevent="showModal">
+                                    Оставить обращение
                                 </a>
                             </div>
                         </div>
