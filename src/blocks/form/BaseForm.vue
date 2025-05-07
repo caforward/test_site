@@ -202,10 +202,10 @@ const formAttributeType = computed(() => {
                     </template> -->
 
                     <!-- default -->
-                    <template v-else>
+                    <!-- <template v-else>
                         <BaseInput ref="additionalInput" type="textarea" name="message"
                             placeholder="Кратко опишите Ваш вопрос*" />
-                    </template>
+                    </template> -->
 
                 </template>
             </div>

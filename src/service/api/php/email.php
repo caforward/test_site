@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'email' => 'Email',
         'birthday' => 'День рождения',
         'messageType' => 'Выбрана тема',
-        'message' => 'Текст',
+        // 'message' => 'Текст',
         'companyName' => 'Наименование компании',
         'paymentAmount' => 'Сумма вашего долга',
         'paymentPeriod' => 'Срок погашения',

@@ -22,7 +22,7 @@ function showModal() {
 }
 
 function showUnblockAccauntModal() {
-    modalDefaultOption.value = 'Разблокировать счет';
+    modalDefaultOption.value = 'account-unblock';
     modalVisible.value = true;
 }
 </script>
@@ -99,10 +99,7 @@ function showUnblockAccauntModal() {
                 <swiper-slide class="slider__slide">
                     <div class="custom-container">
                         <div class="slide-content">
-                            <div class="slide-content__title desktop">
-                                Платите столько, <br> сколько можете
-                            </div>
-                            <div class="slide-content__title mobile">
+                            <div class="slide-content__title">
                                 Разблокируем счет
                             </div>
                             <div class="mb-4 slide-content__text slide-content__text_mobile">
@@ -120,25 +117,23 @@ function showUnblockAccauntModal() {
                                 </ol>
                             </div>
                             <div class="slide-content__text">
-                                <p>
-                                    Сумма платежа рассчитывается таким образом, что
-                                    остается комфортной для Вас! С нами Вы забудете
-                                    что когда-то весь Ваш доход уходил на погашение задолженности.
-                                </p>
-                                <p>
-                                    Наши специалисты помогут подобрать ту
-                                    сумму, которую Вам будет комфортно вносить
-                                    для погашения задолженности без ущерба для вашего бюджета.
-                                </p>
+                                <ol class="list">
+                                    <li>
+                                        Разблокируем счет - мы поможем вам вернуть доступ к вашим финансам!
+                                    </li>
+                                    <li>
+                                        Отзовем исполнительные документы - избавьтесь от долговых обязательств и проблем
+                                        с приставами!
+                                    </li>
+                                    <li>
+                                        Начните новую жизнь без долгов - дайте себе второй шанс на финансовую свободу!
+                                    </li>
+                                </ol>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button mobile"
+                                <a href="#" class="button button_blue slide__button"
                                     @click.prevent="showUnblockAccauntModal">
                                     Разблокировать счет
-                                </a>
-
-                                <a href="#" class="button button_blue slide__button desktop" @click.prevent="showModal">
-                                    Получить консультацию
                                 </a>
                             </div>
                         </div>

@@ -203,7 +203,7 @@ onUnmounted(() => {
                                     {{ navLink.name }}
                                 </router-link>
 
-                                <a v-else-if="navLink.name === 'Разблокировать счет'" @click.prevent="showFormModal('Разблокировать счет')"
+                                <a v-else-if="navLink.name === 'Разблокировать счет'" @click.prevent="showFormModal('account-unblock')"
                                     class="header-bottom-nav__link" :href="navLink.href">{{ navLink.name }}</a>
 
                                 <a v-else-if="navLink.name === 'Заказать звонок'"
