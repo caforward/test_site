@@ -25,6 +25,7 @@ function showUnblockAccauntModal() {
     modalDefaultOption.value = 'account-unblock';
     modalVisible.value = true;
 }
+
 </script>
 
 <template>
@@ -139,6 +140,49 @@ function showUnblockAccauntModal() {
                         </div>
                         <div class="slide__img">
                             <img :src='"/images/" + "introSlider/01.jpg"' alt="There was img" />
+                        </div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide class="slider__slide">
+                    <div class="custom-container">
+                        <div class="slide-content">
+                            <div class="slide-content__title">
+                                Отзовём исполнительное <br> производство из ФССП
+                            </div>
+                            <div class="mb-4 slide-content__text slide-content__text_mobile">
+                                <ol class="list">
+                                    <li>
+                                        Отзовём исполнительные документы — избавим от давления приставов.
+                                    </li>
+                                    <li>
+                                        Удалим данные из базы ФССП — вернём репутацию и спокойствие.
+                                    </li>
+                                    <li>
+                                        Официально прекратим взыскание — действуйте, обратитесь к нам!
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="slide-content__text">
+                                <ol class="list">
+                                    <li>
+                                        Отзываем исполнительные документы — избавим вас от давления приставов и постоянных проверок!
+                                    </li>
+                                    <li>
+                                        Удалим информацию из базы ФССП — восстановите свою репутацию и спокойствие!
+                                    </li>
+                                    <li>
+                                        Прекращаем взыскание официально —  возьмите ситуацию в свои руки и обратитесь к нам сегодня!
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="slide-content__buttons">
+                                <a href="#" class="button button_blue slide__button" @click.prevent="showUnblockAccauntModal">
+                                    Отозвать производство
+                                </a>
+                            </div>
+                        </div>
+                        <div class="slide__img">
+                            <img :src='"/images/" + "introSlider/04.png"' alt="There was img" />
                         </div>
                     </div>
                 </swiper-slide>
@@ -495,13 +539,17 @@ function showUnblockAccauntModal() {
 
                 &__text {
                     display: none;
+                    
+                    &_both {
+                        display: unset;
+                    }
 
                     &_mobile {
                         display: block;
                         width: unset;
                         font-size: 16px;
                         line-height: normal;
-                        margin-top: -12px; // нужно будет убрать
+                        margin-top: -12px; // TODO: нужно будет убрать
                         margin-bottom: 14px;
                     }
                 }

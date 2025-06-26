@@ -1,12 +1,10 @@
 <script setup>
 // imports
-import { ref, onBeforeMount, watch, onMounted, reactive, computed } from 'vue'
+import { ref, onBeforeMount, onMounted, reactive, computed } from 'vue'
 
 import BaseButton from '../ui/BaseButton.vue';
-import Checkbox from 'primevue/checkbox';
 import BaseFormInstallment from './BaseFormInstallment.vue';
 import BaseInput from '../ui/BaseInput.vue';
-import BaseFormComplaint from './BaseFormComplaint.vue';
 import BaseCheckbox from '../ui/BaseCheckbox.vue';
 
 // composables
@@ -149,7 +147,7 @@ const formAttributeType = computed(() => {
             <!-- callback title. select - Перезвоните мне -->
             <template v-else-if="formAttributeType === 'callback'">
                 <div class="sm:text-2xl text-xl font-bold mb-2">
-                    Заказать звонок
+                    Оставить обращение
                 </div>
                 <p class="sm:text-base text-sm mb-6 font-normal">
                     Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами, чтобы

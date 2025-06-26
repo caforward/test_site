@@ -50,7 +50,7 @@ async function sendData(formData) {
 
 async function sendRating(rateData) {
     const postData = new FormData()
-    postData.append('rating', rateData.rateValue.value)
+    postData.append('rate', rateData.rateValue.value)
     postData.append('message', rateData.rateMessage.value)
     postData.append('feedback', rateData.rateFeedback.value)
     postData.append('username', userName.value)

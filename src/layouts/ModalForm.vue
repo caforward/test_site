@@ -57,7 +57,7 @@ const props = defineProps({
                 required: true,
                 value: "Информация о долге",
                 options: [
-                    // "Прошу перезвонить",
+                    "Прошу перезвонить",
                     // "Узнать номер договора",
                     // "Разблокировать счет",
                     // "Рассрочка",
@@ -139,7 +139,7 @@ async function sendData(formData) {
 
 async function sendRating(rateData) {
     const postData = new FormData()
-    postData.append('rating', rateData.rateValue.value)
+    postData.append('rate', rateData.rateValue.value)
     postData.append('message', rateData.rateMessage.value)
     postData.append('feedback', rateData.rateFeedback.value)
     postData.append('username', userName.value)
@@ -160,13 +160,13 @@ async function sendRating(rateData) {
 
 function setSelectorByType(type) {
     const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
-    
+
     if (messageTypeInput) {
         if (type) {
             const types = {
                 "callback": 0,
                 "installment": 1,
-                "account-unblock": 5,
+                "account-unblock": 6,
             }
 
             let option = messageTypeInput.options[0]

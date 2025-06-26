@@ -1,10 +1,7 @@
 <script setup>
 import TheHeader from "@/layouts/TheHeader.vue";
 import TheFooter from "@/layouts/TheFooter.vue";
-
 import TheMenuBottom from "@/layouts/TheMenuBottom.vue";
-import { onMounted, ref } from 'vue'
-import BaseNotification from "./blocks/ui/BaseNotification.vue";
 </script>
 
 <template>
@@ -20,7 +17,6 @@ import BaseNotification from "./blocks/ui/BaseNotification.vue";
 
 	<TheFooter />
 
-	<BaseNotification />
 	<TheMenuBottom />
 </template>
 

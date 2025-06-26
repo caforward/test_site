@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import ModalRequisites from "./ModalRequisites.vue";
 import ModalForm from "./ModalForm.vue";
 
@@ -60,13 +60,11 @@ const menuItems = ref([
 		href: "#",
 		modal: {
 			name: "form",
-			type: "callback",
+			type: "account-unblock",
 		},
-		title: "Звонок",
-		icon: 'pi pi-bell'
-		// icon:
-		// 	'<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 32 32" viewBox="0 0 32 32"><script xmlns=""/><path d="m26.974 21.562c-.501-.868-.974-1.686-.974-3.562v-4c0-4.092-2.473-7.613-6-9.159v-.841c0-2.206-1.794-4-4-4s-4 1.794-4 4v.841c-3.527 1.546-6 5.067-6 9.159v4c0 1.876-.473 2.694-.974 3.562-.481.834-1.026 1.778-1.026 3.438 0 1.206.799 3 3 3h5c0 2.206 1.794 4 4 4s4-1.794 4-4h5c2.201 0 3-1.794 3-3 0-1.66-.545-2.604-1.026-3.438zm-12.974-17.562c0-1.103.897-2 2-2s2 .897 2 2v.202c-.646-.132-1.315-.202-2-.202s-1.354.07-2 .202zm2 2c4.411 0 8 3.589 8 8h-16c0-4.411 3.589-8 8-8zm-8 12v-2h16v2c0 .789.078 1.438.197 2h-16.394c.119-.562.197-1.211.197-2zm8 12c-1.103 0-2-.897-2-2h4c0 1.103-.897 2-2 2zm9-4h-18c-.805 0-.988-.55-1-1 0-1.124.318-1.676.758-2.438.102-.176.208-.365.313-.562h17.858c.105.197.211.386.312.562.441.762.759 1.314.759 2.426-.012.462-.194 1.012-1 1.012z"/><script xmlns=""/></svg>',
-	},
+		title: "Разблокировать",
+		icon: 'pi pi-credit-card'
+    },
 	{
 		id: 5,
 		href: "tel:+78043334133",
