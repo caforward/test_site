@@ -26,11 +26,8 @@ function scrollToCalculate() {
                             сможете погасить долг частями в установленные сроки
                         </p>
                         <div class="intro-content__buttons">
-                            <button class="button button_blue intro-content__button" @click="modalVisible = true">
+                            <button class="button button_blue intro-content__button" @click="scrollToCalculate">
                                 Получить рассрочку
-                            </button>
-                            <button class="button intro-content__button" :onclick="scrollToCalculate">
-                                Раcсчитать график платежей
                             </button>
                         </div>
                     </div>

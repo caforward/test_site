@@ -1,16 +1,18 @@
 <template>
     <section class="section mt-14 mb-20">
         <div class="custom-container">
-            <h1 class="text-2xl sm:text-3xl font-bold mb-6">Политика обработки персональных данных и использования
-                файлов cookie</h1>
-            <p class="text-xs sm:text-sm text-gray-500 mb-8">Дата последнего обновления: 10.07.2025</p>
+            <h1 class="heading-2 mb-6">
+                Политика обработки персональных данных и <br>
+                использования файлов cookie
+            </h1>
+            <p class="text-small text-gray-500 mb-8">Дата последнего обновления: 10.07.2025</p>
 
-            <p class="mb-4 leading-relaxed">
+            <p class="mb-4 text-body">
                 Настоящая Политика разработана в соответствии с Федеральным законом РФ от 27 июля 2006 года № 152-ФЗ
                 «О персональных данных» и иными нормативными актами РФ в области защиты персональных данных.
             </p>
 
-            <p class="mb-6 leading-relaxed">
+            <p class="mb-6 text-body">
                 Политика действует в отношении всех персональных данных, которые
                 <strong>ООО ПКО «ФОРВАРД»</strong> (ОГРН 1145476156055, ИНН 5406796664, адрес: 630099, Россия,
                 Новосибирская обл., г. Новосибирск, ул. Урицкого, д. 21, 3 этаж, помещ. 7-16)
@@ -19,8 +21,8 @@
                 <a href="https://caforward.ru" target="_blank" class="text-blue-600 hover:underline break-all">https://caforward.ru</a>.
             </p>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">1. Цели обработки персональных данных</h2>
-            <ul class="list-disc list-inside space-y-2 mb-6 text-base leading-relaxed">
+            <h2 class="heading-3 mb-4">1. Цели обработки персональных данных</h2>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Обработка обращений через формы на сайте;</li>
                 <li>Ответы на обращения;</li>
                 <li>Информирование о результатах рассмотрения обращений;</li>
@@ -30,16 +32,16 @@
                 <li>Обеспечение функционирования и безопасности сайта.</li>
             </ul>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">2. Персональные данные, подлежащие обработке</h2>
-            <p class="mb-4">Оператор обрабатывает:</p>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <h2 class="heading-3 mb-4">2. Персональные данные, подлежащие обработке</h2>
+            <p class="text-body mb-4 font-medium">Оператор обрабатывает:</p>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Фамилию, имя, отчество (если указаны);</li>
                 <li>Телефон;</li>
                 <li>E-mail;</li>
                 <li>Иные сведения, переданные через формы на сайте.</li>
             </ul>
-            <p class="mb-4">Также автоматически собираются:</p>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <p class="text-body mb-4 font-medium">Также автоматически собираются:</p>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>IP-адрес устройства;</li>
                 <li>Данные о местоположении (страна, регион, город);</li>
                 <li>Тип, версия и язык ОС;</li>
@@ -51,59 +53,59 @@
                 <li>Действия на сайте (клики, скроллы и др.).</li>
             </ul>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">3. Правовые основания обработки</h2>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <h2 class="heading-3 mb-4">3. Правовые основания обработки</h2>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Добровольное согласие Пользователя;</li>
                 <li>Необходимость исполнения обязательств Оператора;</li>
                 <li>Законодательство РФ.</li>
             </ul>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">4. Использование файлов cookie</h2>
-            <p class="mb-4">Оператор использует cookie для:</p>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <h2 class="heading-3 mb-4">4. Использование файлов cookie</h2>
+            <p class="text-body mb-4">Оператор использует cookie для:</p>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Корректной работы сайта;</li>
                 <li>Упрощения использования сайта Пользователем;</li>
                 <li>Анализа поведения пользователей и оптимизации сайта;</li>
                 <li>Сбора статистики по взаимодействию с сайтом.</li>
             </ul>
-            <p class="mb-4">
+            <p class="text-body mb-4">
                 Веб-аналитика осуществляется через
                 <a href="https://yandex.ru/legal/confidential/" target="_blank" class="text-blue-600 hover:underline">Яндекс.Метрику</a>.
             </p>
-            <p class="mb-6">
+            <p class="text-body mb-6">
                 Использование сайта с включёнными cookie считается согласием на их использование.
                 Пользователь может отключить cookie в настройках браузера, что может повлиять на работу сайта.
             </p>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">5. Порядок и условия обработки</h2>
-            <p class="mb-4">
+            <h2 class="heading-3 mb-4">5. Порядок и условия обработки</h2>
+            <p class="text-body mb-4">
                 Данные обрабатываются с использованием автоматизации или без неё, в соответствии с законодательством.
                 Оператор применяет правовые, организационные и технические меры для защиты данных.
             </p>
-            <p class="mb-6">
+            <p class="text-body mb-6">
                 Данные хранятся до достижения целей обработки или сроков, установленных законом, после чего уничтожаются
                 или обезличиваются.
             </p>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">6. Передача третьим лицам</h2>
-            <p class="mb-4">Передача возможна в случаях:</p>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <h2 class="heading-3 mb-4">6. Передача третьим лицам</h2>
+            <p class="text-body mb-4">Передача возможна в случаях:</p>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Для предоставления услуг Пользователю;</li>
                 <li>Если это требует законодательство;</li>
                 <li>По запросу госорганов в рамках их полномочий;</li>
                 <li>В рамках сервисов третьих лиц (например, Яндекс.Метрика) по соглашению с Оператором.</li>
             </ul>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">7. Права Пользователя</h2>
-            <ul class="list-disc list-inside space-y-2 mb-6">
+            <h2 class="heading-3 mb-4">7. Права Пользователя</h2>
+            <ul class="blue-dot-list mb-6 text-body">
                 <li>Получать информацию о своих данных;</li>
                 <li>Требовать уточнения, блокировки или удаления данных;</li>
                 <li>Отозвать согласие на обработку, отправив письменное заявление;</li>
                 <li>Осуществлять другие права, предусмотренные законом.</li>
             </ul>
 
-            <h2 class="text-xl sm:text-2xl font-semibold mt-10 mb-4">8. Изменение Политики</h2>
-            <p>
+            <h2 class="heading-3 mb-4">8. Изменение Политики</h2>
+            <p class="text-body">
                 Оператор вправе вносить изменения в Политику. Новая редакция размещается на сайте и вступает в силу с
                 момента публикации.
                 Пользователь обязан самостоятельно следить за актуальностью текста.
@@ -131,18 +133,27 @@ export default defineComponent({
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
-h2 {
-    margin-top: 40px;
-    margin-bottom: 25px;
-}
+.blue-dot-list {
+    &>li {
+        position: relative;
+        padding-left: 20px;
 
-.button {
-    margin-top: 20px;
-    font-weight: 500;
-    margin-bottom: 40px;
-    font-size: 18px;
-    width: 220px;
-    margin-left: auto;
-    margin-right: auto;
+        &:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: .875rem;
+            left: 0;
+            border-radius: 100%;
+            transform: translateY(-50%);
+            background-color: var.$blue;
+            display: block;
+            width: 5px;
+            height: 5px;
+        }
+    }
 }
 </style>
