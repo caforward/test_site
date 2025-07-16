@@ -55,10 +55,20 @@
             if (mangoBtns) {
                 if (localStorage.getItem('cookiesAccepted') || !window.cookiePlateVisible) {
                     mangoBtns.dataset.plateFix = 'false'
-                    mangoBtns.style.setProperty('bottom', '75px', 'important')
+                    mangoBtns.style.setProperty('bottom', '', 'important')
                 } else {
                     mangoBtns.dataset.plateFix = 'true'
-                    mangoBtns.style.setProperty('bottom', '400px', 'important')
+
+                    let height = 300
+
+                    console.log(window.innerWidth)
+                    if (window.innerWidth < 360) {
+                        height = 400
+                    } else if (window.innerWidth < 1024) {
+                        height = 370
+                    }
+
+                    mangoBtns.style.setProperty('bottom', height + 'px', 'important')
                 }
             }
         }
