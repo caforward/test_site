@@ -16,8 +16,6 @@ const props = defineProps({
 
 function openAccordion(e) {
     const accordion = e.target.closest(".accordion");
-    const accordionBody = accordion.querySelector(".accordion__content")
-
     accordion.classList.toggle("accordion_opened");
 }
 

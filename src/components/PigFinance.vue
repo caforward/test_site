@@ -73,7 +73,6 @@ a {
     font-size: 16px;
     font-weight: 500;
     line-height: 30px;
-    letter-spacing: 0%;
 }
 
 button {
@@ -82,7 +81,6 @@ button {
     font-size: 16px;
     font-weight: 500;
     line-height: 30px;
-    letter-spacing: 0%;
     width: 212px;
     height: 50px;
     border-radius: 30px;
@@ -102,7 +100,7 @@ img {
         width: 193px;
         height: 50px;
         font-size: 14px;
-        font-weight: 500px;
+        font-weight: 500;
     }
 
     .textContainer {
@@ -110,7 +108,7 @@ img {
     }
 
     .imageContainer {
-        margin-top: 0px;
+        margin-top: 0;
 
         img {
             width: 447px;
@@ -138,7 +136,7 @@ img {
     .imageContainer {
         padding-top: 153px;
         padding-right: 31px;
-        margin-top: 0px;
+        margin-top: 0;
 
         img {
             width: 227px;

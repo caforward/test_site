@@ -161,14 +161,13 @@ h3 {
     font-weight: 600;
     font-size: 28px;
     line-height: 30px;
-    letter-spacing: 0%;
     margin-bottom: 20px;
     height: auto;
 }
 
 
 .wrapButt {
-    padding: 0px 40px 60px 40px;
+    padding: 0 40px 60px 40px;
 
     button {
         @include mixin.buttonDetails;
@@ -196,7 +195,7 @@ h3 {
 @media screen and (max-width: 1370px) and (min-width: 1025px) {
     h3 {
         font-size: 24px;
-        font-weight: 600px;
+        font-weight: 600;
     }
 
     .textElements {
@@ -233,7 +232,7 @@ h3 {
     }
 
     .imgContainer {
-        margin-top: 0px;
+        margin-top: 0;
         padding-top: 32px;
     }
 
@@ -248,12 +247,12 @@ h3 {
     }
 
     .textElements {
-        padding: 32px 30px 0px 0px;
+        padding: 32px 30px 0 0;
     }
 
     h3 {
         font-size: 22px;
-        font-weight: 600px;
+        font-weight: 600;
     }
 
     .wrapButt {
@@ -303,7 +302,7 @@ h3 {
 
 
     .imgContainer {
-        margin-top: 0px;
+        margin-top: 0;
         padding-top: 32px;
         margin-bottom: 21px;
 
@@ -318,7 +317,7 @@ h3 {
 
 
     .textElements {
-        padding: 0 24px 0px 22px;
+        padding: 0 24px 0 22px;
     }
 
     h3 {
@@ -328,7 +327,7 @@ h3 {
     }
 
     .wrapButt {
-        padding: 0px 0px 22px 22px;
+        padding: 0 0 22px 22px;
 
         .button {
             font-size: 14px;

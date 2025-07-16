@@ -1,6 +1,6 @@
 <script setup>
 import VueEasyLightbox from 'vue-easy-lightbox'
-import {defineComponent, ref} from "vue";
+import {ref} from "vue";
 
 const visibleRef = ref(false)
 const indexRef = ref(0)

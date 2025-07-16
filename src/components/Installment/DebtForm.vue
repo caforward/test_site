@@ -364,7 +364,7 @@ watch(
 
         &__thumb {
             display: block;
-            width: 0%;
+            width: 0;
             height: 100%;
             border-radius: 5px;
             background-color: var.$blue-light;

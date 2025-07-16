@@ -68,7 +68,6 @@ section {
         font-size: 16px;
         font-weight: 400;
         line-height: 30px;
-        letter-spacing: 0%;
         color: rgb(46, 46, 46);
     }
 
@@ -77,8 +76,6 @@ section {
         font-size: 24px;
         font-weight: 700;
         line-height: 30px;
-        letter-spacing: 0%;
-
     }
 
     .mail {
@@ -86,8 +83,6 @@ section {
         font-size: 24px;
         font-weight: 700;
         line-height: 30px;
-        letter-spacing: 0%;
-
     }
 }
 
@@ -135,7 +130,6 @@ h3 {
     font-size: 36px;
     font-weight: 700;
     line-height: 44px;
-    letter-spacing: 0%;
     margin-bottom: 21px;
 }
 
@@ -145,7 +139,6 @@ h3 {
     font-size: 16px;
     font-weight: 400;
     line-height: 30px;
-    letter-spacing: 0%;
     color: rgb(46, 46, 46);
     margin-bottom: 32px;
 }
@@ -257,7 +250,7 @@ h3 {
 
 @media screen and (max-width: 640.5px) {
     section {
-        padding-top: 0px;
+        padding-top: 0;
     }
 
     h3 {
@@ -292,7 +285,7 @@ h3 {
     }
 
     .phoneEmailContainer {
-        gap: 0px;
+        gap: 0;
         display: flex;
         flex-direction: column;
 
@@ -300,7 +293,7 @@ h3 {
 
         .bottParagraph {
             font-size: 14px;
-            font-weight: 500px;
+            font-weight: 500;
         }
     }
 

@@ -12,7 +12,7 @@
                     <div class="plates-item__title">
                         {{ item.percentage }}
                     </div>
-                    <span class="plates-item__text" v-html="item.text" </span>
+                    <span class="plates-item__text" v-html="item.text"></span>
                 </div>
             </div>
         </div>

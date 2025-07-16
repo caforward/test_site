@@ -250,7 +250,7 @@ img {
 
     .under-content-wrap {
         max-width: 920px;
-        padding-left: 0px;
+        padding-left: 0;
     }
 
     .under-content {
@@ -334,7 +334,7 @@ img {
 
     .under-content-wrap {
         max-width: 920px;
-        padding-left: 0px;
+        padding-left: 0;
     }
 
     .under-content {
@@ -422,7 +422,7 @@ img {
 
     .under-content-wrap {
         max-width: 920px;
-        padding-left: 0px;
+        padding-left: 0;
     }
 
     .under-content {
