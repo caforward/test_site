@@ -3,8 +3,8 @@
         <div class="custom-container">
             <div class="faq__wrapper">
                 <div class="faq__head">
-                    <h2 class="faq__title">Вопросы и ответы</h2>
-                    <p class="faq__text">
+                    <div class="heading-3 mb-4">Вопросы и ответы</div>
+                    <p class="text-body">
                         Для клиентов и их близких наши специалисты подготовили
                         список ответов на популярные вопросы, которые
                         задают сотрудникам нашего контакт-центра.

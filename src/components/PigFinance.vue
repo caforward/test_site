@@ -3,8 +3,8 @@
         <div class="custom-container">
             <div class="flexContainer">
                 <div class="textContainer">
-                    <h3>Обращаем ваше внимание!</h3>
-                    <p>
+                    <div class="heading-3 mb-2">Обращаем ваше внимание!</div>
+                    <p class="text-body mb-6">
                         Обращаем Ваше внимание на то, что с даты уступки прав
                          требований по Вашему договору ООО ПКО «ФОРВАРД»  уже 
                          уменьшило процентную ставку <b>по каждому</b>  Договору Займа 
@@ -67,27 +67,6 @@ section {
     width: 65%;
 }
 
-
-h3 {
-    white-space: pre-line;
-    font-family: "Montserrat", sans-serif;
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 34px;
-    letter-spacing: 0%;
-    margin-bottom: 13px;
-}
-
-p {
-    font-family: "Montserrat", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 30px;
-    letter-spacing: 0%;
-    margin-bottom: 21px;
-    width: 89%;
-}
-
 a {
     color: rgb(255, 255, 255);
     font-family: "Montserrat", sans-serif;
@@ -119,17 +98,6 @@ img {
 }
 
 @media screen and (max-width: 1370px) and (min-width: 1025px) {
-    h3 {
-        font-size: 24px;
-        font-weight: 600px;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 400px;
-        width: 85%;
-    }
-
     button {
         width: 193px;
         height: 50px;
@@ -152,17 +120,6 @@ img {
 }
 
 @media screen and (max-width: 1024px) and (min-width: 641px) {
-    h3 {
-        font-size: 22px;
-        font-weight: 600;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 400;
-        width: 85%;
-    }
-
     button {
         width: 193px;
         height: 50px;
@@ -191,19 +148,6 @@ img {
 }
 
 @media screen and (max-width: 640.5px) {
-    h3 {
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 400;
-        width: 100%;
-        margin-bottom: 21px;
-
-    }
-
     button {
         width: 193px;
         height: 50px;

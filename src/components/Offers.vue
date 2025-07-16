@@ -8,9 +8,9 @@ import PayFormQr from '../blocks/PayFormQr.vue';
 <template>
     <section class="payment">
         <div id="payment" class="custom-container">
-            <h2 class="payment__title">
+            <div class="heading-2 mb-6">
                 Попрощайтесь с долгами онлайн <br> на своих условиях
-            </h2>
+            </div>
             <div class="payment__blocks">
                 <div class="payment-block">
                     <h3 class="payment-block__title">
@@ -33,7 +33,7 @@ import PayFormQr from '../blocks/PayFormQr.vue';
                         <h3 class="payment-block__title">
                             Рассчитать график платежей
                         </h3>
-                        <p class="payment-block__text">
+                        <p class="text-body mb-5">
                             Воспользуйтесь этой формой, чтобы рассчитать удобный для вас график платежей. Сделать это
                             легко:
                             просто выберите сумму вашего долга, настройте срок погашения – и вы увидите, каким будет

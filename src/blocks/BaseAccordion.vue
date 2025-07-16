@@ -37,7 +37,7 @@ onMounted(() => {
 <template>
     <ul ref="accordions" class="accordions">
         <li class="accordion" v-for="(item, idx) in props.accordionData" :key="idx">
-            <h3 class="accordion-title" @click="openAccordion">
+            <h3 class="font-bold accordion-title" @click="openAccordion">
                 {{ item.title }}
                 <span class="accordion-title__icon">
                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">

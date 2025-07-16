@@ -1,41 +1,76 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 
 <head>
-	<meta charset="UTF-8" />
-	<!-- <base href="/"> -->
-	<link rel="icon" type="image/svg+xml" href="assets/images/logo-small.svg" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-	<title>Форвард</title>
+    <meta charset="UTF-8"/>
+    <!-- <base href="/"> -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo-small.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>Форвард</title>
 
 </head>
 
 <body>
-    <!-- Mango -->
-    <style>
-        @media (max-width: 1023px) {
-            .mgo-mcw-widget {
-                bottom: 100px;
+<!-- Mango -->
+<style>
+    .mgo-mcw-widget[data-plate-fix="true"] {
+        bottom: 300px;
+    }
+
+    @media (max-width: 1023px) {
+        .mgo-mcw-widget {
+            bottom: 100px;
+        }
+
+        .mgo-mcw-widget[data-plate-fix="true"] {
+            bottom: 380px;
+        }
+    }
+
+    @media (max-width: 798px) {
+        .mgo-mcw-widget {
+            bottom: 80px;
+        }
+
+        .mgo-mcw-widget[data-plate-fix="true"] {
+            bottom: 350px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .mgo-mcw-widget {
+            bottom: 75px;
+        }
+
+        .mgo-mcw-widget[data-plate-fix="true"] {
+            bottom: 400px;
+        }
+    }
+</style>
+<script>
+    try {
+        window.checkCookiesAccepted = () => {
+            const mangoBtns = document.getElementById('mgo-mcw-widget')
+
+            if (mangoBtns) {
+                if (localStorage.getItem('cookiesAccepted') || !window.cookiePlateVisible) {
+                    mangoBtns.dataset.plateFix = 'false'
+                    mangoBtns.style.setProperty('bottom', '75px', 'important')
+                } else {
+                    mangoBtns.dataset.plateFix = 'true'
+                    mangoBtns.style.setProperty('bottom', '400px', 'important')
+                }
             }
         }
 
-        @media (max-width: 798px) {
-            .mgo-mcw-widget {
-                bottom: 80px;
+        (function (w, d, u, i, o, s, p) {
+            if (d.getElementById(i)) {
+                return;
             }
-        }
-
-        @media (max-width: 600px) {
-            .mgo-mcw-widget {
-                bottom: 75px;
-            }
-        }
-    </style>
-    <script>
-        (function(w, d, u, i, o, s, p) {
-            if (d.getElementById(i)) { return; }
             w['MangoObject'] = o;
-            w[o] = w[o] || function() { (w[o].q = w[o].q || []).push(arguments) };
+            w[o] = w[o] || function () {
+                (w[o].q = w[o].q || []).push(arguments)
+            };
             w[o].u = u;
             w[o].t = 1 * new Date();
             s = d.createElement('script');
@@ -45,35 +80,76 @@
             s.charset = 'utf-8';
             p = d.getElementsByTagName('script')[0];
             p.parentNode.insertBefore(s, p);
-        })(window, document, '//widgets.mango-office.ru/widgets/mango.js', 'mango-js', 'mgo');
+        }(window, document, '//widgets.mango-office.ru/widgets/mango.js', 'mango-js', 'mgo'));
+        mgo({multichannel: {id: 27429}});
 
-        mgo({ multichannel: { id: 27429 } });
-    </script>
-	<!-- Yandex.Metrika counter -->
-	<script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
-	<script type="text/javascript">
-		(function (m, e, t, r, i, k, a) {
-			m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
-			m[i].l = 1 * new Date();
-			for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
-			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-		})
-			(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        document.addEventListener('DOMContentLoaded', () => {
+            // Наблюдаем за появлением Mango-элемента
+            const waitForMango = setInterval(() => {
+                const el = document.getElementById('mgo-mcw-widget')
+                if (el) {
+                    clearInterval(waitForMango)
+                    window.checkCookiesAccepted()
 
-		ym(95726509, "init", {
-			clickmap: true,
-			trackLinks: true,
-			accurateTrackBounce: true,
-			webvisor: true,
-			ecommerce: "dataLayer"
-		});
-	</script>
-	<!-- Yandex.Metrika counter -->
-	<div id="app"></div>
-	<script type="module" src="/src/main.ts"></script>
-	<noscript>
-		<div><img src="https://mc.yandex.ru/watch/95726509" style="position:absolute; left:-9999px;" alt="" /></div>
-	</noscript>
+                    // Наблюдаем за изменением классов
+                    const observer = new MutationObserver((mutationsList) => {
+                        for (const mutation of mutationsList) {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                                console.log('[Mango] Класс изменён:', el.className)
+                                window.checkCookiesAccepted()
+                            }
+                        }
+                    })
+
+                    observer.observe(el, {
+                        attributes: true,
+                        attributeFilter: ['class']
+                    })
+                }
+            }, 200)
+
+            window.cookiePlateVisible = true
+            window.addEventListener('resize', window.checkCookiesAccepted)
+        })
+    } catch (e) {
+        console.log('Mango ошибка', e)
+    }
+</script>
+<!-- Yandex.Metrika counter -->
+<script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+<script type="text/javascript">
+    try {
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(95726509, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true,
+            ecommerce: "dataLayer"
+        });
+    } catch (e) {
+        console.log('Яндекс метрика ошибка')
+    }
+</script>
+<!-- Yandex.Metrika counter -->
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/95726509" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 </body>
 
 </html>

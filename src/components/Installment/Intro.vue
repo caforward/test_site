@@ -19,8 +19,8 @@ function scrollToCalculate() {
                 <template v-slot:content>
                     <div class="intro-content">
                         <BaseBreadcrumb class="breadcrumb" />
-                        <h1 class="intro-content__title">Получить рассрочку</h1>
-                        <p class="intro-content__text">
+                        <div class="heading-2 mb-5">Получить рассрочку</div>
+                        <p class="text-body mb-5">
                             Рассрочка платежей – один из вариантов взаимодействия с коллекторами, который может стать
                             для Вас решением даже очень сложной финансовой ситуации. Этот формат подразумевает, что Вы
                             сможете погасить долг частями в установленные сроки

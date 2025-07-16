@@ -11,10 +11,10 @@ import IntroBlock from "../../blocks/IntroBlock.vue";
                     <div class="intro-content">
                         <BaseBreadcrumb class="breadcrumb" />
                         <div class="intro-content__wrapper">
-                            <h1 class="intro-content__title">
+                            <div class="heading-3 mb-4">
                                 Будь в команде мечты Развивайся и покоряй высоты
-                            </h1>
-                            <p class="intro-content__text">
+                            </div>
+                            <p class="text-body">
                                 На данный момент в ООО Форвард открыты следующие вакансии. Если вы хотите работать в
                                 современной и перспективной финансовой компании – свяжитесь с нами.
                             </p>

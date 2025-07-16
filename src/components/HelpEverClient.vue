@@ -1,7 +1,9 @@
 <template>
     <section>
         <div class="custom-container">
-            <div class="upText">Поможем каждому клиенту</div>
+            <div class="heading-2 mb-6">
+                Поможем каждому клиенту
+            </div>
             <div class="flexContainer">
 
                 <div v-if="isLaptop === false" v-for="item in items" :key="item.id"
@@ -9,8 +11,8 @@
                     <div class="content">
                         <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
                         <div class="textElements">
-                            <h3>{{ item.textH3 }}</h3>
-                            <p>{{ item.textParagr }}</p>
+                            <div class="heading-3 mb-2">{{ item.textH3 }}</div>
+                            <p class="text-body">{{ item.textParagr }}</p>
                         </div>
                     </div>
                     <div class="wrapButt">
@@ -164,15 +166,6 @@ h3 {
     height: auto;
 }
 
-p {
-    white-space: pre-line;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 28px;
-    letter-spacing: 0%;
-    margin-bottom: 20px;
-}
-
 
 .wrapButt {
     padding: 0px 40px 60px 40px;
@@ -204,11 +197,6 @@ p {
     h3 {
         font-size: 24px;
         font-weight: 600px;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 500px;
     }
 
     .textElements {
@@ -266,12 +254,6 @@ p {
     h3 {
         font-size: 22px;
         font-weight: 600px;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 500px;
-        margin-bottom: 0px;
     }
 
     .wrapButt {
@@ -343,12 +325,6 @@ p {
         font-size: 18px;
         font-weight: 600;
         margin-bottom: 3px;
-    }
-
-    p {
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 0px;
     }
 
     .wrapButt {

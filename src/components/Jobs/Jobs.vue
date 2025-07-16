@@ -1,22 +1,24 @@
 <template>
     <section class="vacancy">
         <div class="custom-container">
-            <h2 class="vacancy__title">Вакансии</h2>
+            <h2 class="heading-3 mb-5">
+                Вакансии
+            </h2>
             <div class="vacancy__items">
 
                 <div class="vacancy-item" v-for="(item, index) in displayedItems" :key="index">
 
-                    <h3 class="vacancy-item__title font-bold">{{ item.title }}</h3>
+                    <h3 class="heading-4 mb-2">{{ item.title }}</h3>
 
                     <div class="vacancy-item__inner">
                         <div class="vacancy-item-content">
-                            <p class="vacancy-item-content__text">{{ item.description }} </p>
+                            <p class="text-body mb-5">{{ item.description }} </p>
                             <div class="vacancy-item-content-meta">
                                 <div class="vacancy-item-content-meta__item">
                                     <div class="vacancy-item-content-meta__img">
                                         <img src="/images/jobs/img3.png" alt="there was a img">
                                     </div>
-                                    <p class="vacancy-item-content-meta__text">
+                                    <p class="text-body font-medium">
                                         {{ item.schedule }}
                                     </p>
                                 </div>
@@ -24,7 +26,7 @@
                                     <div class="vacancy-item-content-meta__img">
                                         <img src="/images/jobs/img4.png" alt="there was a img">
                                     </div>
-                                    <p class="vacancy-item-content-meta__text">
+                                    <p class="text-body font-medium">
                                         {{ item.salary }}
                                     </p>
                                 </div>
@@ -44,7 +46,7 @@
 
             </div>
             <button @click="showMore" class="vacancy-button button"><img src="/images/jobs/img5.png"
-                    alt="there was a img">
+                                                                         alt="there was a img">
                 {{ btnText }}
             </button>
         </div>
@@ -55,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import {defineComponent} from "vue"
 import FormFooterVue from "../About/FormFooter.vue";
 
 export default defineComponent({
@@ -163,11 +165,6 @@ section {
             margin-bottom: 30px;
         }
 
-        &__title {
-            line-height: 167%;
-            margin-bottom: 15px;
-        }
-
         &-content {
             width: 100%;
             flex: 1;
@@ -195,10 +192,6 @@ section {
                     height: 20px;
                     margin-right: 10px;
                     flex: none;
-                }
-
-                &__text {
-                    line-height: 187%;
                 }
             }
         }
@@ -259,22 +252,11 @@ section {
                 gap: 20px;
             }
 
-            &__title {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-
             &-content {
                 flex: none;
 
                 &__text {
                     font-size: 14px;
-                }
-
-                &-meta {
-                    &__text {
-                        font-size: 14px;
-                    }
                 }
             }
 
@@ -294,11 +276,6 @@ section {
 
         &-item {
             padding: 30px 25px;
-
-            &__title {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
 
             &-content {
                 &__text {

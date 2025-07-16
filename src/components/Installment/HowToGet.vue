@@ -37,8 +37,10 @@ const contentArr = ref([
 <template>
     <section class="section">
         <div class="custom-container">
-            <h2>Как получить рассрочку?</h2>
-            <p>
+            <div class="heading-2 mb-2">
+                Как получить рассрочку?
+            </div>
+            <p class="text-body mb-6">
                 Первое, что от Вас требуется – проявить заинтересованность
                 в сотрудничестве и готовность к совместному решению проблемы.
                 Для этого нужно как можно скорее связаться с компанией «Форвард»
@@ -50,8 +52,8 @@ const contentArr = ref([
             <div class="flex-container">
                 <div class="content-wrap" v-for="content in contentArr" :key="content.id">
                     <img :src="content.src" alt="img">
-                    <h4 class="font-bold text-lg mb-2">{{ content.pBold }}</h4>
-                    <p>{{ content.p }}</p>
+                    <div class="heading-5 mb-2">{{ content.pBold }}</div>
+                    <p class="text-body">{{ content.p }}</p>
                 </div>
                 <div class="content-wrap last-content">
                     <h4 class="font-bold text-lg mb-2">Нужна консультация</h4>
@@ -66,7 +68,7 @@ const contentArr = ref([
                 </div>
             </div>
             <div class="under-content-wrap">
-                <p class="under-content">
+                <p class="text-body mb-6">
                     Первое, что от Вас требуется – проявить заинтересованность в сотрудничестве и
                     готовность к совместному решению проблемы. Для этого нужно как можно
                     скорее связаться с компанией «Форвард» и сообщить о том, что Вы готовы
@@ -79,15 +81,15 @@ const contentArr = ref([
                     которое, в свою очередь, идет на уступки и дает возможность оплатить задолженность
                     на новых условиях.
                 </p>
-                <h2 class="agree-content">
+                <h2 class="heading-3 mb-4">
                     В соглашении обязательно указываются:
                 </h2>
-                <ul class="agree-lists">
+                <ul class="agree-lists text-body">
                     <li>персональные сведения кредитора и заемщика;</li>
                     <li>номер и название документа, по которому финансовые средства были переданы;</li>
                     <li>новые условия выплат – график и размер платежей и т.д.</li>
                 </ul>
-                <p class="agree-paragraph">
+                <p class="text-body">
                     Компания «Форвард» крайне не рекомендует пытаться скрываться
                     от коллекторов и отказываться платить – если кредитная
                     организация не пошла Вам навстречу и уступила просроченную
@@ -122,10 +124,6 @@ const contentArr = ref([
     padding-bottom: 73px;
 }
 
-h2 {
-    margin-bottom: 24px;
-}
-
 .content-wrap {
     border-radius: 30px;
     background: #f3f7fa;
@@ -138,20 +136,6 @@ h2 {
         margin-top: 20px;
         width: fit-content;
     }
-}
-
-h2 {
-    font-weight: 600;
-    font-size: 28px;
-    line-height: 121%;
-    color: #2e2e2e;
-}
-
-p {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 171%;
-    color: #2e2e2e;
 }
 
 a {
@@ -212,10 +196,6 @@ img {
         position: relative;
         padding-left: 16px;
         margin-bottom: 10px;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 187%;
-        color: #2e2e2e;
 
         &::before {
             content: '';
@@ -242,21 +222,6 @@ img {
         min-height: 422px;
     }
 
-    h2 {
-        margin-bottom: 24px;
-        font-weight: 600;
-        font-size: 28px;
-        line-height: 121%;
-        color: #2e2e2e;
-    }
-
-    p {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 187%;
-        color: #2e2e2e;
-    }
-
     img {
         width: 60px;
         height: 60px;
@@ -271,14 +236,6 @@ img {
         margin-top: 43px;
         margin-bottom: 50px;
 
-        h2 {
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 24px;
-            line-height: 125%;
-            color: #2e2e2e;
-        }
-
         .last-content {
             padding: 120px 26px 90px 26px;
         }
@@ -288,12 +245,6 @@ img {
             font-size: 15px;
             line-height: 200%;
             color: #2e2e2e;
-        }
-
-        p {
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 171%;
         }
     }
 
@@ -326,10 +277,6 @@ img {
             position: relative;
             padding-left: 16px;
             margin-bottom: 10px;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 214%;
-            color: #2e2e2e;
 
             &::before {
                 content: '';
@@ -359,19 +306,6 @@ img {
         min-height: 362px;
     }
 
-    h2 {
-        font-weight: 600;
-        font-size: 22px;
-        line-height: 155%;
-        margin-bottom: 14px;
-    }
-
-    p {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 171%;
-    }
-
     img {
         width: 60px;
         height: 60px;
@@ -386,14 +320,6 @@ img {
         margin-top: 25px;
         margin-bottom: 32px;
 
-        h2 {
-            margin-bottom: 25px;
-            font-weight: 600;
-            font-size: 22px;
-            line-height: 136%;
-            color: #2e2e2e;
-        }
-
         .last-content {
             padding: 60px 26px 119px 26px;
         }
@@ -403,12 +329,6 @@ img {
             font-size: 16px;
             line-height: 150%;
             color: #2e2e2e;
-        }
-
-        p {
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 171%;
         }
     }
 
@@ -440,9 +360,6 @@ img {
             position: relative;
             padding-left: 16px;
             margin-bottom: 10px;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 214%;
             color: #2e2e2e;
 
             &::before {
@@ -477,13 +394,6 @@ img {
         min-height: 323px;
     }
 
-    h2 {
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 189%;
-        margin-bottom: 10px;
-    }
-
     img {
         width: 60px;
         height: 60px;
@@ -498,14 +408,6 @@ img {
         margin-top: 28px;
         margin-bottom: 32px;
 
-        h2 {
-            margin-bottom: 25px;
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 167%;
-            color: #2e2e2e;
-        }
-
         .last-content {
             padding: 30px 30px 31px 30px;
         }
@@ -515,12 +417,6 @@ img {
             font-size: 14px;
             line-height: 171%;
             color: #2e2e2e;
-        }
-
-        p {
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 171%;
         }
     }
 
@@ -552,10 +448,6 @@ img {
             position: relative;
             padding-left: 16px;
             margin-bottom: 10px;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 171%;
-            color: #2e2e2e;
 
             &::before {
                 content: '';

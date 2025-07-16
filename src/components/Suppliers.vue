@@ -6,10 +6,10 @@ import CompaniesSlider from "../blocks/CompaniesSlider.vue";
 <template>
     <section class="suppliers">
         <div class="custom-container">
-            <h2 class="suppliers__title">
+            <div class="heading-2 mb-5">
                 Нам доверяют не только клиенты, <br> но и многие компании
-            </h2>
-            <p class="suppliers__text">
+            </div>
+            <p class="text-body mb-5">
                 Мы активно расширяем ряды наших партнеров. Они выбрали нас, потому что мы имеем общие ценности: для нас
                 важен не только постоянный рост и высокая
                 эффективность бизнеса, но и человеческий подход, когда каждый клиент ценен и важен.

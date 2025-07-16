@@ -1,4 +1,10 @@
 <script setup>
+const props = defineProps({
+    isOverlay: {
+        type: Boolean,
+        default: true
+    }
+})
 const emit = defineEmits(['closeModal'])
 </script>
 

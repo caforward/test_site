@@ -57,10 +57,10 @@ watch(
                     <div class="block__right">
                         <div class="card">
                             <div class="card__wrapper">
-                                <div class="card__title">
+                                <h3 class="sm:text-2xl text-xl font-bold mb-2">
                                     Рассчитать график платежей
-                                </div>
-                                <div class="card__text">
+                                </h3>
+                                <div class="text-body mb-4">
                                     Сделать это легко: просто выберите сумму вашего долга, настройте срок
                                     погашения
                                     – и вы увидите, каким будет ежемесячный платеж.

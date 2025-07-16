@@ -62,15 +62,15 @@ export default {
             <div class="form__inner">
                 <div class="plates">
                     <div class="plates-item plates-item_top">
-                        <h2 class="plates-item__title">Кого мы ищем</h2>
-                        <p>
+                        <div class="heading-3 mb-2">Кого мы ищем</div>
+                        <p class="text-body">
                             От кандидатов нам также нужно умение и опыт работы с большими массивами информации, а также
                             владение основными офисными компьютерными программами – MS Word, MS Excel и 1С.
                         </p>
                     </div>
                     <div class="plates-item plates-item_bottom">
                         <h2 class="plates-item__title">Мы предлагаем кандидатам комфортные условия труда:</h2>
-                        <ul>
+                        <ul class="text-body">
                             <li>Официальное трудоустройство с 1-го дня;</li>
                             <li>100% белая зарплата дважды в месяц, без задержек;</li>
                             <li>Все соц.гарантии по ТК РФ;</li>
@@ -84,11 +84,11 @@ export default {
                 <FormBlock :inputs=inputs @submitted="showThankModal">
                     <template v-slot:info>
                         <div class="form-block-info">
-                            <h2 class="form-block-info__title">
+                            <div class="heading-3 mb-2">
                                 Станьте частью команды
-                            </h2>
-                            <p class="form-block-info__text">
-                                Заполните данные, а наш HR-менеджер свяжется с вами в ближайшее время
+                            </div>
+                            <p class="text-body">
+                                Заполните данные, а наш HR-менеджер свяжется с вами в ближайшее время
                             </p>
                         </div>
                     </template>
@@ -179,8 +179,6 @@ section {
             }
 
             &__text {
-                line-height: 175%;
-
                 &_meta {
                     font-size: 14px;
                     line-height: 171%;
@@ -201,15 +199,6 @@ section {
     .plates {
         &-item {
             padding: 40px 30px;
-
-            &>ul,
-            &>p {
-                font-size: 14px;
-
-                &>li {
-                    margin-bottom: 5px;
-                }
-            }
         }
     }
 
@@ -217,12 +206,6 @@ section {
         &-block {
             gap: 25px;
             padding: 40px 30px;
-
-            &-info {
-                &__text {
-                    font-size: 14px;
-                }
-            }
         }
     }
 }
@@ -281,11 +264,6 @@ section {
             &-info {
                 &__title {
                     font-size: 18px;
-                }
-
-                &__text {
-                    font-size: 14px;
-                    margin-bottom: 15px;
                 }
             }
         }

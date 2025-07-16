@@ -8,7 +8,7 @@
                         <div class="advantages-plates-item__img">
                             <img :src="'/images/' + plate.imgSrc" alt="" />
                         </div>
-                        <div class="advantages-plates-item__text">
+                        <div class="text-body">
                             {{ plate.text }}
                         </div>
                     </div>
@@ -91,10 +91,6 @@ section {
                 height: 60px;
                 margin-bottom: 30px;
             }
-
-            &__text {
-                line-height: 175%;
-            }
         }
     }
 }
@@ -107,11 +103,6 @@ section {
         &-plates {
             grid-gap: 30px;
             grid-row-gap: 55px;
-            &-item {
-                &__text {
-                    font-size: 14px;
-                }
-            }
         }
     }
 }

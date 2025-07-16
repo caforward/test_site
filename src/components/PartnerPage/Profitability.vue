@@ -1,10 +1,10 @@
 <template>
     <section>
         <div class="custom-container">
-            <h2 class="title">
+            <div class="heading-3 mb-4">
                 Рентабельность компании
-            </h2>
-            <p class="text">
+            </div>
+            <p class="text-body mb-4">
                 На 31.12.2020 показатели рентабельности ООО ПКО «Форвард» следующие:
             </p>
             <div class="plates">

@@ -1,10 +1,10 @@
 <template>
     <section>
         <div class="custom-container">
-            <h2 class="title">
+            <div class="heading-3 mb-4">
                 Наши облигации
-            </h2>
-            <p class="text">
+            </div>
+            <p class="text-body mb-6">
                 Общий объем программы составляет 500 миллионов рублей, которые распределены следующим образом:
             </p>
             <div class="points">

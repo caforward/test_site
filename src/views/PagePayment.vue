@@ -30,7 +30,7 @@ import BaseButton from '../blocks/ui/BaseButton.vue';
                         <h3 class="payment-block__title">
                             Рассчитать график платежей
                         </h3>
-                        <p class="payment-block__text">
+                        <p class="text-body mb-5">
                             Воспользуйтесь этой формой, чтобы рассчитать удобный для вас график платежей. Сделать это
                             легко:
                             просто выберите сумму вашего долга, настройте срок погашения – и вы увидите, каким будет

@@ -47,10 +47,10 @@ export default {
             <FormBlock :inputs=inputs @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">
-                        <h2 class="form-block-info__title">
+                        <div class="heading-3 mb-4">
                             Стать партнером
-                        </h2>
-                        <p class="form-block-info__text">
+                        </div>
+                        <p class="text-body mb-4">
                             Если вас заинтересовало сотрудничество с ПКО «Форвард» – свяжитесь с нами любым удобным
                             способом, и мы предложим вам уникальный и взаимовыгодный вариант партнерства.
                         </p>
@@ -83,9 +83,6 @@ section {
     }
 
     &__text {
-        line-height: 187%;
-        margin-bottom: 25px;
-
         &_meta {
             font-size: 14px;
             line-height: 171%;
@@ -105,10 +102,6 @@ section {
                 &__title {
                     font-size: 22px;
                 }
-
-                &__text {
-                    font-size: 14px;
-                }
             }
         }
     }
@@ -123,11 +116,6 @@ section {
             &-info {
                 &__title {
                     font-size: 18px;
-                    margin-bottom: 15px;
-                }
-
-                &__text {
-                    font-size: 14px;
                     margin-bottom: 15px;
                 }
             }

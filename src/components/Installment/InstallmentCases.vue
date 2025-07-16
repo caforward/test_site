@@ -1,9 +1,9 @@
 <template>
     <section class="section">
         <div class="custom-container">
-            <h2 class="title">
+            <div class="heading-3 mb-6">
                 Рассрочка может стать доступной в следующих случаях:
-            </h2>
+            </div>
             <div class="cards">
                 <div class="cards-card">
                     <div class="cards-card__number">

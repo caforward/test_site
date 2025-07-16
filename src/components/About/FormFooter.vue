@@ -66,7 +66,7 @@ export default {
                             Остались вопросы?<br />
                             Напишите нам, и мы свяжемся с вами. 
                         </h2>
-                        <p class="form-block-info__text">
+                        <p class="form-block-info__text text-body">
                             Наши специалисты получают все заявки на обратную связь и
                             отвечают на них максимально быстро. <br /><br />
                             Просто введите свои контактные данные и ФИО, кратко опишите
@@ -103,7 +103,6 @@ section {
     }
 
     &__text {
-        line-height: 175%;
         margin-bottom: 50px;
 
         &_meta {
@@ -124,10 +123,6 @@ section {
             &-info {
                 &__title {
                     font-size: 22px;
-                }
-
-                &__text {
-                    font-size: 14px;
                 }
             }
         }

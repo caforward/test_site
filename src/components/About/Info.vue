@@ -2,12 +2,12 @@
     <section class="info">
         <div class="custom-container">
             <div class="info__inner">
-                <h2 class="info__title">
+                <div class="heading-3 mb-6">
                     Компания действует в соответствии с действующим
                     законодательством и договорами, заключенными с кредитными и
                     иными организациями.
-                </h2>
-                <p class="info__text">
+                </div>
+                <p class="text-body mb-5">
                     «Форвард» законно и правомерно осуществляет действия,
                     направленные на возврат задолженности на основании любого из
                     нижеприведенных видов договоров в соответствии с Федеральным
@@ -17,7 +17,7 @@
                     ФЗ «О микрофинансовой деятельности и микрофинансовых
                     организациях»:
                 </p>
-                <ul class="info-list">
+                <ul class="info-list text-body">
                     <li>
                         Договор цессии –
                         <a href="#">ст. 382-390 ГК РФ</a>
@@ -27,7 +27,7 @@
                         <a href="#">ст. 1005 ГК РФ</a>
                     </li>
                 </ul>
-                <p class="info__text">
+                <p class="text-body mb-5">
                     Компания создана в Новосибирске в 2014 году, а в 2017 году
                     она получила сертификацию Федеральной Службы Судебных
                     Приставов. Менеджеры компании имеют более чем 10-летний опыт
@@ -46,7 +46,8 @@
     </section>
 </template>
 
-<script setup></script>
+<script setup>
+</script>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/base/variables.scss' as var;
@@ -130,10 +131,6 @@ a {
             &_border {
                 font-size: 16px;
             }
-        }
-
-        &-list {
-            font-size: 14px;
         }
     }
 }
