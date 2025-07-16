@@ -121,8 +121,6 @@ img {}
     font-size: 16px;
     font-weight: 500;
     line-height: 30px;
-    letter-spacing: 0%;
-
 }
 
 h3 {

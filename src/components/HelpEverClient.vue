@@ -6,7 +6,7 @@
             </div>
             <div class="flexContainer">
 
-                <div v-if="isLaptop === false" v-for="item in items" :key="item.id"
+                <div v-if="!isLaptop" v-for="item in items" :key="item.id"
                     :style="{ backgroundColor: item.background }" class="ContentItems">
                     <div class="content">
                         <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
