@@ -3,8 +3,8 @@
         <div class="custom-container">
             <div class="numbers">
                 <ul v-for="item in items" :key="item.id" class="numbers-info">
-                    <li class="numbers-info__top">{{ item.upInfo }}</li>
-                    <li class="numbers-info__bottom">{{ item.bottInfo }}</li>
+                    <li class="numbers-info__top heading-2 mb-4" v-html="item.upInfo"></li>
+                    <li class="text-body" v-html="item.bottInfo"></li>
                 </ul>
             </div>
         </div>
@@ -24,10 +24,10 @@ export default defineComponent({
     data() {
         return {
             items: [
-                { id: 1, upInfo: 'С нами надежно', bottInfo: 'с 2014 года\nна рынке взыскания' },
-                { id: 2, upInfo: 'Всё законно', bottInfo: 'с 2017 года \nООО ПКО «Форвард» сертифицирован в ФССП' },
-                { id: 3, upInfo: 'Нам доверяют', bottInfo: '100 тысяч клиентов \nисправили кредитную историю с нами' },
-                { id: 3, upInfo: 'Мы помогаем', bottInfo: 'до 80 клиентов \nполучают рассрочку ежедневно' }
+                { id: 1, upInfo: `С нами <br/>надежно`, bottInfo: 'с 2014 года <br/>на рынке взыскания' },
+                { id: 2, upInfo: 'Всё <br/>законно', bottInfo: 'с 2017 года <br/>ООО ПКО «Форвард» сертифицирован в ФССП' },
+                { id: 3, upInfo: 'Нам <br/>доверяют', bottInfo: '100 тысяч клиентов <br/>исправили кредитную историю с нами' },
+                { id: 3, upInfo: 'Мы <br/>помогаем', bottInfo: 'до 80 клиентов <br/>получают рассрочку ежедневно' }
             ] as ListElem[]
         }
     }
@@ -53,12 +53,7 @@ section {
         width: 20%;
 
         &__top {
-            font-weight: 700;
-            font-size: 38px;
-            line-height: normal;
             color: #0096d8;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
         }
 
         &__bottom {
@@ -73,24 +68,10 @@ section {
 
 }
 
-@include mixin.desktop {
-    .numbers {
-        &-info {
-            &__top {
-                font-size: 40px;
-            }
-        }
-    }
-}
-
 @include mixin.laptop {
     .numbers {
         &-info {
             width: 40%;
-
-            &__top {
-                font-size: 33px;
-            }
             &__bottom {
                 font-size: 14px;
             }
@@ -101,9 +82,6 @@ section {
 @include mixin.tablet {
     .numbers {
         &-info {
-            &__top {
-                font-size: 22px;
-            }
             &__bottom {
                 font-size: 12px;
             }
