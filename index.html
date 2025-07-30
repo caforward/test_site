@@ -59,13 +59,12 @@
                 } else {
                     mangoBtns.dataset.plateFix = 'true'
 
-                    let height = 300
+                    let height = 150
 
-                    console.log(window.innerWidth)
                     if (window.innerWidth < 360) {
                         height = 400
                     } else if (window.innerWidth < 1024) {
-                        height = 370
+                        height = 330
                     }
 
                     mangoBtns.style.setProperty('bottom', height + 'px', 'important')

@@ -94,43 +94,65 @@ const dataSlider = ref([
 
 <template>
     <div class="comspanies-slider">
-        <swiper class="swiper slider" :modules="modules" :slides-per-view="2" :space-between="50"
-            :navigation="{ nextEl: '.comspanies-slider-nav-button__next', prevEl: '.comspanies-slider-nav-button__prev' }"
-            :pagination="{ clickable: true, el: '.comspanies-slider-pagination' }" :breakpoints="{
-                1230: {
-                    slidesPerView: 6,
-                    slidesPerGroup: 5
-                },
-                1022: {
-                    slidesPerView: 5,
-                    slidesPerGroup: 5
-                },
-                639: {
-                    slidesPerView: 4,
-                    slidesPerGroup: 4
-                }, 520: {
-                    slidesPerView: 2,
-                    slidesPerGroup: 2
-                }
-            }">
+<!--        <swiper class="swiper slider" :modules="modules" :slides-per-view="2" :space-between="50"-->
+<!--            :navigation="{ nextEl: '.comspanies-slider-nav-button__next', prevEl: '.comspanies-slider-nav-button__prev' }"-->
+<!--            :pagination="{ clickable: true, el: '.comspanies-slider-pagination' }" :breakpoints="{-->
+<!--                1230: {-->
+<!--                    slidesPerView: 6,-->
+<!--                    slidesPerGroup: 5-->
+<!--                },-->
+<!--                1022: {-->
+<!--                    slidesPerView: 5,-->
+<!--                    slidesPerGroup: 5-->
+<!--                },-->
+<!--                639: {-->
+<!--                    slidesPerView: 4,-->
+<!--                    slidesPerGroup: 4-->
+<!--                }, 520: {-->
+<!--                    slidesPerView: 2,-->
+<!--                    slidesPerGroup: 2-->
+<!--                }-->
+<!--            }">-->
 
-            <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">
-                <img :src="'/images/' + item.img" :alt=item.name>
-            </swiper-slide>
+<!--            <swiper-slide class="slider__slide" v-for="(item, index) in dataSlider" :key="index">-->
+<!--                <img :src="'/images/' + item.img" :alt=item.name>-->
+<!--            </swiper-slide>-->
 
-        </swiper>
-        <div class="slider-nav__wrapper">
-            <div class="slider-nav flex items-center">
-                <button
-                    class="slider-nav-button comspanies-slider-nav-button__prev flex flex-none items-center justify-center border-2 border-gray text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
-                    <i class="pi pi-angle-left !text-xl"></i>
-                </button>
-                <button
-                    class="slider-nav-button comspanies-slider-nav-button__next flex flex-none items-center justify-center border-2 border-gray text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">
-                    <i class="pi pi-angle-right !text-xl"></i>
-                </button>
-                <!-- <Pagination /> -->
-                <div class="comspanies-slider-pagination"></div>
+<!--        </swiper>-->
+<!--        <div class="slider-nav__wrapper">-->
+<!--            <div class="slider-nav flex items-center">-->
+<!--                <button-->
+<!--                    class="slider-nav-button comspanies-slider-nav-button__prev flex flex-none items-center justify-center border-2 border-gray text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">-->
+<!--                    <i class="pi pi-angle-left !text-xl"></i>-->
+<!--                </button>-->
+<!--                <button-->
+<!--                    class="slider-nav-button comspanies-slider-nav-button__next flex flex-none items-center justify-center border-2 border-gray text-gray-300 rounded-full w-10 h-10 transition-colors hover:border-sky-500 hover:text-sky-500">-->
+<!--                    <i class="pi pi-angle-right !text-xl"></i>-->
+<!--                </button>-->
+<!--                &lt;!&ndash; <Pagination /> &ndash;&gt;-->
+<!--                <div class="comspanies-slider-pagination"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="custom-marquee">
+            <div class="custom-marquee__track">
+                <div
+                    class="custom-marquee__group"
+                    v-for="(groupIndex) in 2"
+                    :key="groupIndex"
+                >
+                    <div
+                        class="custom-marquee__item w-[240px] flex-none h-[80px]"
+                        v-for="(item, index) in dataSlider"
+                        :key="`${groupIndex}-${index}`"
+                    >
+                        <img
+                            :src="'/images/' + item.img"
+                            :alt="item.name"
+                            class="object-contain w-full h-full"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -143,6 +165,56 @@ const dataSlider = ref([
 @use 'swiper/css/navigation';
 @use 'swiper/css/pagination';
 @use 'swiper/css/scrollbar';
+
+.custom-marquee {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    &__track {
+        display: flex;
+        width: max-content;
+        animation: scroll-left 95s linear infinite;
+    }
+
+    &__group {
+        display: flex;
+        flex-shrink: 0;
+    }
+
+    &__item {
+        margin-right: 2rem;
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 10%;
+        height: 100%;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    &::before {
+        left: 0;
+        background: linear-gradient(to right, white 0%, transparent 100%);
+    }
+    &::after {
+        right: 0;
+        background: linear-gradient(to left, white 0%, transparent 100%);
+    }
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0)
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
 
 .comspanies-slider {
 

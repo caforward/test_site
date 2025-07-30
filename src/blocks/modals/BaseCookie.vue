@@ -29,39 +29,30 @@ onMounted(() => {
 <template>
     <Dialog
         v-model:visible="isVisible"
-        class="modal-ui max-w-[700px] w-full mx-auto rounded-lg shadow-lg border border-gray-300 !shadow-none lg:!-translate-y-2 md:!-translate-y-20 !-translate-y-16"
+        class="w-full mx-auto rounded-lg shadow-lg border border-gray-300 !shadow-none !rounded-none !mb-20 md:!mb-24 !mx-0 lg:!m-0"
         position="bottomright"
-        header="Использование cookie"
         :draggable="false"
         :dismissableMask="false"
         @after-hide="onClose"
+        :closable="false"
+        :show-header="false"
     >
-        <div class="sm:text-base xs:text-sm text-xs text-gray-800">
-            ООО ПКО «Форвард» защищает персональные данные пользователей сайта и
-            обрабатывает Cookies только для персонализации сервисов. Запретить обработку
-            Cookies можно в настройках вашего браузера. Нажимая кнопку “Принять”, вы
-            соглашаетесь с
-            <router-link to="/policy" class="text-sky-500 hover:text-sky-600 transition-colors">
-                Условиями обработки персональных данных
-            </router-link>
-            и Cookies.
-        </div>
-
-        <template #footer>
-            <div class="w-full flex md:justify-end justify-center -m-2">
+        <div class="flex items-center flex-col md:flex-row gap-4 md:gap-10 pt-6">
+            <p class="sm:text-base xs:text-sm text-xs text-gray-800 flex-1">
+                Сайт ООО ПКО «Форвард» обрабатывает персональные данные с использованием Cookies.
+                Нажимая кнопку “Принять”, вы соглашаетесь с
+                <router-link to="/policy" class="text-sky-500 hover:text-sky-600 transition-colors">
+                    Условиями обработки персональных данных
+                </router-link>
+                и Cookies.
+            </p>
+            <div>
                 <Button
-                    label="Принять"
+                    label="Согласен"
                     @click="onAcceptCookies"
-                    class="bg-orange-500 border-none hover:bg-orange-600 transition text-white px-5 py-2 rounded text-base"
+                    class="w-full bg-orange-500 border-none hover:bg-orange-600 transition text-white px-5 py-2 rounded !text-sm md:!text-base"
                 />
             </div>
-        </template>
+        </div>
     </Dialog>
 </template>
-
-<style scoped>
-.modal-ui:deep(.p-dialog-header) {
-    background: red !important;
-    padding: 0 !important;
-}
-</style>

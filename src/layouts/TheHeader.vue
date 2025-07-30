@@ -185,7 +185,7 @@ onUnmounted(() => {
                 </ul>
             </div>
         </div>
-        <div class="header-bottom">
+        <div class="header-bottom shadow-md">
             <div class="custom-container">
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
