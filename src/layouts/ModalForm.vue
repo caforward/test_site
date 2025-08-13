@@ -72,6 +72,7 @@ const props = defineProps({
                     "Претензия",
                     "Справка о погашении задолженности",
                     "Справка о состоянии задолженности",
+                    "Отозвать ИП",
                 ],
             },
         ]
@@ -167,6 +168,7 @@ function setSelectorByType(type) {
                 "callback": 0,
                 "installment": 1,
                 "account-unblock": 6,
+                "cancel-ip": 11,
             }
 
             let option = messageTypeInput.options[0]

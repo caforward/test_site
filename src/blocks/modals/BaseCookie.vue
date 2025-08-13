@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
     <Dialog
         v-model:visible="isVisible"
-        class="w-full mx-auto rounded-lg shadow-lg border border-gray-300 !shadow-none !rounded-none !mb-20 md:!mb-24 !mx-0 lg:!m-0"
+        class="w-full mx-auto rounded-lg shadow-lg border border-gray-300 !shadow-none !rounded-none !mb-[4.5rem] md:!mb-24 !mx-0 lg:!m-0"
         position="bottomright"
         :draggable="false"
         :dismissableMask="false"

@@ -25,6 +25,10 @@ function showUnblockAccauntModal() {
     modalDefaultOption.value = 'account-unblock';
     modalVisible.value = true;
 }
+function showCancelIPModal() {
+  modalDefaultOption.value = 'cancel-ip';
+  modalVisible.value = true;
+}
 
 </script>
 
@@ -176,7 +180,7 @@ function showUnblockAccauntModal() {
                                 </ol>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.prevent="showUnblockAccauntModal">
+                                <a href="#" class="button button_blue slide__button" @click.prevent="showCancelIPModal">
                                     Отозвать производство
                                 </a>
                             </div>
