@@ -78,8 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = $_ENV['SMTP_PORT'];
 
-        $mail->setFrom('site-no-reply@caforward.ru', 'Сообщение с сайта');
-        $mail->addAddress('dolg.info@caforward.ru');
+        $mail->setFrom($_ENV['SMTP_USER'], 'Сообщение с сайта');
+        $mail->addAddress($_ENV['SMTP_ADDRESS']);
 
         $subject = 'Новое сообщение с сайта';
         $mail->Subject = mb_encode_mimeheader($subject, 'UTF-8');
