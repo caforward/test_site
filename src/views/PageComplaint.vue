@@ -39,7 +39,7 @@ async function sendData(formData) {
     userName.value = formData.get('name')
 
     try {
-        response.value = await fetch('complaint.php', {
+        response.value = await fetch('/backend/public/complaint.php', {
             method: 'POST',
             body: formData
         })
@@ -60,7 +60,7 @@ async function sendRating(rateData) {
     // })
 
     try {
-        await fetch('rate.php', {
+        await fetch('/backend/public/rate.php', {
             method: 'POST',
             body: postData
         })

@@ -49,7 +49,7 @@ async function sendData(formData) {
     // Для тестирования пустых писем
 
     try {
-        response.value = await fetch('email.php', {
+        response.value = await fetch('/backend/public/email.php', {
             method: 'POST',
             body: formData
         })
@@ -71,7 +71,7 @@ async function sendRating(rateData) {
     // })
 
     try {
-        await fetch('rate.php', {
+        await fetch('/backend/public/rate.php', {
             method: 'POST',
             body: postData
         })

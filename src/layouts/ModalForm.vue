@@ -21,7 +21,7 @@ const props = defineProps({
     },
     fetchUrl: {
         type: String,
-        default: 'email.php'
+        default: '/backend/public/email.php'
     },
     inputs: {
         type: Array,
@@ -150,7 +150,7 @@ async function sendRating(rateData) {
     // })
 
     try {
-        await fetch('rate.php', {
+        await fetch('/backend/public/rate.php', {
             method: 'POST',
             body: postData
         })

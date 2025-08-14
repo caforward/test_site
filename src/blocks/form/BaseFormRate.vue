@@ -46,7 +46,7 @@ async function sendRate() {
         postData.append('rate', choosedRate.value)
         postData.append('message', messageRate.value)
 
-        let response = await fetch('rate.php', {
+        let response = await fetch('/backend/public/rate.php', {
             method: 'POST',
             body: postData
         })
