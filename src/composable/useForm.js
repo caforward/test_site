@@ -1,5 +1,5 @@
 /*      collect data from inputs         */
-
+import { getDottedDate } from "./useCalendar"
 export const createFormData = (inputRefs) => {
     const formData = new FormData()
 
@@ -7,6 +7,9 @@ export const createFormData = (inputRefs) => {
         const inputName = inputRef.inputName
         let value = inputRef.value
 
+        if (value && inputRef.inputName === "paymentDate") {
+            value = getDottedDate(value)
+        }
         if (value) {
             formData.append(inputName, value)
         }
