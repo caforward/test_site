@@ -72,14 +72,10 @@
             }
         }
 
-        (function (w, d, u, i, o, s, p) {
-            if (d.getElementById(i)) {
-                return;
-            }
+        (function(w, d, u, i, o, s, p) {
+            if (d.getElementById(i)) { return; }
             w['MangoObject'] = o;
-            w[o] = w[o] || function () {
-                (w[o].q = w[o].q || []).push(arguments)
-            };
+            w[o] = w[o] || function() { (w[o].q = w[o].q || []).push(arguments) };
             w[o].u = u;
             w[o].t = 1 * new Date();
             s = d.createElement('script');
@@ -104,7 +100,6 @@
                     const observer = new MutationObserver((mutationsList) => {
                         for (const mutation of mutationsList) {
                             if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                                console.log('[Mango] Класс изменён:', el.className)
                                 window.checkCookiesAccepted()
                             }
                         }

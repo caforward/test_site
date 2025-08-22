@@ -166,7 +166,7 @@ function setSelectorByType(type) {
         if (type) {
             const types = {
                 "callback": 0,
-                "installment": 1,
+                "installment": 2,
                 "account-unblock": 6,
                 "cancel-ip": 11,
             }
