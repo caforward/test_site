@@ -13,6 +13,8 @@ import BaseComplainBlock from "../blocks/BaseComplainBlock.vue";
 
 onMounted(() => {
     window.scrollTo(0, 0)
+
+    //
 })
 </script>
 

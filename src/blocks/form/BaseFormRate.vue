@@ -116,7 +116,7 @@ onMounted(() => {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity .4s ease, height .4s;
+    transition: opacity .3s ease, height .3s;
 }
 
 .fade-enter-from,
@@ -126,7 +126,7 @@ onMounted(() => {
 
 .fade-feedback-enter-active,
 .fade-feedback-leave-active {
-    transition: opacity .4s ease, height .4s;
+    transition: opacity .3s ease, height .3s;
     height: 169px;
     overflow: hidden;
 }

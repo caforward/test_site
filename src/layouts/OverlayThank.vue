@@ -233,7 +233,7 @@ function sendRatingAndCloseModal() {
 
 .rating-animation-enter-active,
 .rating-animation-leave-active {
-    transition: opacity .4s ease, margin-bottom .4s, max-height .4s;
+    transition: opacity .3s ease, margin-bottom .3s, max-height .3s;
     max-height: 195px;
     overflow: hidden;
 }
@@ -247,7 +247,7 @@ function sendRatingAndCloseModal() {
 
 .fade-feedback-enter-active,
 .fade-feedback-leave-active {
-    transition: opacity .4s ease, height .4s;
+    transition: opacity .3s ease, height .3s;
     height: 112px;
     overflow: hidden;
 }

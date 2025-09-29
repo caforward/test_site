@@ -13,19 +13,19 @@ import PageComplaint from "../views/PageComplaint.vue";
 import PagePayment from "../views/PagePayment.vue";
 
 const routes = [
-    { path: "/", name: 'Главная', component: MainPage },
-    { path: "/jobs", name: 'Вакансии', component: Jobs },
-    { path: "/about", name: 'О компании', component: About },
-    { path: "/for-partners", name: 'Партнёрам', component: PartnerPage },
-    { path: "/policy", name: 'Политика конфиденциальности', component: Policy },
+    {path: "/", name: 'Главная', component: MainPage},
+    {path: "/jobs", name: 'Вакансии', component: Jobs},
+    {path: "/about", name: 'О компании', component: About},
+    {path: "/for-partners", name: 'Партнёрам', component: PartnerPage},
+    {path: "/policy", name: 'Политика конфиденциальности', component: Policy},
     {
         path: "/installment-plan",
         name: 'Получить рассрочку',
         component: Installment
     },
-    { path: "/notFound", name: 'Ошибка 404', component: NotFound },
-    { path: "/complaint", name: 'Отправить жалобу', component: PageComplaint },
-    { path: "/payment", name: 'Оплатить', component: PagePayment },
+    {path: "/notFound", name: 'Ошибка 404', component: NotFound},
+    {path: "/complaint", name: 'Отправить жалобу', component: PageComplaint},
+    {path: "/payment", name: 'Оплатить', component: PagePayment},
 ];
 
 const router = createRouter({
@@ -37,7 +37,7 @@ const router = createRouter({
         }
 
         if (from && from.path === to.path) {
-            return { top: 0 }
+            return {top: 0}
         }
 
         if (to.hash) {
