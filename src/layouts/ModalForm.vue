@@ -203,8 +203,9 @@ watch(
         if (visible.value) {
             setSelectorByType(props.type);
 
+            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = '10px'
+            document.body.style.paddingRight = browserScrollbarWidth + 'px'
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''

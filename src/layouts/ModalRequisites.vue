@@ -1,11 +1,13 @@
 <script setup>
 import { watch, ref } from 'vue'
 import BaseModal from '../blocks/BaseModal.vue';
-import BaseButton from '../blocks/ui/BaseButton.vue';
+import {useRoute} from "vue-router";
+import Button from "primevue/button";
 
 const visible = defineModel()
 const moreInfo = ref(false);
 const showQR = ref(false);
+const route = useRoute();
 
 function toggleInfo() {
     moreInfo.value = !moreInfo.value;
@@ -19,8 +21,9 @@ watch(
     () => visible.value,
     () => {
         if (visible.value) {
+            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = '10px'
+            document.body.style.paddingRight = browserScrollbarWidth + 'px'
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
@@ -122,9 +125,13 @@ watch(
                         </span>
                     </div>
                     <div class="flex justify-center mt-6">
-                        <BaseButton as="link" to="#payment" size="large" @click="visible = false">
-                            К оплате
-                        </BaseButton>
+                        <Button
+                            as="a"
+                            label="К оплате"
+                            size="large"
+                            :href="route.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
+                            @click="visible = false"
+                        />
                     </div>
                 </div>
             </div>
@@ -137,7 +144,7 @@ watch(
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
@@ -150,8 +157,6 @@ watch(
     justify-content: center;
     align-items: flex-start;
     padding: 10px;
-    display: flex;
-    justify-content: center;
     overflow-y: auto;
 
     &-body {
@@ -160,7 +165,6 @@ watch(
         background-color: #fff;
         border-radius: 30px;
         width: 500px;
-        padding: 40px;
 
         &-content {
             &__list {

@@ -24,8 +24,9 @@ watch(
     secureTextModal,
     (modalActive) => {
         if (modalActive) {
+            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = '10px'
+            document.body.style.paddingRight = browserScrollbarWidth + 'px'
         } else {
             document.body.style.overflow = ''
             document.body.style.paddingRight = ''

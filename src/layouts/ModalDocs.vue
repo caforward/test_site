@@ -165,8 +165,9 @@ const docs = ref([
 
 onUpdated(() => {
     if (visible.value) {
+        const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden'
-        document.body.style.paddingRight = '10px'
+        document.body.style.paddingRight = browserScrollbarWidth + 'px'
     } else {
         document.body.style.paddingRight = ''
         document.body.style.overflow = ''
@@ -228,8 +229,6 @@ onUpdated(() => {
     justify-content: center;
     align-items: flex-start;
     padding: 10px;
-    display: flex;
-    justify-content: center;
     overflow-y: auto;
 
     &-body {
@@ -239,7 +238,6 @@ onUpdated(() => {
         border-radius: 30px;
         width: 100%;
         max-width: 960px;
-        padding: 40px;
 
         &__title {
             margin-bottom: 20px;

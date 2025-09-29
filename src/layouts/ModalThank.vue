@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import BaseModal from '../blocks/BaseModal.vue'
 import BaseFormRate from '../blocks/form/BaseFormRate.vue';
 
@@ -20,8 +20,9 @@ watch(
     () => visible.value,
     () => {
         if (visible.value) {
+            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = '10px'
+            document.body.style.paddingRight = browserScrollbarWidth + 'px'
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
