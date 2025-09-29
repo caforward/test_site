@@ -1,6 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
-import Button from 'primevue/button';
+import { ref } from 'vue';
 import Rating from 'primevue/rating';
 import BaseInput from '../blocks/ui/BaseInput.vue';
 import BaseButton from '../blocks/ui/BaseButton.vue';
@@ -34,7 +33,7 @@ function showStatus() {
     console.log(status.value)
 }
 
-function chooseRatingFeedback(option, button) {
+function chooseRatingFeedback(option) {
     ratingFeedback.value = option
 }
 
@@ -94,7 +93,7 @@ function sendRatingAndCloseModal() {
                                     class="flex flex-wrap gap-3 max-w-lg justify-center mb-5">
                                     <BaseButton size="small" severity="secondary"
                                         :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Ошибка на сайте'}"
-                                        @click.prevent="chooseRatingFeedback('Ошибка на сайте', self)">
+                                        @click.prevent="chooseRatingFeedback('Ошибка на сайте')">
                                         Ошибка на сайте
                                     </BaseButton>
 
