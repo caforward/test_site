@@ -40,7 +40,7 @@ const inputs = [
     },
 ]
 
-async function sendData(formData) {
+async function sendData(formData, formInputRefs) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
 
@@ -54,6 +54,11 @@ async function sendData(formData) {
             body: formData
         })
 
+        if (response.value) {
+            formInputRefs.forEach(inputRef => {
+                inputRef.clearValue()
+            })
+        }
     } catch {
         response.value = { ok: false }
     }

@@ -223,7 +223,7 @@ function sendRatingAndCloseModal() {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity .4s ease;
+    transition: opacity .3s ease;
     overflow: hidden;
 }
 

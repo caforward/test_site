@@ -67,7 +67,8 @@ function submitForm() {
     if (isFormValid) {
         const formData = createFormData(formInputRefs)
 
-        emit('submitted', formData)
+        emit('submitted', formData, formInputRefs)
+
     } else {
         // console.log('form is not valid')
     }
