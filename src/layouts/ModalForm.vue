@@ -1,9 +1,8 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
-import BaseModal from '../blocks/BaseModal.vue';
-import BaseForm from "../blocks/form/BaseForm.vue";
+import BaseModal from '@/blocks/BaseModal.vue';
+import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
-// import { useFetchPost } from '@/composable/useFetch.js'
 
 const visible = defineModel()
 const response = ref(null)

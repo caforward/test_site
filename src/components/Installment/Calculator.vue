@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import BaseForm from '../../blocks/form/BaseForm.vue';
+import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
 
 const overlayThankVisible = ref(false)

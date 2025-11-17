@@ -1,7 +1,7 @@
 <script setup>
 import { watch } from 'vue';
-import BaseModal from '../blocks/BaseModal.vue'
-import BaseFormRate from '../blocks/form/BaseFormRate.vue';
+import BaseModal from '@/blocks/BaseModal.vue'
+import BaseFormRate from '@/blocks/form/BaseFormRate.vue';
 
 const props = defineProps({
     needRate: {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onUpdated } from 'vue'
-import BaseModal from '../blocks/BaseModal.vue';
+import BaseModal from '@/blocks/BaseModal.vue';
 
 const emits = defineEmits(['close'])
 

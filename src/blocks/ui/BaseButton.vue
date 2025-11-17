@@ -30,7 +30,7 @@ function setButtonStyle() {
             colorsClass.value = 'border-sky-500 bg-sky-500 text-white hover:bg-cyan-500 hover:border-cyan-500 active:bg-cyan-600 active:border-cyan-600'
             break;
         case 'secondary':
-            colorsClass.value = 'border-slate-100 bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-700 hover:border-slate-200 active:bg-slate-300 active:border-slate-300 active:text-slate-800'
+            colorsClass.value = 'border-slate-100 bg-slate-100 text-slate-900 hover:bg-sky-500 hover:border-sky-500 hover:text-white active:bg-sky-600'
             break;
         default:
             colorsClass.value = ''

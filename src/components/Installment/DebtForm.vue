@@ -1,8 +1,8 @@
 <script setup>
-import BaseButton from '../../blocks/ui/BaseButton.vue';
-import PayForm from '../../blocks/PayForm.vue';
 import Popover from 'primevue/popover';
-import BaseModal from '../../blocks/BaseModal.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
+import PayForm from '@/blocks/PayForm.vue';
+import BaseModal from '@/blocks/BaseModal.vue';
 import { ref, watch } from 'vue';
 
 const secureTextModal = ref(false)

@@ -51,11 +51,14 @@ const onHide = () => {
                 </div>
                 <div class="imgContainer">
                     <div class="img-thumbnail">
-                        <source srcset="/images/AboutCompany/svo.webp" type="image/webp">
-                        <source srcset="/images/AboutCompany/svo.jpg" type="image/jpeg">
-                        <img src="/images/AboutCompany/svo.jpg"
-                             alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
-                             @click="showImg()"/>
+                        <picture>
+                            <source srcset="/images/AboutCompany/svo.webp" type="image/webp">
+                            <source srcset="/images/AboutCompany/svo.jpg" type="image/jpeg">
+                            <img src="/images/AboutCompany/svo.jpg"
+                                 alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
+                                 @click="showImg()"
+                            />
+                        </picture>
                     </div>
                 </div>
             </div>

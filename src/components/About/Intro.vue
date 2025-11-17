@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import BaseBreadcrumb from "../../blocks/BaseBreadcrumb.vue";
-import IntroBlock from "../../blocks/IntroBlock.vue";
-import ModalForm from '../../layouts/ModalForm.vue';
+import BaseBreadcrumb from "@/blocks/BaseBreadcrumb.vue";
+import IntroBlock from "@/blocks/IntroBlock.vue";
+import ModalForm from '@/layouts/ModalForm.vue';
 
 const modalVisible = ref(false)
 </script>

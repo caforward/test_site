@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref } from "vue";
-import BaseAccordion from "../../blocks/BaseAccordion.vue";
+import BaseAccordion from "@/blocks/BaseAccordion.vue";
 
 const accordionData = ref([
     {

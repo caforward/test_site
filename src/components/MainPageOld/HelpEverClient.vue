@@ -39,19 +39,9 @@
     </section>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
-import ModalForm from '../layouts/ModalForm.vue';
-
-interface ListItems {
-    id: number;
-    type: string;
-    imageUrl: string;
-    textH3: string;
-    textParagr: string;
-    textButton: string;
-    background: string;
-}
+import ModalForm from '@/layouts/ModalForm.vue';
 
 export default defineComponent({
     components: {
@@ -87,7 +77,7 @@ export default defineComponent({
                     background: '#EEF1F3',
                 }
 
-            ] as ListItems[]
+            ]
         }
     },
     mounted() {
@@ -98,7 +88,7 @@ export default defineComponent({
         window.addEventListener('resize', this.updateIsMobileS)
     },
     methods: {
-        redirectModalPage(id: number) {
+        redirectModalPage(id) {
             if (id === 1) {
                 window.location.href = '/installment-plan#calculate'
             } else if (id === 2) {

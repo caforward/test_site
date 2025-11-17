@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import ModalForm from '../layouts/ModalForm.vue';
+import ModalForm from '@/layouts/ModalForm.vue';
 
 const modalVisibleCall = ref(false)
 </script>
@@ -31,9 +31,11 @@ const modalVisibleCall = ref(false)
                 </div>
                 <!-- <div class="imgContent"><img src="/images/AnonimCall/1Img.png" alt="there was a pic"></div> -->
                 <div>
-                    <source srcset="/images/AnonimCall/1Img.webp" type="image/webp">
-                    <source srcset="/images/AnonimCall/1Img.png" type="image/png">
-                    <img src="/images/AnonimCall/1Img.png" alt="Анонимный звонок" />
+                    <picture>
+                        <source srcset="/images/AnonimCall/1Img.webp" type="image/webp">
+                        <source srcset="/images/AnonimCall/1Img.png" type="image/png">
+                        <img src="/images/AnonimCall/1Img.png" alt="Анонимный звонок" />
+                    </picture>
                 </div>
             </div>
 

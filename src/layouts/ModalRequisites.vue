@@ -1,6 +1,6 @@
 <script setup>
 import { watch, ref } from 'vue'
-import BaseModal from '../blocks/BaseModal.vue';
+import BaseModal from '@/blocks/BaseModal.vue';
 import {useRoute} from "vue-router";
 import Button from "primevue/button";
 

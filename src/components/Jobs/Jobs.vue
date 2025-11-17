@@ -56,9 +56,9 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import {defineComponent} from "vue"
-import FormFooterVue from "../About/FormFooter.vue";
+import FormFooterVue from "@/components/About/FormFooter.vue";
 
 export default defineComponent({
     components: {

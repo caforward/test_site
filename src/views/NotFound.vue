@@ -1,5 +1,6 @@
 <script setup>
-import BaseButton from '../blocks/ui/BaseButton.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
+import {onMounted} from "vue";
 
 onMounted(() => {
     window.scrollTo(0, 0)

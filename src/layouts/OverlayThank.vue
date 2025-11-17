@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import Rating from 'primevue/rating';
-import BaseInput from '../blocks/ui/BaseInput.vue';
-import BaseButton from '../blocks/ui/BaseButton.vue';
+import BaseInput from '@/blocks/ui/BaseInput.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
 
 const emit = defineEmits(['closeParentModal', 'sendRating'])
 

@@ -1,7 +1,7 @@
 <script setup>
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import ModalForm from '../layouts/ModalForm.vue';
+import ModalForm from '@/layouts/ModalForm.vue';
 import { ref } from 'vue';
 
 const props = defineProps({

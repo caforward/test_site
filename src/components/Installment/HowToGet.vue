@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import ModalForm from "../../layouts/ModalForm.vue";
-import BaseButton from "../../blocks/ui/BaseButton.vue";
+import ModalForm from "@/layouts/ModalForm.vue";
+import BaseButton from "@/blocks/ui/BaseButton.vue";
 
 const modalVisible = ref(false)
 

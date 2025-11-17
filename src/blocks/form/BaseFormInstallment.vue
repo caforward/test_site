@@ -1,7 +1,7 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import Badge from 'primevue/badge';
-import BaseInput from '../ui/BaseInput.vue';
+import BaseInput from '@/blocks/ui/BaseInput.vue';
 import { useValueFormat } from '@/composable/useValueFormat.js';
 import { getDottedDate } from '@/composable/useCalendar.js';
 
@@ -113,8 +113,8 @@ onBeforeMount(() => {
     inputs.forEach(input => {
         inputData[input.name] = {
             value: ref(input.value ? input.value : ''),
-            isValid: input.value ? true : false,
-            required: input.required ? true : false,
+            isValid: !!input.value,
+            required: !!input.required,
         }
     })
 

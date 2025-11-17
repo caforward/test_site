@@ -1,8 +1,8 @@
 <script setup>
-import BaseForm from '../blocks/form/BaseForm.vue';
-import OverlayThank from '../layouts/OverlayThank.vue';
+import BaseForm from '@/blocks/form/BaseForm.vue';
+import OverlayThank from '@/layouts/OverlayThank.vue';
+import BaseModal from '@/blocks/BaseModal.vue';
 import { onMounted, ref } from 'vue';
-import BaseModal from '../blocks/BaseModal.vue';
 
 const overlayThankVisible = ref(false)
 const response = ref(null)

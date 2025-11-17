@@ -1,6 +1,6 @@
 <script setup>
-import PayForm from '../blocks/PayForm.vue';
-import BaseButton from '../blocks/ui/BaseButton.vue';
+import PayForm from '@/blocks/PayForm.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
 
 </script>
 

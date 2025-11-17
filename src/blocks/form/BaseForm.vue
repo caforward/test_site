@@ -2,10 +2,10 @@
 // imports
 import { ref, onBeforeMount, onMounted, reactive, computed } from 'vue'
 
-import BaseButton from '../ui/BaseButton.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
 import BaseFormInstallment from './BaseFormInstallment.vue';
-import BaseInput from '../ui/BaseInput.vue';
-import BaseCheckbox from '../ui/BaseCheckbox.vue';
+import BaseInput from '@/blocks/ui/BaseInput.vue';
+import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 
 // composables
 import { useInputValidation, createFormData } from '@/composable/useForm.js'
@@ -137,8 +137,17 @@ const formAttributeType = computed(() => {
         <template v-else>
             <!-- installment title. select - Рассрочка -->
             <template v-if="formAttributeType === 'installment'">
-                <div class="sm:text-2xl text-xl font-bold mb-5">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
                     Получить рассрочку
+                </div>
+                <div class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+                    Проверить задолженность:
+                    <div class="flex gap-1.5 items-center">
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <div class="w-8">
+                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
+                        </div>
+                    </div>
                 </div>
             </template>
 
@@ -156,8 +165,22 @@ const formAttributeType = computed(() => {
 
             <!-- default -->
             <template v-else>
-                <div class="sm:text-2xl text-xl font-bold mb-5">
+                <div :class="[
+                        'sm:text-2xl text-xl font-bold',
+                        formAttributeType === 'cancel-ip' ? 'mb-2' : 'mb-5'
+                    ]"
+                >
                     Заполните поля в форме ниже, и мы свяжемся с Вами.
+                </div>
+
+                <div v-if="formAttributeType === 'cancel-ip'" class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+                    Проверить задолженность:
+                    <div class="flex gap-1.5 items-center">
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <div class="w-8">
+                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
+                        </div>
+                    </div>
                 </div>
             </template>
         </template>

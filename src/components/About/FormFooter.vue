@@ -1,6 +1,6 @@
 <script>
-import FormBlock from '../../blocks/FormBlock.vue';
-import ModalThank from '../../layouts/ModalThank.vue';
+import FormBlock from '@/blocks/FormBlock.vue';
+import ModalThank from '@/layouts/ModalThank.vue';
 
 export default {
     name: "FormFooter",
