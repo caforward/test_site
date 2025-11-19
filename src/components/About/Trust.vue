@@ -1,3 +1,7 @@
+<script setup>
+import CompaniesSlider from '@/blocks/CompaniesSlider.vue';
+</script>
+
 <template>
     <section>
         <div class="custom-container">
@@ -26,20 +30,6 @@
         </div>
     </section>
 </template>
-
-<script lang="ts">
-import CompaniesSlider from '@/blocks/CompaniesSlider.vue';
-
-export default {
-    name: "Trust",
-    components: {
-        CompaniesSlider
-    },
-    data() {
-        return {};
-    },
-};
-</script>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/base/variables.scss' as var;
