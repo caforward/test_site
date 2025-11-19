@@ -174,6 +174,7 @@ function setSelectorByType(type) {
                 "installment": 2,
                 "account-unblock": 6,
                 "cancel-ip": 11,
+                "debt-info": 1,
             }
 
             let option = messageTypeInput.options[0]

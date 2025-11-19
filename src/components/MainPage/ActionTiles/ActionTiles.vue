@@ -5,6 +5,16 @@ import {ref} from "vue";
 
 const isModalVisible = ref(false);
 const modalDefaultOption = ref('')
+
+function openModal(modalOption) {
+    isModalVisible.value = true;
+    modalDefaultOption.value = modalOption;
+}
+
+function scrollToPayment() {
+    const payForm = document.getElementById("payment");
+    payForm.scrollIntoView({behavior: "smooth"});
+}
 </script>
 
 <template>
@@ -17,6 +27,7 @@ const modalDefaultOption = ref('')
                         image-path="actionTiles/coins.png"
                         title="Оплатить задолженность"
                         text="Не можете выплатить всю сумму долга? ПКО «Форвард» поможет вам полностью избавиться от долгов. Заключите договор с нами и получите скидку на свой долг."
+                        @click="scrollToPayment"
                     />
                     <ActionTile
                         class="group bg-[#DDF5FF] transition-shadow shadow-[0_2px_0_0_#ABD6E9] hover:shadow-[0_4px_0_0_#ABD6E9]"
@@ -24,7 +35,7 @@ const modalDefaultOption = ref('')
                         promotion="Дополнительная скидка 5%"
                         title="Получить рассрочку"
                         text="В нашей компании имеются практики и опыт, которые позволяют нам быстро и эффективно разблокировать счета должника."
-                        @click="() => { isModalVisible = true; modalDefaultOption = 'installment'; }"
+                        @click="openModal('installment')"
                     />
                 </div>
                 <div class="tiles-group">
@@ -33,14 +44,14 @@ const modalDefaultOption = ref('')
                         image-path="actionTiles/wallet.png"
                         title="Отозвать ИП"
                         text="Не можете выплатить всю сумму долга? ПКО «Форвард» поможет вам полностью избавиться от долгов. Заключите договор с нами и получите скидку на свой долг."
-                        @click="() => { isModalVisible = true; modalDefaultOption = 'cancel-ip'; }"
+                        @click="openModal('cancel-ip')"
                     />
                     <ActionTile
                         class="group bg-[#F4E9FF] transition-shadow shadow-[0_2px_0_0_#E3CEF9] hover:shadow-[0_4px_0_0_#E3CEF9]"
                         image-path="actionTiles/safe.png"
                         title="Разблокировать счет"
                         text="В нашей компании имеются практики и опыт, которые позволяют нам быстро и эффективно разблокировать счета должника."
-                        @click="() => { isModalVisible = true; modalDefaultOption = 'account-unblock'; }"
+                        @click="openModal('account-unblock')"
                     />
                 </div>
 
@@ -50,13 +61,14 @@ const modalDefaultOption = ref('')
                         image-path="actionTiles/user.png"
                         title="Узнать номер вашего договора"
                         text="Не знаете номер своего договора? Оставьте свои контактные данные,  и наши специалисты со всем разберутся. "
+                        @click="openModal('debt-info')"
                     />
                 </div>
             </div>
         </div>
     </section>
 
-    <ModalForm v-model="isModalVisible" :type="modalDefaultOption" />
+    <ModalForm v-model="isModalVisible" :type="modalDefaultOption"/>
 </template>
 
 <style lang="scss" scoped>

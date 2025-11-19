@@ -4,7 +4,7 @@ import PayForm from '@/blocks/PayForm.vue';
 
 <template>
     <section class="payment">
-        <div id="payment" class="custom-container">
+        <div class="custom-container">
             <div class="heading-2 mb-6">
                 Попрощайтесь с долгами онлайн <br> на своих условиях
             </div>
@@ -33,7 +33,7 @@ import PayForm from '@/blocks/PayForm.vue';
                     </div>
                 </div>
 
-                <div class="payment-block border border-[#EAECEE] bg-white">
+                <div id="payment" class="payment-block border border-[#EAECEE] bg-white">
                     <div class="payment-block__title">
                         Оплатите <br class="hidden"> задолженность онлайн!
                     </div>
@@ -63,7 +63,8 @@ import PayForm from '@/blocks/PayForm.vue';
     &-block {
         @apply
         lg:p-[30px]
-        px-[15px] py-5 rounded-[30px] flex flex-col;
+        sm:scroll-mt-32
+        scroll-mt-20 px-[15px] py-5 rounded-[30px] flex flex-col;
 
         &__info {
             @apply mb-auto;
