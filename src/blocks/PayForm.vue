@@ -46,7 +46,7 @@ const props = defineProps({
             {
                 name: 'phone',
                 type: 'tel',
-                placeholder: 'Телефон',
+                placeholder: 'Номер телефона',
                 required: true
             },
             {
@@ -198,7 +198,7 @@ watch(
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="flex gap-2 items-center">
+                    <div class="payform-radio">
                         <RadioButton
                             type="radio"
                             v-model="paymentType"
@@ -208,7 +208,7 @@ watch(
                         />
                         <label
                             for="payment-payment-type-card"
-                            class="flex gap-2 items-center transition-colors"
+                            class="payform-radio__label"
                             :class="{'!text-gray-500': paymentType === 'fps'}"
                         >
                             <span>Оплата картой</span>
@@ -216,7 +216,7 @@ watch(
                         </label>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="flex gap-2 items-center">
+                        <div class="payform-radio">
                             <RadioButton
                                 v-model="paymentType"
                                 type="radio"
@@ -226,7 +226,7 @@ watch(
                             />
                             <label
                                 for="payment-payment-type-fps"
-                                class="flex gap-2 items-center transition-colors"
+                                class="payform-radio__label"
                                 :class="{'!text-gray-500': paymentType === 'card'}"
                             >
                                 <span>Оплата через СБП</span>
@@ -260,7 +260,7 @@ watch(
 
                 <!-- radio for phone/email -->
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="">
+                    <div class="payform-radio">
                         <RadioButton
                             v-model="contactType"
                             type="radio"
@@ -270,13 +270,13 @@ watch(
                         />
                         <label
                             for="payment-contact-type-phone"
-                            class="transition-colors"
+                            class="payform-radio__label"
                             :class="{'!text-gray-400': contactType === 'email'}"
                         >
                             Телефон
                         </label>
                     </div>
-                    <div class="">
+                    <div class="payform-radio">
                         <RadioButton
                             v-model="contactType"
                             type="radio"
@@ -285,7 +285,7 @@ watch(
                         />
                         <label
                             for="payment-contact-type-email"
-                            class="transition-colors"
+                            class="payform-radio__label"
                             :class="{'!text-gray-500': contactType === 'phone'}"
                         >
                             E-mail
@@ -319,29 +319,12 @@ watch(
             </div>
 
             <div class="payform__bottom">
-                <div class="payform__meta">
-                    <div>
-                        Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
-                        <!-- <a href="#" class="link">
-                        Договором оферты
+                <p class="payform__meta">
+                    Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
+                    <a href="/policy" target="_blank" class="link underline inline">
+                        политикой конфиденциальности.
                     </a>
-                    и -->
-                        <a href="/policy" target="_blank" class="link underline">
-                            политикой конфиденциальности.
-                        </a>
-                    </div>
-                    <!--                    <div>-->
-                    <!--                        Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру телефона-->
-                    <!--                        <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>-->
-                    <!--                    </div>-->
-                    <!-- <div>
-                    Если у вас возникнут сложности с оплатой через нашу форму, Вы можете воспользоваться
-                    <a href="https://pay.mandarinbank.com/?m=4971" class="link" target="_blank">
-                        оплатой через MANDARIN
-                    </a>
-                    (Взимается комиссия 3%).
-                </div> -->
-                </div>
+                </p>
 
                 <template v-if="paymentType === 'card'">
                     <BaseButton class="w-fit" size="large">
@@ -402,21 +385,28 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-@use '@/assets/scss/base/variables.scss' as var;
-@use '@/assets/scss/base/mixins.scss' as mixin;
+.payform {
+    &-radio {
+        @apply
+        flex gap-[12px] items-center;
+
+        &__label {
+            @apply
+            flex gap-[10px] items-center transition-colors text-sm/[24px];
+        }
+    }
+
+    &__meta {
+        @apply
+        sm:text-[14px]/[24px]
+        text-[14px]/[20px];
+    }
+}
 
 .payform {
     display: flex;
     flex-direction: column;
     gap: 16px;
-
-    &__meta {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        font-size: 14px;
-        line-height: 171%;
-    }
 
     &__bottom {
         display: flex;

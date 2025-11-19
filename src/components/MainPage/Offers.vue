@@ -3,7 +3,6 @@ import PayForm from '@/blocks/PayForm.vue';
 </script>
 
 <template>
-    <!--  TODO: переделать верстку  -->
     <section class="payment">
         <div id="payment" class="custom-container">
             <div class="heading-2 mb-6">
@@ -12,11 +11,11 @@ import PayForm from '@/blocks/PayForm.vue';
 
             <div class="payment-blocks">
                 <div class="payment-block bg-[#F3F7FA]">
-                    <div>
+                    <div class="payment-block__info">
                         <div class="payment-block__title">
                             Получите скидку в 5%
                         </div>
-                        <p class="text-base/[28px]">
+                        <p class="payment-block__text payment-block__text_banner">
                             После того как вы заполните форму для получения <br class="hidden lg:block">
                             рассрочки, мы сразу же уменьшим ваш общий долг <br class="hidden lg:block">
                             на 5%. После оформления рассрочки через сайт, <br class="hidden lg:block">
@@ -26,7 +25,7 @@ import PayForm from '@/blocks/PayForm.vue';
                         </p>
                     </div>
 
-                    <div>
+                    <div class="payment-block__image">
                         <picture>
                             <source srcset="/images/PigImg/2imgLogo.webp" type="image/webp"/>
                             <img src="/images/PigImg/2imgLogo.png" alt="2imgLogo">
@@ -34,11 +33,11 @@ import PayForm from '@/blocks/PayForm.vue';
                     </div>
                 </div>
 
-                <div class="payment-blocks__block border border-[#EAECEE] bg-white">
-                    <h3 class="text-[28px]/[32px] font-semibold mb-3">
-                        Оплатите <br> задолженность онлайн!
-                    </h3>
-                    <p class="text-[16px]/[24px] mb-6">
+                <div class="payment-block border border-[#EAECEE] bg-white">
+                    <div class="payment-block__title">
+                        Оплатите <br class="hidden"> задолженность онлайн!
+                    </div>
+                    <p class="payment-block__text mb-6">
                         С ООО ПКО «Форвард» вы можете легко оплатить <br class="hidden lg:block">
                         задолженность онлайн и без дополнительных <br class="hidden lg:block">
                         комиссий!
@@ -57,17 +56,48 @@ import PayForm from '@/blocks/PayForm.vue';
 
     &-blocks {
         @apply
-        sm:grid-cols-2
+        lg:grid-cols-2
         grid grid-cols-1 gap-[30px];
     }
 
     &-block {
-        @apply p-[30px] rounded-[30px];
+        @apply
+        lg:p-[30px]
+        px-[15px] py-5 rounded-[30px] flex flex-col;
+
+        &__info {
+            @apply mb-auto;
+        }
 
         &__title {
             @apply
-            sm:text-[28px]/[32px]
-            text-[28px] font-semibold mb-3;
+            xl:text-[28px]/[32px]
+            lg:text-[24px]
+            sm:text-[18px]/[26px]
+            text-[14px]/[24px] font-semibold mb-3;
+        }
+
+        &__text {
+            @apply
+            xl:text-base/[24px]
+            sm:text-[14px]/[24px]
+            text-sm/[20px];
+
+            &_banner {
+                @apply
+                xl:text-[16px]/[28px]
+                sm:text-[14px]/[24px]
+                text-[14px]/[20px];
+            }
+        }
+
+        &__image {
+            @apply
+            xl:h-[377px]
+            lg:h-[300px]
+            sm:h-[244px]
+            xs:h-[180px]
+            h-[140px];
         }
     }
 }

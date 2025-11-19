@@ -12,13 +12,12 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 </script>
 
 <template>
-    <div class="rounded-[30px] p-8 relative flex flex-col gap-4 cursor-pointer">
-        <div
-            class="absolute right-[30px] top-[30px] rounded-full bg-white w-[34px] h-[34px] flex items-center justify-center transition-colors group-hover:bg-sky-500 group-hover:text-white">
+    <div class="tile">
+        <div class="tile__button">
             <i class="pi pi-arrow-right"/>
         </div>
 
-        <div class="h-40 flex">
+        <div class="tile__image">
             <picture>
                 <source
                     :srcset="`/images/${imageName}.webp`"
@@ -31,14 +30,72 @@ const imageName = computed(() => props.imagePath.split('.')[0])
             </picture>
         </div>
 
-        <div class="w-10/12 flex flex-col gap-4">
-            <div v-if="props.promotion" class="border-2 border-sky-500 rounded-sm w-fit text-sky-500 text-sm/[28px] font-bold py-1 px-1.5">
+        <div class="tile__info">
+            <div v-if="props.promotion" class="promotion">
                 {{ props.promotion }}
             </div>
 
-            <h3 class="text-[28px]/[30px] font-semibold">{{ props.title }}</h3>
+            <h3 class="title">{{ props.title }}</h3>
 
-            <p class="text-base/[28px]">{{ props.text }}</p>
+            <p class="text">{{ props.text }}</p>
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.tile {
+    @apply
+    lg:p-[30px]
+    flex relative rounded-[16px] gap-3 p-4 cursor-pointer;
+
+    &__button {
+        @apply
+        lg:w-[34px]
+        lg:h-[34px]
+        lg:top-[30px]
+        lg:right-[30px]
+        w-6 h-6 absolute top-4 right-4 rounded-full bg-white flex items-center justify-center transition-colors group-hover:bg-sky-500 group-hover:text-white;
+    }
+
+    &__image {
+        @apply
+        sm:w-auto
+        sm:h-40
+        flex w-[60px] flex-none;
+    }
+
+    &__info {
+        @apply
+        xl:w-10/12
+        lg:w-full
+        lg:gap-4
+        sm:gap-2
+        sm:w-11/12
+        flex flex-col gap-1;
+
+        .promotion {
+            @apply
+            lg:text-sm/[28px]
+            border border-sky-500 rounded-sm w-fit text-sky-500 text-[10px]/[15px] font-bold py-1 px-1.5;
+        }
+
+        .title {
+            @apply
+            xl:text-[28px]/[30px]
+            lg:text-[24px]/[30px]
+            sm:text-[18px]/[26px]
+            text-[14px]/[20px] font-semibold;
+        }
+
+        .text {
+            @apply
+            xl:text-base/[28px]
+            sm:text-sm/[24px]
+            sm:display-unset
+            hidden;
+        }
+    }
+}
+</style>
+
+
