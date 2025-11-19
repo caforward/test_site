@@ -62,7 +62,7 @@ const contentArr = ref([
                         и отвечают на них максимально быстро.
                     </p>
 
-                    <BaseButton large="large" class="px-4 text-base" @click.prevent="modalVisible = true">
+                    <BaseButton size="large" class="px-4 text-base" @click.prevent="modalVisible = true">
                         Получить консультацию
                     </BaseButton>
                 </div>

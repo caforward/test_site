@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import {computed} from 'vue';
 
 const props = defineProps({
     as: {
@@ -20,57 +20,48 @@ const props = defineProps({
     },
 })
 
-const defaultClass = ref('font-medium border rounded-full transition-colors hover:cursor-pointer')
-const colorsClass = ref(null)
-const sizeClass = ref(null)
+const baseClass = 'flex items-center justify-center font-medium border rounded-full transition-colors hover:cursor-pointer'
 
-function setButtonStyle() {
+const colorsClass = computed(() => {
     switch (props.severity) {
         case 'primary':
-            colorsClass.value = 'border-sky-500 bg-sky-500 text-white hover:bg-cyan-500 hover:border-cyan-500 active:bg-cyan-600 active:border-cyan-600'
-            break;
+            return 'border-sky-500 bg-sky-500 text-white hover:bg-cyan-500 hover:border-cyan-500 active:bg-cyan-600 active:border-cyan-600'
         case 'secondary':
-            colorsClass.value = 'border-slate-100 bg-slate-100 text-slate-900 hover:bg-sky-500 hover:border-sky-500 hover:text-white active:bg-sky-600'
-            break;
+            return 'border-slate-100 bg-slate-100 text-slate-900 hover:bg-sky-500 hover:border-sky-500 hover:text-white active:bg-sky-600'
         default:
-            colorsClass.value = ''
+            return ''
     }
+})
 
+const sizeClass = computed(() => {
     switch (props.size) {
         case 'small':
-            sizeClass.value = 'px-2 py-1'
-            break;
+            return 'px-2 py-1'
         case 'medium':
-            sizeClass.value = 'px-3 py-2'
-            break;
+            return 'px-3 py-2'
         case 'large':
-            sizeClass.value = 'px-7 py-2.5 text-lg'
-            break;
+            return 'px-7 py-2.5 text-lg'
         default:
-            sizeClass.value = ''
+            return ''
     }
-}
-
-onMounted(() => {
-    setButtonStyle()
 })
 </script>
 
 <template>
     <template v-if="props.as === 'button'">
-        <button :class="defaultClass + ' ' + colorsClass + ' ' + sizeClass">
+        <button :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
             <slot></slot>
         </button>
     </template>
 
     <template v-else-if="props.as === 'link'">
-        <a :href="props.to" :class="defaultClass + ' ' + colorsClass + ' ' + sizeClass">
+        <a :href="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
             <slot></slot>
         </a>
     </template>
 
     <template v-else-if="props.as === 'router-link'">
-        <router-link :to="props.to" :class="defaultClass + ' ' + colorsClass + ' ' + sizeClass">
+        <router-link :to="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
             <slot></slot>
         </router-link>
     </template>

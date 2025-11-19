@@ -18,18 +18,14 @@ function onClose() {
 }
 
 onMounted(() => {
-    if (localStorage.getItem('cookiesAccepted')) {
-        isVisible.value = false;
-    } else {
-        isVisible.value = true;
-    }
+    isVisible.value = !localStorage.getItem('cookiesAccepted')
 })
 </script>
 
 <template>
     <Dialog
         v-model:visible="isVisible"
-        class="w-full mx-auto rounded-lg shadow-lg border border-gray-300 !shadow-none !rounded-none !mb-[4.5rem] md:!mb-24 !mx-0 lg:!m-0"
+        class="w-full border border-gray-300 !shadow-none !rounded-none !mb-[4.5rem] md:!mb-24 mx-0 lg:!m-0"
         position="bottomright"
         :draggable="false"
         :dismissableMask="false"

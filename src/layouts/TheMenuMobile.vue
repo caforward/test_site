@@ -1,137 +1,177 @@
-<script>
+<script setup>
 import BaseModal from '@/blocks/BaseModal.vue';
 import ModalForm from '@/layouts/ModalForm.vue';
 import ModalRequisites from '@/layouts/ModalRequisites.vue';
 import {Icon} from "@iconify/vue";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
+import {computed, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {useScreenResize} from "@/composable/useScreenResize.js";
 
-export default {
-    components: {
-        BaseButton,
-        BaseModal,
-        ModalRequisites,
-        ModalForm,
-        Icon,
+const props = defineProps({
+    visible: {
+        type: Boolean,
+        default: false
     },
-    props: {
-        visible: {
-            type: Boolean,
-            default: false
-        }
-    },
-    emits: ["close"],
-    data() {
-        return {
-            modalVisible: false,
-            requisitesModal: false,
-            modalType: null,
-            links: [
-                {
-                    href: '/',
-                    name: 'Главная'
-                },
-                {
-                    href: '/installment-plan#debt-form',
-                    name: 'Внести платёж'
-                },
-                {
-                    href: '',
-                    name: 'Получить рассрочку'
-                },
-                {
-                    href: '#',
-                    name: 'Получить консультацию'
-                },
-                {
-                    href: '',
-                    name: 'Вакансии'
-                },
-                {
-                    href: '',
-                    name: 'Партнёрам'
-                },
-                {
-                    href: '#contacts',
-                    name: 'Контакты'
-                },
-                {
-                    href: '',
-                    name: 'О компании'
-                },
-                {
-                    href: '#',
-                    name: 'Реквизиты для оплаты'
-                },
-            ]
-        }
-    },
-    methods: {
-        showModalForm(type) {
-            this.closeMobileMenu()
+})
 
-            if (type) {
-                this.modalType = type;
-            } else {
-                this.modalType = null;
-            }
+const emit = defineEmits(["close"]);
 
-            this.modalVisible = true;
-        },
-        openRequisitesModal() {
-            this.closeMobileMenu()
-            this.requisitesModal = true
-        },
-        closeRequisitesModal() {
-            this.requisitesModal = false
-        },
-        closeMobileMenu() {
-            this.$emit('close');
-        },
-        scrollToAnchor(anchor) {
-            this.closeMobileMenu()
-            document.querySelector(anchor)?.scrollIntoView({behavior: 'smooth'});
-        }
+const router = useRouter();
+const route = useRoute();
+const {width} = useScreenResize();
+
+const isModalVisible = ref(false);
+const isRequisitesModalVisible = ref(false);
+const modalType = ref(null);
+
+// возвращает массив [ [<route.name>, <route.path>], ... ]
+const routesArray = router
+    .getRoutes()
+    .filter(route => route.name)
+    .map(route => [route.name, route.path])
+
+// Собирает объект { <route.name>: <route.path> }
+const routes = Object.fromEntries(routesArray)
+
+const links = computed(() => [
+    {
+        id: 0,
+        href: routes['Главная'],
+        name: 'Главная',
+        type: 'router-link'
     },
-    updated() {
-        if (this.visible) {
-            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = browserScrollbarWidth + 'px'
-        } else {
-            document.body.style.paddingRight = ''
-            document.body.style.overflow = ''
-        }
+    {
+        id: 1,
+        href: routes['Получить рассрочку'] + '#debt-form',
+        name: 'Внести платёж',
+        type: 'link'
     },
-    beforeMount() {
-        const routes = this.$router.getRoutes()
-        this.links.forEach(item => {
-            const eqNameRoute = routes.find(route => {
-                return route.name === item.name
-            })
-            if (eqNameRoute) {
-                item.href = eqNameRoute.path
-            }
-        })
+    {
+        id: 2,
+        href: routes['Получить рассрочку'],
+        name: 'Получить рассрочку',
+        type: 'router-link'
     },
-    mounted() {
-        window.addEventListener('resize', () => {
-            if (matchMedia('(min-width: 1023px)').matches && this.visible) {
-                this.closeMobileMenu()
-            }
-        })
+    {
+        id: 3,
+        option: 'account-unblock',
+        name: 'Разблокировать счёт',
+        type: 'modal'
+    },
+    {
+        id: 4,
+        href: routes['О компании'],
+        name: 'О компании',
+        type: 'router-link'
+    },
+    {
+        id: 5,
+        href: '#contacts',
+        name: 'Документы',
+        type: 'anchor'
+    },
+    {
+        id: 6,
+        href: '#contacts',
+        name: 'Контакты',
+        type: 'anchor'
+    },
+    {
+        id: 7,
+        href: routes['Партнёрам'],
+        name: 'Партнёрам',
+        type: 'router-link'
+    },
+    {
+        id: 8,
+        href: routes['Вакансии'],
+        name: 'Вакансии',
+        type: 'router-link'
+    },
+    {
+        id: 9,
+        option: 'requisites',
+        name: 'Реквизиты для оплаты',
+        type: 'modal'
+    },
+])
+
+function showModalForm(type) {
+    closeMobileMenu()
+
+    if (type) {
+        modalType.value = type;
+    } else {
+        modalType.value = null;
+    }
+
+    isModalVisible.value = true;
+}
+
+function openModal(option) {
+    closeMobileMenu()
+
+    if (option === 'requisites') {
+        isRequisitesModalVisible.value = true
+    } else {
+        modalType.value = option;
+        isModalVisible.value = true;
     }
 }
+
+function closeMobileMenu() {
+    emit('close');
+}
+
+function scrollToAnchor(anchor) {
+    closeMobileMenu()
+    document.querySelector(anchor)?.scrollIntoView({behavior: 'smooth'});
+}
+
+// Убираем скроллбар при открытии мобильного меню
+watch(
+    () => props.visible,
+    (isVisible) => {
+        if (isVisible) {
+            // Блокировка скролла
+            const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = browserScrollbarWidth + 'px';
+        } else {
+            // Разблокировка скролла
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+        }
+    },
+    {
+        immediate: true,
+    }
+)
+
+// Закрываем мобильное меню (если открыто)
+// при ширине экрана более чем LG_BREAKPOINT (1023px)
+watch(
+    [width, () => props.visible],
+    ([newWidth, isVisible]) => {
+        const LG_BREAKPOINT = 1023;
+
+        if (newWidth > LG_BREAKPOINT && isVisible) {
+            closeMobileMenu();
+        }
+    }
+)
 </script>
 
 <template>
     <transition name="slide">
         <BaseModal id="mobile-menu" v-if="visible">
             <div class="menu">
-                <!-- <button @click="closeMobileMenu">close</button> -->
                 <ul class="menu-links">
-                    <li v-for="(link, id) in links" :key="id">
+                    <li v-for="link in links" :key="link.id">
                         <router-link
-                            v-if="!link.href.includes('#')"
+                            v-if="link.type === 'router-link'"
+                            class="nav-link"
                             :to="link.href"
                             @click="closeMobileMenu"
                         >
@@ -139,73 +179,67 @@ export default {
                         </router-link>
 
                         <a
-                            v-else-if="link.name === 'Получить консультацию'"
-                            @click.prevent="showModalForm()"
-                            class="header-bottom-nav__link"
+                            v-else-if="link.type === 'link'"
+                            class="nav-link"
                             :href="link.href"
+                            @click="closeMobileMenu"
                         >
                             {{ link.name }}
                         </a>
 
                         <a
-                            v-else-if="link.name === 'Заказать звонок'"
-                            @click.prevent="showModalForm('callback')"
-                            class="header-bottom-nav__link"
+                            v-else-if="link.type === 'anchor'"
+                            class="nav-link"
                             :href="link.href"
-                        >
-                            {{ link.name }}
-                        </a>
-
-                        <a
-                            v-else-if="link.name === 'Реквизиты для оплаты'"
-                            @click.prevent="openRequisitesModal()"
-                            class="header-bottom-nav__link"
-                            :href="link.href">
-                            {{ link.name }}
-                        </a>
-
-                        <a
-                            v-else-if="link.href.startsWith('#')"
-                            href=""
                             @click.prevent="scrollToAnchor(link.href)"
                         >
                             {{ link.name }}
                         </a>
 
-                        <a
-                            v-else
-                            :href="link.href"
-                            class="link"
-                            @click="closeMobileMenu"
+                        <button
+                            v-else-if="link.type === 'modal'"
+                            class="nav-link"
+                            @click="openModal(link.option)"
                         >
-                            {{ link.name }}
-                        </a>
+                            <Icon
+                                v-if="link.option === 'account-unblock'"
+                                class="text-sky-500 text-[18px]"
+                                icon="material-symbols:lock-open-outline"
+                            />
+                            <span>{{ link.name }}</span>
+                        </button>
                     </li>
                 </ul>
                 <div class="menu-footer">
-                    <div class="menu-footer-contacts">
+                    <div class="flex items-center gap-4 justify-between mb-3">
                         <a href="tel:+78043334133" class="menu-footer-contacts__tel">
                             + 7 (804) 333-41-33
                         </a>
                         <a
                             href="https://t.me/Fwdclient_bot"
                             target="_blank"
-                            class="w-10 h-10 flex items-center justify-center rounded-full bg-white text-gray-800 transition-colors hover:bg-sky-400 hover:text-white"
+                            class="w-9 h-9 flex items-center justify-center rounded-full bg-sky-600 text-white"
                         >
-                            <Icon class="-ml-0.5" icon="mingcute:telegram-fill" width="25"/>
+                            <Icon icon="mingcute:telegram-fill" width="16"/>
                         </a>
                     </div>
-                    <div class="menu-footer__buttons">
+                    <div class="flex flex-col gap-3">
                         <BaseButton
-                            class="flex gap-2 items-center justify-center h-10"
+                            class="flex gap-2 items-center justify-center h-10 !text-sky-600 hover:!text-white"
+                            severity="secondary"
                             @click="showModalForm('callback')"
                         >
-                            <Icon class="text-xl" icon="mage:phone-call" />
+                            <Icon class="text-xl" icon="mage:phone-call"/>
                             <span>Заказать звонок</span>
                         </BaseButton>
 
-                        <BaseButton severity="secondary">
-                            Внес
+                        <BaseButton
+                            as="link"
+                            class="h-10"
+                            :href="routes['Получить рассрочку'] + '#debt-form'"
+                            @click="closeMobileMenu"
+                        >
+                            Внести платёж
                         </BaseButton>
                     </div>
                 </div>
@@ -213,8 +247,8 @@ export default {
         </BaseModal>
     </transition>
 
-    <ModalRequisites v-model="requisitesModal"/>
-    <ModalForm v-model="modalVisible" :type="modalType"/>
+    <ModalRequisites v-model="isRequisitesModalVisible"/>
+    <ModalForm v-model="isModalVisible" :type="modalType"/>
 </template>
 
 
@@ -261,13 +295,17 @@ export default {
     overflow: auto;
 
     &-links {
-        & a {
+        .nav-link {
             width: 100%;
             padding: 20px 15px;
             font-weight: 600;
             font-size: 16px;
             color: var.$black;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
             &.router-link-exact-active {
                 background-color: rgba(234, 236, 237, 0.5);
