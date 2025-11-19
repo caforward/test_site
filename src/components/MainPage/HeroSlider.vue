@@ -381,15 +381,15 @@ function showCancelIPModal() {
 
             &__title {
                 font-weight: 700;
-                font-size: 48px;
-                line-height: 104%;
-                margin-bottom: 22px;
+                font-size: 36px;
+                line-height: 40px;
+                margin-bottom: 24px;
             }
 
             &__text {
                 width: 540px;
                 font-size: 16px;
-                line-height: 175%;
+                line-height: 28px;
                 margin-bottom: 33px;
 
                 p:not(:last-child) {

@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
     <main>
-        <!-- <IntroSlider /> -->
+        <!-- <HeroSlider /> -->
         <IntroSlider/>
         <BaseComplainBlock/>
         <AboutInNumbersVue/>

@@ -72,82 +72,82 @@
             }
         }
 
-        (function(w, d, u, i, o, s, p) {
-            if (d.getElementById(i)) { return; }
-            w['MangoObject'] = o;
-            w[o] = w[o] || function() { (w[o].q = w[o].q || []).push(arguments) };
-            w[o].u = u;
-            w[o].t = 1 * new Date();
-            s = d.createElement('script');
-            s.async = 1;
-            s.id = i;
-            s.src = u;
-            s.charset = 'utf-8';
-            p = d.getElementsByTagName('script')[0];
-            p.parentNode.insertBefore(s, p);
-        }(window, document, '//widgets.mango-office.ru/widgets/mango.js', 'mango-js', 'mgo'));
-        mgo({multichannel: {id: 27429}});
+        // (function(w, d, u, i, o, s, p) {
+        //     if (d.getElementById(i)) { return; }
+        //     w['MangoObject'] = o;
+        //     w[o] = w[o] || function() { (w[o].q = w[o].q || []).push(arguments) };
+        //     w[o].u = u;
+        //     w[o].t = 1 * new Date();
+        //     s = d.createElement('script');
+        //     s.async = 1;
+        //     s.id = i;
+        //     s.src = u;
+        //     s.charset = 'utf-8';
+        //     p = d.getElementsByTagName('script')[0];
+        //     p.parentNode.insertBefore(s, p);
+        // }(window, document, '//widgets.mango-office.ru/widgets/mango.js', 'mango-js', 'mgo'));
+        // mgo({multichannel: {id: 27429}});
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Наблюдаем за появлением Mango-элемента
-            const waitForMango = setInterval(() => {
-                const el = document.getElementById('mgo-mcw-widget')
-                if (el) {
-                    clearInterval(waitForMango)
-                    window.checkCookiesAccepted()
-
-                    // Наблюдаем за изменением классов
-                    const observer = new MutationObserver((mutationsList) => {
-                        for (const mutation of mutationsList) {
-                            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                                window.checkCookiesAccepted()
-                            }
-                        }
-                    })
-
-                    observer.observe(el, {
-                        attributes: true,
-                        attributeFilter: ['class']
-                    })
-                }
-            }, 200)
-
-            window.cookiePlateVisible = true
-            window.addEventListener('resize', window.checkCookiesAccepted)
-        })
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     // Наблюдаем за появлением Mango-элемента
+        //     const waitForMango = setInterval(() => {
+        //         const el = document.getElementById('mgo-mcw-widget')
+        //         if (el) {
+        //             clearInterval(waitForMango)
+        //             window.checkCookiesAccepted()
+        //
+        //             // Наблюдаем за изменением классов
+        //             const observer = new MutationObserver((mutationsList) => {
+        //                 for (const mutation of mutationsList) {
+        //                     if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        //                         window.checkCookiesAccepted()
+        //                     }
+        //                 }
+        //             })
+        //
+        //             observer.observe(el, {
+        //                 attributes: true,
+        //                 attributeFilter: ['class']
+        //             })
+        //         }
+        //     }, 200)
+        //
+        //     window.cookiePlateVisible = true
+        //     window.addEventListener('resize', window.checkCookiesAccepted)
+        // })
     } catch (e) {
         console.log('Mango ошибка', e)
     }
 </script>
 <!-- Yandex.Metrika counter -->
-<script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
-<script type="text/javascript">
-    try {
-        (function (m, e, t, r, i, k, a) {
-            m[i] = m[i] || function () {
-                (m[i].a = m[i].a || []).push(arguments)
-            };
-            m[i].l = 1 * new Date();
-            for (var j = 0; j < document.scripts.length; j++) {
-                if (document.scripts[j].src === r) {
-                    return;
-                }
-            }
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-        })
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+<!--<script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>-->
+<!--<script type="text/javascript">-->
+<!--    try {-->
+<!--        (function (m, e, t, r, i, k, a) {-->
+<!--            m[i] = m[i] || function () {-->
+<!--                (m[i].a = m[i].a || []).push(arguments)-->
+<!--            };-->
+<!--            m[i].l = 1 * new Date();-->
+<!--            for (var j = 0; j < document.scripts.length; j++) {-->
+<!--                if (document.scripts[j].src === r) {-->
+<!--                    return;-->
+<!--                }-->
+<!--            }-->
+<!--            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)-->
+<!--        })-->
+<!--        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");-->
 
-        ym(95726509, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true,
-            ecommerce: "dataLayer"
-        });
-    } catch (e) {
-        console.log('Яндекс метрика ошибка')
-    }
-</script>
+<!--        ym(95726509, "init", {-->
+<!--            clickmap: true,-->
+<!--            trackLinks: true,-->
+<!--            accurateTrackBounce: true,-->
+<!--            webvisor: true,-->
+<!--            ecommerce: "dataLayer"-->
+<!--        });-->
+<!--    } catch (e) {-->
+<!--        console.log('Яндекс метрика ошибка')-->
+<!--    }-->
+<!--</script>-->
 <!-- Yandex.Metrika counter -->
 <div id="app"></div>
 <script type="module" src="/src/main.ts"></script>

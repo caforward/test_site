@@ -1,9 +1,9 @@
 <script setup>
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
-import BaseButton from './ui/BaseButton.vue';
-import { ref, reactive, onBeforeMount, watch, computed, onMounted } from 'vue';
-import BaseModal from './BaseModal.vue';
+import BaseButton from '@/blocks/ui/BaseButton.vue';
+import BaseModal from '@/blocks/BaseModal.vue';
+import {ref, reactive, onBeforeMount, watch} from 'vue';
 
 const terminalKeyCard = ref('1718781279447')
 const terminalKeyFPS = ref('1731918302262')
@@ -87,11 +87,13 @@ function isFormValid() {
         // console.log(contactInput.value[0].inputName)
     }
 
-    if (hasInvalidInputs || hasInvalidContactInput) {
-        return false
-    } else {
-        return true
-    }
+    // if (hasInvalidInputs || hasInvalidContactInput) {
+    //     return false
+    // } else {
+    //     return true
+    // }
+
+    return !hasInvalidInputs && !hasInvalidContactInput // возвращает true или false
 }
 
 function validateForm() {
@@ -113,16 +115,16 @@ function createFPSPaymentData() {
                 },
             },
         ],
-        paymentSystems: { TinkoffFps: {} },
+        paymentSystems: {TinkoffFps: {}},
     };
 }
 
 function paymentPay() {
     const TPF = form.value
 
-    const { description, receipt, name, amount, email, phone, contractId } = TPF
+    const {description, receipt, name, amount, email, phone, contractId} = TPF
 
-    const { userAmount } = formInputs
+    const {userAmount} = formInputs
     const unitAmount = Math.round(userAmount.value * 100)
     amount.value = userAmount.value
 
@@ -176,7 +178,7 @@ watch(
             terminalKey.value = terminalKeyCard.value
         }
     },
-    { immediate: true }
+    {immediate: true}
 )
 </script>
 
@@ -195,27 +197,41 @@ watch(
 
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
-                <div class="flex gap-3 flex-col">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="flex gap-2 items-center">
-
-                        <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-card"
-                            name="payment-contact-type" value="card" />
-                        <label for="payment-payment-type-card" class="flex gap-2 items-center">
+                        <RadioButton
+                            type="radio"
+                            v-model="paymentType"
+                            inputId="payment-payment-type-card"
+                            name="payment-contact-type"
+                            value="card"
+                        />
+                        <label
+                            for="payment-payment-type-card"
+                            class="flex gap-2 items-center transition-colors"
+                            :class="{'!text-gray-500': paymentType === 'fps'}"
+                        >
                             <span>Оплата картой</span>
                             <i class="pi pi-credit-card !text-xl text-sky-500"></i>
                         </label>
-
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="flex gap-2 items-center">
-
-                            <RadioButton type="radio" v-model="paymentType" inputId="payment-payment-type-fps"
-                                name="payment-contact-type" value="fps" />
-                            <label for="payment-payment-type-fps" class="flex gap-2 items-center">
+                            <RadioButton
+                                v-model="paymentType"
+                                type="radio"
+                                inputId="payment-payment-type-fps"
+                                name="payment-contact-type"
+                                value="fps"
+                            />
+                            <label
+                                for="payment-payment-type-fps"
+                                class="flex gap-2 items-center transition-colors"
+                                :class="{'!text-gray-500': paymentType === 'card'}"
+                            >
                                 <span>Оплата через СБП</span>
                                 <img src="/images/sbp.svg" alt="СБП" class="w-5">
                             </label>
-
                         </div>
                         <span @click="showFPSInfoModal = true">
                             <i
@@ -225,53 +241,84 @@ watch(
                 </div>
 
                 <!-- inputs -->
-                <template v-for="input in props.inputs" :key="input">
-                    <BaseInput v-if="input.type !== 'tel' && input.type !== 'email'" ref="inputRefs"
-                        v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
-                        :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled"
-                        :options="input.options" />
+                <template
+                    v-for="input in props.inputs"
+                    :key="input"
+                >
+                    <BaseInput
+                        ref="inputRefs"
+                        v-if="input.type !== 'tel' && input.type !== 'email'"
+                        v-model="formInputs[input.name].value"
+                        :name="input.name"
+                        :type="input.type"
+                        :placeholder="input.placeholder"
+                        :required="input.required"
+                        :disabled="input.disabled"
+                        :options="input.options"
+                    />
                 </template>
 
                 <!-- radio for phone/email -->
-                <div class="payform-radios">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="">
-                        <RadioButton type="radio" v-model="contactType" inputId="payment-contact-type-phone"
-                            name="payment-contact-type" value="phone" />
-                        <label for="payment-contact-type-phone">
+                        <RadioButton
+                            v-model="contactType"
+                            type="radio"
+                            inputId="payment-contact-type-phone"
+                            name="payment-contact-type"
+                            value="phone"
+                        />
+                        <label
+                            for="payment-contact-type-phone"
+                            class="transition-colors"
+                            :class="{'!text-gray-400': contactType === 'email'}"
+                        >
                             Телефон
                         </label>
                     </div>
                     <div class="">
-                        <RadioButton type="radio" v-model="contactType" inputId="payment-contact-type-email"
-                            name="payment-contact-type" value="email" />
-                        <label for="payment-contact-type-email">
+                        <RadioButton
+                            v-model="contactType"
+                            type="radio"
+                            inputId="payment-contact-type-email"
+                            name="payment-contact-type" value="email"
+                        />
+                        <label
+                            for="payment-contact-type-email"
+                            class="transition-colors"
+                            :class="{'!text-gray-500': contactType === 'phone'}"
+                        >
                             E-mail
                         </label>
                     </div>
                 </div>
 
                 <template v-for="input in props.inputs" :key="input">
-                    <BaseInput ref="contactInput" v-if="input.type === 'tel' && contactType === 'phone'"
-                        v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
-                        :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled" />
+                    <BaseInput
+                        ref="contactInput"
+                        v-if="input.type === 'tel' && contactType === 'phone'"
+                        v-model="formInputs[input.name].value"
+                        :name="input.name"
+                        :type="input.type"
+                        :placeholder="input.placeholder"
+                        :required="input.required"
+                        :disabled="input.disabled"
+                    />
 
-                    <BaseInput ref="contactInput" v-else-if="input.type === 'email' && contactType === 'email'"
-                        v-model="formInputs[input.name].value" :name="input.name" :type="input.type"
-                        :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled" />
+                    <BaseInput
+                        ref="contactInput"
+                        v-else-if="input.type === 'email' && contactType === 'email'"
+                        v-model="formInputs[input.name].value"
+                        :name="input.name"
+                        :type="input.type"
+                        :placeholder="input.placeholder"
+                        :required="input.required"
+                        :disabled="input.disabled"
+                    />
                 </template>
             </div>
 
             <div class="payform__bottom">
-                <BaseButton v-if="paymentType === 'card'" size="large">
-                    Оплатить картой
-                </BaseButton>
-                <template v-else>
-                    <BaseButton v-if="!isFPSPaymentInited" size="large" class="text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600">
-                        Оплатить через СБП
-                    </BaseButton>
-                    <div v-show="isFPSPaymentInited" id="FPS-payment-button"></div>
-                </template>
-
                 <div class="payform__meta">
                     <div>
                         Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
@@ -279,14 +326,14 @@ watch(
                         Договором оферты
                     </a>
                     и -->
-                        <a href="/policy" target="_blank" class="link">
+                        <a href="/policy" target="_blank" class="link underline">
                             политикой конфиденциальности.
                         </a>
                     </div>
-                    <div>
-                        Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру телефона
-                        <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>
-                    </div>
+                    <!--                    <div>-->
+                    <!--                        Если у вас возникнут вопросы, пожалуйста, свяжитесь с нами по номеру телефона-->
+                    <!--                        <a href="tel:+78043334133" class="link">+7 (804) 333-41-33</a>-->
+                    <!--                    </div>-->
                     <!-- <div>
                     Если у вас возникнут сложности с оплатой через нашу форму, Вы можете воспользоваться
                     <a href="https://pay.mandarinbank.com/?m=4971" class="link" target="_blank">
@@ -295,6 +342,25 @@ watch(
                     (Взимается комиссия 3%).
                 </div> -->
                 </div>
+
+                <template v-if="paymentType === 'card'">
+                    <BaseButton class="w-fit" size="large">
+                        Оплатить картой
+                    </BaseButton>
+                </template>
+                <template v-else>
+                    <BaseButton
+                        v-if="!isFPSPaymentInited"
+                        size="large"
+                        class="w-fit text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600"
+                    >
+                        Оплатить через СБП
+                    </BaseButton>
+                    <div
+                        v-show="isFPSPaymentInited"
+                        id="FPS-payment-button"
+                    ></div>
+                </template>
             </div>
         </form>
 
@@ -318,7 +384,8 @@ watch(
                         <li>На странице оплаты выберите опцию «Оплата через СБП».</li>
                         <li>Введите ваше данные.</li>
                         <li>Отсканируйте предоставленный QR-код с помощью
-                            приложения вашего банка.</li>
+                            приложения вашего банка.
+                        </li>
                         <li>Подтвердите оплату в банковском приложении.</li>
                         <li>Готово! Средства зачисляются мгновенно.</li>
                     </ul>
@@ -341,7 +408,7 @@ watch(
 .payform {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 16px;
 
     &__meta {
         display: flex;
