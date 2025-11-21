@@ -280,7 +280,7 @@ watch(
 
 #mobile-menu.modal {
     padding: 0;
-    top: 89px;
+    top: 60px;
     left: 0;
     justify-content: flex-start;
 }

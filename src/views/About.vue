@@ -8,6 +8,7 @@ import Advantages from "@/components/About/Advantages.vue"
 import Trust from "@/components/About/Trust.vue"
 import Faq from "@/components/About/Faq.vue"
 import FormFooter from "@/components/About/FormFooter.vue"
+import AboutCompany from "@/components/PartnerPage/AboutCompany.vue";
 
 onMounted(() => {
     window.scrollTo(0, 0)
@@ -21,6 +22,7 @@ onMounted(() => {
         <Info />
         <Advantages />
         <Trust />
+        <AboutCompany />
         <Faq />
         <FormFooter />
     </main>

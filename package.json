@@ -13,6 +13,7 @@
     "@babel/core": "^7.25.2",
     "@primevue/themes": "^4.1.1",
     "jsdom": "^25.0.1",
+    "lodash": "^4.17.21",
     "primeicons": "^7.0.0",
     "primevue": "^4.1.1",
     "sass": "^1.79.3",

@@ -11,60 +11,69 @@
 @layer components {
     /* Заголовки */
     .heading-1 {
-        @apply text-[26px] font-bold leading-[1.2]
+        @apply
         md:text-[44px] md:leading-[1.1]
-        lg:text-[48px] lg:leading-[1.04];
+        lg:text-[48px] lg:leading-[1.04]
+        text-[26px] font-bold leading-[1.2];
     }
 
     .heading-2 {
-        @apply text-[22px] font-bold leading-[1.3]
+        @apply
         md:text-[30px]
-        lg:text-[36px];
+        lg:text-[36px]
+        text-[22px] font-bold leading-[1.3];
     }
 
     .heading-3 {
-        @apply text-[18px] font-semibold leading-[1.4]
+        @apply
         md:text-[24px]
-        lg:text-[28px];
+        lg:text-[28px]
+        text-[18px] font-semibold leading-[1.4];
     }
 
     .heading-4 {
-        @apply text-[16px] font-semibold leading-[1.4]
+        @apply
         md:text-[18px]
-        lg:text-[20px];
+        lg:text-[20px]
+        text-[16px] font-semibold leading-[1.4];
     }
 
     .heading-5 {
-        @apply text-[16px] font-bold leading-[1.6]
+        @apply
         md:text-[17px]
-        lg:text-[18px] lg:leading-[1.75];
+        lg:text-[18px] lg:leading-[1.75]
+        text-[16px] font-bold leading-[1.6];
     }
 
     .text-large {
-        @apply text-[16px] leading-[1.6]
+        @apply
         md:text-[17px]
-        lg:text-[18px] lg:leading-[1.75];
+        lg:text-[18px] lg:leading-[1.75]
+        text-[16px] leading-[1.6];
     }
 
     /* Основной текст */
     .text-body {
-        @apply text-[14px] leading-[1.6]
+        @apply
         md:text-[15px]
-        lg:text-[16px] lg:leading-[1.75];
+        lg:text-[16px] lg:leading-[1.75]
+        text-[14px] leading-[1.6];
     }
 
     /* Мелкий текст */
     .text-small {
-        @apply text-[12px] leading-[1.4]
+        @apply
         md:text-[13px]
-        lg:text-[14px];
+        lg:text-[14px]
+        text-[12px] leading-[1.4];
     }
 
     /* Текст кнопок */
     .button-text {
-        @apply text-[14px] font-medium
+        @apply
         md:text-[15px]
-        lg:text-[16px];
+        lg:text-[16px]
+        text-[14px] font-medium;
     }
 
     /* Вспомогательные классы */

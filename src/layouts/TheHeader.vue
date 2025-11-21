@@ -2,193 +2,147 @@
 import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
 import ModalForm from './ModalForm.vue'
-import {onBeforeMount, onMounted, onUnmounted, ref, computed} from 'vue';
+import {ref, computed} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
+import {Icon} from "@iconify/vue";
+import useScrollHeader from "@/composable/useScrollHeader.js";
+import BaseButton from "@/blocks/ui/BaseButton.vue";
 
+const {headerMinimized} = useScrollHeader()
 const router = useRouter()
 const route = useRoute()
-const header = ref(null)
+
+const routesEntries = router
+    .getRoutes()
+    .map(route => [route.name, route.path])
+const routes = Object.fromEntries(routesEntries)
 
 // modals
 const modalType = ref(null)
-const visibleModal = ref(false)
-const visibleMobileMenu = ref(false)
-const visibleMobileRequisites = ref(false)
+const isModalVisible = ref(false)
+const isMobileMenuVisible = ref(false)
+const isMobileRequisitesVisible = ref(false)
 
 // links lists
-const topNav = ref([
+const topNav = computed(() => [
     {
+        id: 0,
         name: "О компании",
-        href: ''
+        href: routes['О компании'],
+        type: "router-link"
     },
     {
+        id: 1,
+        name: "Документы",
+        href: "#contacts",
+        type: "anchor"
+    },
+    {
+        id: 2,
         name: "Контакты",
         href: "#contacts",
-
+        type: "anchor"
     },
     {
+        id: 3,
         name: "Партнёрам",
-        href: ''
+        href: routes['Партнёрам'],
+        type: "router-link"
     },
     {
+        id: 4,
         name: "Вакансии",
-        href: ''
+        href: routes['Вакансии'],
+        type: "router-link"
     },
     {
+        id: 5,
         name: "Реквизиты для оплаты",
-        href: "",
+        option: "requisites",
+        type: "modal"
     },
 ])
-const bottomNav = ref([
+const bottomNav = computed(() => [
     {
+        id: 0,
         name: "Главная",
-        href: "/",
+        href: routes['Главная'],
+        type: "router-link",
     },
     {
+        id: 1,
         name: "Получить рассрочку",
-        href: ''
+        option: "installment",
+        type: "modal",
     },
     {
+        id: 2,
         name: "Разблокировать счет",
-        href: "#",
-    },
-    {
-        name: "Заказать звонок",
-        href: "#",
+        option: "account-unblock",
+        type: "modal",
     },
 ])
-
-// variables
-const debounce = 20
-let lastScrollPosition = ref(null)
-let headerMinimized = ref(null)
-let scrollListenerIsActive = ref(null)
-let isMobile = computed(() => matchMedia('(max-width: 1023px)').matches)
 
 // functions
 const currentRoute = computed(() => route)
 
-function handleNavLink(event, navLink) {
-    const contacts = document.getElementById('contacts');
-
-    if (contacts && navLink.name === 'Контакты') {
-        contacts.scrollIntoView({behavior: 'smooth'});
-    }
-}
-
-function showFormModal(type) {
-    if (type) {
-        modalType.value = type;
-    } else {
-        modalType.value = null;
+function showModal(option) {
+    if (option === 'requisites') {
+        isMobileRequisitesVisible.value = true
+        return
     }
 
-    visibleModal.value = true;
+    modalType.value = option ? option : null;
+    isModalVisible.value = true;
 }
-
-function fillRoutes() {
-    const routes = router.getRoutes()
-
-    topNav.value.forEach(item => {
-        const eqNameRoute = routes.find(route => route.name === item.name)
-        if (eqNameRoute) {
-            item.href = eqNameRoute.path
-        }
-    })
-    bottomNav.value.forEach(item => {
-        const eqNameRoute = routes.find(route => route.name === item.name)
-        if (eqNameRoute) {
-            item.href = eqNameRoute.path
-        }
-    })
-}
-
-function minimizeHeader() {
-    const scrollDiff = lastScrollPosition.value - window.scrollY
-
-    if (Math.abs(scrollDiff) > debounce && window.scrollY > 0) {
-
-        if (scrollDiff > 0 && headerMinimized.value) {
-            header.value.classList.remove('header__minimized')
-            headerMinimized.value = false
-
-        } else if (scrollDiff < 0 && !headerMinimized.value) {
-            header.value.classList.add('header__minimized')
-            headerMinimized.value = true
-        }
-
-        lastScrollPosition.value = window.scrollY
-    }
-}
-
-function toMobileHandler() {
-
-    if (isMobile.value && scrollListenerIsActive.value) {
-        window.removeEventListener('scroll', minimizeHeader)
-        header.value.classList.remove('header__minimized')
-        scrollListenerIsActive.value = false
-
-    } else if (!isMobile.value && !scrollListenerIsActive.value) {
-        minimizeHeader()
-        window.addEventListener('scroll', minimizeHeader)
-        scrollListenerIsActive.value = true
-    }
-}
-
-// hooks
-onBeforeMount(() => {
-    fillRoutes()
-})
-
-onMounted(() => {
-    toMobileHandler()
-    window.addEventListener('resize', toMobileHandler)
-})
-
-onUnmounted(() => {
-    if (scrollListenerIsActive.value) {
-        window.removeEventListener('scroll', minimizeHeader)
-    }
-    window.removeEventListener('resize', toMobileHandler)
-})
 </script>
 
 
 <template>
-    <header ref="header" class="header">
+    <header class="header" :class="{'header__minimized': headerMinimized}">
         <div class="header-top">
             <div class="custom-container">
                 <ul class="header-top-nav">
-                    <li v-for="navLink in topNav" :key="navLink.name">
+                    <li v-for="link in topNav" :key="link.id">
                         <router-link
-                            v-if="navLink.href && navLink.href[0] !== '#'"
-                            :to="navLink.href || ''"
+                            v-if="link.type === 'router-link'"
                             class="header-top-nav__link"
+                            :to="link.href"
                             exact
                         >
-                            {{ navLink.name }}
+                            {{ link.name }}
                         </router-link>
 
                         <a
-                            v-else-if="navLink.name === 'Реквизиты для оплаты'"
-                            :href="navLink.href"
+                            v-else-if="link.type === 'link'"
                             class="header-top-nav__link"
-                            @click.prevent="visibleMobileRequisites = true"
+                            :href="link.href"
                         >
-                            {{ navLink.name }}
+                            {{ link.name }}
                         </a>
 
                         <a
-                            v-else class="header-top-nav__link"
-                            :href="navLink.href"
-                            @click.prevent="handleNavLink($event, navLink)"
+                            v-else-if="link.type === 'anchor'"
+                            class="header-top-nav__link"
+                            :href="link.href"
                         >
-                            {{ navLink.name }}
+                            {{ link.name }}
                         </a>
+
+                        <button
+                            v-else-if="link.type === 'modal'"
+                            class="header-top-nav__link"
+                            @click="showModal(link.option)"
+                        >
+                            {{ link.name }}
+                        </button>
                     </li>
+
+
                 </ul>
             </div>
         </div>
+
         <div class="header-bottom shadow-md">
             <div class="custom-container">
                 <div class="header-bottom__inner">
@@ -198,70 +152,75 @@ onUnmounted(() => {
                         </a>
                     </div>
 
-                    <div class="header-bottom__right">
-                        <ul class="header-bottom-nav">
-                            <li
-                                v-for="navLink in bottomNav"
-                                :key="navLink.name"
-                                @click="handleNavLink($event, navLink)"
+                    <ul class="header-bottom-nav">
+                        <li
+                            v-for="link in bottomNav"
+                            :key="link.name"
+                        >
+                            <router-link
+                                v-if="link.type === 'router-link'"
+                                :to="link.href"
                             >
+                                {{ link.name }}
+                            </router-link>
 
-                                <router-link v-if="navLink.href[0] !== '#'" :to="navLink.href"
-                                             class="header-bottom-nav__link">
-                                    {{ navLink.name }}
-                                </router-link>
-
-                                <a
-                                    v-else-if="navLink.name === 'Разблокировать счет'"
-                                    :href="navLink.href"
-                                    class="header-bottom-nav__link flex gap-1 items-center"
-                                    @click.prevent="showFormModal('account-unblock')"
-                                >
-                                    <i class="pi pi-unlock text-sky-500" style="font-size: 20px;"></i>
-                                    {{ navLink.name }}
-                                </a>
-
-                                <a
-                                    v-else-if="navLink.name === 'Заказать звонок'"
-                                    class="header-bottom-nav__link"
-                                    @click.prevent="showFormModal('callback')"
-                                    :href="navLink.href"
-                                >
-                                    {{ navLink.name }}
-                                </a>
-
-                                <a
-                                    v-else class="header-bottom-nav__link"
-                                    :href="navLink.href"
-                                >
-                                    {{ navLink.name }}
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div class="header-bottom-tel">
-                            <a href="tel:+78043334133" class="header-bottom-tel__link">+ 7 (804) 333-41-33</a>
-                            <a href="https://t.me/Fwdclient_bot" target="_blank"
-                               class="button button_blue button_icon header-bottom-tel__button">
-                                <svg viewBox="1 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M12.5552 10.7199C12.7776 10.0285 13.826 3.14677 13.9583 1.79063C13.9952 1.6374 13.9816 1.4763 13.9195 1.3315C13.8575 1.1867 13.7503 1.06603 13.6142 0.98759C13.1859 0.862751 12.7265 0.904525 12.3275 1.10459C11.6074 1.36518 2.38886 5.29532 1.85407 5.52401C1.31928 5.75269 0.874512 5.97605 0.874512 6.31642C0.874512 6.55573 1.01218 6.68869 1.40401 6.84824C1.79583 7.00778 2.82834 7.3056 3.43197 7.47046C3.96856 7.60507 4.53597 7.53098 5.02046 7.26305C5.41228 7.01842 9.94477 3.9711 10.2731 3.70519C10.6013 3.43928 10.8555 3.77964 10.5908 4.04555C10.326 4.31146 7.21257 7.34815 6.79956 7.76828C6.71014 7.85395 6.64263 7.96002 6.60276 8.0775C6.56289 8.19498 6.55185 8.32039 6.57056 8.44307C6.58927 8.56576 6.63719 8.68209 6.71024 8.78219C6.7833 8.8823 6.87933 8.96321 6.99018 9.01806C7.37142 9.25738 10.1195 11.1081 10.5325 11.4059C10.8839 11.6733 11.3097 11.8239 11.7503 11.8367C12.1581 11.8154 12.3646 11.3049 12.5552 10.7199Z"/>
-                                </svg>
+                            <a
+                                v-else-if="link.type === 'link'"
+                                :href="link.href"
+                            >
+                                {{ link.name }}
                             </a>
-                        </div>
-                        <a :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
-                           class="button button_blue button_small header-bottom__payment">
-                            Внести платёж
+
+                            <a
+                                v-else-if="link.type === 'anchor'"
+                                :href="link.href"
+                            >
+                                {{ link.name }}
+                            </a>
+
+                            <button
+                                v-else-if="link.type === 'modal'"
+                                class="flex gap-1 items-center"
+                                :href="link.href"
+                                @click="showModal(link.option)"
+                            >
+                                <Icon
+                                    v-if="link.name === 'Разблокировать счет'"
+                                    class="text-sky-500 text-[18px]"
+                                    icon="material-symbols:lock-open-outline"
+                                />
+                                <span>{{ link.name }}</span>
+                            </button>
+                        </li>
+                    </ul>
+
+
+                    <div class="header-bottom__right">
+                        <a href="tel:+78043334133" class="header-bottom__phone">
+                            + 7 (804) 333-41-33
                         </a>
+
+                        <BaseButton
+                            as="link"
+                            href="https://t.me/Fwdclient_bot"
+                            target="_blank"
+                            circle
+                        >
+                            <Icon icon="mingcute:telegram-fill" width="24"/>
+                        </BaseButton>
+
+                        <BaseButton
+                            as="link"
+                            :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
+                        >
+                            Внести платёж
+                        </BaseButton>
                     </div>
+
                     <div class="header-button__menu">
-                        <a href="#" @click.prevent="visibleMobileMenu = !visibleMobileMenu">
-                            <svg width="22" height="16" viewBox="0 0 22 16" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                      d="M0.666748 1C0.666748 0.447715 1.11446 0 1.66675 0H20.3334C20.8857 0 21.3334 0.447715 21.3334 1C21.3334 1.55228 20.8857 2 20.3334 2H1.66675C1.11446 2 0.666748 1.55228 0.666748 1ZM0.666748 8C0.666748 7.44772 1.11446 7 1.66675 7H20.3334C20.8857 7 21.3334 7.44772 21.3334 8C21.3334 8.55228 20.8857 9 20.3334 9H1.66675C1.11446 9 0.666748 8.55228 0.666748 8ZM0.666748 15C0.666748 14.4477 1.11446 14 1.66675 14H20.3334C20.8857 14 21.3334 14.4477 21.3334 15C21.3334 15.5523 20.8857 16 20.3334 16H1.66675C1.11446 16 0.666748 15.5523 0.666748 15Z"
-                                      fill="#4C5866"/>
-                            </svg>
+                        <a href="#" @click.prevent="isMobileMenuVisible = !isMobileMenuVisible">
+                            <Icon v-if="!isMobileMenuVisible" icon="radix-icons:hamburger-menu" width="24"/>
+                            <Icon v-if="isMobileMenuVisible" icon="material-symbols:close-rounded" width="24"/>
                         </a>
                     </div>
                 </div>
@@ -269,15 +228,35 @@ onUnmounted(() => {
         </div>
     </header>
 
-    <TheMenuMobile :visible="visibleMobileMenu" @close="visibleMobileMenu = false"/>
-    <ModalRequisites v-model="visibleMobileRequisites"/>
-    <ModalForm v-model="visibleModal" :type="modalType"/>
+    <TheMenuMobile :visible="isMobileMenuVisible" @close="isMobileMenuVisible = false"/>
+    <ModalRequisites v-model="isMobileRequisitesVisible"/>
+    <ModalForm v-model="isModalVisible" :type="modalType"/>
 </template>
 
 
 <style lang="scss" scoped>
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
+
+.header-bottom {
+    &-nav {
+        @apply
+        xl:text-[18px]
+        xl:gap-[30px]
+        lg:flex
+        hidden gap-[8px] items-center text-sm font-medium text-[#292D32];
+    }
+
+    &__phone {
+        @apply
+        xl:text-[18px]
+        flex items-center text-sm font-medium text-[#292D32];
+    }
+
+    &__right {
+        @apply flex gap-[10px];
+    }
+}
 
 .header {
     border-bottom: 1px solid var.$gray;
@@ -287,7 +266,7 @@ onUnmounted(() => {
         top: -40px;
 
         & .header-bottom {
-            padding: 15px 0;
+            padding: 10px 0;
 
             &__logo {
                 height: 35px;
@@ -319,7 +298,7 @@ onUnmounted(() => {
 
     &-bottom {
         background-color: var.$white;
-        padding: 22px 0;
+        padding: 15px 0;
 
         &__inner {
             display: flex;
@@ -363,21 +342,6 @@ onUnmounted(() => {
                     height: 22px;
                     fill: #fff;
                 }
-            }
-        }
-
-        &-nav {
-            display: flex;
-            margin-right: 40px;
-
-            & > li:not(:last-child) {
-                margin-right: 30px;
-            }
-
-            &__link {
-                font-weight: 400;
-                font-size: 16px;
-                color: #000;
             }
         }
     }
@@ -431,7 +395,8 @@ onUnmounted(() => {
             }
 
             &__logo {
-                width: 130px;
+                width: 115px;
+                height: 30px;
             }
 
             &-tel {
@@ -440,18 +405,6 @@ onUnmounted(() => {
                 &__button {
                     height: 35px;
                     width: 35px;
-                }
-            }
-
-            &-nav {
-                margin-right: 15px;
-
-                & > li:not(:last-child) {
-                    margin-right: 15px;
-                }
-
-                &__link {
-                    font-size: 13px;
                 }
             }
         }

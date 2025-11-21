@@ -18,6 +18,10 @@ const props = defineProps({
         type: String,
         default: 'medium'
     },
+    circle: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const baseClass = 'flex items-center justify-center font-medium border rounded-full transition-colors hover:cursor-pointer'
@@ -36,11 +40,17 @@ const colorsClass = computed(() => {
 const sizeClass = computed(() => {
     switch (props.size) {
         case 'small':
-            return 'px-2 py-1'
+            return props.circle
+                ? 'w-[30px] h-[30px]'
+                : 'px-4 h-[30px] text-sm'
         case 'medium':
-            return 'px-3 py-2'
+            return props.circle
+                ? 'w-10 h-10'
+                : 'px-6 h-10'
         case 'large':
-            return 'px-7 py-2.5 text-lg'
+            return props.circle
+                ? 'w-[50px] h-[50px]'
+                : 'px-6 h-[50px]'
         default:
             return ''
     }

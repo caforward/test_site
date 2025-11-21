@@ -49,7 +49,7 @@
 }
 
 @mixin desktop() {
-    @media (max-width: 1230px) {
+    @media (max-width: 1279px) {
         @content;
     }
 }
