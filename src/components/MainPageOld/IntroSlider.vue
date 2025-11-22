@@ -353,7 +353,7 @@ function showCancelIPModal() {
     .slide {
         &__img {
             position: absolute;
-            top: 17px;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -378,7 +378,6 @@ function showCancelIPModal() {
         }
 
         &-content {
-
             &__title {
                 font-weight: 700;
                 font-size: 48px;

@@ -1,8 +1,8 @@
 <script setup>
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Navigation, Pagination, Autoplay} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import ModalForm from '@/layouts/ModalForm.vue';
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const props = defineProps({
     light: {
@@ -25,9 +25,10 @@ function showUnblockAccauntModal() {
     modalDefaultOption.value = 'account-unblock';
     modalVisible.value = true;
 }
+
 function showCancelIPModal() {
-  modalDefaultOption.value = 'cancel-ip';
-  modalVisible.value = true;
+    modalDefaultOption.value = 'cancel-ip';
+    modalVisible.value = true;
 }
 
 </script>
@@ -35,12 +36,18 @@ function showCancelIPModal() {
 <template>
     <section class="intro-slider">
         <div class="slider__inner">
-            <swiper class="swiper" :modules="modules" :slides-per-view="1" :speed="700" :loop="true"
-                :autoplay="{ delay: 15000 }"
+            <swiper
+                class="swiper"
+                :modules="modules"
+                :slides-per-view="1"
+                :speed="700"
+                :loop="true"
                 :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
-                :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
+                :pagination="{ clickable: true, el: '.intro-slider-pagination' }"
+            >
+                <!--                :autoplay="{ delay: 15000 }"-->
                 <swiper-slide class="slider__slide slider__slide_fix">
-                    <div class="custom-container">
+                    <div class="custom-container slide__container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 <span>
@@ -48,61 +55,64 @@ function showCancelIPModal() {
                                 </span>
                             </div>
                             <div class="mb-4 slide-content__text slide-content__text_mobile">
-                                <ol class="list">
-                                    <li>
-                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы
-                                        получения рассрочки
-                                    </li>
-                                    <li>
-                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
-                                        обременителен для Вашего бюджета
-                                    </li>
-                                    <li>
-                                        Мы передадим данные о погашении долга в Бюро кредитных историй
-                                    </li>
-                                </ol>
+                                <p>Всем новым клиентам мы предлагаем скидки и рефинансирование на выгодных условиях</p>
+                                <!--                                <ol class="list">-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы-->
+                                <!--                                        получения рассрочки-->
+                                <!--                                    </li>-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не-->
+                                <!--                                        обременителен для Вашего бюджета-->
+                                <!--                                    </li>-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы передадим данные о погашении долга в Бюро кредитных историй-->
+                                <!--                                    </li>-->
+                                <!--                                </ol>-->
                             </div>
                             <div class="slide-content__text">
-                                <p>
-                                    <b>
-                                        Всем новым клиентам мы предлагаем скидки и рефинансирование на выгодных условиях
-                                    </b>
-                                </p>
-                                <ol class="list">
-                                    <li>
-                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы
-                                        получения рассрочки
-                                    </li>
-                                    <li>
-                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не
-                                        обременителен для Вашего бюджета
-                                    </li>
-                                    <li>
-                                        Мы передадим данные о погашении долга в Бюро кредитных историй
-                                    </li>
-                                </ol>
-                                <p>
-                                    <b>
-                                        Чтобы воспользоваться предложением, свяжитесь с нами, по телефону горячей линии
-                                        <a href="tel:88043334133" class="link">8 804 333 4133</a>
-                                        <br> или направьте нам обращение по форме ниже.
-                                    </b>
-                                </p>
+                                <p>Всем новым клиентам мы предлагаем скидки и рефинансирование на выгодных условиях</p>
+                                <!--                                <p>-->
+                                <!--                                    <b>-->
+                                <!--                                        Всем новым клиентам мы предлагаем скидки и рефинансирование на выгодных условиях-->
+                                <!--                                    </b>-->
+                                <!--                                </p>-->
+                                <!--                                <ol class="list">-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы простим Вам <b>5%</b> от суммы долга сразу же после заполнения формы-->
+                                <!--                                        получения рассрочки-->
+                                <!--                                    </li>-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы согласуем с Вами ежемесячный платеж, который будет удобен именно Вам и не-->
+                                <!--                                        обременителен для Вашего бюджета-->
+                                <!--                                    </li>-->
+                                <!--                                    <li>-->
+                                <!--                                        Мы передадим данные о погашении долга в Бюро кредитных историй-->
+                                <!--                                    </li>-->
+                                <!--                                </ol>-->
+                                <!--                                <p>-->
+                                <!--                                    <b>-->
+                                <!--                                        Чтобы воспользоваться предложением, свяжитесь с нами, по телефону горячей линии-->
+                                <!--                                        <a href="tel:88043334133" class="link">8 804 333 4133</a>-->
+                                <!--                                        <br> или направьте нам обращение по форме ниже.-->
+                                <!--                                    </b>-->
+                                <!--                                </p>-->
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showModal">
+                                   @click.prevent="showModal">
                                     Оставить обращение
                                 </a>
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/03.jpg"' alt="" />
+                            <img class="hidden sm:block" :src='"/images/" + "introSlider/03.png"' alt=""/>
+                            <img class="sm:hidden" src="/images/introSlider/mobile_banner.png" alt="Мобильный баннер"/>
                         </div>
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
-                    <div class="custom-container">
+                    <div class="custom-container slide__container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Разблокируем счет
@@ -137,18 +147,19 @@ function showCancelIPModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showUnblockAccauntModal">
+                                   @click.prevent="showUnblockAccauntModal">
                                     Разблокировать счет
                                 </a>
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/01.jpg"' alt="There was img" />
+                            <img class="hidden sm:block" :src='"/images/" + "introSlider/01.png"' alt="There was img"/>
+                            <img class="sm:hidden" src="/images/introSlider/mobile_banner.png" alt="Мобильный баннер"/>
                         </div>
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
-                    <div class="custom-container">
+                    <div class="custom-container slide__container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Отзовём исполнительное <br> производство из ФССП
@@ -169,13 +180,15 @@ function showCancelIPModal() {
                             <div class="slide-content__text">
                                 <ol class="list">
                                     <li>
-                                        Отзываем исполнительные документы — избавим вас от давления приставов и постоянных проверок!
+                                        Отзываем исполнительные документы — избавим вас от давления приставов и
+                                        постоянных проверок!
                                     </li>
                                     <li>
                                         Удалим информацию из базы ФССП — восстановите свою репутацию и спокойствие!
                                     </li>
                                     <li>
-                                        Прекращаем взыскание официально —  возьмите ситуацию в свои руки и обратитесь к нам сегодня!
+                                        Прекращаем взыскание официально — возьмите ситуацию в свои руки и обратитесь к
+                                        нам сегодня!
                                     </li>
                                 </ol>
                             </div>
@@ -186,12 +199,13 @@ function showCancelIPModal() {
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/04.png"' alt="There was img" />
+                            <img class="hidden sm:block" :src='"/images/" + "introSlider/04.png"' alt="There was img"/>
+                            <img class="sm:hidden" src="/images/introSlider/mobile_banner.png" alt="Мобильный баннер"/>
                         </div>
                     </div>
                 </swiper-slide>
                 <swiper-slide class="slider__slide">
-                    <div class="custom-container">
+                    <div class="custom-container slide__container">
                         <div class="slide-content">
                             <div class="slide-content__title">
                                 Улучшите свою <br> кредитную историю
@@ -231,8 +245,8 @@ function showCancelIPModal() {
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src="'/images/' + 'introSlider/02.jpg'
-                                " alt="" />
+                            <img class="hidden sm:block" :src="'/images/' + 'introSlider/02.png'" alt=""/>
+                            <img class="sm:hidden" src="/images/introSlider/mobile_banner.png" alt="Мобильный баннер"/>
                         </div>
                     </div>
                 </swiper-slide>
@@ -257,7 +271,7 @@ function showCancelIPModal() {
         </div>
     </section>
 
-    <ModalForm v-model="modalVisible" :type="modalDefaultOption" />
+    <ModalForm v-model="modalVisible" :type="modalDefaultOption"/>
 </template>
 
 <style lang="scss">
@@ -268,7 +282,6 @@ function showCancelIPModal() {
 @use 'swiper/css/navigation';
 @use 'swiper/css/pagination';
 @use 'swiper/css/scrollbar';
-
 
 
 @media (min-width: 799px) {
@@ -284,8 +297,6 @@ function showCancelIPModal() {
 }
 
 .intro-slider {
-    margin-top: -80px;
-
     &-pagination {
         .swiper-pagination-bullet {
             margin: 0 2px !important;
@@ -301,7 +312,7 @@ function showCancelIPModal() {
     }
 
     .list {
-        &>li {
+        & > li {
             line-height: 140%;
             margin-bottom: 10px;
             font-weight: 500;
@@ -326,15 +337,26 @@ function showCancelIPModal() {
         }
 
         &__slide {
-            padding-top: 130px;
-            padding-bottom: 100px;
-            height: 800px;
+            height: 560px;
             display: flex;
             align-items: center;
 
             position: relative;
             z-index: 1;
             min-width: 100%;
+            //background-color: var.$white-blue;
+            @apply bg-gradient-to-b from-[#CCD8E8] to-[#EFEAE71A];
+
+            //&::before {
+            //    content: '';
+            //    position: absolute;
+            //    top: 0;
+            //    left: 0;
+            //    width: 100%;
+            //    height: 100%;
+            //    background: linear-gradient(90deg, #e3e6eb 30%, transparent 50%);
+            //    z-index: -1;
+            //}
         }
 
         &-nav {
@@ -351,33 +373,28 @@ function showCancelIPModal() {
     }
 
     .slide {
+        &__container {
+            @apply flex items-center h-full relative;
+        }
+
         &__img {
             position: absolute;
-            top: 17px;
-            left: 0;
-            width: 100%;
+            bottom: 0;
+            right: 0;
+            width: 885px;
             height: 100%;
             z-index: -1;
-            background-color: var.$white-blue;
-
-            &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, #e3e6eb 30%, transparent 50%)
-            }
 
             img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: contain;
+                object-position: bottom;
             }
         }
 
         &-content {
+            margin-top: -50px;
 
             &__title {
                 font-weight: 700;
@@ -387,7 +404,7 @@ function showCancelIPModal() {
             }
 
             &__text {
-                width: 540px;
+                width: 51%;
                 font-size: 16px;
                 line-height: 28px;
                 margin-bottom: 33px;
@@ -406,7 +423,7 @@ function showCancelIPModal() {
             &__buttons {
                 display: flex;
 
-                &>*:not(:last-child) {
+                & > *:not(:last-child) {
                     margin-right: 30px;
                 }
             }
@@ -417,10 +434,6 @@ function showCancelIPModal() {
 @include mixin.desktop {
     .intro-slider {
         .slider {
-            &__slide {
-                // height: 750px;
-            }
-
             &-nav {
                 &__wrapper {
                     bottom: 30px;
@@ -430,9 +443,7 @@ function showCancelIPModal() {
 
         .slide {
             &__img {
-                img {
-                    object-position: 47%;
-                }
+                width: 815px;
 
                 &::before {
                     background: linear-gradient(90deg, #e3e6eb 30%, transparent 70%)
@@ -441,16 +452,19 @@ function showCancelIPModal() {
 
             &-content {
                 &__title {
-                    font-size: 44px;
+                    font-size: 30px;
                 }
 
                 &__text {
-                    width: 363px;
+                    font-size: 14px;
+                }
+
+                & .list {
                     font-size: 14px;
                 }
 
                 &__buttons {
-                    &>*:not(:last-child) {
+                    & > *:not(:last-child) {
                         margin-right: 15px;
                     }
                 }
@@ -461,24 +475,19 @@ function showCancelIPModal() {
 
 @include mixin.laptop {
     .intro-slider {
-        margin-top: -80px;
-
         .slider {
             &__slide {
-                padding-top: 120px;
-                height: 750px;
+                height: 400px;
+            }
 
-                &_fix {
-                    padding-top: 100px;
-                }
+            &-nav__wrapper {
+                bottom: 15px;
             }
         }
 
         .slide {
             &__img {
-                img {
-                    object-position: 54%;
-                }
+                width: 475px;
 
                 &::before {
                     background: linear-gradient(90deg, #e3e6eb 30%, transparent 80%)
@@ -487,74 +496,27 @@ function showCancelIPModal() {
 
             &-content {
                 &__title {
-                    font-size: 30px;
-                    margin-bottom: 10px;
-                }
-
-                &__text {
-                    // width: 279px;
-                    width: 450px;
-                    line-height: 171%;
-                    margin-bottom: 25px;
-                }
-            }
-        }
-    }
-}
-
-@include mixin.tablet {
-    .intro-slider {
-
-        .slider {
-            &__slide {
-                align-items: start;
-                height: unset;
-                padding-bottom: 240px;
-
-                &_fix {
-                    padding-top: 120px;
-                }
-            }
-
-            &-nav {
-                &__wrapper {
-                    bottom: 20px;
-                }
-            }
-        }
-
-        .slide {
-            &__img {
-                padding-top: 260px;
-
-                img {
-                    object-position: 80%;
-                }
-
-                &::before {
-                    background: transparent
-                }
-            }
-
-            &-content {
-                &__title {
-                    margin-bottom: 25px;
+                    font-size: 20px;
+                    line-height: 30px;
+                    margin-bottom: 12px;
                 }
 
                 &__text {
                     display: none;
-                    
+                    width: 55%;
+                    margin-bottom: 25px;
+                    line-height: 24px;
+
                     &_both {
                         display: unset;
                     }
 
                     &_mobile {
                         display: block;
-                        width: unset;
-                        font-size: 16px;
-                        line-height: normal;
-                        margin-top: -12px; // TODO: нужно будет убрать
-                        margin-bottom: 14px;
+                    }
+
+                    & .list li {
+                        margin-bottom: 5px;
                     }
                 }
 
@@ -562,7 +524,7 @@ function showCancelIPModal() {
                     flex-wrap: wrap;
                     gap: 10px;
 
-                    &>* {
+                    & > * {
                         width: fit-content;
                         height: 40px;
 
@@ -578,42 +540,49 @@ function showCancelIPModal() {
 
 @include mixin.mobile {
     .intro-slider {
+        .slider__slide {
+            height: 320px;
+        }
+
         .slide {
             &__img {
-                padding-top: 400px;
+                height: 175px;
+                width: 66%;
+
+                img {
+                    object-position: bottom right;
+                }
             }
 
-            &-content__title {
-                font-size: 26px;
+            &-content {
+                margin-top: -60px;
+
+                &__title {
+                    font-size: 14px;
+                    line-height: 20px;
+                }
+
+                &__text {
+                    width: unset;
+                    font-size: 13px;
+                    line-height: 20px;
+                    margin-bottom: 12px;
+                }
+
+                & .list {
+                    font-size: 13px;
+                    line-height: 20px;
+                }
             }
         }
 
         .list {
             font-size: 16px;
 
-            &>li::marker {
+            & > li::marker {
                 left: 10px;
             }
         }
     }
 }
-
-// @include mixin.mobileS {
-//     .intro-slider {
-//         .slide {
-//             &__img {
-//                 padding-top: 300px;
-
-//                 img {
-//                     object-position: 90%;
-//                 }
-//             }
-
-//             &-content {
-//                 &__title {
-//                     font-size: 20px;
-//                 }
-//             }
-//         }
-//     }
-// }</style>
+</style>

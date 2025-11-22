@@ -61,6 +61,14 @@ const topNav = computed(() => [
         option: "requisites",
         type: "modal"
     },
+    {
+        id: 6,
+        name: "Заказать звонок",
+        option: "callback",
+        type: "modal",
+        class: "bg-white text-sky-500",
+        icon: 'mage:phone-call'
+    },
 ])
 const bottomNav = computed(() => [
     {
@@ -110,7 +118,11 @@ function showModal(option) {
                             :to="link.href"
                             exact
                         >
-                            {{ link.name }}
+                            <Icon
+                                v-if="link.icon"
+                                :icon="link.icon"
+                            />
+                            <span>{{ link.name }}</span>
                         </router-link>
 
                         <a
@@ -118,7 +130,11 @@ function showModal(option) {
                             class="header-top-nav__link"
                             :href="link.href"
                         >
-                            {{ link.name }}
+                            <Icon
+                                v-if="link.icon"
+                                :icon="link.icon"
+                            />
+                            <span>{{ link.name }}</span>
                         </a>
 
                         <a
@@ -126,15 +142,24 @@ function showModal(option) {
                             class="header-top-nav__link"
                             :href="link.href"
                         >
-                            {{ link.name }}
+                            <Icon
+                                v-if="link.icon"
+                                :icon="link.icon"
+                            />
+                            <span>{{ link.name }}</span>
                         </a>
 
                         <button
                             v-else-if="link.type === 'modal'"
                             class="header-top-nav__link"
+                            :class="link.class"
                             @click="showModal(link.option)"
                         >
-                            {{ link.name }}
+                            <Icon
+                                v-if="link.icon"
+                                :icon="link.icon"
+                            />
+                            <span>{{ link.name }}</span>
                         </button>
                     </li>
 
@@ -280,9 +305,12 @@ function showModal(option) {
         &-nav {
             display: flex;
             justify-content: flex-end;
+            color: #fff;
 
             &__link {
-                color: #fff;
+                display: flex;
+                align-items: center;
+                gap: 10px;
                 padding: 10px 20px;
                 font-weight: 400;
                 font-size: 16px;
