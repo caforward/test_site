@@ -500,7 +500,7 @@ function showCancelIPModal() {
             }
 
             &-content {
-                margin-top: -60px;
+                margin-top: -30px;
 
                 &__title {
                     font-size: 14px;
