@@ -197,11 +197,11 @@ onUnmounted(() => {
     }
 }
 
-@include mixin.mobileS {
+@media (max-width: 390px) {
     .bottom-menu {
         &-list {
             &-link {
-                font-size: 3vw;
+                font-size: 2.5vw;
             }
         }
     }
