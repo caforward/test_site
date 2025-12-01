@@ -7,8 +7,12 @@ import {useRouter, useRoute} from 'vue-router';
 import {Icon} from "@iconify/vue";
 import useScrollHeader from "@/composable/useScrollHeader.js";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
+import {useScreenResize} from "@/composable/useScreenResize.js";
+
+const LG_BREAKPOINT = 1024;
 
 const {headerMinimized} = useScrollHeader()
+const {width: screenWidth} = useScreenResize()
 const router = useRouter()
 const route = useRoute()
 
@@ -235,7 +239,18 @@ function showModal(option) {
                         </BaseButton>
 
                         <BaseButton
+                            as="router-link"
+                            size="small"
+                            to="/about"
+                            class="about-company-button"
+                        >
+                            О компании
+                        </BaseButton>
+
+                        <BaseButton
                             as="link"
+                            class="payment-button"
+                            :size="screenWidth < LG_BREAKPOINT ? 'small' : null"
                             :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
                         >
                             Внести платёж
@@ -332,6 +347,7 @@ function showModal(option) {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
         }
 
         &__logo {
@@ -350,6 +366,10 @@ function showModal(option) {
         &__right {
             display: flex;
             align-items: center;
+
+            .about-company-button {
+                display: none;
+            }
         }
 
         &-tel {
@@ -447,7 +467,18 @@ function showModal(option) {
 
         &-bottom {
             &__right {
-                display: none;
+                margin-left: auto;
+
+                & > *:not(.payment-button) {
+                    display: none;
+                }
+
+                .payment-button {
+                    flex: none;
+                }
+                .about-company-button {
+                    display: flex;
+                }
             }
         }
 
@@ -469,6 +500,18 @@ function showModal(option) {
                 height: unset;
             }
         }
+    }
+}
+
+
+@media (max-width: 490px) {
+    .header-bottom__inner .about-company-button {
+        display: none;
+    }
+}
+@include mixin.mobileS {
+    .header-bottom__inner .payment-button {
+        display: none;
     }
 }
 </style>
