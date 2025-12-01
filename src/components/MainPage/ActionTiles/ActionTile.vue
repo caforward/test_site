@@ -31,11 +31,12 @@ const imageName = computed(() => props.imagePath.split('.')[0])
         </div>
 
         <div class="tile__info">
-            <div v-if="props.promotion" class="promotion">
-                {{ props.promotion }}
+            <div class="flex flex-wrap gap-2 items-center">
+                <h3 class="title">{{ props.title }}</h3>
+                <div v-if="props.promotion" class="promotion">
+                    {{ props.promotion }}
+                </div>
             </div>
-
-            <h3 class="title">{{ props.title }}</h3>
 
             <p class="text">{{ props.text }}</p>
         </div>
@@ -66,16 +67,13 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 
     &__info {
         @apply
-        xl:w-10/12
-        lg:w-full
         lg:gap-4
         sm:gap-2
-        sm:w-11/12
         flex flex-col gap-1;
 
         .promotion {
             @apply
-            lg:text-sm/[28px]
+            lg:text-[13px]/[28px]
             border border-sky-500 rounded-sm w-fit text-sky-500 text-[10px]/[15px] font-bold py-1 px-1.5;
         }
 
@@ -89,7 +87,10 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 
         .text {
             @apply
+            xl:w-10/12
             xl:text-base/[28px]
+            lg:w-full
+            sm:w-11/12
             sm:text-sm/[24px]
             sm:display-unset
             hidden;
