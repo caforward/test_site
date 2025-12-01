@@ -52,7 +52,9 @@ const sizeClass = computed(() => {
                 ? 'w-[50px] h-[50px]'
                 : 'px-6 h-[50px]'
         default:
-            return ''
+            return props.circle
+                ? 'w-10 h-10'
+                : 'px-6 h-10'
     }
 })
 </script>
