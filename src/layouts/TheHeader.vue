@@ -469,12 +469,8 @@ function showModal(option) {
             &__right {
                 margin-left: auto;
 
-                & > *:not(.payment-button) {
+                & > * {
                     display: none;
-                }
-
-                .payment-button {
-                    flex: none;
                 }
                 .about-company-button {
                     display: flex;
@@ -503,15 +499,9 @@ function showModal(option) {
     }
 }
 
-
-@media (max-width: 490px) {
-    .header-bottom__inner .about-company-button {
-        display: none;
-    }
-}
 @include mixin.mobileS {
-    .header-bottom__inner .payment-button {
-        display: none;
+    .header-bottom__logo {
+        margin-right: 0;
     }
 }
 </style>
