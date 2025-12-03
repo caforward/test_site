@@ -61,7 +61,7 @@ const sizeClass = computed(() => {
 
 <template>
     <template v-if="props.as === 'button'">
-        <button :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
+        <button type="button" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
             <slot></slot>
         </button>
     </template>
