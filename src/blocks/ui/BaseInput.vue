@@ -3,12 +3,12 @@ import DatePicker from 'primevue/datepicker';
 import InputMask from 'primevue/inputmask';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
-import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
 
 import BaseSelect from './BaseSelect.vue';
 
 import { onMounted, ref, watch, computed } from 'vue';
+import BaseInputFile from "@/blocks/ui/BaseInputFile.vue";
 
 const props = defineProps({
     name: {
@@ -94,6 +94,11 @@ function showErrorHandler() {
 function clearValue() {
     skipValidation.value = true
 
+    if (props.type === 'file') {
+        input.value.clear()
+        return;
+    }
+
     if (defaultValue) {
         value.value = defaultValue
         isInvalid.value = false
@@ -136,6 +141,9 @@ onMounted(() => {
     if (props.type === 'date' && props.minDate) {
         minDate.value = props.minDate
     }
+    if (props.type === 'file') {
+        errorText.value = 'Прикрепите файл'
+    }
 })
 
 // need rework
@@ -167,12 +175,11 @@ watch(
 function validateInputValue(inputValue) {
 
     if (props.required) {
-
         if (props.name === 'name') {
             if (typeof inputValue === 'string') {
                 inputValue = inputValue.trim()
             }
-            
+
             validateInputUserName(inputValue)
         }
         else if (props.type === 'email') {
@@ -180,6 +187,9 @@ function validateInputValue(inputValue) {
         }
         else if (props.type === 'tel') {
             validateInputTel(inputValue)
+        }
+        else if (props.type === 'file') {
+            validateInputFile(inputValue)
         }
         else {
             if (typeof inputValue === 'string') {
@@ -216,8 +226,7 @@ function validateInputEmail(value) {
     }
 }
 
-function validateInputTel(value) {
-
+function validateInputTel() {
     if (skipValidation.value) {
         skipValidation.value = false
         return
@@ -229,6 +238,17 @@ function validateInputTel(value) {
     } else {
         isInvalid.value = true
         errorText.value = 'Заполните поле'
+    }
+}
+
+function validateInputFile() {
+    console.log('file')
+    if (value) {
+        isInvalid.value = false
+        errorText.value = ''
+    } else {
+        isInvalid.value = true
+        errorText.value = 'Прикрепите файл'
     }
 }
 
@@ -246,7 +266,7 @@ function isEmpty(value) {
 </script>
 
 <template>
-    <div class="relative flex flex-col gap-1">
+    <div class="input__wrapper" :class="{ 'input__wrapper_file': props.type === 'file' }">
         <slot name="inputTitle"></slot>
         <!-- ФИО -->
         <InputText ref="input" v-if="props.type === 'text'" :name="props.name" :invalid="isInvalid" v-model="value"
@@ -290,12 +310,40 @@ function isEmpty(value) {
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler"
             :minDate="minDate" />
 
+        <!-- File input. Лимит 5 мегабайт -->
+        <BaseInputFile
+            v-if="props.type === 'file'"
+            ref="input"
+            class="t-input"
+            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            :name="props.name"
+            :invalid="isInvalid"
+            :maxFileSize="5242880"
+            :auto="false"
+            :multiple="false"
+            label="Прикрепить заявление"
+        >
+        </BaseInputFile>
+
         <!-- Ошибка инпута -->
         <transition name="fade">
-            <span v-if="showError"
-                class="absolute bottom-0 left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md">
+            <span v-if="showError" class="error_span">
                 {{ errorText }}
             </span>
         </transition>
     </div>
 </template>
+
+<style lang="scss">
+.input__wrapper {
+    @apply relative flex flex-col gap-1;
+
+    .error_span {
+        @apply absolute bottom-0 left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md;
+    }
+
+    &_file {
+        @apply items-start;
+    }
+}
+</style>

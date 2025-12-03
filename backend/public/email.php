@@ -10,6 +10,15 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Если поле 'file_attachment' присутствует в форме (isset),
+    // но при этом произошла ошибка загрузки (не UPLOAD_ERR_OK),
+    // мы прерываем выполнение и возвращаем ошибку.
+    if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] !== UPLOAD_ERR_OK) {
+        http_response_code(400);
+        echo json_encode(["message" => "Ошибка загрузки файла. Возможно, файл отсутствует или превышен лимит размера файла."]);
+        exit;
+    }
+
     $fields = [
         'name' => 'Имя',
         'tel' => 'Телефон',
@@ -57,6 +66,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $mail->setFrom($_ENV['SMTP_USER'], 'Сообщение с сайта');
         $mail->addAddress($_ENV['SMTP_ADDRESS']);
+
+        // Логика прикрепления файла, если он был загружен
+        if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
+            $mail->addAttachment(
+                $_FILES['file_attachment']['tmp_name'],
+                $_FILES['file_attachment']['name']
+            );
+            $htmlContent .= '<p><strong>Вложение:</strong>' . htmlspecialchars($_FILES['file_attachment']['name']) . '</p>';
+        }
 
         $subject = 'Новое сообщение с сайта';
         $mail->Subject = mb_encode_mimeheader($subject, 'UTF-8');

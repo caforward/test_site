@@ -74,6 +74,11 @@ const props = defineProps({
                     "Отозвать ИП",
                 ],
             },
+            {
+                name: 'file_attachment',
+                type: 'file',
+                required: true,
+            }
         ]
     }
 })
@@ -169,12 +174,15 @@ function setSelectorByType(type) {
 
     if (messageTypeInput) {
         if (type) {
+            // TODO: Переписать весь select input на константы
+            // Индексы из массива options, для селекта
             const types = {
                 "callback": 0,
                 "installment": 2,
                 "account-unblock": 6,
                 "cancel-ip": 11,
                 "debt-info": 1,
+                "refund": 5,
             }
 
             let option = messageTypeInput.options[0]

@@ -1,6 +1,6 @@
 <script setup>
 // imports
-import { ref, onBeforeMount, onMounted, reactive, computed } from 'vue'
+import {ref, onBeforeMount, onMounted, reactive, computed} from 'vue'
 
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import BaseFormInstallment from './BaseFormInstallment.vue';
@@ -8,7 +8,7 @@ import BaseInput from '@/blocks/ui/BaseInput.vue';
 import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 
 // composables
-import { useInputValidation, createFormData } from '@/composable/useForm.js'
+import {useInputValidation, createFormData} from '@/composable/useForm.js'
 
 // variables
 
@@ -94,8 +94,12 @@ onMounted(() => {
 
 const formAttributeType = computed(() => {
     let type = "";
+    // const messageTypeOptions = props.inputs.find(input => input.name === 'messageType').options;
+    // console.log(messageTypeOptions);
 
     // типы форм, принимает название, возвращает тип
+    // TODO: Переписать на использование options из пропсаов
+    // !!! ЭТО НЕ ДЛЯ ПРОПСА messageType, это костыль для формы, для отображения нужных полей
     const types = {
         "Прошу перезвонить": "callback",
         "Другое": "other",
@@ -105,7 +109,7 @@ const formAttributeType = computed(() => {
         "Внесение изменений в БКИ": "",
         "Информация о долге": "debt-info",
         "Информация о мобилизации": "",
-        "О возврате денежных средств": "",
+        "О возврате денежных средств": "refund",
         "Отказ от взаимодействия": "",
         "Претензия": "",
         "Справка о погашении задолженности": "",
@@ -163,6 +167,16 @@ const formAttributeType = computed(() => {
                 </p>
             </template>
 
+            <template v-else-if="formAttributeType === 'refund'">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
+                    Возврат денежных средствы
+                </div>
+                <p class="sm:text-base text-sm mb-6 font-normal">
+                    Пожалуйста, заполните обязательную форму для возврата денежных средств и прикрепите файл к
+                    сообщению.
+                </p>
+            </template>
+
             <!-- default -->
             <template v-else>
                 <div :class="[
@@ -173,7 +187,8 @@ const formAttributeType = computed(() => {
                     Заполните поля в форме ниже, и мы свяжемся с Вами.
                 </div>
 
-                <div v-if="formAttributeType === 'cancel-ip'" class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+                <div v-if="formAttributeType === 'cancel-ip'"
+                     class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
                     Проверить задолженность:
                     <div class="flex gap-1.5 items-center">
                         <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
@@ -201,10 +216,20 @@ const formAttributeType = computed(() => {
 
                 <!-- user info -->
                 <template v-for="(input, idx) in inputs" :key="idx">
-                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
-                        :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :disabled="input.disabled" :visible="input.visible"
-                        :options="input.options" :minDate="input.minDate" />
+                    <BaseInput
+                        v-if="!(input.name === 'file_attachment' && formAttributeType !== 'refund')"
+                        ref="inputRefs"
+                        v-model="formInputs[input.name].value"
+                        class="input__wrapper"
+                        :name="input.name"
+                        :type="input.type"
+                        :placeholder="input.placeholder"
+                        :required="input.required"
+                        :disabled="input.disabled"
+                        :visible="input.visible"
+                        :options="input.options"
+                        :minDate="input.minDate"
+                    />
                 </template>
 
                 <!-- optional info, choosed by message type select -->
@@ -212,19 +237,8 @@ const formAttributeType = computed(() => {
 
                     <!-- installment block -->
                     <template v-if="formAttributeType === 'installment'">
-                        <BaseFormInstallment ref="additionalFormBlock" />
+                        <BaseFormInstallment ref="additionalFormBlock"/>
                     </template>
-
-                    <!-- complaint block -->
-                    <!-- <template v-else-if="formInputs.messageType.value === 'Жалоба'">
-                        <BaseFormComplaint ref="additionalFormBlock" />
-                    </template> -->
-
-                    <!-- default -->
-                    <!-- <template v-else>
-                        <BaseInput ref="additionalInput" type="textarea" name="message"
-                            placeholder="Кратко опишите Ваш вопрос*" />
-                    </template> -->
 
                 </template>
             </div>
@@ -239,7 +253,7 @@ const formAttributeType = computed(() => {
 
                 <!-- personal data checkbox -->
                 <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
-                    :required="true" v-model="consentValue" class="text-sm">
+                              :required="true" v-model="consentValue" class="text-sm">
                     <template #label>
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
