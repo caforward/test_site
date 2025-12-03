@@ -422,7 +422,7 @@ function showCancelIPModal() {
     .intro-slider {
         .slider {
             &__slide {
-                height: 400px;
+                height: 360px;
             }
 
             &-nav__wrapper {
@@ -486,7 +486,7 @@ function showCancelIPModal() {
 @include mixin.mobile {
     .intro-slider {
         .slider__slide {
-            height: 320px;
+            height: 280px;
         }
 
         .slide {
@@ -500,8 +500,6 @@ function showCancelIPModal() {
             }
 
             &-content {
-                margin-top: -30px;
-
                 &__title {
                     font-size: 14px;
                     line-height: 20px;
