@@ -240,6 +240,15 @@ const formAttributeType = computed(() => {
                         <BaseFormInstallment ref="additionalFormBlock"/>
                     </template>
 
+                    <template v-if="formAttributeType === 'refund'">
+                        <BaseButton
+                            as="link"
+                            href="/assets/docs/Заявление на возврат.docx"
+                            download
+                        >
+                            Скачать шаблон заявления
+                        </BaseButton>
+                    </template>
                 </template>
             </div>
 
