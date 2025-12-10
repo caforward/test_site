@@ -180,6 +180,8 @@ watch(
     },
     {immediate: true}
 )
+
+defineExpose({validateForm, isFormValid, paymentPay})
 </script>
 
 <template>
