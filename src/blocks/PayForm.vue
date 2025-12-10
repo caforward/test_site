@@ -243,7 +243,7 @@ watch(
                 <!-- inputs -->
                 <template
                     v-for="input in props.inputs"
-                    :key="input"
+                    :key="input.name"
                 >
                     <BaseInput
                         ref="inputRefs"
@@ -293,7 +293,7 @@ watch(
                     </div>
                 </div>
 
-                <template v-for="input in props.inputs" :key="input">
+                <template v-for="input in props.inputs" :key="input.name">
                     <BaseInput
                         ref="contactInput"
                         v-if="input.type === 'tel' && contactType === 'phone'"
@@ -327,7 +327,10 @@ watch(
                 </p>
 
                 <template v-if="paymentType === 'card'">
-                    <BaseButton class="w-fit" size="large">
+                    <BaseButton
+                        class="w-fit"
+                        size="large"
+                    >
                         Оплатить картой
                     </BaseButton>
                 </template>

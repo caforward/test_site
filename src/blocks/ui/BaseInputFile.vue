@@ -64,7 +64,11 @@ defineExpose({
             :multiple="false"
         />
 
-        <BaseButton @click="triggerFileInput" class="gap-1">
+        <BaseButton
+            type="button"
+            class="gap-1"
+            @click="triggerFileInput"
+        >
             <Icon class="text-xl" icon="mage:file"/>
             <span>{{ label }}</span>
         </BaseButton>
