@@ -91,7 +91,7 @@ function scrollToPayment() {
 
         .tile {
             @apply
-            flex items-center;
+            flex items-center w-full;
         }
 
         .tiles-group {

@@ -12,7 +12,7 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 </script>
 
 <template>
-    <div class="tile">
+    <button class="tile">
         <div class="tile__button">
             <i class="pi pi-arrow-right"/>
         </div>
@@ -40,14 +40,14 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 
             <p class="text">{{ props.text }}</p>
         </div>
-    </div>
+    </button>
 </template>
 
 <style lang="scss" scoped>
 .tile {
     @apply
     lg:p-[30px]
-    flex relative rounded-[16px] gap-3 p-4 cursor-pointer;
+    flex relative rounded-[16px] gap-3 p-4 text-left cursor-pointer;
 
     &__button {
         @apply
