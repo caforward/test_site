@@ -161,6 +161,5 @@ test('Этот тест выводит ошибку имени', async ({ page }
     await page.getByRole('button', { name: 'Оплатить картой' }).click();
 
     // 7. Ошибка
-    await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 5000 });
-    // await expect(page.getByText('Заполните поле')).toBeVisible();
+    await expect(page.getByText('Заполните поле')).toBeVisible();
 });
