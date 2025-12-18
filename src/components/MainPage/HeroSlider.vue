@@ -3,6 +3,7 @@ import {Navigation, Pagination, Autoplay} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import ModalForm from '@/layouts/ModalForm.vue';
 import {ref} from 'vue';
+import BaseButton from "@/blocks/ui/BaseButton.vue";
 
 const props = defineProps({
     light: {
@@ -67,10 +68,13 @@ function showCancelIPModal() {
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button"
-                                   @click.prevent="showModal">
+                                <BaseButton
+                                    size="large"
+                                    metrika-id="Оставить обращение"
+                                    @click.prevent="showModal"
+                                >
                                     Оставить обращение
-                                </a>
+                                </BaseButton>
                             </div>
                         </div>
                         <div class="slide__img">
@@ -106,10 +110,13 @@ function showCancelIPModal() {
                                 </ol>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button"
-                                   @click.prevent="showUnblockAccauntModal">
+                                <BaseButton
+                                    size="large"
+                                    metrika-id="Разблокировать счет"
+                                    @click.prevent="showUnblockAccauntModal"
+                                >
                                     Разблокировать счет
-                                </a>
+                                </BaseButton>
                             </div>
                         </div>
                         <div class="slide__img">
@@ -146,9 +153,13 @@ function showCancelIPModal() {
                                 </ol>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.prevent="showCancelIPModal">
+                                <BaseButton
+                                    size="large"
+                                    metrika-id="Отозвать производство"
+                                    @click.prevent="showCancelIPModal"
+                                >
                                     Отозвать производство
-                                </a>
+                                </BaseButton>
                             </div>
                         </div>
                         <div class="slide__img">
@@ -185,9 +196,13 @@ function showCancelIPModal() {
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.stop="showModal">
+                                <BaseButton
+                                    size="large"
+                                    metrika-id="Получить консультацию"
+                                    @click.stop="showModal"
+                                >
                                     Получить консультацию
-                                </a>
+                                </BaseButton>
                             </div>
                         </div>
                         <div class="slide__img">

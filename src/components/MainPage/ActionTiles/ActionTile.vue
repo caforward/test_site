@@ -12,7 +12,7 @@ const imageName = computed(() => props.imagePath.split('.')[0])
 </script>
 
 <template>
-    <button class="tile">
+    <button class="tile" :data-metrika-id="props.title">
         <div class="tile__button">
             <i class="pi pi-arrow-right"/>
         </div>

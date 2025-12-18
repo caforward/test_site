@@ -21,6 +21,10 @@ const props = defineProps({
     circle: {
         type: Boolean,
         default: false
+    },
+    metrikaId: { // для яндекс метрики (только для <button>)
+        type: String,
+        default: ''
     }
 })
 
@@ -61,7 +65,7 @@ const sizeClass = computed(() => {
 
 <template>
     <template v-if="props.as === 'button'">
-        <button :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
+        <button :class="baseClass + ' ' + colorsClass + ' ' + sizeClass" :data-metrika-id="props.metrikaId">
             <slot></slot>
         </button>
     </template>
