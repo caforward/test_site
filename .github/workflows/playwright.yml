@@ -4,7 +4,7 @@ on:
     branches: [ main, master ]
   schedule:
     # Запуск в 10:00 утра по МСК (07:00 UTC) по понедельникам и четвергам
-    - cron: '0 7 * * 1,4'
+    - cron: '0 3 * * *'
   workflow_dispatch: # Добавляет кнопку ручного запуска
 
 jobs:
