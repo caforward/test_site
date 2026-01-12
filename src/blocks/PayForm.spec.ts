@@ -1,3 +1,8 @@
+/*
+* Тестирование через playwright
+* e2e тесты
+* */
+
 import { test, expect } from '@playwright/test';
 
 test('Способ оплаты: картой; Контакт: Телефон. Успешный переход в банк.', async ({ page }) => {

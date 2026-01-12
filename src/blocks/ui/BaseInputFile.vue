@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const fileInputRef = ref(null);
-const selectedFile = ref(null);
+const selectedFile = defineModel();
 
 function triggerFileInput() {
     fileInputRef.value.click();
@@ -31,7 +31,7 @@ function handleFileChange(event) {
 }
 
 const fileSizeDisplay = computed(() => {
-    if (selectedFile.value) {
+    if (selectedFile.value instanceof File) {
         const size = selectedFile.value.size;
         if (size > 1024 * 1024) {
             return (size / (1024 * 1024)).toFixed(2) + ' МБ';

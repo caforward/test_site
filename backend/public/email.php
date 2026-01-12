@@ -10,12 +10,13 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Если поле 'file_attachment' присутствует в форме (isset),
-    // но при этом произошла ошибка загрузки (не UPLOAD_ERR_OK),
-    // мы прерываем выполнение и возвращаем ошибку.
-    if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] !== UPLOAD_ERR_OK) {
+    // Проверка файла: если файл пришел, но с ошибкой (кроме "файл не выбран")
+    if (isset($_FILES['file_attachment']) &&
+        $_FILES['file_attachment']['error'] !== UPLOAD_ERR_OK &&
+        $_FILES['file_attachment']['error'] !== UPLOAD_ERR_NO_FILE) {
+
         http_response_code(400);
-        echo json_encode(["message" => "Ошибка загрузки файла. Возможно, файл отсутствует или превышен лимит размера файла."]);
+        echo json_encode(["message" => "Ошибка загрузки файла. Код: " . $_FILES['file_attachment']['error']]);
         exit;
     }
 
@@ -43,13 +44,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // Добавляем инфо о вложении в текст письма, если оно есть
+    if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
+        $htmlContent .= '<p><strong>Вложение:</strong> ' . htmlspecialchars($_FILES['file_attachment']['name']) . '</p>';
+    }
+
     $component = !empty($_POST['fromComponent'])
         ? htmlspecialchars($_POST['fromComponent'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
         : 'Не указан';
 
     $htmlContent .= "<p><strong>Компонент-инициатор письма:</strong> {$component}</p>";
     $htmlContent .= '<small>Если письмо пустое, значит это ошибка, сообщите об этом руководителю отдела: скрипт письма — email.php.</small>';
-
     $htmlContent .= '</body></html>';
 
     $mail = new PHPMailer(true);
@@ -67,13 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->setFrom($_ENV['SMTP_USER'], 'Сообщение с сайта');
         $mail->addAddress($_ENV['SMTP_ADDRESS']);
 
-        // Логика прикрепления файла, если он был загружен
+        // Прикрепляем файл
         if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
             $mail->addAttachment(
                 $_FILES['file_attachment']['tmp_name'],
                 $_FILES['file_attachment']['name']
             );
-            $htmlContent .= '<p><strong>Вложение:</strong>' . htmlspecialchars($_FILES['file_attachment']['name']) . '</p>';
         }
 
         $subject = 'Новое сообщение с сайта';

@@ -74,11 +74,11 @@ const props = defineProps({
                     "Отозвать ИП",
                 ],
             },
-            // {
-            //     name: 'file_attachment',
-            //     type: 'file',
-            //     required: true,
-            // }
+            {
+                name: 'file_attachment',
+                type: 'file',
+                required: true,
+            }
         ]
     }
 })

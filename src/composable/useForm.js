@@ -15,9 +15,18 @@ export const createFormData = (inputRefs) => {
         }
     })
 
-    // for (let key of formData.entries()) {
-    //     console.log(`${key[0]}: ${key[1]}`)
-    // }
+		// вывод formData ключей для дебага
+		// for (let [key, val] of formData.entries()) {
+		// 	if (val instanceof File) {
+		// 		if (val.name && val.size > 0) {
+		// 			console.log(`${key}: [File] ${val.name}, size: ${val.size} bytes`);
+		// 		} else {
+		// 			console.log(`${key}: [Файл не выбран или пуст]`)
+		// 		}
+		// 	} else {
+		// 		console.log(`${key}: ${val}`);
+		// 	}
+		// }
     return formData
 
     // for debugging
@@ -37,7 +46,7 @@ export const useInputValidation = (inputRefs) => {
             inputRef.showErrorHandler()
 
             // for debugging
-            // console.log(inputRef.inputName, inputRef.value)
+            // console.log(inputRef.inputName, inputRef.value, inputRef.readyToSubmit)
         })
 
         return false

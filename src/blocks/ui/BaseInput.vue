@@ -173,7 +173,6 @@ watch(
 )
 
 function validateInputValue(inputValue) {
-
     if (props.required) {
         if (props.name === 'name') {
             if (typeof inputValue === 'string') {
@@ -242,7 +241,6 @@ function validateInputTel() {
 }
 
 function validateInputFile() {
-    console.log('file')
     if (value) {
         isInvalid.value = false
         errorText.value = ''
@@ -312,16 +310,18 @@ function isEmpty(value) {
 
         <!-- File input. Лимит 5 мегабайт -->
         <BaseInputFile
-            v-if="props.type === 'file'"
             ref="input"
+            v-if="props.type === 'file'"
             class="t-input"
+            v-model="value"
             accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            label="Прикрепить заявление"
             :name="props.name"
             :invalid="isInvalid"
             :maxFileSize="5242880"
             :auto="false"
             :multiple="false"
-            label="Прикрепить заявление"
+            @update:modelValue="validateInputValue"
         >
         </BaseInputFile>
 
