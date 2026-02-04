@@ -15,8 +15,6 @@ export const createFormData = (inputRefs) => {
 			value = inputRef.value.label
 		}
 
-		console.log(`${inputName}`, value)
-
         if (value) {
             formData.append(inputName, value)
         }
