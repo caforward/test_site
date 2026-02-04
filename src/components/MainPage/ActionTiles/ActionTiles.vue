@@ -61,7 +61,7 @@ function scrollToPayment() {
                         image-path="actionTiles/user.png"
                         title="Узнать номер вашего договора"
                         text="Не знаете номер своего договора? Оставьте свои контактные данные,  и наши специалисты со всем разберутся. "
-                        @click="openModal('debt-info')"
+                        @click="openModal('get-contract-id')"
                     />
                 </div>
             </div>

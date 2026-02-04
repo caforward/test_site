@@ -99,7 +99,7 @@ const formAttributeType = computed(() => {
 
     // типы форм, принимает название, возвращает тип
     // TODO: Переписать на использование options из пропсаов
-    // !!! ЭТО НЕ ДЛЯ ПРОПСА messageType, это костыль для формы, для отображения нужных полей
+    // !!! ЭТО ДЛЯ ПРОПСА formType, это костыль для отображения нужных полей
     const types = {
         "Прошу перезвонить": "callback",
         "Другое": "other",
@@ -120,7 +120,7 @@ const formAttributeType = computed(() => {
         type = types[props.formType];
     }
     if (formInputs && formInputs.messageType && formInputs.messageType.value) {
-        type = types[formInputs.messageType.value];
+        type = formInputs.messageType.value.value;
     }
 
     return type;

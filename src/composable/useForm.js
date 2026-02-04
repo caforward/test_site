@@ -10,6 +10,13 @@ export const createFormData = (inputRefs) => {
         if (value && inputRef.inputName === "paymentDate") {
             value = getDottedDate(value)
         }
+		if (value && (inputRef.inputName === "messageType" || inputRef.inputName === "paymentPeriod")) {
+			// messageType и paymentPeriod - селекты, их value это { value: <value>, label: <label> }
+			value = inputRef.value.label
+		}
+
+		console.log(`${inputName}`, value)
+
         if (value) {
             formData.append(inputName, value)
         }

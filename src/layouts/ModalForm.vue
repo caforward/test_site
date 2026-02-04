@@ -56,22 +56,22 @@ const props = defineProps({
                 required: true,
                 value: "Информация о долге",
                 options: [
-                    "Прошу перезвонить",
-                    // "Узнать номер договора",
+                    { value: 'callback', label: 'Прошу перезвонить' },
                     // "Разблокировать счет",
                     // "Рассрочка",
                     // "Другое",
-                    "Информация о долге",
-                    "Запрос на оферту",
-                    "Внесение изменений в БКИ",
-                    "Информация о мобилизации",
-                    "О возврате денежных средств",
-                    "Разблокировка счетов",
-                    "Отказ от взаимодействия",
-                    "Претензия",
-                    "Справка о погашении задолженности",
-                    "Справка о состоянии задолженности",
-                    "Отозвать ИП",
+                    { value: 'debt-info', label: 'Информация о долге' },
+                    { value: 'installment', label: 'Запрос на оферту' },
+                    { value: '', label: 'Внесение изменений в БКИ' },
+                    { value: '', label: 'Информация о мобилизации' },
+                    { value: 'refund', label: 'О возврате денежных средств' },
+                    { value: 'account-unblock', label: 'Разблокировка счетов' },
+                    { value: '', label: 'Отказ от взаимодействия' },
+                    { value: '', label: 'Претензия' },
+                    { value: '', label: 'Справка о погашении задолженности' },
+                    { value: '', label: 'Справка о состоянии задолженности' },
+                    { value: 'cancel-ip', label: 'Отозвать ИП' },
+                    { value: 'get-contract-id', label: 'Узнать номер договора' },
                 ],
             },
             {
@@ -174,7 +174,6 @@ function setSelectorByType(type) {
 
     if (messageTypeInput) {
         if (type) {
-            // TODO: Переписать весь select input на константы
             // Индексы из массива options, для селекта
             const types = {
                 "callback": 0,
@@ -183,12 +182,13 @@ function setSelectorByType(type) {
                 "cancel-ip": 11,
                 "debt-info": 1,
                 "refund": 5,
+                "get-contract-id": 12
             }
 
             let option = messageTypeInput.options[0]
             
             if (types[type]) {
-                option = messageTypeInput.options[types[type]]
+                option = messageTypeInput.options.find(opt => opt.value === type)
             }
 
             messageTypeInput.value = option

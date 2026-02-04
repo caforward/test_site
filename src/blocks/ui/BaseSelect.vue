@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 
 const value = defineModel()
 
@@ -103,7 +103,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
     document.removeEventListener('click', closeOptionsMenuHandler)
 })
-
 </script>
 
 <template>
@@ -115,7 +114,7 @@ onBeforeUnmount(() => {
 
             <!-- input -->
             <input ref="inputRef" type="text" class="pointer-events-none w-full placeholder:text-gray-500"
-                :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder" :value="value"
+                :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder" :value="value.label"
                 readonly>
 
             <!-- icons -->
@@ -135,11 +134,11 @@ onBeforeUnmount(() => {
 
                     <li v-for="option in props.options" @click="setActiveOption(option)"
                         class="py-2 px-3 rounded-md hover:cursor-pointer" :class="{
-                            'bg-sky-500 text-white': option === state.selectedOption,
-                            'transition-colors hover:bg-gray-200': option !== state.selectedOption
+                            'bg-sky-500 text-white': option.value === state.selectedOption,
+                            'transition-colors hover:bg-gray-200': option.value !== state.selectedOption
                         }">
 
-                        {{ option.name ? option.name : option }}
+                        {{ option.label ? option.label : option }}
 
                     </li>
                 </ul>
