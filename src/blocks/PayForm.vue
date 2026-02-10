@@ -58,6 +58,7 @@ const isFPSPaymentInited = ref(false)
 const isFPSLoading = ref(false)
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
+const isCardPayLoading = ref(false)
 
 // Валидация
 const inputRefs = ref([])
@@ -137,7 +138,9 @@ function paymentPay() {
                 isFPSLoading.value = false
             })
     } else {
+        isCardPayLoading.value = true
         pay(TPF)
+        isCardPayLoading.value = false
     }
 }
 
@@ -336,6 +339,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     v-if="paymentType === 'card'"
                     class="w-fit"
                     size="large"
+                    :is-loading="isCardPayLoading"
                 >
                     Оплатить картой
                 </BaseButton>
