@@ -1,6 +1,6 @@
 <script setup>
 // imports
-import {ref, onBeforeMount, onMounted, reactive, computed} from 'vue'
+import {ref, reactive, computed, watch, onBeforeUpdate} from 'vue'
 
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import BaseFormInstallment from './BaseFormInstallment.vue';
@@ -9,6 +9,7 @@ import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 
 // composables
 import {useInputValidation, createFormData} from '@/composable/useForm.js'
+import {FORM_TYPE_META, FORM_TYPES} from "@/constants/formTypes.js";
 
 // variables
 
@@ -29,7 +30,7 @@ const props = defineProps({
     },
     additionalData: {
         type: Object,
-        default: {}
+        default: () => ({})
     },
     formType: {
         type: String,
@@ -37,7 +38,7 @@ const props = defineProps({
 })
 
 // for form
-const inputRefs = ref(null)
+const inputRefs = ref([])
 const formInputs = reactive({})
 
 const additionalFormBlock = ref(null)
@@ -46,13 +47,12 @@ const additionalInput = ref(null)
 const consentRef = ref(null)
 const consentValue = ref(null)
 
-const formDOMElement = ref(null)
-
 // functions
-
 function submitForm() {
     // collect input refs from form
-    let formInputRefs = [...inputRefs.value]
+    let formInputRefs = inputRefs.value
+        ? inputRefs.value.filter(ref => ref && ref.$el || ref)
+        : [];
 
     if (additionalFormBlock.value) {
         formInputRefs.push(...additionalFormBlock.value.inputRefs)
@@ -74,136 +74,67 @@ function submitForm() {
     }
 }
 
-// hooks
-
-onBeforeMount(() => {
-    props.inputs.forEach(input => {
-        formInputs[input.name] = {
-            value: input.value ? input.value : '',
-        }
-    })
-})
-
-onMounted(() => {
-    if (props.grayForm) {
-        formDOMElement.value.classList.add('form_gray')
-    }
-})
-
 // computed
-
 const formAttributeType = computed(() => {
-    let type = "";
-    // const messageTypeOptions = props.inputs.find(input => input.name === 'messageType').options;
-    // console.log(messageTypeOptions);
-
-    // типы форм, принимает название, возвращает тип
-    // TODO: Переписать на использование options из пропсаов
-    // !!! ЭТО ДЛЯ ПРОПСА formType, это костыль для отображения нужных полей
-    const types = {
-        "Прошу перезвонить": "callback",
-        "Другое": "other",
-        "Запрос на оферту": "installment",
-        "Разблокировка счетов": "account-unblock",
-        "Отозвать ИП": "cancel-ip",
-        "Внесение изменений в БКИ": "",
-        "Информация о долге": "debt-info",
-        "Информация о мобилизации": "",
-        "О возврате денежных средств": "refund",
-        "Отказ от взаимодействия": "",
-        "Претензия": "",
-        "Справка о погашении задолженности": "",
-        "Справка о состоянии задолженности": "",
-    }
-
-    if (props.formType) {
-        type = types[props.formType];
-    }
-    if (formInputs && formInputs.messageType && formInputs.messageType.value) {
-        type = formInputs.messageType.value.value;
-    }
-
-    return type;
+    const messageType = formInputs.messageType?.value?.value
+    return messageType || FORM_TYPES[props.formType];
 })
 
+const formTypeMeta = computed(() => {
+    return FORM_TYPE_META[formAttributeType.value] || {
+        title: 'Заполните поля в форме ниже, и мы свяжемся с Вами.',
+        description: '',
+        showFSSP: false
+    }
+})
+
+// Обнуление ссылок при обновлении DOM
+onBeforeUpdate(() => {
+    inputRefs.value = []
+})
+
+watch(
+    () => props.inputs,
+    (newInputs) => {
+        newInputs.forEach(input => {
+            if (!formInputs[input.name]) {
+                formInputs[input.name] = {value: input.value || ''}
+            }
+        })
+    },
+    {immediate: true, deep: true}
+)
 </script>
 
 <template>
     <!-- form title, choosed by message type select -->
     <div v-if="props.showTitle">
-        <!-- default title -->
-        <template v-if="!formInputs.messageType || !formInputs.messageType.value">
-            <div class="sm:text-2xl text-xl font-bold mb-5">
-                Заполните поля в форме ниже, и мы свяжемся с Вами. 
+        <div class="sm:text-2xl text-xl font-bold mb-2">
+            {{ formTypeMeta.title }}
+        </div>
+
+        <p v-if="formTypeMeta.description" class="sm:text-base text-sm mb-6 font-normal">
+            {{ formTypeMeta.description }}
+        </p>
+
+        <div v-if="formTypeMeta.showFSSP" class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+            Проверить задолженность:
+            <div class="flex gap-1.5 items-center">
+                <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                <div class="w-8">
+                    <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
+                </div>
             </div>
-        </template>
-
-        <template v-else>
-            <!-- installment title. select - Рассрочка -->
-            <template v-if="formAttributeType === 'installment'">
-                <div class="sm:text-2xl text-xl font-bold mb-2">
-                    Получить рассрочку
-                </div>
-                <div class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
-                    Проверить задолженность:
-                    <div class="flex gap-1.5 items-center">
-                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
-                        <div class="w-8">
-                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
-                        </div>
-                    </div>
-                </div>
-            </template>
-
-            <!-- callback title. select - Перезвоните мне -->
-            <template v-else-if="formAttributeType === 'callback'">
-                <div class="sm:text-2xl text-xl font-bold mb-2">
-                    Оставить обращение
-                </div>
-                <p class="sm:text-base text-sm mb-6 font-normal">
-                    Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами, чтобы
-                    проконсультировать по
-                    вашей финансовой ситуации.
-                </p>
-            </template>
-
-            <template v-else-if="formAttributeType === 'refund'">
-                <div class="sm:text-2xl text-xl font-bold mb-2">
-                    Возврат денежных средствы
-                </div>
-                <p class="sm:text-base text-sm mb-6 font-normal">
-                    Пожалуйста, заполните обязательную форму для возврата денежных средств и прикрепите файл к
-                    сообщению.
-                </p>
-            </template>
-
-            <!-- default -->
-            <template v-else>
-                <div :class="[
-                        'sm:text-2xl text-xl font-bold',
-                        formAttributeType === 'cancel-ip' ? 'mb-2' : 'mb-5'
-                    ]"
-                >
-                    Заполните поля в форме ниже, и мы свяжемся с Вами.
-                </div>
-
-                <div v-if="formAttributeType === 'cancel-ip'"
-                     class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
-                    Проверить задолженность:
-                    <div class="flex gap-1.5 items-center">
-                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
-                        <div class="w-8">
-                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </template>
+        </div>
     </div>
 
     <slot name="preformText"></slot>
     <!-- form -->
-    <form ref="formDOMElement" action="" class="form" :id="formAttributeType">
+    <form
+        action=""
+        :id="formAttributeType"
+        :class="[ 'form', { 'form_gray': props.grayForm } ]"
+    >
         <div class="form-container">
 
             <!-- slot for before inputs -->
@@ -215,9 +146,9 @@ const formAttributeType = computed(() => {
             <div class="form__inputs">
 
                 <!-- user info -->
-                <template v-for="(input, idx) in inputs" :key="idx">
+                <template v-for="input in inputs" :key="input.name">
                     <BaseInput
-                        v-if="!(input.name === 'file_attachment' && formAttributeType !== 'refund')"
+                        v-if="formInputs[input.name] && !(input.name === 'file_attachment' && formAttributeType !== 'refund')"
                         ref="inputRefs"
                         v-model="formInputs[input.name].value"
                         class="input__wrapper"
@@ -234,21 +165,21 @@ const formAttributeType = computed(() => {
 
                 <!-- optional info, choosed by message type select -->
                 <template v-if="formInputs.messageType && formInputs.messageType.value">
-
                     <!-- installment block -->
-                    <template v-if="formAttributeType === 'installment'">
-                        <BaseFormInstallment ref="additionalFormBlock"/>
-                    </template>
+                    <BaseFormInstallment
+                        v-if="formAttributeType === 'installment'"
+                        ref="additionalFormBlock"
+                    />
 
-                    <template v-if="formAttributeType === 'refund'">
-                        <BaseButton
-                            as="link"
-                            href="/assets/docs/Заявление на возврат.docx"
-                            download
-                        >
-                            Скачать шаблон заявления
-                        </BaseButton>
-                    </template>
+                    <!-- refund download button -->
+                    <BaseButton
+                        v-if="formAttributeType === 'refund'"
+                        as="link"
+                        href="/assets/docs/Заявление на возврат.docx"
+                        download
+                    >
+                        Скачать шаблон заявления
+                    </BaseButton>
                 </template>
             </div>
 
@@ -261,8 +192,14 @@ const formAttributeType = computed(() => {
             <div class="form-bottom">
 
                 <!-- personal data checkbox -->
-                <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
-                              :required="true" v-model="consentValue" class="text-sm">
+                <BaseCheckbox
+                    ref="consentRef"
+                    v-model="consentValue"
+                    class="text-sm"
+                    checkboxId="personal-data-consent"
+                    checkboxName="consent-checkbox"
+                    :required="true"
+                >
                     <template #label>
                         Даю согласие на
                         <a href="#" class="link">обработку своих персональных данных</a>,
@@ -271,7 +208,11 @@ const formAttributeType = computed(() => {
                 </BaseCheckbox>
 
                 <!-- submit button -->
-                <BaseButton class="sm:w-fit w-full min-w-60" size="large" @click.prevent="submitForm">
+                <BaseButton
+                    class="sm:w-fit w-full min-w-60"
+                    size="large"
+                    @click.prevent="submitForm"
+                >
                     Отправить
                 </BaseButton>
             </div>
