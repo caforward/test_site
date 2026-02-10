@@ -2,24 +2,14 @@
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
-import BaseModal from '@/blocks/BaseModal.vue';
-import {ref, reactive, onBeforeMount, watch} from 'vue';
+import {ref, reactive, watch, onBeforeUpdate, computed} from 'vue';
+import ModalForm from "@/layouts/ModalForm.vue";
+import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 
-const terminalKeyCard = ref('1718781279447')
-const terminalKeyFPS = ref('1731918302262')
-const terminalKey = ref(null)
-
-const formInputs = reactive({})
-const inputRefs = ref(false)
-const contactType = ref('phone')
-const paymentType = ref('card')
-
-const contactInput = ref(null)
-const terminalKeyInput = ref(null)
-const isFPSPaymentInited = ref(false)
-
-const showFPSInfoModal = ref(false)
-const form = ref(null)
+const TERMINAL_KEY = {
+    CARD: import.meta.env.VITE_TERMINAL_KEY_CARD,
+    FPS: import.meta.env.VITE_TERMINAL_KEY_FPS,
+}
 
 const props = defineProps({
     inputs: {
@@ -59,76 +49,56 @@ const props = defineProps({
     }
 })
 
-function clearForm() {
-    contactType.value = 'phone'
-}
+// Состояние
+const form = ref(null)
+const formInputs = reactive({})
+const paymentType = ref('card')
+const contactType = ref('phone')
+const isFPSPaymentInited = ref(false)
+const isFPSLoading = ref(false)
+const showFPSInfoModal = ref(false)
+const isModalVisible = ref(false)
 
-function invalidInputsHandler(inputRefs) {
-    const invalidInputs = inputRefs.filter(inputRef => !inputRef.readyToSubmit)
+// Валидация
+const inputRefs = ref([])
+const contactInput = ref([])
 
-    if (invalidInputs.length) {
-        invalidInputs.forEach(inputRef => {
-            inputRef.showErrorHandler()
-            // console.log(inputRef.inputName)
-        })
-
-        return true
-    }
-
-    return false
-}
+const curTerminalKey = computed(() => {
+    return paymentType.value === 'fps'
+        ? TERMINAL_KEY.FPS
+        : TERMINAL_KEY.CARD
+})
 
 function isFormValid() {
-    const hasInvalidInputs = invalidInputsHandler(inputRefs.value)
-    const hasInvalidContactInput = !contactInput.value[0].readyToSubmit
+    // простые инпуты
+    const invalidInputs = inputRefs.value.filter(ref => ref && !ref.readyToSubmit)
+    invalidInputs.forEach(ref => ref.showErrorHandler())
 
-    if (!contactInput.value[0].readyToSubmit) {
-        contactInput.value[0].showErrorHandler()
-        // console.log(contactInput.value[0].inputName)
+    // поле для контактной информации
+    const activeContact = contactInput.value.find(el => el)
+    const isContactInvalid = activeContact && !activeContact.readyToSubmit
+
+    if (isContactInvalid) {
+        activeContact.showErrorHandler()
     }
 
-    // if (hasInvalidInputs || hasInvalidContactInput) {
-    //     return false
-    // } else {
-    //     return true
-    // }
-
-    return !hasInvalidInputs && !hasInvalidContactInput // возвращает true или false
+    return invalidInputs.length === 0 && !isContactInvalid // возвращает true или false
 }
 
 function validateForm() {
-    if (isFormValid()) {
-        paymentPay()
-    }
-}
-
-function createFPSPaymentData() {
-    return {
-        terminalKey: terminalKeyFPS.value,
-        paymentItems: [
-            {
-                container: document.getElementById("FPS-payment-button"),
-                paymentInfo: function () {
-                    return {
-                        paymentData: document.forms.TinkoffPayForm,
-                    };
-                },
-            },
-        ],
-        paymentSystems: {TinkoffFps: {}},
-    };
+    if (!isFormValid()) return
+    paymentPay()
 }
 
 function paymentPay() {
     const TPF = form.value
+    if (!TPF) return
 
-    const {description, receipt, name, amount, email, phone, contractId} = TPF
-
-    const {userAmount} = formInputs
+    const {userAmount, contractId} = formInputs
     const unitAmount = Math.round(userAmount.value * 100)
-    amount.value = userAmount.value
 
-    description.value = contractId.value
+    TPF.amount.value = userAmount.value
+    TPF.description.value = contractId.value
 
     TPF.DATA.value = JSON.stringify({
         "Paymentpurpose": `Оплата по договору номер ${contractId.value}`,
@@ -153,30 +123,49 @@ function paymentPay() {
     });
 
     if (paymentType.value === 'fps') {
+        isFPSLoading.value = true
         const widgetParameters = createFPSPaymentData()
+
         initPayments(widgetParameters)
-        isFPSPaymentInited.value = true
+            .then(() => {
+                isFPSPaymentInited.value = true
+            })
+            .catch(err => {
+                console.error('Ошибка генерации qr кода T-банк', err)
+            })
+            .finally(() => {
+                isFPSLoading.value = false
+            })
     } else {
         pay(TPF)
     }
 }
 
-onBeforeMount(() => {
-    props.inputs.forEach(input => {
-        formInputs[input.name] = {
-            value: input.value ? input.value : null,
-        }
-    })
+function createFPSPaymentData() {
+    return {
+        terminalKey: TERMINAL_KEY.FPS,
+        paymentItems: [{
+            container: document.getElementById("FPS-payment-button"),
+            paymentInfo: () => ({paymentData: form.value})
+        }],
+        paymentSystems: {TinkoffFps: {}},
+    };
+}
+
+onBeforeUpdate(() => {
+    inputRefs.value = []
+    contactInput.value = []
 })
 
 watch(
-    () => paymentType.value,
-    (value) => {
-        if (paymentType.value === 'fps') {
-            terminalKey.value = terminalKeyFPS.value
-        } else {
-            terminalKey.value = terminalKeyCard.value
-        }
+    () => props.inputs,
+    (newInputs) => {
+        newInputs.forEach(input => {
+            if (!(input.name in formInputs)) {
+                const defaultValue = input.type === 'number' ? null : ''
+                formInputs[input.name] = {value: input.value || defaultValue}
+            }
+        })
     },
     {immediate: true}
 )
@@ -189,7 +178,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
             <input v-if="paymentType === 'card'" class="payform__input" type="hidden" name="frame" value="false">
 
-            <input class="payform__input" type="hidden" name="terminalkey" :value="terminalKey">
+            <input class="payform__input" type="hidden" name="terminalkey" :value="curTerminalKey">
             <input class="payform__input" type="hidden" name="language" value="ru">
             <input class="payform__input" type="hidden" name="receipt" value="">
             <input class="payform__input" type="hidden" name="order">
@@ -247,17 +236,32 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     v-for="input in props.inputs"
                     :key="input.name"
                 >
-                    <BaseInput
-                        ref="inputRefs"
-                        v-if="input.type !== 'tel' && input.type !== 'email'"
-                        v-model="formInputs[input.name].value"
-                        :name="input.name"
-                        :type="input.type"
-                        :placeholder="input.placeholder"
-                        :required="input.required"
-                        :disabled="input.disabled"
-                        :options="input.options"
-                    />
+                    <template v-if="input.type !== 'tel' && input.type !== 'email'">
+
+                        <div class="flex gap-1">
+                            <BaseInput
+                                ref="inputRefs"
+                                class="w-full"
+                                v-model="formInputs[input.name].value"
+                                :name="input.name"
+                                :type="input.type"
+                                :placeholder="input.placeholder"
+                                :required="input.required"
+                                :disabled="input.disabled"
+                                :options="input.options"
+                            />
+
+                            <BaseButton
+                                v-if="input.name === 'contractId'"
+                                class="rounded-md h-auto"
+                                circle
+                                @click.prevent="isModalVisible = true"
+                            >
+                                ?
+                            </BaseButton>
+                        </div>
+
+                    </template>
                 </template>
 
                 <!-- radio for phone/email -->
@@ -328,19 +332,20 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     </a>
                 </p>
 
-                <template v-if="paymentType === 'card'">
-                    <BaseButton
-                        class="w-fit"
-                        size="large"
-                    >
-                        Оплатить картой
-                    </BaseButton>
-                </template>
+                <BaseButton
+                    v-if="paymentType === 'card'"
+                    class="w-fit"
+                    size="large"
+                >
+                    Оплатить картой
+                </BaseButton>
+
                 <template v-else>
                     <BaseButton
                         v-if="!isFPSPaymentInited"
                         size="large"
                         class="w-fit text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600"
+                        :is-loading="isFPSLoading"
                     >
                         Оплатить через СБП
                     </BaseButton>
@@ -351,42 +356,10 @@ defineExpose({validateForm, isFormValid, paymentPay})
                 </template>
             </div>
         </form>
-
-        <BaseModal v-if="showFPSInfoModal" @closeModal="showFPSInfoModal = false">
-            <template #body>
-                <div>
-                    <div class="text-xl font-bold mb-4 md:text-2xl">
-                        Что такое СБП?
-                    </div>
-                    <p class="mb-4 text-base md:text-lg">
-                        <strong>
-                            Система быстрых платежей (СБП)
-                        </strong>
-                        - это современный способ оплаты,
-                        который позволяет моментально переводить деньги на счет
-                        <span class="text-sky-500">без дополнительных комиссий</span>.
-                        Используя СБП, вы сможете оплтатить долг быстро и удобно:
-                    </p>
-
-                    <ul class="list-decimal pl-6 text-base md:text-lg font-medium mb-5">
-                        <li>На странице оплаты выберите опцию «Оплата через СБП».</li>
-                        <li>Введите ваше данные.</li>
-                        <li>Отсканируйте предоставленный QR-код с помощью
-                            приложения вашего банка.
-                        </li>
-                        <li>Подтвердите оплату в банковском приложении.</li>
-                        <li>Готово! Средства зачисляются мгновенно.</li>
-                    </ul>
-
-                    <div class="flex justify-center">
-                        <BaseButton class="button button_blue" @click="showFPSInfoModal = false">
-                            Закрыть
-                        </BaseButton>
-                    </div>
-                </div>
-            </template>
-        </BaseModal>
     </div>
+
+    <ModalAboutFPS v-model="showFPSInfoModal"/>
+    <ModalForm v-model="isModalVisible" type="get-contract-id"/>
 </template>
 
 <style lang="scss" scoped>

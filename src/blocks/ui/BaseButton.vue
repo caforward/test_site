@@ -25,10 +25,14 @@ const props = defineProps({
     metrikaId: { // для яндекс метрики (только для <button>)
         type: String,
         default: ''
+    },
+    isLoading: {
+        type: Boolean,
+        default: false
     }
 })
 
-const baseClass = 'flex items-center justify-center font-medium border rounded-full transition-colors hover:cursor-pointer'
+const baseClass = 'flex items-center justify-center font-medium border rounded-full relative transition-colors hover:cursor-pointer disabled:opacity-75 disabled:pointer-events-none'
 
 const colorsClass = computed(() => {
     switch (props.severity) {
@@ -45,19 +49,19 @@ const sizeClass = computed(() => {
     switch (props.size) {
         case 'small':
             return props.circle
-                ? 'w-[30px] h-[30px]'
+                ? 'w-[30px] h-[30px] flex-none'
                 : 'px-4 h-[30px] text-sm'
         case 'medium':
             return props.circle
-                ? 'w-10 h-10'
+                ? 'w-10 h-10 flex-none'
                 : 'px-6 h-10'
         case 'large':
             return props.circle
-                ? 'w-[50px] h-[50px]'
+                ? 'w-[50px] h-[50px] flex-none'
                 : 'px-6 h-[50px]'
         default:
             return props.circle
-                ? 'w-10 h-10'
+                ? 'w-10 h-10 flex-none'
                 : 'px-6 h-10'
     }
 })
@@ -65,8 +69,19 @@ const sizeClass = computed(() => {
 
 <template>
     <template v-if="props.as === 'button'">
-        <button :class="baseClass + ' ' + colorsClass + ' ' + sizeClass" :data-metrika-id="props.metrikaId">
-            <slot></slot>
+        <button
+            :class="baseClass + ' ' + colorsClass + ' ' + sizeClass"
+            :data-metrika-id="props.metrikaId"
+            :disabled="props.isLoading"
+        >
+            <i
+                v-if="props.isLoading"
+                class="pi pi-spin pi-spinner absolute inset-0 m-auto flex items-center justify-center text-xl"
+            ></i>
+
+            <span :class="{'invisible': props.isLoading}" class="flex items-center justify-center gap-2">
+                <slot></slot>
+            </span>
         </button>
     </template>
 
