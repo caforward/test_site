@@ -1,57 +1,14 @@
 <script setup>
-import {computed, onBeforeMount, onMounted, reactive, ref, watch} from 'vue';
-import Badge from 'primevue/badge';
+import {computed, reactive, ref, watch} from 'vue';
 import BaseInput from '@/blocks/ui/BaseInput.vue';
 import {useValueFormat} from '@/composable/useValueFormat.js';
 import {getDottedDate} from '@/composable/useCalendar.js';
 
-
-const exposeData = ref({})
-const inputData = reactive({})
 const inputRefs = ref(null)
-const paymentMonthlyDiscountInputRef = ref(null)
-const discount = 0.95
+const paymentMonthlyInputRef = ref(null)
+
 const minMonthlyPayment = 1500
 const maxPeriod = 24
-
-defineExpose({
-    inputRefs,
-    exposeData,
-})
-
-const paymentPeriodRange = computed(() => {
-    let maxAvailablePeriod = maxPeriod;
-
-    if (inputData.paymentAmount) {
-        maxAvailablePeriod = Math.floor(inputData.paymentAmount.value / (minMonthlyPayment / discount)) || 1;
-        if (maxAvailablePeriod > maxPeriod) maxAvailablePeriod = maxPeriod;
-    }
-
-    return Array.from(
-        {length: maxAvailablePeriod},
-        (_, index) => ({
-            value: index + 1,
-            label: index + 1,
-        })
-    )
-})
-
-const getPaymentMonthly = computed(() => {
-    if (!inputData.paymentPeriod.value) {
-        return 0
-    }
-
-    const amount = inputData.paymentAmount.value
-    const period = inputData.paymentPeriod.value?.value
-
-    const monthly = Number((amount / period).toFixed(2))
-
-    return isFinite(monthly) ? monthly : 0
-})
-
-const getPaymentMonthlyDiscount = computed(() => {
-    return (paymentMonthlyFull.value * discount).toFixed(2)
-})
 
 const inputs = reactive([
     {
@@ -66,7 +23,6 @@ const inputs = reactive([
         type: 'select',
         placeholder: 'Выберите срок погашения',
         value: {value: 6, label: 6},
-        options: ref(paymentPeriodRange),
         required: true
     },
     {
@@ -79,90 +35,91 @@ const inputs = reactive([
     },
 ])
 
-const paymentMonthlyFull = getPaymentMonthly
+const inputData = reactive({
+    paymentAmount: 150000,
+    paymentPeriod: {value: 6, label: 6},
+    paymentDate: new Date(),
+})
 
-// computed, get value
+const paymentMonthly = computed(() => {
+    const amount = inputData.paymentAmount
+    const period = inputData.paymentPeriod?.value || 1
+    const monthly = amount / period
+    return isFinite(monthly) ? monthly.toFixed(2) : "0.00"
+})
 
-const getPaymentDate = (computed(() => {
-    return getDottedDate(inputData.paymentDate.value)
+const paymentPeriodRange = computed(() => {
+    let maxAvailablePeriod = maxPeriod;
+
+    if (inputData.paymentAmount) {
+        maxAvailablePeriod = Math.floor(inputData.paymentAmount / minMonthlyPayment) || 1;
+        if (maxAvailablePeriod > maxPeriod) maxAvailablePeriod = maxPeriod;
+    }
+
+    return Array.from(
+        {length: maxAvailablePeriod},
+        (_, index) => ({
+            value: index + 1,
+            label: index + 1,
+        })
+    )
+})
+
+const exposeData = computed(() => ({
+    paymentAmount: inputData.paymentAmount,
+    paymentPeriod: inputData.paymentPeriod?.value,
+    paymentDate: getDottedDate(inputData.paymentDate),
+    paymentMonthly: paymentMonthly.value
 }))
-
-const getPaymentPeriod = computed(() => {
-    return inputData.paymentPeriod.value
-})
-
-const getPaymentAmount = computed(() => {
-    return inputData.paymentAmount.value
-})
-
-// hooks
-
-onBeforeMount(() => {
-    inputs.forEach(input => {
-        inputData[input.name] = {
-            value: ref(input.value ? input.value : ''),
-            isValid: !!input.value,
-            required: !!input.required,
-        }
-    })
-
-    inputData.paymentMonthlyDiscount = getPaymentMonthlyDiscount
-
-    exposeData.value.paymentMonthlyDiscount = getPaymentMonthlyDiscount
-    exposeData.value.paymentPeriod = getPaymentPeriod
-    exposeData.value.paymentDate = getPaymentDate
-    exposeData.value.paymentAmount = getPaymentAmount
-})
-
-onMounted(() => {
-    paymentMonthlyDiscountInputRef.value.value = getPaymentMonthlyDiscount
-    inputRefs.value.push(paymentMonthlyDiscountInputRef.value)
-})
 
 watch(
     paymentPeriodRange,
     (newOptions) => {
-        const currentPeriod = inputData.paymentPeriod.value?.value || 0
-        const maxPeriod = newOptions[newOptions.length - 1].value || 0
+        const currentPeriod = inputData.paymentPeriod?.value || 0
+        const maxPeriod = newOptions[newOptions.length - 1]?.value || 0
 
         if (currentPeriod > maxPeriod) {
-            inputData.paymentPeriod.value = newOptions[newOptions.length - 1]
+            inputData.paymentPeriod = newOptions[newOptions.length - 1]
         }
     }
 )
+
+defineExpose({
+    inputRefs,
+    exposeData,
+})
 </script>
 
 <template>
     <div class="installment">
         <div class="installment-title">
-            <span>
-                Сумма ежемесячного платежа
-            </span>
-            <div class="flex flex-wrap gap-4 items-center font-bold">
-                <strong class="sm:text-lg text-base line-through text-gray-500">
-                    {{ useValueFormat(paymentMonthlyFull) }} ₽
-                </strong>
-                <span>
-                    <i class="pi pi-arrow-right"></i>
-                </span>
-                <div class="sm:text-xl text-lg text-sky-500 flex items-center gap-2">
-                    <strong>
-                        {{ useValueFormat(inputData.paymentMonthlyDiscount) }} ₽
-                    </strong>
-                    <Badge value="-5%" severity="info"/>
-                </div>
+            <span>Ежемесячный платеж <strong class="text-sky-500">без учёта скидки</strong>:</span>
+            <div class="flex flex-wrap gap-4 items-center font-bold text-xl text-sky-500 sm:text-2xl">
+                {{ useValueFormat(paymentMonthly) }} ₽
             </div>
 
-            <BaseInput ref="paymentMonthlyDiscountInputRef" :value="useValueFormat(inputData.paymentMonthlyDiscount)"
-                       name="paymentMonthlyDiscount" type="text" class="hidden"/>
+            <BaseInput
+                ref="paymentMonthlyInputRef"
+                :value="useValueFormat(paymentMonthly)"
+                name="paymentMonthly"
+                type="text"
+                class="hidden"
+            />
         </div>
 
         <!-- installment inputs -->
-        <template v-for="(input, idx) in inputs" :key="idx">
-            <BaseInput ref="inputRefs" v-model="inputData[input.name].value" :name="input.name" :type="input.type"
-                       :placeholder="input.placeholder" :required="input.required" :disabled="input.disabled"
-                       :options="input.options" :minDate="input.minDate">
-
+        <template v-for="input in inputs" :key="input.name">
+            <BaseInput
+                ref="inputRefs"
+                v-model="inputData[input.name]"
+                :name="input.name"
+                :type="input.type"
+                :placeholder="input.placeholder"
+                :required="input.required"
+                :disabled="input.disabled"
+                :options="input.name === 'paymentPeriod' ? paymentPeriodRange : input.options"
+                :minDate="input.minDate"
+            >
                 <template #inputTitle>
                     {{ input.placeholder }}
                 </template>
