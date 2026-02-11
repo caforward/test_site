@@ -65,7 +65,15 @@ function submitForm() {
     const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
 
     if (isFormValid) {
-        const formData = createFormData(formInputRefs)
+        const formData = createFormData(inputRefs.value)
+
+        if (additionalFormBlock.value) {
+            const extraData = additionalFormBlock.value.exposeData
+
+            for(const key in extraData) {
+                formData.append(key, extraData[key])
+            }
+        }
 
         emit('submitted', formData, formInputRefs)
 

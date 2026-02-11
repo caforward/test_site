@@ -75,7 +75,7 @@ import PayForm from '@/blocks/PayForm.vue';
             xl:text-[28px]/[32px]
             lg:text-[24px]
             sm:text-[18px]/[26px]
-            text-[14px]/[24px] font-semibold mb-3;
+            text-[18px]/[24px] font-semibold mb-3;
         }
 
         &__text {

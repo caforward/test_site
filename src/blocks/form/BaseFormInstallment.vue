@@ -5,7 +5,6 @@ import {useValueFormat} from '@/composable/useValueFormat.js';
 import {getDottedDate} from '@/composable/useCalendar.js';
 
 const inputRefs = ref(null)
-const paymentMonthlyInputRef = ref(null)
 
 const minMonthlyPayment = 1500
 const maxPeriod = 24
@@ -97,14 +96,6 @@ defineExpose({
             <div class="flex flex-wrap gap-4 items-center font-bold text-xl text-sky-500 sm:text-2xl">
                 {{ useValueFormat(paymentMonthly) }} ₽
             </div>
-
-            <BaseInput
-                ref="paymentMonthlyInputRef"
-                :value="useValueFormat(paymentMonthly)"
-                name="paymentMonthly"
-                type="text"
-                class="hidden"
-            />
         </div>
 
         <!-- installment inputs -->

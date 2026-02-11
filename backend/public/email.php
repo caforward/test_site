@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'name' => 'Имя',
         'tel' => 'Телефон',
         'email' => 'Email',
-        'birthday' => 'День рождения',
+        'birthdayDate' => 'День рождения',
         'messageType' => 'Выбрана тема',
         'companyName' => 'Наименование компании',
         'paymentAmount' => 'Сумма вашего долга',

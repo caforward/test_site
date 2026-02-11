@@ -7,7 +7,7 @@ export const createFormData = (inputRefs) => {
         const inputName = inputRef.inputName
         let value = inputRef.value
 
-        if (value && inputRef.inputName === "paymentDate") {
+        if (value && (inputRef.inputName === "paymentDate" || inputRef.inputName === "birthdayDate")) {
             value = getDottedDate(value)
         }
 		if (value && (inputRef.inputName === "messageType" || inputRef.inputName === "paymentPeriod")) {
