@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'paymentAmount' => 'Сумма вашего долга',
         'paymentPeriod' => 'Срок погашения',
         'paymentDate' => 'Дата ежемесячного платежа',
-        'paymentMonthlyDiscount' => 'Сумма ежемесячного платежа с учетом скидки в 5%',
+        'paymentMonthly' => 'Сумма ежемесячного платежа без учета скидки',
         'fromComponent' => 'Компонент-инициатор письма',
     ];
 

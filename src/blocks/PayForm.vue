@@ -53,7 +53,7 @@ const props = defineProps({
 const form = ref(null)
 const formInputs = reactive({})
 const paymentType = ref('card')
-const contactType = ref('phone')
+const contactType = ref('email')
 const isFPSPaymentInited = ref(false)
 const isFPSLoading = ref(false)
 const showFPSInfoModal = ref(false)
@@ -140,7 +140,6 @@ function paymentPay() {
     } else {
         isCardPayLoading.value = true
         pay(TPF)
-        isCardPayLoading.value = false
     }
 }
 
@@ -228,8 +227,8 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             </label>
                         </div>
                         <span @click="showFPSInfoModal = true">
-                            <i
-                                class="pi pi-question-circle !text-xl transition-colors text-sky-500 hover:cursor-pointer hover:text-sky-700"></i>
+                            <i class="pi pi-question-circle !text-xl transition-colors text-sky-500 hover:cursor-pointer hover:text-sky-700">
+                            </i>
                         </span>
                     </div>
                 </div>
@@ -256,7 +255,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
 
                             <BaseButton
                                 v-if="input.name === 'contractId'"
-                                class="rounded-md h-auto"
+                                class="!rounded-2xl h-auto text-lg w-[45px]"
                                 circle
                                 @click.prevent="isModalVisible = true"
                             >
@@ -273,6 +272,22 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         <RadioButton
                             v-model="contactType"
                             type="radio"
+                            inputId="payment-contact-type-email"
+                            name="payment-contact-type"
+                            value="email"
+                        />
+                        <label
+                            for="payment-contact-type-email"
+                            class="payform-radio__label"
+                            :class="{'!text-gray-500': contactType === 'phone'}"
+                        >
+                            E-mail
+                        </label>
+                    </div>
+                    <div class="payform-radio">
+                        <RadioButton
+                            v-model="contactType"
+                            type="radio"
                             inputId="payment-contact-type-phone"
                             name="payment-contact-type"
                             value="phone"
@@ -283,21 +298,6 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             :class="{'!text-gray-400': contactType === 'email'}"
                         >
                             Телефон
-                        </label>
-                    </div>
-                    <div class="payform-radio">
-                        <RadioButton
-                            v-model="contactType"
-                            type="radio"
-                            inputId="payment-contact-type-email"
-                            name="payment-contact-type" value="email"
-                        />
-                        <label
-                            for="payment-contact-type-email"
-                            class="payform-radio__label"
-                            :class="{'!text-gray-500': contactType === 'phone'}"
-                        >
-                            E-mail
                         </label>
                     </div>
                 </div>

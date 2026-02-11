@@ -13,12 +13,12 @@ import PayForm from '@/blocks/PayForm.vue';
                 <div class="payment-block bg-[#F3F7FA]">
                     <div class="payment-block__info">
                         <div class="payment-block__title">
-                            Получите скидку в 5%
+                            Получите скидку до 75%
                         </div>
                         <p class="payment-block__text payment-block__text_banner">
                             После того как вы заполните форму для получения <br class="hidden lg:block">
                             рассрочки, мы сразу же уменьшим ваш общий долг <br class="hidden lg:block">
-                            на 5%. После оформления рассрочки через сайт, <br class="hidden lg:block">
+                            до 75%. После оформления рассрочки через сайт, <br class="hidden lg:block">
                             вы получите возможность оплачивать долг <br class="hidden lg:block">
                             постепенно, а часть суммы будет прощена <br class="hidden lg:block">
                             автоматически.
