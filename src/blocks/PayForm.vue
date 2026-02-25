@@ -360,10 +360,9 @@ defineExpose({validateForm, isFormValid, paymentPay})
                 </template>
             </div>
         </form>
+        <ModalAboutFPS v-model="showFPSInfoModal"/>
+        <ModalForm v-model="isModalVisible" type="get-contract-id"/>
     </div>
-
-    <ModalAboutFPS v-model="showFPSInfoModal"/>
-    <ModalForm v-model="isModalVisible" type="get-contract-id"/>
 </template>
 
 <style lang="scss" scoped>
