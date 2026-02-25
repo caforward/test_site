@@ -31,9 +31,9 @@ const inputs = [
         type: 'select',
         placeholder: 'Тема обращения*',
         required: true,
-        value: "Запрос на оферту",
+        value: { value: 'installment', label: 'Запрос на оферту' },
         options: [
-            "Запрос на оферту",
+            { value: 'installment', label: 'Запрос на оферту' },
         ],
         disabled: true,
         visible: false,
