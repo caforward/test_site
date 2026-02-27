@@ -5,6 +5,7 @@ import BaseButton from '@/blocks/ui/BaseButton.vue';
 import {ref, reactive, watch, onBeforeUpdate, computed} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
+import ModalRequisites from "@/layouts/ModalRequisites.vue";
 
 const TERMINAL_KEY = {
     CARD: import.meta.env.VITE_TERMINAL_KEY_CARD,
@@ -59,6 +60,7 @@ const isFPSLoading = ref(false)
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
 const isCardPayLoading = ref(false)
+const isRequisitesVisible = ref(false)
 
 // Валидация
 const inputRefs = ref([])
@@ -177,6 +179,13 @@ defineExpose({validateForm, isFormValid, paymentPay})
 
 <template>
     <div>
+        <div class="mb-4">
+            <BaseButton class="w-full mb-2" @click="isRequisitesVisible = true">
+                Оплатить по реквизитам
+            </BaseButton>
+            <div class="text-center">или</div>
+        </div>
+
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
             <input v-if="paymentType === 'card'" class="payform__input" type="hidden" name="frame" value="false">
 
@@ -362,6 +371,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
         </form>
         <ModalAboutFPS v-model="showFPSInfoModal"/>
         <ModalForm v-model="isModalVisible" type="get-contract-id"/>
+        <ModalRequisites v-model="isRequisitesVisible"/>
     </div>
 </template>
 
