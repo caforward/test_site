@@ -28,3 +28,20 @@ jobs:
 
       - name: Run Playwright tests
         run: yarn playwright test
+
+      - name: Send Telegram Notification
+        if: always()
+        uses: appleboy/telegram-action@v1.0.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>${{ job.status == 'success' && '✅ Playwright: Тесты пройдены' || '❌ Playwright: Тесты упали' }}</b>
+            
+            <b>Проект:</b> ${{ github.repository }}
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Событие:</b> ${{ github.event_name }}
+            <b>Инициатор:</b> ${{ github.actor }}
+            
+            <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Посмотреть детали и отчет</a>
