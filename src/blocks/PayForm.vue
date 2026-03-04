@@ -53,7 +53,7 @@ const props = defineProps({
 // Состояние
 const form = ref(null)
 const formInputs = reactive({})
-const paymentType = ref('card')
+const paymentType = ref('fps')
 const contactType = ref('email')
 const isFPSPaymentInited = ref(false)
 const isFPSLoading = ref(false)
@@ -200,23 +200,6 @@ defineExpose({validateForm, isFormValid, paymentPay})
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div class="payform-radio">
-                        <RadioButton
-                            type="radio"
-                            v-model="paymentType"
-                            inputId="payment-payment-type-card"
-                            name="payment-contact-type"
-                            value="card"
-                        />
-                        <label
-                            for="payment-payment-type-card"
-                            class="payform-radio__label"
-                            :class="{'!text-gray-500': paymentType === 'fps'}"
-                        >
-                            <span>Оплата картой</span>
-                            <i class="pi pi-credit-card !text-xl text-sky-500"></i>
-                        </label>
-                    </div>
                     <div class="flex items-center gap-2">
                         <div class="payform-radio">
                             <RadioButton
@@ -239,6 +222,23 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             <i class="pi pi-question-circle !text-xl transition-colors text-sky-500 hover:cursor-pointer hover:text-sky-700">
                             </i>
                         </span>
+                    </div>
+                    <div class="payform-radio">
+                        <RadioButton
+                            type="radio"
+                            v-model="paymentType"
+                            inputId="payment-payment-type-card"
+                            name="payment-contact-type"
+                            value="card"
+                        />
+                        <label
+                            for="payment-payment-type-card"
+                            class="payform-radio__label"
+                            :class="{'!text-gray-500': paymentType === 'fps'}"
+                        >
+                            <span>Оплата картой</span>
+                            <i class="pi pi-credit-card !text-xl text-sky-500"></i>
+                        </label>
                     </div>
                 </div>
 
@@ -345,7 +345,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                 </p>
 
                 <BaseButton
-                    v-if="paymentType === 'card'"
+                    v-show="paymentType === 'card'"
                     class="w-fit"
                     size="large"
                     :is-loading="isCardPayLoading"
@@ -353,7 +353,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     Оплатить картой
                 </BaseButton>
 
-                <template v-else>
+                <div v-show="paymentType === 'fps'">
                     <BaseButton
                         v-if="!isFPSPaymentInited"
                         size="large"
@@ -366,7 +366,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         v-show="isFPSPaymentInited"
                         id="FPS-payment-button"
                     ></div>
-                </template>
+                </div>
             </div>
         </form>
         <ModalAboutFPS v-model="showFPSInfoModal"/>
