@@ -37,7 +37,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            <b>${{ job.status == 'success' && '✅ Playwright: Тесты пройдены' || '❌ Playwright: Тесты упали' }}</b>
+            <b>${{ job.status == 'success' && '✅ Playwright: Тесты пройдены' || '❌ Playwright: Тесты не пройдены' }}</b>
             
             <b>Проект:</b> ${{ github.repository }}
             <b>Ветка:</b> ${{ github.ref_name }}
