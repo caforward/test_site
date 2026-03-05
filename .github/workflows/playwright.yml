@@ -38,10 +38,8 @@ jobs:
           format: html
           message: |
             <b>${{ job.status == 'success' && '✅ Playwright: Тесты пройдены' || '❌ Playwright: Тесты не пройдены' }}</b>
-            
             <b>Проект:</b> ${{ github.repository }}
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Событие:</b> ${{ github.event_name }}
             <b>Инициатор:</b> ${{ github.actor }}
-            
             <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">Посмотреть детали и отчет</a>
