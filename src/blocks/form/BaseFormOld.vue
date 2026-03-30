@@ -1,0 +1,395 @@
+<script setup>
+// imports
+import {ref, onBeforeMount, onMounted, reactive, computed} from 'vue'
+
+import BaseButton from '@/blocks/ui/BaseButton.vue';
+import BaseFormInstallment from './BaseFormInstallment.vue';
+import BaseInput from '@/blocks/ui/BaseInput.vue';
+import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
+
+// composables
+import {useInputValidation, createFormData} from '@/composable/useForm.js'
+
+// variables
+
+const emit = defineEmits(['submitted'])
+
+const props = defineProps({
+    showTitle: {
+        type: Boolean,
+        default: false,
+    },
+    inputs: {
+        type: Array,
+        required: true
+    },
+    grayForm: {
+        type: Boolean,
+        default: false
+    },
+    additionalData: {
+        type: Object,
+        default: {}
+    },
+    formType: {
+        type: String,
+    }
+})
+
+// for form
+const inputRefs = ref(null)
+const formInputs = reactive({})
+
+const additionalFormBlock = ref(null)
+const additionalInput = ref(null)
+
+const consentRef = ref(null)
+const consentValue = ref(null)
+
+const formDOMElement = ref(null)
+
+// functions
+
+function submitForm() {
+    // collect input refs from form
+    let formInputRefs = [...inputRefs.value]
+
+    if (additionalFormBlock.value) {
+        formInputRefs.push(...additionalFormBlock.value.inputRefs)
+    }
+    if (additionalInput.value) {
+        formInputRefs.push(additionalInput.value)
+    }
+
+    // check inputs validation and emit submit
+    const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
+
+    if (isFormValid) {
+        const formData = createFormData(formInputRefs)
+
+        emit('submitted', formData, formInputRefs)
+
+    } else {
+        // console.log('form is not valid')
+    }
+}
+
+// hooks
+
+onBeforeMount(() => {
+    props.inputs.forEach(input => {
+        formInputs[input.name] = {
+            value: input.value ? input.value : '',
+        }
+    })
+})
+
+onMounted(() => {
+    if (props.grayForm) {
+        formDOMElement.value.classList.add('form_gray')
+    }
+})
+
+// computed
+
+const formAttributeType = computed(() => {
+    let type = "";
+    // const messageTypeOptions = props.inputs.find(input => input.name === 'messageType').options;
+    // console.log(messageTypeOptions);
+
+    // типы форм, принимает название, возвращает тип
+    // TODO: Переписать на использование options из пропсаов
+    // !!! ЭТО ДЛЯ ПРОПСА formType, это костыль для отображения нужных полей
+    const types = {
+        "Прошу перезвонить": "callback",
+        "Другое": "other",
+        "Запрос на оферту": "installment",
+        "Разблокировка счетов": "account-unblock",
+        "Отозвать ИП": "cancel-ip",
+        "Внесение изменений в БКИ": "",
+        "Информация о долге": "debt-info",
+        "Информация о мобилизации": "",
+        "О возврате денежных средств": "refund",
+        "Отказ от взаимодействия": "",
+        "Претензия": "",
+        "Справка о погашении задолженности": "",
+        "Справка о состоянии задолженности": "",
+    }
+
+    if (props.formType) {
+        type = types[props.formType];
+    }
+    if (formInputs && formInputs.messageType && formInputs.messageType.value) {
+        type = formInputs.messageType.value.value;
+    }
+
+    return type;
+})
+
+</script>
+
+<template>
+    <!-- form title, choosed by message type select -->
+    <div v-if="props.showTitle">
+        <!-- default title -->
+        <template v-if="!formInputs.messageType || !formInputs.messageType.value">
+            <div class="sm:text-2xl text-xl font-bold mb-5">
+                Заполните поля в форме ниже, и мы свяжемся с Вами. 
+            </div>
+        </template>
+
+        <template v-else>
+            <!-- installment title. select - Рассрочка -->
+            <template v-if="formAttributeType === 'installment'">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
+                    Получить рассрочку
+                </div>
+                <div class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+                    Проверить задолженность:
+                    <div class="flex gap-1.5 items-center">
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <div class="w-8">
+                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- callback title. select - Перезвоните мне -->
+            <template v-else-if="formAttributeType === 'callback'">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
+                    Оставить обращение
+                </div>
+                <p class="sm:text-base text-sm mb-6 font-normal">
+                    Просто введите свои контактные данные и ждите, когда Мы свяжемся с Вами, чтобы
+                    проконсультировать по
+                    вашей финансовой ситуации.
+                </p>
+            </template>
+
+            <template v-else-if="formAttributeType === 'refund'">
+                <div class="sm:text-2xl text-xl font-bold mb-2">
+                    Возврат денежных средствы
+                </div>
+                <p class="sm:text-base text-sm mb-6 font-normal">
+                    Пожалуйста, заполните обязательную форму для возврата денежных средств и прикрепите файл к
+                    сообщению.
+                </p>
+            </template>
+
+            <!-- default -->
+            <template v-else>
+                <div :class="[
+                        'sm:text-2xl text-xl font-bold',
+                        formAttributeType === 'cancel-ip' ? 'mb-2' : 'mb-5'
+                    ]"
+                >
+                    Заполните поля в форме ниже, и мы свяжемся с Вами.
+                </div>
+
+                <div v-if="formAttributeType === 'cancel-ip'"
+                     class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
+                    Проверить задолженность:
+                    <div class="flex gap-1.5 items-center">
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <div class="w-8">
+                            <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </div>
+
+    <slot name="preformText"></slot>
+    <!-- form -->
+    <form ref="formDOMElement" action="" class="form" :id="formAttributeType">
+        <div class="form-container">
+
+            <!-- slot for before inputs -->
+            <div v-if="$slots.beforeUserInputs">
+                <slot name="beforeUserInputs"></slot>
+            </div>
+
+            <!-- form inputs wrapper -->
+            <div class="form__inputs">
+
+                <!-- user info -->
+                <template v-for="(input, idx) in inputs" :key="idx">
+                    <BaseInput
+                        v-if="!(input.name === 'file_attachment' && formAttributeType !== 'refund')"
+                        ref="inputRefs"
+                        v-model="formInputs[input.name].value"
+                        class="input__wrapper"
+                        :name="input.name"
+                        :type="input.type"
+                        :placeholder="input.placeholder"
+                        :required="input.required"
+                        :disabled="input.disabled"
+                        :visible="input.visible"
+                        :options="input.options"
+                        :minDate="input.minDate"
+                    />
+                </template>
+
+                <!-- optional info, choosed by message type select -->
+                <template v-if="formInputs.messageType && formInputs.messageType.value">
+
+                    <!-- installment block -->
+                    <template v-if="formAttributeType === 'installment'">
+                        <BaseFormInstallment ref="additionalFormBlock"/>
+                    </template>
+
+                    <template v-if="formAttributeType === 'refund'">
+                        <BaseButton
+                            as="link"
+                            href="/assets/docs/Заявление на возврат.docx"
+                            download
+                        >
+                            Скачать шаблон заявления
+                        </BaseButton>
+                    </template>
+                </template>
+            </div>
+
+            <!-- slot for after inputs -->
+            <div v-if="$slots.afterUserInputs">
+                <slot name="afterUserInputs"></slot>
+            </div>
+
+            <!-- form bottom -->
+            <div class="form-bottom">
+
+                <!-- personal data checkbox -->
+                <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
+                              :required="true" v-model="consentValue" class="text-sm">
+                    <template #label>
+                        Даю согласие на
+                        <a href="#" class="link">обработку своих персональных данных</a>,
+                        <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
+                    </template>
+                </BaseCheckbox>
+
+                <!-- submit button -->
+                <BaseButton class="sm:w-fit w-full min-w-60" size="large" @click.prevent="submitForm">
+                    Отправить
+                </BaseButton>
+            </div>
+        </div>
+    </form>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/scss/base/variables.scss' as var;
+@use '@/assets/scss/base/mixins.scss' as mixin;
+
+.slider {
+    &__title {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    &__tooltip {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 214%;
+        color: var.$gray-dark;
+    }
+}
+
+.form {
+    &-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &_gray {
+        :deep(.input-wrapper) {
+            .input {
+                background-color: #EAECEE;
+                transition: background-color .2s, border-color .2s;
+
+                &:focus {
+                    background-color: white;
+                }
+
+                &_valid {
+                    background-color: white;
+                }
+            }
+        }
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &-meta {
+            display: flex;
+            gap: 10px;
+
+            &__checkbox {
+                border: 1px solid var.$gray;
+                transition: border-color .2s, background-color .3s;
+
+                &.checkbox_error {
+                    background-color: #FF6464;
+                }
+
+                &:checked {
+                    border-color: var.$blue;
+                }
+            }
+
+            &__label {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 143%;
+
+                .link {
+                    display: inline;
+                }
+            }
+        }
+
+        &__button {
+            width: 100%;
+            max-width: 270px
+        }
+    }
+}
+
+@include mixin.laptop {
+    .form {
+        &-installment {
+            &-title {
+                font-size: 16px;
+                gap: 10px;
+
+                &-amount {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+</style>
