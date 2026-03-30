@@ -1,45 +1,125 @@
 <script setup>
-import { ref } from 'vue';
 import BaseBreadcrumb from "@/blocks/BaseBreadcrumb.vue";
-import IntroBlock from "@/blocks/IntroBlock.vue";
 import ModalForm from '@/layouts/ModalForm.vue';
+import VueEasyLightbox from "vue-easy-lightbox";
+import {ref} from "vue";
 
 const modalVisible = ref(false)
+
+const visibleRef = ref(false)
+const indexRef = ref(0)
+const ind = ref(0)
+const imgsRef = [
+    {
+        src: '/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.jpg',
+        downloadSrc: '/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.pdf',
+        title:
+            'Свидетельство о включении в Реестр юридических лиц, \
+            осуществляющих деятельность по возврату просроченной \
+            задолженности \ '
+    },
+    {
+        src: '/images/AboutCompany/svidetelstvo_protocol_ARKA.jpg',
+        downloadSrc: '/images/AboutCompany/svidetelstvo_protocol_ARKA.pdf',
+        title:
+            'Свидетельство о включении в Реестр юридических лиц, \
+            осуществляющих деятельность по возврату просроченной \
+            задолженности \ '
+    },
+]
+
+const showImg = (index) => {
+    indexRef.value = index
+    visibleRef.value = true
+}
+
+const onHide = () => {
+    visibleRef.value = false
+}
 </script>
 
 <template>
     <section class="section">
         <div class="custom-container">
-            <IntroBlock>
-                <template v-slot:content>
-                    <div class="intro-content">
-                        <BaseBreadcrumb class="breadcrumb" />
-                        <h1 class="intro-content__title">ООО ПКО «Форвард»</h1>
-                        <h3 class="intro-content__subtitle">
-                            Коллекторское агентство, осуществляющее деятельность по
-                            возврату просроченной задолженности в качестве основного
-                            вида деятельности.
-                        </h3>
-                        <p class="intro-content__text">
-                            Компания действует в соответствии с действующим
-                            законодательством и договорами, заключенными с
-                            кредитными и иными организациями.
-                        </p>
-                        <a href="#" class="button button_blue intro-content__button"
-                            @click="modalVisible = true">
-                            Получить консультацию
-                        </a>
+            <BaseBreadcrumb class="breadcrumb"/>
+
+            <div class="intro-content">
+                <h1 class="intro-content__title">ООО ПКО «Форвард»</h1>
+                <div class="images-container mb-10">
+                    <div class="image">
+                        <picture>
+                            <!--                        <source srcset="/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.webp" type="image/webp">-->
+                            <source
+                                srcset="/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.jpg"
+                                type="image/jpeg"
+                            >
+                            <img src="/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.jpg"
+                                 alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
+                                 @click="showImg(0)"
+                            />
+                        </picture>
                     </div>
-                </template>
-                <template v-slot:img>
-                    <div class="intro__img">
-                        <img src="/images/blocks/about/intro/01.png" alt="" />
+                    <div class="image">
+                        <picture>
+                            <source
+                                srcset="/images/AboutCompany/svidetelstvo_protocol_ARKA.jpg"
+                                type="image/jpeg"
+                            >
+                            <img src="/images/AboutCompany/svidetelstvo_protocol_ARKA.jpg"
+                                 alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
+                                 @click="showImg(1)"
+                            />
+                        </picture>
                     </div>
-                </template>
-            </IntroBlock>
+                </div>
+                <div class="intro-content__subtitle text-balance">
+                    ООО ПКО «Форвард» — профессиональная коллекторская организация, которая с 2014 года помогает
+                    клиентам урегулировать задолженность и восстановить финансовую стабильность. Компания предлагает
+                    простые и понятные способы погашения долга — в рассрочку или на специальных условиях.
+                </div>
+
+                <p class="intro-content__text text-balance">
+                    Приобретая задолженность физических лиц и работая с ней на законных основаниях, ПКО «Форвард»
+                    имеет возможность предлагать более гибкие и лояльные схемы погашения. В зависимости от ситуации
+                    клиенту могут быть доступны индивидуальные графики платежей и снижение суммы задолженности при
+                    выполнении условий урегулирования.
+                </p>
+                <p class="intro-content__text text-balance">
+                    Специалисты компании рассматривают каждый случай индивидуально и совместно с клиентом подбирают
+                    комфортное решение, позволяющее закрыть задолженность без избыточной финансовой нагрузки. Такой
+                    подход помогает эффективно решить вопрос даже по «старым» долгам.
+                </p>
+                <p class="intro-content__text text-balance">
+                    В ряде случаев условия погашения задолженности в ПКО «Форвард» могут быть более выгодными, чем
+                    первоначальные условия кредита, за счёт гибкости и возможности согласования индивидуальных условий.
+                </p>
+
+                <a href="#" class="button button_blue intro-content__button"
+                   @click="modalVisible = true">
+                    Получить консультацию
+                </a>
+            </div>
         </div>
     </section>
-    <ModalForm v-model="modalVisible" />
+    <ModalForm v-model="modalVisible"/>
+
+    <vue-easy-lightbox
+        :index="indexRef"
+        :visible="visibleRef"
+        :imgs="imgsRef"
+        class="lightbox"
+        @hide="onHide"
+        @on-index-change="(oldInd, newInd) => indexRef = newInd"
+    >
+        <template v-slot:toolbar="{ toolbarMethods }">
+            <a
+                :href="imgsRef[indexRef].downloadSrc"
+                target="_blank"
+                class="lightbox-button button button_blue">
+                Загрузить
+            </a>
+        </template>
+    </vue-easy-lightbox>
 </template>
 
 <style lang="scss" scoped>
@@ -47,7 +127,44 @@ const modalVisible = ref(false)
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
 section {
+    padding: 50px 0;
     background-color: var.$gray-light;
+}
+
+.vel {
+    &-fade {
+        &-leave-active {
+            transition: opacity .2s, visibility .2s;
+        }
+    }
+}
+
+.lightbox-button {
+    position: absolute;
+    height: 40px;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.images-container {
+    @apply
+    flex items-center justify-center gap-6;
+
+    .image {
+        @apply
+        md:min-w-60 md:h-96
+        flex-1;
+    }
+
+    animation: demo-overlay-in 750ms ease-out;
+}
+
+@keyframes demo-overlay-in {
+    from {
+        opacity: 0;
+        transform: translateY(15%);
+    }
 }
 
 .container {
@@ -69,9 +186,6 @@ section {
     }
 
     &-content {
-        padding: 60px 0 60px;
-        width: 50%;
-
         &__title {
             margin-bottom: 25px;
         }
@@ -88,6 +202,7 @@ section {
             line-height: 167%;
             margin-bottom: 25px;
         }
+
         &__button {
             min-width: 200px;
             width: fit-content;

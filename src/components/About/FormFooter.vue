@@ -16,7 +16,7 @@ export default {
                     name: 'name',
                     type: 'text',
                     placeholder: 'ФИО*',
-                    required: true
+                    required: true,
                 },
                 {
                     name: 'tel',
@@ -30,20 +30,38 @@ export default {
                     placeholder: 'E-mail*',
                 },
                 {
+                    name: 'birthdayDate',
+                    type: 'date',
+                    value: '',
+                    placeholder: 'Дата рождения*',
+                    required: true
+                },
+                {
                     name: 'messageType',
                     type: 'select',
                     placeholder: 'Тема обращения*',
                     required: true,
-                    value: "Прошу перезвонить",
+                    value: {value: 'callback', label: 'Прошу перезвонить'},
                     options: [
-                        "Прошу перезвонить",
-                        "Другое",
-                    ]
+                        {value: 'callback', label: 'Прошу перезвонить'},
+                        {value: 'debt-info', label: 'Информация о долге'},
+                        {value: 'installment', label: 'Запрос на оферту'},
+                        {value: '', label: 'Внесение изменений в БКИ'},
+                        {value: '', label: 'Информация о мобилизации'},
+                        {value: 'refund', label: 'О возврате денежных средств'},
+                        {value: 'account-unblock', label: 'Разблокировка счетов'},
+                        {value: '', label: 'Отказ от взаимодействия'},
+                        {value: '', label: 'Претензия'},
+                        {value: '', label: 'Справка о погашении задолженности'},
+                        {value: '', label: 'Справка о состоянии задолженности'},
+                        {value: 'cancel-ip', label: 'Отозвать ИП'},
+                        {value: 'get-contract-id', label: 'Узнать номер договора'},
+                    ],
                 },
                 {
-                    name: 'message',
-                    type: 'textarea',
-                    placeholder: 'Кратко опишите Ваш вопрос*',
+                    name: 'file_attachment',
+                    type: 'file',
+                    required: true,
                 }
             ],
         };
@@ -63,16 +81,15 @@ export default {
                 <template v-slot:info>
                     <div class="form-block-info">
                         <h2 class="form-block-info__title">
-                            Остались вопросы?<br />
-                            Напишите нам, и мы свяжемся с вами. 
+                            Обращение
                         </h2>
                         <p class="form-block-info__text text-body">
-                            Наши специалисты получают все заявки на обратную связь и
-                            отвечают на них максимально быстро. <br /><br />
-                            Просто введите свои контактные данные и ФИО, кратко опишите
-                            проблему и ждите, когда сотрудник ПКО «Форвард» свяжется с вами,
-                            чтобы проконсультировать по вашей финансовой ситуации. С этого
-                            начнется ваш путь к чистой кредитной истории
+                            Если вы хотите узнать, какие варианты урегулирования задолженности доступны в вашей
+                            ситуации, вы можете обратиться в ООО ПКО «Форвард».
+                        </p>
+                        <p class="form-block-info__text text-body">
+                            Наши специалисты помогут разобраться в ситуации и предложат возможные способы решения
+                            вопроса.
                         </p>
                         <span class="form-block-info__text form-block-info__text_meta">
                             * поле для обязательного заполнения
@@ -82,7 +99,7 @@ export default {
             </FormBlock>
         </div>
     </section>
-    <ModalThank v-model="thankModalVisible" />
+    <ModalThank v-model="thankModalVisible"/>
 </template>
 
 <style lang="scss" scoped>
@@ -116,7 +133,7 @@ section {
 @include mixin.laptop {
     .form {
         &-block {
-            &>* {
+            & > * {
                 flex: none;
             }
 

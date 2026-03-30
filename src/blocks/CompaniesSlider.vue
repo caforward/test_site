@@ -1,6 +1,5 @@
 <script setup>
 import { Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -25,16 +24,8 @@ const dataSlider = ref([
         img: "suppliers/alpha.png",
     },
     {
-        name: "mdm-bank",
-        img: "suppliers/mdm.png",
-    },
-    {
         name: "expo-bank",
         img: "suppliers/expo.png",
-    },
-    {
-        name: "home-credit",
-        img: "suppliers/home.png",
     },
     {
         name: "otp-bank",
@@ -43,10 +34,6 @@ const dataSlider = ref([
     {
         name: "rossselhoz-bank",
         img: "suppliers/rosselhoz.png",
-    },
-    {
-        name: "rusfinance-bank",
-        img: "suppliers/russfinance.png",
     },
     {
         name: "yuni-bank",

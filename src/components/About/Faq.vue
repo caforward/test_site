@@ -241,7 +241,6 @@ const accordionData = ref([
 
 section {
     padding: 80px 0 70px;
-    background-color: #fafbfd;
 }
 
 .faq {

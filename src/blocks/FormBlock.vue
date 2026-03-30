@@ -1,126 +1,226 @@
 <script setup>
-import { ref, watch, onBeforeMount, reactive } from 'vue'
-import BaseInput from './ui/BaseInput.vue';
-import BaseCheckbox from './ui/BaseCheckbox.vue';
-import Button from 'primevue/button';
-import BaseButton from './ui/BaseButton.vue';
+import {onMounted, ref} from "vue";
+import BaseForm from "@/blocks/form/BaseForm.vue";
+import OverlayThank from '@/layouts/OverlayThank.vue';
 
-// composable
-import { useInputValidation, createFormData } from '@/composable/useForm.js'
-
-// variables
-
-const emit = defineEmits(['submitted'])
+const response = ref(null)
+const overlayThankVisible = ref(false)
+const userName = ref(null)
 
 const props = defineProps({
+    type: {
+        type: String,
+        default: ''
+    },
+    showTitle: {
+        type: Boolean,
+        default: true,
+    },
+    fetchUrl: {
+        type: String,
+        default: '/backend/public/email.php'
+    },
     inputs: {
         type: Array,
-        required: true
-    },
-    additionalData: {
-        type: Object,
-        default: {}
+        default: [
+            {
+                name: 'name',
+                type: 'text',
+                placeholder: 'ФИО*',
+                required: true,
+            },
+            {
+                name: 'tel',
+                type: 'tel',
+                placeholder: 'Номер телефона*',
+                required: true
+            },
+            {
+                name: 'email',
+                type: 'email',
+                placeholder: 'E-mail*',
+            },
+            {
+                name: 'birthdayDate',
+                type: 'date',
+                value: '',
+                placeholder: 'Дата рождения*',
+                required: true
+            },
+            {
+                name: 'messageType',
+                type: 'select',
+                placeholder: 'Тема обращения*',
+                required: true,
+                value: "Информация о долге",
+                options: [
+                    {value: 'callback', label: 'Прошу перезвонить'},
+                    // "Разблокировать счет",
+                    // "Рассрочка",
+                    // "Другое",
+                    {value: 'debt-info', label: 'Информация о долге'},
+                    {value: 'installment', label: 'Запрос на оферту'},
+                    {value: '', label: 'Внесение изменений в БКИ'},
+                    {value: '', label: 'Информация о мобилизации'},
+                    {value: 'refund', label: 'О возврате денежных средств'},
+                    {value: 'account-unblock', label: 'Разблокировка счетов'},
+                    {value: '', label: 'Отказ от взаимодействия'},
+                    {value: '', label: 'Претензия'},
+                    {value: '', label: 'Справка о погашении задолженности'},
+                    {value: '', label: 'Справка о состоянии задолженности'},
+                    {value: 'cancel-ip', label: 'Отозвать ИП'},
+                    {value: 'get-contract-id', label: 'Узнать номер договора'},
+                ],
+            },
+            {
+                name: 'file_attachment',
+                type: 'file',
+                required: true,
+            }
+        ]
     }
 })
 
-const formInputs = reactive({})
-const inputRefs = ref(null)
-const consentRef = ref(null)
-const consentValue = ref(null)
-
-onBeforeMount(() => {
-    props.inputs.forEach(input => {
-        formInputs[input.name] = {
-            value: input.value ? input.value : '',
-        }
-    })
-})
-
-async function sendData(data) {
-
-    /* \/ temporary solution */
-    // use inputRefs instead that
-    Object.keys(props.additionalData).forEach(key => {
-        data.append(key, props.additionalData[key])
-    })
-
-    // for (let key of data.entries()) {
-    //     console.log(`${key[0]}: ${key[1]}`)
+/*
+const inputs = ref([
+    {
+        name: 'name',
+        type: 'text',
+        placeholder: 'ФИО*',
+        required: true,
+    },
+    {
+        name: 'tel',
+        type: 'tel',
+        placeholder: 'Номер телефона*',
+        required: true
+    },
+    {
+        name: 'email',
+        type: 'email',
+        placeholder: 'E-mail*',
+    },
+    {
+        name: 'messageType',
+        type: 'select',
+        placeholder: 'Тема обращения*',
+        required: true,
+        value: "Прошу перезвонить",
+        options: [
+            "Прошу перезвонить",
+            "Узнать номер договора",
+            "Разблокировать счет",
+            "Рассрочка",
+            "Другое",
+        ],
+    },
+    // {
+    // 	name: 'message',
+    // 	type: 'textarea',
+    // 	placeholder: 'Кратко опишите Ваш вопрос*',
     // }
-    /* /\ temporary solution */
+])
+*/
+
+async function sendData(formData, formInputRefs) {
+    overlayThankVisible.value = true
+    userName.value = formData.get('name')
 
     // Для тестирования пустых писем
-    data.append('fromComponent', 'FormBlock')
+    formData.append('fromComponent', 'ModalForm')
     // Для тестирования пустых писем
 
     try {
-        const response = await fetch("/backend/public/email.php", {
-            method: "POST",
-            body: data.value
+        response.value = await fetch(props.fetchUrl, {
+            method: 'POST',
+            body: formData
         })
 
-        if (response.ok) {
-            console.log("Сообщение успешно отправлено");
-
-            emit("submitted")
-        } else {
-            console.error("Ошибка при отправке сообщения");
+        if (response.value) {
+            formInputRefs.forEach(inputRef => {
+                inputRef.clearValue()
+            })
         }
-    } catch (error) {
-        console.error("Ошибка при отправке сообщения:", error);
+
+    } catch {
+        response.value = {ok: false}
     }
 }
 
-function submitForm() {
+async function sendRating(rateData) {
+    const postData = new FormData()
+    postData.append('rate', rateData.rateValue.value)
+    postData.append('message', rateData.rateMessage.value)
+    postData.append('feedback', rateData.rateFeedback.value)
+    postData.append('username', userName.value)
 
-    // collect input refs from form
-    let formInputRefs = [...inputRefs.value]
+    // postData.entries().forEach(key => {
+    //     console.log(key)
+    // })
 
-    // check inputs validation and emit submit
-    const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
-
-    if (isFormValid) {
-        const formData = createFormData(formInputRefs)
-
-        sendData(formData)
-        inputRefs.value.forEach(inputRef => inputRef.clearValue())
-
-        // emit('submitted', formData)
-    } else {
-        // console.log('form is not valid')
+    try {
+        await fetch('/backend/public/rate.php', {
+            method: 'POST',
+            body: postData
+        })
+    } catch (err) {
+        console.log('error rate', err.message)
     }
 }
+
+function setSelectorByType(type) {
+    const messageTypeInput = props.inputs.find(input => input.name === 'messageType')
+
+    if (messageTypeInput) {
+        if (type) {
+            // Индексы из массива options, для селекта
+            const types = {
+                "callback": 0,
+                "installment": 2,
+                "account-unblock": 6,
+                "cancel-ip": 11,
+                "debt-info": 1,
+                "refund": 5,
+                "get-contract-id": 12
+            }
+
+            let option = messageTypeInput.options[0]
+
+            if (types[type]) {
+                option = messageTypeInput.options.find(opt => opt.value === type)
+            }
+
+            messageTypeInput.value = option
+            messageTypeInput.disabled = true
+        } else {
+            messageTypeInput.value = messageTypeInput.options[0]
+            messageTypeInput.disabled = false
+        }
+    }
+}
+
+onMounted(() => {
+    const option = props.type
+    setSelectorByType(option)
+})
 </script>
 
 <template>
     <div class="form-block">
+        <div class="bg-holder"></div>
         <slot name="info"></slot>
-        <form novalidate action="" class="form-block__form" @submit.prevent="handleSubmit">
-            <div class="form-block__inputs">
-                <template v-for="(input, idx) in inputs" :key="idx">
-                    <BaseInput ref="inputRefs" v-model="formInputs[input.name].value" class="input__wrapper"
-                        :name="input.name" :type="input.type" :placeholder="input.placeholder"
-                        :required="input.required" :disabled="input.disabled" :options="input.options" />
-                </template>
-            </div>
-            <div class="flex flex-col gap-4">
 
-                <!-- personal data checkbox -->
-                <BaseCheckbox ref="consentRef" checkboxId="personal-data-consent" checkboxName="consent-checkbox"
-                    :required="true" v-model="consentValue" class="text-sm">
-                    <template #label>
-                        Даю согласие на
-                        <a href="#" class="link">обработку своих персональных данных</a>,
-                        <a target="_blank" href="/policy" class="link">политика конфиденциальности</a>
-                    </template>
-                </BaseCheckbox>
+        <div class="relative">
+            <BaseForm :inputs="inputs" @submitted="sendData"/>
 
-                <!-- submit button -->
-                <BaseButton class="w-full min-w-60" size="large" @click.prevent="submitForm">
-                    Отправить
-                </BaseButton>
-            </div>
-        </form>
+            <OverlayThank
+                v-model:visible="overlayThankVisible"
+                v-model:status="response"
+                class="!rounded-lg"
+                @closeParentModal="overlayThankVisible = false"
+                @sendRating="sendRating"
+            />
+        </div>
     </div>
 </template>
 
@@ -128,22 +228,14 @@ function submitForm() {
 @use '@/assets/scss/base/variables.scss' as var;
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
-.form-block {
-    background-color: var.$black;
-    border-radius: 20px;
-    padding: 70px 85px 60px;
-    color: #fff;
-    gap: 40px;
-    position: relative;
-    z-index: 1;
+.bg-holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-
-    &>* {
-        width: 100%;
-        flex: 1;
-    }
+    border-radius: inherit;
 
     &::before {
         content: '';
@@ -155,6 +247,24 @@ function submitForm() {
         aspect-ratio: 1 / 1;
         // background: radial-gradient(circle, var.$blue 0%, rgba(0,0,0,0) 70%);
         box-shadow: 100px 160px 300px 280px rgba(0, 150, 216, 0.85);
+    }
+}
+
+.form-block {
+    background-color: var.$black;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    padding: 70px 85px 60px;
+    color: #fff;
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+
+    & > * {
+        width: 100%;
+        flex: 1;
     }
 
     textarea {
@@ -170,7 +280,7 @@ function submitForm() {
     &__inputs {
         margin-bottom: 30px;
 
-        &>* {
+        & > * {
             &:not(:last-child) {
                 margin-bottom: 15px;
             }
@@ -182,7 +292,7 @@ function submitForm() {
         flex-wrap: wrap;
         gap: 30px;
 
-        &>* {
+        & > * {
             width: 100%;
             flex: 1;
         }
@@ -281,7 +391,7 @@ textarea {
     .form {
         &-block {
             &__bottom {
-                &>* {
+                & > * {
                     flex: none;
                 }
             }

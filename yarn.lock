@@ -4946,7 +4946,7 @@ vue-component-type-helpers@^2.0.0:
 
 vue-easy-lightbox@^1.19.0:
   version "1.19.0"
-  resolved "https://registry.npmjs.org/vue-easy-lightbox/-/vue-easy-lightbox-1.19.0.tgz"
+  resolved "https://registry.yarnpkg.com/vue-easy-lightbox/-/vue-easy-lightbox-1.19.0.tgz#35006500f37eaaf00e9943af58accdc5e2dde2a5"
   integrity sha512-YxLXgjEn91UF3DuK1y8u3Pyx2sJ7a/MnBpkyrBSQkvU1glzEJASyAZ7N+5yDpmxBQDVMwCsL2VmxWGIiFrWCgA==
 
 vue-router@^4.4.5:

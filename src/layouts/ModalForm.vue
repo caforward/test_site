@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import {onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
@@ -56,22 +56,22 @@ const props = defineProps({
                 required: true,
                 value: "Информация о долге",
                 options: [
-                    { value: 'callback', label: 'Прошу перезвонить' },
+                    {value: 'callback', label: 'Прошу перезвонить'},
                     // "Разблокировать счет",
                     // "Рассрочка",
                     // "Другое",
-                    { value: 'debt-info', label: 'Информация о долге' },
-                    { value: 'installment', label: 'Запрос на оферту' },
-                    { value: '', label: 'Внесение изменений в БКИ' },
-                    { value: '', label: 'Информация о мобилизации' },
-                    { value: 'refund', label: 'О возврате денежных средств' },
-                    { value: 'account-unblock', label: 'Разблокировка счетов' },
-                    { value: '', label: 'Отказ от взаимодействия' },
-                    { value: '', label: 'Претензия' },
-                    { value: '', label: 'Справка о погашении задолженности' },
-                    { value: '', label: 'Справка о состоянии задолженности' },
-                    { value: 'cancel-ip', label: 'Отозвать ИП' },
-                    { value: 'get-contract-id', label: 'Узнать номер договора' },
+                    {value: 'debt-info', label: 'Информация о долге'},
+                    {value: 'installment', label: 'Запрос на оферту'},
+                    {value: '', label: 'Внесение изменений в БКИ'},
+                    {value: '', label: 'Информация о мобилизации'},
+                    {value: 'refund', label: 'О возврате денежных средств'},
+                    {value: 'account-unblock', label: 'Разблокировка счетов'},
+                    {value: '', label: 'Отказ от взаимодействия'},
+                    {value: '', label: 'Претензия'},
+                    {value: '', label: 'Справка о погашении задолженности'},
+                    {value: '', label: 'Справка о состоянии задолженности'},
+                    {value: 'cancel-ip', label: 'Отозвать ИП'},
+                    {value: 'get-contract-id', label: 'Узнать номер договора'},
                 ],
             },
             {
@@ -82,6 +82,7 @@ const props = defineProps({
         ]
     }
 })
+
 /*
 const inputs = ref([
     {
@@ -144,7 +145,7 @@ async function sendData(formData, formInputRefs) {
         }
 
     } catch {
-        response.value = { ok: false }
+        response.value = {ok: false}
     }
 }
 
@@ -186,7 +187,7 @@ function setSelectorByType(type) {
             }
 
             let option = messageTypeInput.options[0]
-            
+
             if (types[type]) {
                 option = messageTypeInput.options.find(opt => opt.value === type)
             }
