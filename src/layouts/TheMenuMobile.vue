@@ -216,11 +216,12 @@ watch(
                             + 7 (804) 333-41-33
                         </a>
                         <a
-                            href="https://t.me/Fwdclient_bot"
+                            href="https://max.web.astralinux.ru/chat/phone/79231019644"
                             target="_blank"
                             class="w-9 h-9 flex items-center justify-center rounded-full bg-sky-600 text-white"
+                            title="Мах"
                         >
-                            <Icon icon="mingcute:telegram-fill" width="16"/>
+                            <img src="/images/mah.svg" alt="мах" style="width: 24px">
                         </a>
                     </div>
                     <div class="flex flex-col gap-3">

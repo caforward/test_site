@@ -231,11 +231,12 @@ function showModal(option) {
 
                         <BaseButton
                             as="link"
-                            href="https://t.me/Fwdclient_bot"
+                            href="https://max.web.astralinux.ru/chat/phone/79231019644"
                             target="_blank"
                             circle
+                            title="Мах"
                         >
-                            <Icon icon="mingcute:telegram-fill" width="24"/>
+                            <img src="/images/mah.svg" alt="мах" style="width: 24px">
                         </BaseButton>
 
                         <BaseButton
@@ -472,6 +473,7 @@ function showModal(option) {
                 & > * {
                     display: none;
                 }
+
                 .about-company-button {
                     display: flex;
                 }

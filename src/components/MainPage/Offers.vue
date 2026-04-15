@@ -34,9 +34,12 @@ import PayForm from '@/blocks/PayForm.vue';
                 </div>
 
                 <div id="payment" class="payment-block border border-[#EAECEE] bg-white">
-                    <div class="payment-block__title">
+                    <div class="payment-block__title !mb-2">
                         Оплатите <br class="hidden"> задолженность онлайн!
                     </div>
+
+                    <span class="mb-4 font-medium lg:text-xl">Оплата доступна 24/7</span>
+
                     <p class="payment-block__text mb-6">
                         С ООО ПКО «Форвард» вы можете легко оплатить <br class="hidden lg:block">
                         задолженность онлайн и без дополнительных <br class="hidden lg:block">
