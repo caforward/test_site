@@ -216,7 +216,7 @@ watch(
                             + 7 (804) 333-41-33
                         </a>
                         <a
-                            href="https://max.web.astralinux.ru/chat/phone/79231019644"
+                            href="https://max.ru/u/f9LHodD0cOLDDzBwzzHKhO7T5F7NJr6Knwn-DpshmdjJ3RMKQw92lnwSlgk"
                             target="_blank"
                             class="w-9 h-9 flex items-center justify-center rounded-full bg-sky-600 text-white"
                             title="Мах"

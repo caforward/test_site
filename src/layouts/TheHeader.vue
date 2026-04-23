@@ -231,10 +231,11 @@ function showModal(option) {
 
                         <BaseButton
                             as="link"
-                            href="https://max.web.astralinux.ru/chat/phone/79231019644"
+                            href="https://max.ru/u/f9LHodD0cOLDDzBwzzHKhO7T5F7NJr6Knwn-DpshmdjJ3RMKQw92lnwSlgk"
                             target="_blank"
                             circle
                             title="Мах"
+                            class="mah-messenger-link"
                         >
                             <img src="/images/mah.svg" alt="мах" style="width: 24px">
                         </BaseButton>
@@ -474,8 +475,15 @@ function showModal(option) {
                     display: none;
                 }
 
+                .mah-messenger-link {
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                }
+
                 .about-company-button {
                     display: flex;
+                    text-wrap: nowrap;
                 }
             }
         }
