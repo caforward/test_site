@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import Rating from 'primevue/rating';
 import BaseInput from '@/blocks/ui/BaseInput.vue';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
@@ -63,13 +63,13 @@ function sendRatingAndCloseModal() {
 <template>
     <transition name="fade">
         <div v-if="visible"
-            :class="['overlay', 'text-slate-900', isModal ? 'min-h-96' : 'px-6 py-4 absolute top-0 left-0']">
+             :class="['overlay', 'text-slate-900', isModal ? 'min-h-96' : 'px-6 py-4 absolute top-0 left-0']">
             <span v-if="status === null" class="icon">
                 <i class="pi pi-spin pi-spinner !text-8xl text-sky-600"></i>
             </span>
 
             <div v-else class="flex flex-col items-center gap-4 w-full">
-                <div v-if="status.ok" class="flex flex-col items-center w-full">
+                <div v-if="status" class="flex flex-col items-center w-full">
                     <span class="border-8 border-sky-600 rounded-full flex items-center justify-center w-24 h-24 mb-6">
                         <i class="pi pi-check text-sky-600 !font-bold !text-6xl"></i>
                     </span>
@@ -78,7 +78,8 @@ function sendRatingAndCloseModal() {
                             Спасибо!
                         </div>
                         <p class="text-xl text-center">
-                            Ваше обращение отправлено.
+                            Мы подтверждаем, что <br/> ваше обращение успешно получено нами <br/> и передано на
+                            рассмотрение
                         </p>
                     </div>
                     <transition name="rating-animation">
@@ -86,32 +87,32 @@ function sendRatingAndCloseModal() {
                             <div class="font-bold mb-2">
                                 Оцените работу сайта
                             </div>
-                            <Rating v-model="rating" :stars="5" class="mb-4" />
+                            <Rating v-model="rating" :stars="5" class="mb-4"/>
 
                             <transition name="fade">
                                 <div v-if="rating && rating < 5"
-                                    class="flex flex-wrap gap-3 max-w-lg justify-center mb-5">
+                                     class="flex flex-wrap gap-3 max-w-lg justify-center mb-5">
                                     <BaseButton size="small" severity="secondary"
-                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Ошибка на сайте'}"
-                                        @click.prevent="chooseRatingFeedback('Ошибка на сайте')">
+                                                :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Ошибка на сайте'}"
+                                                @click.prevent="chooseRatingFeedback('Ошибка на сайте')">
                                         Ошибка на сайте
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
-                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Неудобно пользоваться'}"
-                                        @click.prevent="chooseRatingFeedback('Неудобно пользоваться')">
+                                                :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Неудобно пользоваться'}"
+                                                @click.prevent="chooseRatingFeedback('Неудобно пользоваться')">
                                         Неудобно пользоваться
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
-                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Не загружается или тормозит'}"
-                                        @click.prevent="chooseRatingFeedback('Не загружается или тормозит')">
+                                                :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Не загружается или тормозит'}"
+                                                @click.prevent="chooseRatingFeedback('Не загружается или тормозит')">
                                         Не загружается или тормозит
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
-                                        :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Другое'}"
-                                        @click.prevent="chooseRatingFeedback('Другое')">
+                                                :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Другое'}"
+                                                @click.prevent="chooseRatingFeedback('Другое')">
                                         Другое
                                     </BaseButton>
                                 </div>
@@ -119,8 +120,8 @@ function sendRatingAndCloseModal() {
 
                             <transition name="fade-feedback">
                                 <BaseInput v-if="ratingFeedback === 'Другое'" v-model="ratingMessage"
-                                    class="w-full max-w-96 mb-4" type="textarea" name="message"
-                                    placeholder="Напишите, что бы мы могли улучшить" style="will-change: auto;" />
+                                           class="w-full max-w-96 mb-4" type="textarea" name="message"
+                                           placeholder="Напишите, что бы мы могли улучшить" style="will-change: auto;"/>
                             </transition>
 
                             <transition name="fade">
@@ -149,7 +150,7 @@ function sendRatingAndCloseModal() {
                         </BaseButton> -->
 
                         <BaseButton v-else-if="isModal" as="router-link" to="/" severity="secondary" size="large"
-                            @click="closeModal">
+                                    @click="closeModal">
                             Вернуться на главную
                         </BaseButton>
                     </div>

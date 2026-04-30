@@ -7,7 +7,6 @@ import Offers from "@/components/MainPage/Offers.vue";
 
 <template>
     <main>
-        <HeroSlider/>
         <ActionTiles/>
         <Offers/>
         <Suppliers class="!py-20"/>

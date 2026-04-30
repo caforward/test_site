@@ -6,7 +6,7 @@ import {ref} from "vue";
 const isModalVisible = ref(false);
 const modalDefaultOption = ref('')
 
-function openModal(modalOption) {
+function openModal(modalOption = null) {
     isModalVisible.value = true;
     modalDefaultOption.value = modalOption;
 }
@@ -40,12 +40,23 @@ function scrollToPayment() {
                 </div>
                 <div class="tiles-group">
                     <ActionTile
+                        class="group bg-[#E2F0FF] transition-shadow shadow-[0_2px_0_0_#74A9E0] hover:shadow-[0_4px_0_0_#74A9E0]"
+                        image-path="actionTiles/1img.png"
+                        title="Оставить обращение"
+                        text="ООО ПКО «Форвард» работает на основании законодательства Российской Федерации. Мы
+                                    готовы согласовать индивидуальные условия для погашения задолженности."
+                        @click="openModal()"
+                    />
+                    <ActionTile
                         class="group bg-[#FFF3E3] transition-shadow shadow-[0_2px_0_0_#F6D9B3] hover:shadow-[0_4px_0_0_#F6D9B3]"
                         image-path="actionTiles/wallet.png"
                         title="Отозвать ИП"
                         text="Не можете выплатить всю сумму долга? ПКО «Форвард» поможет вам полностью избавиться от долгов. Заключите договор с нами и получите скидку на свой долг."
                         @click="openModal('cancel-ip')"
                     />
+                </div>
+
+                <div class="tiles-group">
                     <ActionTile
                         class="group bg-[#F4E9FF] transition-shadow shadow-[0_2px_0_0_#E3CEF9] hover:shadow-[0_4px_0_0_#E3CEF9]"
                         image-path="actionTiles/safe.png"
@@ -53,9 +64,6 @@ function scrollToPayment() {
                         text="В нашей компании имеются практики и опыт, которые позволяют нам быстро и эффективно разблокировать счета должника."
                         @click="openModal('account-unblock')"
                     />
-                </div>
-
-                <div>
                     <ActionTile
                         class="group bg-[#E2F0FF] transition-shadow shadow-[0_2px_0_0_#74A9E0] hover:shadow-[0_4px_0_0_#74A9E0]"
                         image-path="actionTiles/user.png"

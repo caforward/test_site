@@ -101,7 +101,7 @@ const formAttributeType = computed(() => {
     // TODO: Переписать на использование options из пропсаов
     // !!! ЭТО ДЛЯ ПРОПСА formType, это костыль для отображения нужных полей
     const types = {
-        "Прошу перезвонить": "callback",
+        // "Прошу перезвонить": "callback",
         "Другое": "other",
         "Запрос на оферту": "installment",
         "Разблокировка счетов": "account-unblock",

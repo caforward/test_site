@@ -41,9 +41,9 @@ export default {
                     type: 'select',
                     placeholder: 'Тема обращения*',
                     required: true,
-                    value: {value: 'callback', label: 'Прошу перезвонить'},
+                    value: {value: 'debt-info', label: 'Информация о долге'},
                     options: [
-                        {value: 'callback', label: 'Прошу перезвонить'},
+                        // {value: 'callback', label: 'Прошу перезвонить'},
                         {value: 'debt-info', label: 'Информация о долге'},
                         {value: 'installment', label: 'Запрос на оферту'},
                         {value: '', label: 'Внесение изменений в БКИ'},

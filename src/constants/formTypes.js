@@ -1,5 +1,5 @@
 export const FORM_TYPES = {
-	"Прошу перезвонить": "callback",
+	// "Прошу перезвонить": "callback",
 	"Другое": "other",
 	"Запрос на оферту": "installment",
 	"Разблокировка счетов": "account-unblock",

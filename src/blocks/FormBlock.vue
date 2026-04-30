@@ -54,7 +54,7 @@ const props = defineProps({
                 required: true,
                 value: "Информация о долге",
                 options: [
-                    {value: 'callback', label: 'Прошу перезвонить'},
+                    // {value: 'callback', label: 'Прошу перезвонить'},
                     // "Разблокировать счет",
                     // "Рассрочка",
                     // "Другое",
