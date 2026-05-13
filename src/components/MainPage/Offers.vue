@@ -13,15 +13,19 @@ import PayForm from '@/blocks/PayForm.vue';
                 <div class="payment-block bg-[#F3F7FA]">
                     <div class="payment-block__info">
                         <div class="payment-block__title">
-                            Получите скидку до 75%
+                            Узнайте о возможности получить скидку до 70%<span class="text-red-500">*</span>
                         </div>
-                        <p class="payment-block__text payment-block__text_banner">
-                            После того как вы заполните форму для получения <br class="hidden lg:block">
-                            рассрочки, мы сразу же уменьшим ваш общий долг <br class="hidden lg:block">
-                            до 75%. После оформления рассрочки через сайт, <br class="hidden lg:block">
-                            вы получите возможность оплачивать долг <br class="hidden lg:block">
-                            постепенно, а часть суммы будет прощена <br class="hidden lg:block">
-                            автоматически.
+                        <p class="payment-block__text payment-block__text_banner mb-2">
+                            Предлагаем погасить просроченную задолженность на комфортных условиях по вашему
+                            персональному графику! После обращения мы определим размер скидки, а также условия погашения
+                            долга.
+                            <br><br>
+                            Наша основная цель — помочь вам исправить финансовую ситуацию: погасить задолженность и
+                            улучшить кредитную историю.
+                        </p>
+                        <p class="text-sm">
+                            <span class="text-red-500">*</span>
+                            <span>Не является публичной офертой</span>
                         </p>
                     </div>
 
