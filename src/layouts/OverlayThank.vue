@@ -69,7 +69,7 @@ function sendRatingAndCloseModal() {
             </span>
 
             <div v-else class="flex flex-col items-center gap-4 w-full">
-                <div v-if="status" class="flex flex-col items-center w-full">
+                <div v-if="status.ok" class="flex flex-col items-center w-full">
                     <span class="border-8 border-sky-600 rounded-full flex items-center justify-center w-24 h-24 mb-6">
                         <i class="pi pi-check text-sky-600 !font-bold !text-6xl"></i>
                     </span>
@@ -78,8 +78,9 @@ function sendRatingAndCloseModal() {
                             Спасибо!
                         </div>
                         <p class="text-xl text-center">
-                            Мы подтверждаем, что <br/> ваше обращение успешно получено нами <br/> и передано на
-                            рассмотрение
+                            Ваше обращение успешно получено <br> и передано на рассмотрение. <br><br>
+                            Повторная отправка формы не
+                            повлияет на скорость обработки, поэтому направлять запрос повторно не требуется.
                         </p>
                     </div>
                     <transition name="rating-animation">
