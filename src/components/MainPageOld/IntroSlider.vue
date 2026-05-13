@@ -1,8 +1,8 @@
 <script setup>
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {Navigation, Pagination, Autoplay} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import ModalForm from '@/layouts/ModalForm.vue';
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const props = defineProps({
     light: {
@@ -25,9 +25,10 @@ function showUnblockAccauntModal() {
     modalDefaultOption.value = 'account-unblock';
     modalVisible.value = true;
 }
+
 function showCancelIPModal() {
-  modalDefaultOption.value = 'cancel-ip';
-  modalVisible.value = true;
+    modalDefaultOption.value = 'cancel-ip';
+    modalVisible.value = true;
 }
 
 </script>
@@ -36,9 +37,9 @@ function showCancelIPModal() {
     <section class="intro-slider">
         <div class="slider__inner">
             <swiper class="swiper" :modules="modules" :slides-per-view="1" :speed="700" :loop="true"
-                :autoplay="{ delay: 15000 }"
-                :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
-                :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
+                    :autoplay="{ delay: 15000 }"
+                    :navigation="{ nextEl: '.intro-slider-nav-button__next', prevEl: '.intro-slider-nav-button__prev' }"
+                    :pagination="{ clickable: true, el: '.intro-slider-pagination' }">
                 <swiper-slide class="slider__slide slider__slide_fix">
                     <div class="custom-container">
                         <div class="slide-content">
@@ -50,7 +51,7 @@ function showCancelIPModal() {
                             <div class="mb-4 slide-content__text slide-content__text_mobile">
                                 <ol class="list">
                                     <li>
-                                        Мы простим Вам <b>до 75%</b> от суммы долга сразу же после заполнения формы
+                                        Мы простим Вам <b>до 70%</b> от суммы долга сразу же после заполнения формы
                                         получения рассрочки
                                     </li>
                                     <li>
@@ -70,7 +71,7 @@ function showCancelIPModal() {
                                 </p>
                                 <ol class="list">
                                     <li>
-                                        Мы простим Вам <b>до 75%</b> от суммы долга сразу же после заполнения формы
+                                        Мы простим Вам <b>до 70%</b> от суммы долга сразу же после заполнения формы
                                         получения рассрочки
                                     </li>
                                     <li>
@@ -91,13 +92,13 @@ function showCancelIPModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showModal">
+                                   @click.prevent="showModal">
                                     Оставить обращение
                                 </a>
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/03.jpg"' alt="" />
+                            <img :src='"/images/" + "introSlider/03.jpg"' alt=""/>
                         </div>
                     </div>
                 </swiper-slide>
@@ -137,13 +138,13 @@ function showCancelIPModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                    @click.prevent="showUnblockAccauntModal">
+                                   @click.prevent="showUnblockAccauntModal">
                                     Разблокировать счет
                                 </a>
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/01.jpg"' alt="There was img" />
+                            <img :src='"/images/" + "introSlider/01.jpg"' alt="There was img"/>
                         </div>
                     </div>
                 </swiper-slide>
@@ -169,13 +170,15 @@ function showCancelIPModal() {
                             <div class="slide-content__text">
                                 <ol class="list">
                                     <li>
-                                        Отзываем исполнительные документы — избавим вас от давления приставов и постоянных проверок!
+                                        Отзываем исполнительные документы — избавим вас от давления приставов и
+                                        постоянных проверок!
                                     </li>
                                     <li>
                                         Удалим информацию из базы ФССП — восстановите свою репутацию и спокойствие!
                                     </li>
                                     <li>
-                                        Прекращаем взыскание официально —  возьмите ситуацию в свои руки и обратитесь к нам сегодня!
+                                        Прекращаем взыскание официально — возьмите ситуацию в свои руки и обратитесь к
+                                        нам сегодня!
                                     </li>
                                 </ol>
                             </div>
@@ -186,7 +189,7 @@ function showCancelIPModal() {
                             </div>
                         </div>
                         <div class="slide__img">
-                            <img :src='"/images/" + "introSlider/04.png"' alt="There was img" />
+                            <img :src='"/images/" + "introSlider/04.png"' alt="There was img"/>
                         </div>
                     </div>
                 </swiper-slide>
@@ -232,7 +235,7 @@ function showCancelIPModal() {
                         </div>
                         <div class="slide__img">
                             <img :src="'/images/' + 'introSlider/02.jpg'
-                                " alt="" />
+                                " alt=""/>
                         </div>
                     </div>
                 </swiper-slide>
@@ -257,7 +260,7 @@ function showCancelIPModal() {
         </div>
     </section>
 
-    <ModalForm v-model="modalVisible" :type="modalDefaultOption" />
+    <ModalForm v-model="modalVisible" :type="modalDefaultOption"/>
 </template>
 
 <style lang="scss">
@@ -268,7 +271,6 @@ function showCancelIPModal() {
 @use 'swiper/css/navigation';
 @use 'swiper/css/pagination';
 @use 'swiper/css/scrollbar';
-
 
 
 @media (min-width: 799px) {
@@ -301,7 +303,7 @@ function showCancelIPModal() {
     }
 
     .list {
-        &>li {
+        & > li {
             line-height: 140%;
             margin-bottom: 10px;
             font-weight: 500;
@@ -405,7 +407,7 @@ function showCancelIPModal() {
             &__buttons {
                 display: flex;
 
-                &>*:not(:last-child) {
+                & > *:not(:last-child) {
                     margin-right: 30px;
                 }
             }
@@ -449,7 +451,7 @@ function showCancelIPModal() {
                 }
 
                 &__buttons {
-                    &>*:not(:last-child) {
+                    & > *:not(:last-child) {
                         margin-right: 15px;
                     }
                 }
@@ -542,7 +544,7 @@ function showCancelIPModal() {
 
                 &__text {
                     display: none;
-                    
+
                     &_both {
                         display: unset;
                     }
@@ -561,7 +563,7 @@ function showCancelIPModal() {
                     flex-wrap: wrap;
                     gap: 10px;
 
-                    &>* {
+                    & > * {
                         width: fit-content;
                         height: 40px;
 
@@ -590,7 +592,7 @@ function showCancelIPModal() {
         .list {
             font-size: 16px;
 
-            &>li::marker {
+            & > li::marker {
                 left: 10px;
             }
         }

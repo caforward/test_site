@@ -32,7 +32,7 @@ function scrollToPayment() {
                     <ActionTile
                         class="group bg-[#DDF5FF] transition-shadow shadow-[0_2px_0_0_#ABD6E9] hover:shadow-[0_4px_0_0_#ABD6E9]"
                         image-path="actionTiles/calendar.png"
-                        promotion="Дополнительная скидка до 75%"
+                        promotion="Дополнительная скидка до 70%"
                         title="Получить рассрочку"
                         text="В нашей компании имеются практики и опыт, которые позволяют нам быстро и эффективно разблокировать счета должника."
                         @click="openModal('installment')"

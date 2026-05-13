@@ -13,7 +13,7 @@ import PayForm from '@/blocks/PayForm.vue';
                 <div class="payment-block bg-[#F3F7FA]">
                     <div class="payment-block__info">
                         <div class="payment-block__title">
-                            Узнайте о возможности получить скидку до 70%<span class="text-red-500">*</span>
+                            Узнайте о возможности получить скидку до 70%<span class="text-sky-500">*</span>
                         </div>
                         <p class="payment-block__text payment-block__text_banner mb-2">
                             Предлагаем погасить просроченную задолженность на комфортных условиях по вашему
@@ -23,8 +23,8 @@ import PayForm from '@/blocks/PayForm.vue';
                             Наша основная цель — помочь вам исправить финансовую ситуацию: погасить задолженность и
                             улучшить кредитную историю.
                         </p>
-                        <p class="text-sm">
-                            <span class="text-red-500">*</span>
+                        <p class="text-[12px]">
+                            <span class="text-sky-500">*</span>
                             <span>Не является публичной офертой</span>
                         </p>
                     </div>
