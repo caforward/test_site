@@ -18,6 +18,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    formMetrikaId: {
+        type: String,
+        default: '',
+    },
     fetchUrl: {
         type: String,
         default: '/backend/public/email.php'
@@ -225,13 +229,27 @@ watch(
 
 <template>
     <transition name="fade">
-        <BaseModal id="requisites" v-if="visible" @closeModal="visible = false">
+        <BaseModal
+            id="requisites"
+            v-if="visible"
+            @closeModal="visible = false"
+        >
             <template #body>
                 <slot name="topBodyContent"></slot>
 
-                <BaseForm :showTitle="showTitle" :inputs="inputs" :grayForm="true" @submitted="sendData" />
-                <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
-                    @closeParentModal="visible = false" @sendRating="sendRating" />
+                <BaseForm
+                    :showTitle="showTitle"
+                    :inputs="inputs"
+                    :grayForm="true"
+                    :form-metrika-id="props.formMetrikaId"
+                    @submitted="sendData"
+                />
+                <OverlayThank
+                    v-model:visible="overlayThankVisible"
+                    v-model:status="response"
+                    @closeParentModal="visible = false"
+                    @sendRating="sendRating"
+                />
             </template>
         </BaseModal>
     </transition>

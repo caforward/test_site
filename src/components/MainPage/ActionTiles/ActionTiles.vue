@@ -79,7 +79,7 @@ function scrollToPayment() {
     <ModalForm
         v-model="isModalVisible"
         :type="modalDefaultOption"
-        :data-metrika-id="modalDefaultOption === 'callback' ? 'callback' : undefined"
+        :form-metrika-id="modalDefaultOption === null ? 'callback' : undefined"
     />
 </template>
 

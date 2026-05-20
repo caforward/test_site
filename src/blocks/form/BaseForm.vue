@@ -34,6 +34,10 @@ const props = defineProps({
     },
     formType: {
         type: String,
+    },
+    formMetrikaId: {
+        type: String,
+        default: '',
     }
 })
 
@@ -70,7 +74,7 @@ function submitForm() {
         if (additionalFormBlock.value) {
             const extraData = additionalFormBlock.value.exposeData
 
-            for(const key in extraData) {
+            for (const key in extraData) {
                 formData.append(key, extraData[key])
             }
         }
@@ -142,6 +146,7 @@ watch(
         action=""
         :id="formAttributeType"
         :class="[ 'form', { 'form_gray': props.grayForm } ]"
+        :data-metrika-id="formMetrikaId || undefined"
     >
         <div class="form-container">
 
