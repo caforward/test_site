@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'name' => 'Имя',
         'tel' => 'Телефон',
         'email' => 'Email',
+        'claim' => 'Претензия',
         'birthdayDate' => 'День рождения',
         'messageType' => 'Выбрана тема',
         'companyName' => 'Наименование компании',

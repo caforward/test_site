@@ -299,7 +299,7 @@ function isEmpty(value) {
 
         <!-- Textarea -->
         <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder"
+            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder" :maxlength="props.max"
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
 
         <!-- Date picker -->

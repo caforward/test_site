@@ -161,7 +161,7 @@ watch(
                 <!-- user info -->
                 <template v-for="input in inputs" :key="input.name">
                     <BaseInput
-                        v-if="formInputs[input.name] && !(input.name === 'file_attachment' && formAttributeType !== 'refund')"
+                        v-if="formInputs[input.name] && !(input.name === 'file_attachment' && formAttributeType !== 'refund') && !(input.name === 'claim' && formAttributeType !== 'claim')"
                         ref="inputRefs"
                         v-model="formInputs[input.name].value"
                         class="input__wrapper"
@@ -173,6 +173,7 @@ watch(
                         :visible="input.visible"
                         :options="input.options"
                         :minDate="input.minDate"
+                        :max="input.maxLength"
                     />
                 </template>
 

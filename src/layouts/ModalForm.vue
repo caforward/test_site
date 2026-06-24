@@ -45,6 +45,7 @@ const props = defineProps({
                 name: 'email',
                 type: 'email',
                 placeholder: 'E-mail*',
+                required: true
             },
             {
                 name: 'birthdayDate',
@@ -71,7 +72,7 @@ const props = defineProps({
                     {value: 'refund', label: 'О возврате денежных средств'},
                     {value: 'account-unblock', label: 'Разблокировка счетов'},
                     {value: '', label: 'Отказ от взаимодействия'},
-                    {value: '', label: 'Претензия'},
+                    {value: 'claim', label: 'Претензия'},
                     {value: '', label: 'Справка о погашении задолженности'},
                     {value: '', label: 'Справка о состоянии задолженности'},
                     {value: 'cancel-ip', label: 'Отозвать ИП'},
@@ -82,51 +83,17 @@ const props = defineProps({
                 name: 'file_attachment',
                 type: 'file',
                 required: true,
+            },
+            {
+                name: 'claim',
+                type: 'textarea',
+                placeholder: 'Кратко опишите Ваш вопрос*',
+                maxLength: 140,
+                required: true,
             }
         ]
     }
 })
-
-/*
-const inputs = ref([
-    {
-        name: 'name',
-        type: 'text',
-        placeholder: 'ФИО*',
-        required: true,
-    },
-    {
-        name: 'tel',
-        type: 'tel',
-        placeholder: 'Номер телефона*',
-        required: true
-    },
-    {
-        name: 'email',
-        type: 'email',
-        placeholder: 'E-mail*',
-    },
-    {
-        name: 'messageType',
-        type: 'select',
-        placeholder: 'Тема обращения*',
-        required: true,
-        value: "Прошу перезвонить",
-        options: [
-            "Прошу перезвонить",
-            "Узнать номер договора",
-            "Разблокировать счет",
-            "Рассрочка",
-            "Другое",
-        ],
-    },
-    // {
-    // 	name: 'message',
-    // 	type: 'textarea',
-    // 	placeholder: 'Кратко опишите Ваш вопрос*',
-    // }
-])
-*/
 
 async function sendData(formData, formInputRefs) {
     overlayThankVisible.value = true
@@ -187,7 +154,8 @@ function setSelectorByType(type) {
                 "cancel-ip": 11,
                 "debt-info": 1,
                 "refund": 5,
-                "get-contract-id": 12
+                "get-contract-id": 12,
+                "complaint": 8,
             }
 
             let option = messageTypeInput.options[0]
