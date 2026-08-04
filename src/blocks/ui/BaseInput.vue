@@ -172,6 +172,16 @@ watch(
     }
 )
 
+// минимум может меняться на лету (у СБП и карты он разный) - перепроверяем уже введённое
+watch(
+    () => props.min,
+    () => {
+        if (props.type === 'number' && value.value) {
+            validateInputValue(value.value)
+        }
+    }
+)
+
 function validateInputValue(inputValue) {
     if (props.required) {
         if (props.name === 'name') {
@@ -189,6 +199,9 @@ function validateInputValue(inputValue) {
         }
         else if (props.type === 'file') {
             validateInputFile(inputValue)
+        }
+        else if (props.type === 'number' && props.min > 0) {
+            validateInputMin(inputValue)
         }
         else {
             if (typeof inputValue === 'string') {
@@ -247,6 +260,22 @@ function validateInputFile() {
     } else {
         isInvalid.value = true
         errorText.value = 'Прикрепите файл'
+    }
+}
+
+function validateInputMin(value) {
+    if (!value) {
+        isInvalid.value = true
+        errorText.value = 'Заполните поле'
+        return
+    }
+
+    if (Number(value) < props.min) {
+        isInvalid.value = true
+        errorText.value = `Минимальная сумма - ${props.min} ₽`
+    } else {
+        isInvalid.value = false
+        errorText.value = ''
     }
 }
 

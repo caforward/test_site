@@ -12,6 +12,14 @@ const TERMINAL_KEY = {
     FPS: import.meta.env.VITE_TERMINAL_KEY_FPS,
 }
 
+// Т-Банк не принимает по СБП меньше 10 рублей. Виджет режет такую сумму у себя,
+// пишет ошибку только в консоль и внешне никак не реагирует - проверяем до него.
+const FPS_MIN_AMOUNT = 10
+
+// pay() не возвращает промис: при успехе страница уходит в банк, при сбое остаётся
+// на месте. Через этот интервал снимаем блокировку, иначе кнопка залипает в спиннере.
+const CARD_PAY_RESET_MS = 15000
+
 const props = defineProps({
     inputs: {
         type: Array,
@@ -142,6 +150,10 @@ function paymentPay() {
     } else {
         isCardPayLoading.value = true
         pay(TPF)
+
+        setTimeout(() => {
+            isCardPayLoading.value = false
+        }, CARD_PAY_RESET_MS)
     }
 }
 
@@ -260,6 +272,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 :required="input.required"
                                 :disabled="input.disabled"
                                 :options="input.options"
+                                :min="input.name === 'userAmount' && paymentType === 'fps' ? FPS_MIN_AMOUNT : 0"
                             />
 
                             <BaseButton
