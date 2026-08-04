@@ -1,7 +1,11 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
+  # Раньше тесты стартовали от пуша в main и успевали проверить еще старую сборку.
+  # Теперь ждем, пока деплой реально выложит новую версию на боевой.
+  workflow_run:
+    workflows: [ "Deploy" ]
+    types: [ completed ]
+    branches: [ main ]
   schedule:
     # Запуск в 10:00 утра по МСК (07:00 UTC) по понедельникам и четвергам
     - cron: '0 3 * * *'
@@ -9,6 +13,8 @@ on:
 
 jobs:
   test:
+    # если деплой упал, проверять на боевом нечего
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,60 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # кнопка ручного запуска
+
+# два деплоя одновременно не запускаем, второй дождется первого
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # Ключи терминалов вшиваются в бандл на этапе сборки.
+      # Без .env они уедут в бандл как undefined и оплата отвалится целиком.
+      - name: Create .env
+        run: |
+          echo "VITE_TERMINAL_KEY_CARD=${{ secrets.VITE_TERMINAL_KEY_CARD }}" > .env
+          echo "VITE_TERMINAL_KEY_FPS=${{ secrets.VITE_TERMINAL_KEY_FPS }}" >> .env
+
+      - name: Check .env is filled
+        run: |
+          grep -q 'VITE_TERMINAL_KEY_CARD=.\+' .env || { echo "VITE_TERMINAL_KEY_CARD пустой - секрет не задан"; exit 1; }
+          grep -q 'VITE_TERMINAL_KEY_FPS=.\+' .env || { echo "VITE_TERMINAL_KEY_FPS пустой - секрет не задан"; exit 1; }
+
+      - name: Build
+        run: yarn build
+
+      # ВАЖНО: dangerous-clean-slate НЕ включать.
+      # В корне сайта лежат backend/, vendor/ и backend/.env - их нет в dist/,
+      # очистка удалит их и положит все формы и отправку почты.
+      - name: Deploy to hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          dangerous-clean-slate: false
+          dry-run: ${{ vars.DEPLOY_DRY_RUN == 'true' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
