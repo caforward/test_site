@@ -2,35 +2,20 @@
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
-import {ref, reactive, watch, onBeforeUpdate, onMounted, computed} from 'vue';
+import {ref, reactive, watch, onBeforeUpdate} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
 
-const TERMINAL_KEY = {
-    CARD: import.meta.env.VITE_TERMINAL_KEY_CARD,
-    FPS: import.meta.env.VITE_TERMINAL_KEY_FPS,
-}
+// Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
+// Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
+// которого нет на обычных iPhone и Android: соединение не устанавливалось, скрипт
+// не грузился, оплата не работала совсем. Теперь в банк ходит сервер, а браузер
+// уходит на pay.tbank.ru - этот домен доверен всеми хранилищами сертификатов.
+const PAYMENT_INIT_URL = '/backend/public/payment.php'
 
-// Т-Банк не принимает по СБП меньше 10 рублей. Виджет режет такую сумму у себя,
-// пишет ошибку только в консоль и внешне никак не реагирует - проверяем до него.
+// Т-Банк не принимает по СБП меньше 10 рублей
 const FPS_MIN_AMOUNT = 10
-
-// pay() не возвращает промис: при успехе страница уходит в банк, при сбое остаётся
-// на месте. Через этот интервал снимаем блокировку, иначе кнопка залипает в спиннере.
-const CARD_PAY_RESET_MS = 15000
-
-// Скрипт банка подключен в index.html и даёт глобальные pay() и initPayments().
-// Если его срезал антивирус, блокировщик или сеть, этих функций нет, и клик падал
-// с ReferenceError до промиса - кнопка оставалась в спиннере навсегда.
-const TINKOFF_SCRIPT_SRC = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
-
-// Домен банка работает по сертификату УЦ Минцифры. На устройствах без этого
-// корневого сертификата (обычные iPhone и Android) соединение не устанавливается
-// и скрипт оплаты просто не грузится. Пишем об этом прямо, чтобы человек знал,
-// что делать, а не искал причину в блокировщиках.
-const SCRIPT_BLOCKED_TEXT = 'Ваше устройство не смогло установить защищённое соединение с банком: не хватает сертификата Минцифры. Установите его по инструкции на Госуслугах, откройте сайт в Яндекс.Браузере или оплатите по реквизитам.'
-const CERT_HELP_URL = 'https://www.gosuslugi.ru/crt'
 
 const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
 
@@ -79,53 +64,15 @@ const form = ref(null)
 const formInputs = reactive({})
 const paymentType = ref('fps')
 const contactType = ref('email')
-const isFPSPaymentInited = ref(false)
-const isFPSLoading = ref(false)
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
-const isCardPayLoading = ref(false)
+const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
 const payError = ref('')
-
-let scriptLoading = null
 
 // Валидация
 const inputRefs = ref([])
 const contactInput = ref([])
-
-const curTerminalKey = computed(() => {
-    return paymentType.value === 'fps'
-        ? TERMINAL_KEY.FPS
-        : TERMINAL_KEY.CARD
-})
-
-function isPaymentScriptReady() {
-    return typeof window.pay === 'function' && typeof window.initPayments === 'function'
-}
-
-function loadPaymentScript() {
-    if (isPaymentScriptReady()) return Promise.resolve()
-
-    if (!scriptLoading) {
-        scriptLoading = new Promise((resolve, reject) => {
-            const script = document.createElement('script')
-            script.src = TINKOFF_SCRIPT_SRC
-            script.async = true
-            script.onload = () => isPaymentScriptReady()
-                ? resolve()
-                : reject(new Error('Скрипт банка загружен, но функции оплаты недоступны'))
-            script.onerror = () => reject(new Error('Скрипт банка не загрузился'))
-            document.head.appendChild(script)
-        })
-
-        // на неудаче обнуляем, чтобы следующий клик пробовал заново
-        scriptLoading.catch(() => {
-            scriptLoading = null
-        })
-    }
-
-    return scriptLoading
-}
 
 // без этого о проблеме знали только по жалобам, без цифр
 function reportPaymentIssue(reason) {
@@ -136,10 +83,6 @@ function reportPaymentIssue(reason) {
     } catch (e) {
         // метрика не должна ломать оплату
     }
-}
-
-function paymentErrorText() {
-    return isPaymentScriptReady() ? PAY_FAILED_TEXT : SCRIPT_BLOCKED_TEXT
 }
 
 function isFormValid() {
@@ -164,96 +107,48 @@ function validateForm() {
 }
 
 async function paymentPay() {
-    const TPF = form.value
-    if (!TPF) return
+    if (isPayLoading.value) return
 
     payError.value = ''
+    isPayLoading.value = true
 
-    const {userAmount, contractId} = formInputs
-    const unitAmount = Math.round(userAmount.value * 100)
+    const {name, userAmount, contractId, email, phone} = formInputs
 
-    TPF.amount.value = userAmount.value
-    TPF.description.value = contractId.value
+    try {
+        const response = await fetch(PAYMENT_INIT_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                method: paymentType.value,
+                name: name.value,
+                amount: userAmount.value,
+                contractId: contractId.value,
+                email: contactType.value === 'email' ? email.value : '',
+                phone: contactType.value === 'phone' ? phone.value : '',
+            }),
+        })
 
-    TPF.DATA.value = JSON.stringify({
-        "Paymentpurpose": `Оплата по договору номер ${contractId.value}`,
-    })
+        const result = await response.json().catch(() => null)
 
-    TPF.receipt.value = JSON.stringify({
-        "EmailCompany": "dolg.info@caforward.ru",
-        "Taxation": "osn",
-        "FfdVersion": "1.2",
-        "Items": [
-            {
-                "Name": `Оплата по договору номер ${contractId.value}`,
-                "Price": unitAmount,
-                "Quantity": 1.00,
-                "Amount": unitAmount,
-                "PaymentMethod": "credit_payment",
-                "PaymentObject": "payment",
-                "Tax": "none",
-                "MeasurementUnit": 'pc'
-            }
-        ]
-    });
-
-    if (paymentType.value === 'fps') {
-        isFPSLoading.value = true
-
-        try {
-            await loadPaymentScript()
-            await initPayments(createFPSPaymentData())
-            isFPSPaymentInited.value = true
-        } catch (err) {
-            console.error('Ошибка генерации qr кода T-банк', err)
-            payError.value = paymentErrorText()
-            reportPaymentIssue('fps')
-        } finally {
-            isFPSLoading.value = false
+        if (!response.ok || !result?.ok || !result.paymentUrl) {
+            throw new Error(result?.message || 'Банк не принял заказ')
         }
-    } else {
-        isCardPayLoading.value = true
 
-        try {
-            await loadPaymentScript()
-            pay(TPF)
-
-            setTimeout(() => {
-                isCardPayLoading.value = false
-            }, CARD_PAY_RESET_MS)
-        } catch (err) {
-            console.error('Ошибка перехода к оплате картой', err)
-            payError.value = paymentErrorText()
-            reportPaymentIssue('card')
-            isCardPayLoading.value = false
-        }
+        // на успехе браузер уходит в банк, поэтому загрузку не снимаем
+        window.location.href = result.paymentUrl
+    } catch (err) {
+        console.error('Ошибка регистрации платежа', err)
+        payError.value = err.message && err.message !== 'Failed to fetch'
+            ? err.message
+            : PAY_FAILED_TEXT
+        reportPaymentIssue(paymentType.value)
+        isPayLoading.value = false
     }
-}
-
-function createFPSPaymentData() {
-    return {
-        terminalKey: TERMINAL_KEY.FPS,
-        paymentItems: [{
-            container: document.getElementById("FPS-payment-button"),
-            paymentInfo: () => ({paymentData: form.value})
-        }],
-        paymentSystems: {TinkoffFps: {}},
-    };
 }
 
 onBeforeUpdate(() => {
     inputRefs.value = []
     contactInput.value = []
-})
-
-// предупреждаем сразу, а не после того как человек заполнил всю форму
-onMounted(() => {
-    if (isPaymentScriptReady()) return
-
-    loadPaymentScript().catch(() => {
-        payError.value = SCRIPT_BLOCKED_TEXT
-        reportPaymentIssue('script-missing-on-load')
-    })
 })
 
 watch(
@@ -282,16 +177,6 @@ defineExpose({validateForm, isFormValid, paymentPay})
         </div>
 
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
-            <input v-if="paymentType === 'card'" class="payform__input" type="hidden" name="frame" value="false">
-
-            <input class="payform__input" type="hidden" name="terminalkey" :value="curTerminalKey">
-            <input class="payform__input" type="hidden" name="language" value="ru">
-            <input class="payform__input" type="hidden" name="receipt" value="">
-            <input class="payform__input" type="hidden" name="order">
-            <input class="payform__input" type="hidden" name="description">
-            <input class="payform__input" type="hidden" name="amount" value="">
-            <input class="payform__input" type="hidden" name="DATA" value="">
-
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -436,16 +321,6 @@ defineExpose({validateForm, isFormValid, paymentPay})
                 <div v-if="payError" class="payform__error">
                     <p>{{ payError }}</p>
 
-                    <a
-                        v-if="payError === SCRIPT_BLOCKED_TEXT"
-                        :href="CERT_HELP_URL"
-                        target="_blank"
-                        rel="noopener"
-                        class="link underline w-fit"
-                    >
-                        Как установить сертификат
-                    </a>
-
                     <button
                         type="button"
                         class="link underline w-fit"
@@ -466,25 +341,19 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     v-show="paymentType === 'card'"
                     class="w-fit"
                     size="large"
-                    :is-loading="isCardPayLoading"
+                    :is-loading="isPayLoading"
                 >
                     Оплатить картой
                 </BaseButton>
 
-                <div v-show="paymentType === 'fps'">
-                    <BaseButton
-                        v-if="!isFPSPaymentInited"
-                        size="large"
-                        class="w-fit text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600"
-                        :is-loading="isFPSLoading"
-                    >
-                        Оплатить через СБП
-                    </BaseButton>
-                    <div
-                        v-show="isFPSPaymentInited"
-                        id="FPS-payment-button"
-                    ></div>
-                </div>
+                <BaseButton
+                    v-show="paymentType === 'fps'"
+                    size="large"
+                    class="w-fit text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600"
+                    :is-loading="isPayLoading"
+                >
+                    Оплатить через СБП
+                </BaseButton>
             </div>
         </form>
         <ModalAboutFPS v-model="showFPSInfoModal"/>
