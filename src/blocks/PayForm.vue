@@ -25,7 +25,13 @@ const CARD_PAY_RESET_MS = 15000
 // с ReferenceError до промиса - кнопка оставалась в спиннере навсегда.
 const TINKOFF_SCRIPT_SRC = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
 
-const SCRIPT_BLOCKED_TEXT = 'Не удалось загрузить платёжный модуль банка. Обычно его блокирует антивирус, расширение-блокировщик или ограничения вашей сети. Отключите их и обновите страницу либо оплатите по реквизитам.'
+// Домен банка работает по сертификату УЦ Минцифры. На устройствах без этого
+// корневого сертификата (обычные iPhone и Android) соединение не устанавливается
+// и скрипт оплаты просто не грузится. Пишем об этом прямо, чтобы человек знал,
+// что делать, а не искал причину в блокировщиках.
+const SCRIPT_BLOCKED_TEXT = 'Ваше устройство не смогло установить защищённое соединение с банком: не хватает сертификата Минцифры. Установите его по инструкции на Госуслугах, откройте сайт в Яндекс.Браузере или оплатите по реквизитам.'
+const CERT_HELP_URL = 'https://www.gosuslugi.ru/crt'
+
 const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
 
 const METRIKA_ID = 95726509
@@ -429,6 +435,17 @@ defineExpose({validateForm, isFormValid, paymentPay})
             <div class="payform__bottom">
                 <div v-if="payError" class="payform__error">
                     <p>{{ payError }}</p>
+
+                    <a
+                        v-if="payError === SCRIPT_BLOCKED_TEXT"
+                        :href="CERT_HELP_URL"
+                        target="_blank"
+                        rel="noopener"
+                        class="link underline w-fit"
+                    >
+                        Как установить сертификат
+                    </a>
+
                     <button
                         type="button"
                         class="link underline w-fit"
