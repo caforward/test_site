@@ -1,3 +1,14 @@
+<!--
+    АРХИВ. Компонент не используется и оставлен только для истории.
+
+    Работал через виджет tinkoff_v2.js, который раздавался с securepay.tinkoff.ru
+    по сертификату УЦ Минцифры. На устройствах без этого корневого сертификата
+    скрипт не загружался и оплата не работала. Регистрация платежа переехала
+    на бэкенд, смотреть backend/public/payment.php и PayForm.vue.
+
+    Ниже исходный код целиком, закомментирован.
+-->
+<!--
 <script setup>
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
@@ -198,7 +209,9 @@ defineExpose({validateForm, isFormValid, paymentPay})
             <input class="payform__input" type="hidden" name="DATA" value="">
 
             <div class="payform__inputs">
+-->
                 <!-- radio for phone/email -->
+<!--
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="payform-radio">
                         <RadioButton
@@ -241,8 +254,10 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         </span>
                     </div>
                 </div>
+-->
 
                 <!-- inputs -->
+<!--
                 <template
                     v-for="input in props.inputs"
                     :key="input.name"
@@ -259,8 +274,10 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         :options="input.options"
                     />
                 </template>
+-->
 
                 <!-- radio for phone/email -->
+<!--
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="payform-radio">
                         <RadioButton
@@ -431,3 +448,4 @@ defineExpose({validateForm, isFormValid, paymentPay})
     }
 }
 </style>
+-->
