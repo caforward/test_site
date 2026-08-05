@@ -2,7 +2,7 @@
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
-import {ref, reactive, watch, onBeforeUpdate, computed} from 'vue';
+import {ref, reactive, watch, onBeforeUpdate, onMounted, computed} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
@@ -19,6 +19,16 @@ const FPS_MIN_AMOUNT = 10
 // pay() не возвращает промис: при успехе страница уходит в банк, при сбое остаётся
 // на месте. Через этот интервал снимаем блокировку, иначе кнопка залипает в спиннере.
 const CARD_PAY_RESET_MS = 15000
+
+// Скрипт банка подключен в index.html и даёт глобальные pay() и initPayments().
+// Если его срезал антивирус, блокировщик или сеть, этих функций нет, и клик падал
+// с ReferenceError до промиса - кнопка оставалась в спиннере навсегда.
+const TINKOFF_SCRIPT_SRC = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
+
+const SCRIPT_BLOCKED_TEXT = 'Не удалось загрузить платёжный модуль банка. Обычно его блокирует антивирус, расширение-блокировщик или ограничения вашей сети. Отключите их и обновите страницу либо оплатите по реквизитам.'
+const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
+
+const METRIKA_ID = 95726509
 
 const props = defineProps({
     inputs: {
@@ -69,6 +79,9 @@ const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
 const isCardPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
+const payError = ref('')
+
+let scriptLoading = null
 
 // Валидация
 const inputRefs = ref([])
@@ -79,6 +92,49 @@ const curTerminalKey = computed(() => {
         ? TERMINAL_KEY.FPS
         : TERMINAL_KEY.CARD
 })
+
+function isPaymentScriptReady() {
+    return typeof window.pay === 'function' && typeof window.initPayments === 'function'
+}
+
+function loadPaymentScript() {
+    if (isPaymentScriptReady()) return Promise.resolve()
+
+    if (!scriptLoading) {
+        scriptLoading = new Promise((resolve, reject) => {
+            const script = document.createElement('script')
+            script.src = TINKOFF_SCRIPT_SRC
+            script.async = true
+            script.onload = () => isPaymentScriptReady()
+                ? resolve()
+                : reject(new Error('Скрипт банка загружен, но функции оплаты недоступны'))
+            script.onerror = () => reject(new Error('Скрипт банка не загрузился'))
+            document.head.appendChild(script)
+        })
+
+        // на неудаче обнуляем, чтобы следующий клик пробовал заново
+        scriptLoading.catch(() => {
+            scriptLoading = null
+        })
+    }
+
+    return scriptLoading
+}
+
+// без этого о проблеме знали только по жалобам, без цифр
+function reportPaymentIssue(reason) {
+    try {
+        if (typeof window.ym === 'function') {
+            window.ym(METRIKA_ID, 'reachGoal', 'payment_unavailable', {reason})
+        }
+    } catch (e) {
+        // метрика не должна ломать оплату
+    }
+}
+
+function paymentErrorText() {
+    return isPaymentScriptReady() ? PAY_FAILED_TEXT : SCRIPT_BLOCKED_TEXT
+}
 
 function isFormValid() {
     // простые инпуты
@@ -101,9 +157,11 @@ function validateForm() {
     paymentPay()
 }
 
-function paymentPay() {
+async function paymentPay() {
     const TPF = form.value
     if (!TPF) return
+
+    payError.value = ''
 
     const {userAmount, contractId} = formInputs
     const unitAmount = Math.round(userAmount.value * 100)
@@ -135,25 +193,34 @@ function paymentPay() {
 
     if (paymentType.value === 'fps') {
         isFPSLoading.value = true
-        const widgetParameters = createFPSPaymentData()
 
-        initPayments(widgetParameters)
-            .then(() => {
-                isFPSPaymentInited.value = true
-            })
-            .catch(err => {
-                console.error('Ошибка генерации qr кода T-банк', err)
-            })
-            .finally(() => {
-                isFPSLoading.value = false
-            })
+        try {
+            await loadPaymentScript()
+            await initPayments(createFPSPaymentData())
+            isFPSPaymentInited.value = true
+        } catch (err) {
+            console.error('Ошибка генерации qr кода T-банк', err)
+            payError.value = paymentErrorText()
+            reportPaymentIssue('fps')
+        } finally {
+            isFPSLoading.value = false
+        }
     } else {
         isCardPayLoading.value = true
-        pay(TPF)
 
-        setTimeout(() => {
+        try {
+            await loadPaymentScript()
+            pay(TPF)
+
+            setTimeout(() => {
+                isCardPayLoading.value = false
+            }, CARD_PAY_RESET_MS)
+        } catch (err) {
+            console.error('Ошибка перехода к оплате картой', err)
+            payError.value = paymentErrorText()
+            reportPaymentIssue('card')
             isCardPayLoading.value = false
-        }, CARD_PAY_RESET_MS)
+        }
     }
 }
 
@@ -171,6 +238,16 @@ function createFPSPaymentData() {
 onBeforeUpdate(() => {
     inputRefs.value = []
     contactInput.value = []
+})
+
+// предупреждаем сразу, а не после того как человек заполнил всю форму
+onMounted(() => {
+    if (isPaymentScriptReady()) return
+
+    loadPaymentScript().catch(() => {
+        payError.value = SCRIPT_BLOCKED_TEXT
+        reportPaymentIssue('script-missing-on-load')
+    })
 })
 
 watch(
@@ -350,6 +427,17 @@ defineExpose({validateForm, isFormValid, paymentPay})
             </div>
 
             <div class="payform__bottom">
+                <div v-if="payError" class="payform__error">
+                    <p>{{ payError }}</p>
+                    <button
+                        type="button"
+                        class="link underline w-fit"
+                        @click.prevent="isRequisitesVisible = true"
+                    >
+                        Оплатить по реквизитам
+                    </button>
+                </div>
+
                 <p class="payform__meta">
                     Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
                     <a href="/policy" target="_blank" class="link underline inline">
@@ -404,6 +492,13 @@ defineExpose({validateForm, isFormValid, paymentPay})
         @apply
         sm:text-[14px]/[24px]
         text-[14px]/[20px];
+    }
+
+    &__error {
+        @apply
+        flex flex-col gap-2
+        rounded-2xl border border-red-200 bg-red-50
+        px-5 py-4 text-[14px]/[20px] text-red-700;
     }
 }
 
