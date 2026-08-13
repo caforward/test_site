@@ -6,6 +6,7 @@ import {ref, reactive, watch, onBeforeUpdate} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
+import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -69,6 +70,13 @@ const isModalVisible = ref(false)
 const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
 const payError = ref('')
+
+// QR для СБП показываем у себя. На платёжной странице банка кроме СБП доступна
+// оплата картой, и такой платёж проходит через СБП-терминал не в тот банк.
+const isQrVisible = ref(false)
+const qrImage = ref('')
+const qrLink = ref('')
+const qrAmount = ref(null)
 
 // Валидация
 const inputRefs = ref([])
@@ -134,7 +142,17 @@ async function paymentPay() {
             throw new Error(result?.message || 'Банк не принял заказ')
         }
 
-        // на успехе браузер уходит в банк, поэтому загрузку не снимаем
+        if (result.qrImage) {
+            qrImage.value = result.qrImage
+            qrLink.value = result.qrLink || ''
+            qrAmount.value = userAmount.value
+            isQrVisible.value = true
+            isPayLoading.value = false
+            return
+        }
+
+        // QR не пришёл - уводим на страницу банка, как раньше.
+        // На успехе браузер уходит туда, поэтому загрузку не снимаем.
         window.location.href = result.paymentUrl
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
@@ -359,6 +377,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <ModalAboutFPS v-model="showFPSInfoModal"/>
         <ModalForm v-model="isModalVisible" type="get-contract-id"/>
         <ModalRequisites v-model="isRequisitesVisible"/>
+        <ModalPaymentQr v-model="isQrVisible" :image="qrImage" :link="qrLink" :amount="qrAmount"/>
     </div>
 </template>
 

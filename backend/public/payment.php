@@ -278,8 +278,10 @@ if ($method === 'fps' && $password !== '' && !empty($result['PaymentId'])) {
     $image = getQr($paymentId, $terminalKey, $password, 'IMAGE');
     $link = getQr($paymentId, $terminalKey, $password, 'PAYLOAD');
 
+    // Банк отдаёт сырой SVG. Заворачиваем в data-URI, чтобы фронт показал его
+    // обычным <img> и нам не пришлось вставлять чужую разметку через v-html.
     if ($image !== null) {
-        $answer['qrImage'] = $image;
+        $answer['qrImage'] = 'data:image/svg+xml;base64,' . base64_encode($image);
     }
 
     if ($link !== null) {
