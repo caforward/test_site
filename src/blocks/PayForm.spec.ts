@@ -2,8 +2,9 @@
 * Тестирование через playwright
 * e2e тесты
 *
-* Заказ регистрирует бэкенд, поэтому оба способа оплаты просто уводят
-* браузер на платёжную страницу банка. Промежуточной кнопки виджета больше нет.
+* Заказ регистрирует бэкенд. Оплата картой уводит на платёжную страницу банка,
+* а СБП показывает QR прямо на сайте: на странице банка доступна и оплата картой,
+* и такой платёж прошёл бы через СБП-терминал не в тот банк.
 * */
 
 import { test, expect, type Page } from '@playwright/test';
@@ -40,7 +41,7 @@ test('Способ оплаты: картой; Контакт: E-mail. Успе�
     await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 20000 });
 });
 
-test('Способ оплаты: СБП; Контакт: телефон. Успешный переход в банк.', async ({ page }) => {
+test('Способ оплаты: СБП; Контакт: телефон. Показывается QR на сайте.', async ({ page }) => {
     await page.goto('https://caforward.ru/');
 
     await page.getByRole('radio', { name: 'Оплата через СБП' }).check();
@@ -51,10 +52,13 @@ test('Способ оплаты: СБП; Контакт: телефон. Усп�
 
     await page.getByRole('button', { name: 'Оплатить через СБП' }).click();
 
-    await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 20000 });
+    // QR формируется у нас, на платёжную страницу банка клиента не уводим:
+    // там доступна оплата картой, и платёж ушёл бы через СБП-терминал не в тот банк
+    await expect(page.locator('.qr__code')).toBeVisible({ timeout: 25000 });
+    await expect(page).toHaveURL('https://caforward.ru/');
 });
 
-test('Способ оплаты: СБП; Контакт: E-mail. Успешный переход в банк.', async ({ page }) => {
+test('Способ оплаты: СБП; Контакт: E-mail. Показывается QR на сайте.', async ({ page }) => {
     await page.goto('https://caforward.ru/');
 
     await page.getByRole('radio', { name: 'Оплата через СБП' }).check();
@@ -63,7 +67,10 @@ test('Способ оплаты: СБП; Контакт: E-mail. Успешны�
 
     await page.getByRole('button', { name: 'Оплатить через СБП' }).click();
 
-    await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 20000 });
+    // QR формируется у нас, на платёжную страницу банка клиента не уводим:
+    // там доступна оплата картой, и платёж ушёл бы через СБП-терминал не в тот банк
+    await expect(page.locator('.qr__code')).toBeVisible({ timeout: 25000 });
+    await expect(page).toHaveURL('https://caforward.ru/');
 });
 
 test('СБП не пускает сумму меньше 10 рублей', async ({ page }) => {
