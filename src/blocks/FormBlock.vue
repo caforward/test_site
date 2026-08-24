@@ -136,12 +136,17 @@ async function sendData(formData, formInputRefs) {
             body: formData
         })
 
-        if (response.value) {
+        if (response.value.ok) {
             formInputRefs.forEach(inputRef => {
                 inputRef.clearValue()
             })
-        }
 
+            // Отправка метрики (отвправка формы)
+            // window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId})
+        } else {
+            console.warn('Ошибка отправки, статус:', response.value.status);
+            overlayThankVisible.value = false
+        }
     } catch {
         response.value = {ok: false}
     }

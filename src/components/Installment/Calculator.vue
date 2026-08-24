@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
 
@@ -31,9 +31,9 @@ const inputs = [
         type: 'select',
         placeholder: 'Тема обращения*',
         required: true,
-        value: { value: 'installment', label: 'Запрос на оферту' },
+        value: {value: 'installment', label: 'Запрос на оферту'},
         options: [
-            { value: 'installment', label: 'Запрос на оферту' },
+            {value: 'installment', label: 'Запрос на оферту'},
         ],
         disabled: true,
         visible: false,
@@ -54,13 +54,19 @@ async function sendData(formData, formInputRefs) {
             body: formData
         })
 
-        if (response.value) {
+        if (response.value.ok) {
             formInputRefs.forEach(inputRef => {
                 inputRef.clearValue()
             })
+
+            // Отправка метрики (отвправка формы)
+            window.ym(95726509, 'reachGoal', 'form_submitted', {form: 'calculator'})
+        } else {
+            console.warn('Ошибка отправки, статус:', response.value.status);
+            overlayThankVisible.value = false
         }
     } catch {
-        response.value = { ok: false }
+        response.value = {ok: false}
     }
 }
 
@@ -92,9 +98,9 @@ async function sendRating(rateData) {
         <div class="custom-container">
             <div class="flex flex-col lg:flex-row gap-5 -mx-4 sm:m-0">
                 <div class="bg-white w-full p-6 lg:w-6/12 sm:p-9 rounded-3xl shadow-[0_20px_30px_#0037911a] relative">
-                    <BaseForm :showTitle="true" :inputs="inputs" @submitted="sendData" />
+                    <BaseForm :showTitle="true" :inputs="inputs" @submitted="sendData"/>
                     <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
-                        @sendRating="sendRating" :inBlock="true" />
+                                  @sendRating="sendRating" :inBlock="true"/>
                 </div>
                 <div
                     class="bg-slate-300 w-full flex-1 p-6 sm:p-9 rounded-3xl shadow-[0_20px_30px_#0037911a] relative overflow-hidden">
@@ -114,7 +120,7 @@ async function sendRating(rateData) {
                         </div>
                         <div class="mt-auto hidden lg:block lg:h-2/5 lg:w-full xl:h-1/2 lg:absolute bottom-0 left-0">
                             <img src="/images/offers/calc.png" alt="Рассрочка"
-                                class="object-cover object-bottom h-full">
+                                 class="object-cover object-bottom h-full">
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import BaseModal from '@/blocks/BaseModal.vue';
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const overlayThankVisible = ref(false)
 const response = ref(null)
@@ -43,8 +43,16 @@ async function sendData(formData) {
             method: 'POST',
             body: formData
         })
+
+        if (response.value.ok) {
+            // Отправка метрики (отвправка формы)
+            window.ym(95726509, 'reachGoal', 'form_submitted', {form: 'complaint'})
+        } else {
+            console.warn('Ошибка отправки, статус:', response.value.status);
+            overlayThankVisible.value = false
+        }
     } catch {
-        response.value = { ok: false }
+        response.value = {ok: false}
     }
 }
 
@@ -90,7 +98,7 @@ onMounted(() => {
                 <div class="flex gap-10 max-lg:flex-col max-xl:gap-8">
                     <div
                         class="p-10 border rounded-xl max-sm:p-0 max-sm:border-0 w-1/2 max-xl:w-7/12 max-xl:p-8 max-lg:order-last max-lg:w-full max-lg:border-0 max-lg:p-0">
-                        <BaseForm :inputs="inputs" @submitted="sendData" />
+                        <BaseForm :inputs="inputs" @submitted="sendData"/>
                     </div>
                     <div
                         class="flex flex-col items-center justify-center p-10 bg-sky-500 text-white rounded-xl w-1/2 max-xl:w-5/12 max-xl:p-8 max-lg:w-full max-lg:p-6">
@@ -123,7 +131,7 @@ onMounted(() => {
         <BaseModal v-if="overlayThankVisible" @closeModal="overlayThankVisible = false">
             <template #body>
                 <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response" :isModal="true"
-                    @sendRating="sendRating" />
+                              @sendRating="sendRating"/>
             </template>
         </BaseModal>
     </section>
