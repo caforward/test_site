@@ -2,7 +2,7 @@
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
-import {ref, reactive, watch, onBeforeUpdate} from 'vue';
+import {ref, reactive, watch, onBeforeUpdate, onMounted} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
@@ -77,6 +77,8 @@ const isModalVisible = ref(false)
 const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
 const payError = ref('')
+const paidNotice = ref('')
+const isPaidOk = ref(false)
 
 // QR для СБП показываем у себя. На платёжной странице банка кроме СБП доступна
 // оплата картой, и такой платёж проходит через СБП-терминал не в тот банк.
@@ -207,6 +209,33 @@ onBeforeUpdate(() => {
     contactInput.value = []
 })
 
+// Банк возвращает человека на /payment?paid=1&m=card после оплаты.
+// Это единственный момент, когда об успехе можно сказать в браузере:
+// уведомление о статусе приходит на сервер и до метрики не доходит.
+onMounted(() => {
+    const params = new URLSearchParams(window.location.search)
+    const paid = params.get('paid')
+
+    if (paid === null) return
+
+    const method = params.get('m') || 'card'
+
+    if (paid === '1') {
+        paidNotice.value = 'Платёж прошёл, спасибо. Квитанция придёт на указанные вами контакты.'
+        isPaidOk.value = true
+        reportPaymentEvent('payment_success', method)
+    } else {
+        paidNotice.value = 'Платёж не завершён. Попробуйте ещё раз или оплатите по реквизитам.'
+    }
+
+    // убираем метку из адреса, иначе обновление страницы засчитает оплату повторно
+    params.delete('paid')
+    params.delete('m')
+
+    const rest = params.toString()
+    history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : ''))
+})
+
 watch(
     () => props.inputs,
     (newInputs) => {
@@ -235,6 +264,10 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
+                <p v-if="paidNotice" :class="isPaidOk ? 'payform__paid' : 'payform__notice'">
+                    {{ paidNotice }}
+                </p>
+
                 <p v-if="!IS_FPS_ENABLED" class="payform__notice">
                     {{ FPS_DISABLED_TEXT }}
                 </p>
@@ -439,6 +472,12 @@ defineExpose({validateForm, isFormValid, paymentPay})
         @apply
         sm:text-[14px]/[24px]
         text-[14px]/[20px];
+    }
+
+    &__paid {
+        @apply
+        rounded-2xl border border-emerald-200 bg-emerald-50
+        px-5 py-4 text-[14px]/[20px] text-emerald-800;
     }
 
     &__notice {
