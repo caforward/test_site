@@ -115,7 +115,7 @@ async function sendData(formData, formInputRefs) {
             })
 
             // Отправка метрики (отвправка формы)
-            window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId})
+            window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId, from: 'modal'})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false

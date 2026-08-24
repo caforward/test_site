@@ -46,7 +46,7 @@ async function sendData(formData) {
 
         if (response.value.ok) {
             // Отправка метрики (отвправка формы)
-            window.ym(95726509, 'reachGoal', 'form_submitted', {form: 'complaint'})
+            window.ym(95726509, 'reachGoal', 'form_submitted', {form: 'complaint', from: 'body'})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
