@@ -19,6 +19,12 @@ $dotenv->load();
 const TBANK_INIT_URL = 'https://securepay.tbank.ru/v2/Init';
 const TBANK_GETQR_URL = 'https://securepay.tbank.ru/v2/GetQr';
 
+// Куда банк присылает статусы платежей, включая возвраты по СБП.
+// Домен зашит намеренно: адрес уходит в банк и должен быть публичным.
+const SITE_URL = 'https://caforward.ru';
+const NOTIFICATION_URL = SITE_URL . '/backend/public/payment-notify.php';
+const RETURN_URL = SITE_URL . '/payment';
+
 // СБП временно отключён: платежи у клиентов уходили и тут же возвращались,
 // до нас деньги не доходили. Разбирается поддержка Т-Банка. Флаг продублирован
 // на бэкенде, чтобы способ нельзя было запустить в обход формы.
@@ -245,12 +251,17 @@ if ($phone !== '') {
     $receipt['Phone'] = $phone;
 }
 
+// NotificationURL, SuccessURL и FailURL - поля корневого объекта, поэтому
+// добавляем их до расчёта подписи, иначе банк её не примет.
 $payload = [
     'TerminalKey' => $terminalKey,
     'Amount' => $amountInCents,
     'OrderId' => date('YmdHis') . '-' . bin2hex(random_bytes(3)),
     'Description' => $contractId,
     'Language' => 'ru',
+    'NotificationURL' => NOTIFICATION_URL,
+    'SuccessURL' => RETURN_URL . '?paid=1&m=' . $method,
+    'FailURL' => RETURN_URL . '?paid=0&m=' . $method,
 ];
 
 if ($password !== '') {
