@@ -15,6 +15,13 @@ import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
 // уходит на pay.tbank.ru - этот домен доверен всеми хранилищами сертификатов.
 const PAYMENT_INIT_URL = '/backend/public/payment.php'
 
+// СБП временно отключён: платежи уходили у клиентов и тут же возвращались,
+// до нас деньги не доходили. Разбирается поддержка Т-Банка. Чтобы вернуть
+// способ оплаты, достаточно поставить здесь true.
+const IS_FPS_ENABLED = false
+
+const FPS_DISABLED_TEXT = 'Оплата через СБП временно недоступна по техническим причинам на стороне банка. Воспользуйтесь оплатой картой или по реквизитам.'
+
 // Т-Банк не принимает по СБП меньше 10 рублей
 const FPS_MIN_AMOUNT = 10
 
@@ -63,7 +70,7 @@ const props = defineProps({
 // Состояние
 const form = ref(null)
 const formInputs = reactive({})
-const paymentType = ref('fps')
+const paymentType = ref(IS_FPS_ENABLED ? 'fps' : 'card')
 const contactType = ref('email')
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
@@ -203,7 +210,11 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <p v-if="!IS_FPS_ENABLED" class="payform__notice">
+                    {{ FPS_DISABLED_TEXT }}
+                </p>
+
+                <div v-if="IS_FPS_ENABLED" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="flex items-center gap-2">
                         <div class="payform-radio">
                             <RadioButton
@@ -403,6 +414,12 @@ defineExpose({validateForm, isFormValid, paymentPay})
         @apply
         sm:text-[14px]/[24px]
         text-[14px]/[20px];
+    }
+
+    &__notice {
+        @apply
+        rounded-2xl border border-amber-200 bg-amber-50
+        px-5 py-4 text-[14px]/[20px] text-amber-800;
     }
 
     &__error {

@@ -19,6 +19,11 @@ $dotenv->load();
 const TBANK_INIT_URL = 'https://securepay.tbank.ru/v2/Init';
 const TBANK_GETQR_URL = 'https://securepay.tbank.ru/v2/GetQr';
 
+// СБП временно отключён: платежи у клиентов уходили и тут же возвращались,
+// до нас деньги не доходили. Разбирается поддержка Т-Банка. Флаг продублирован
+// на бэкенде, чтобы способ нельзя было запустить в обход формы.
+const IS_FPS_ENABLED = false;
+
 // Минимальные суммы: у СБП ограничение самого банка, ниже он платёж не примет
 const MIN_AMOUNT_FPS = 10;
 const MIN_AMOUNT_CARD = 1;
@@ -157,6 +162,10 @@ $amount = $input['amount'] ?? null;
 
 if ($method !== 'card' && $method !== 'fps') {
     fail(400, 'Неизвестный способ оплаты');
+}
+
+if ($method === 'fps' && !IS_FPS_ENABLED) {
+    fail(503, 'Оплата через СБП временно недоступна. Оплатите картой или по реквизитам.');
 }
 
 if ($name === '' || $contractId === '') {
