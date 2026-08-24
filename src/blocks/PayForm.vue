@@ -6,6 +6,7 @@ import {ref, reactive, watch, onBeforeUpdate} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
+import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -13,6 +14,13 @@ import ModalRequisites from "@/layouts/ModalRequisites.vue";
 // не грузился, оплата не работала совсем. Теперь в банк ходит сервер, а браузер
 // уходит на pay.tbank.ru - этот домен доверен всеми хранилищами сертификатов.
 const PAYMENT_INIT_URL = '/backend/public/payment.php'
+
+// СБП временно отключён: платежи уходили у клиентов и тут же возвращались,
+// до нас деньги не доходили. Разбирается поддержка Т-Банка. Чтобы вернуть
+// способ оплаты, достаточно поставить здесь true.
+const IS_FPS_ENABLED = false
+
+const FPS_DISABLED_TEXT = 'Оплата через СБП временно недоступна по техническим причинам на стороне банка. Воспользуйтесь оплатой картой или по реквизитам.'
 
 // Т-Банк не принимает по СБП меньше 10 рублей
 const FPS_MIN_AMOUNT = 10
@@ -62,13 +70,20 @@ const props = defineProps({
 // Состояние
 const form = ref(null)
 const formInputs = reactive({})
-const paymentType = ref('fps')
+const paymentType = ref(IS_FPS_ENABLED ? 'fps' : 'card')
 const contactType = ref('email')
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
 const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
 const payError = ref('')
+
+// QR для СБП показываем у себя. На платёжной странице банка кроме СБП доступна
+// оплата картой, и такой платёж проходит через СБП-терминал не в тот банк.
+const isQrVisible = ref(false)
+const qrImage = ref('')
+const qrLink = ref('')
+const qrAmount = ref(null)
 
 // Валидация
 const inputRefs = ref([])
@@ -134,7 +149,23 @@ async function paymentPay() {
             throw new Error(result?.message || 'Банк не принял заказ')
         }
 
-        // на успехе браузер уходит в банк, поэтому загрузку не снимаем
+        if (result.qrImage) {
+            qrImage.value = result.qrImage
+            qrLink.value = result.qrLink || ''
+            qrAmount.value = userAmount.value
+            isQrVisible.value = true
+            isPayLoading.value = false
+            return
+        }
+
+        // Для СБП переход на страницу банка запрещён: карту там отключить нельзя,
+        // и такой платёж уйдёт через СБП-терминал не в тот банк. Честный отказ
+        // с предложением реквизитов лучше, чем деньги не на том счёте.
+        if (paymentType.value === 'fps') {
+            throw new Error('Не удалось получить QR-код. Попробуйте ещё раз или оплатите по реквизитам.')
+        }
+
+        // Карта: уводим в банк. На успехе браузер уходит туда, загрузку не снимаем.
         window.location.href = result.paymentUrl
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
@@ -179,7 +210,11 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <p v-if="!IS_FPS_ENABLED" class="payform__notice">
+                    {{ FPS_DISABLED_TEXT }}
+                </p>
+
+                <div v-if="IS_FPS_ENABLED" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="flex items-center gap-2">
                         <div class="payform-radio">
                             <RadioButton
@@ -359,6 +394,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <ModalAboutFPS v-model="showFPSInfoModal"/>
         <ModalForm v-model="isModalVisible" type="get-contract-id"/>
         <ModalRequisites v-model="isRequisitesVisible"/>
+        <ModalPaymentQr v-model="isQrVisible" :image="qrImage" :link="qrLink" :amount="qrAmount"/>
     </div>
 </template>
 
@@ -378,6 +414,12 @@ defineExpose({validateForm, isFormValid, paymentPay})
         @apply
         sm:text-[14px]/[24px]
         text-[14px]/[20px];
+    }
+
+    &__notice {
+        @apply
+        rounded-2xl border border-amber-200 bg-amber-50
+        px-5 py-4 text-[14px]/[20px] text-amber-800;
     }
 
     &__error {

@@ -17,6 +17,12 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 const TBANK_INIT_URL = 'https://securepay.tbank.ru/v2/Init';
+const TBANK_GETQR_URL = 'https://securepay.tbank.ru/v2/GetQr';
+
+// СБП временно отключён: платежи у клиентов уходили и тут же возвращались,
+// до нас деньги не доходили. Разбирается поддержка Т-Банка. Флаг продублирован
+// на бэкенде, чтобы способ нельзя было запустить в обход формы.
+const IS_FPS_ENABLED = false;
 
 // Минимальные суммы: у СБП ограничение самого банка, ниже он платёж не примет
 const MIN_AMOUNT_FPS = 10;
@@ -77,6 +83,66 @@ function normalizePhone(string $phone): string
     return '+' . $digits;
 }
 
+function callBank(string $url, array $payload): ?array
+{
+    $ch = curl_init($url);
+
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_CONNECTTIMEOUT => 10,
+    ]);
+
+    $raw = curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($raw === false) {
+        error_log("payment.php: запрос $url не выполнен - $curlError");
+        return null;
+    }
+
+    $decoded = json_decode($raw, true);
+
+    if (!is_array($decoded)) {
+        error_log("payment.php: неразбираемый ответ от $url (HTTP $httpCode): $raw");
+        return null;
+    }
+
+    return $decoded;
+}
+
+/*
+ * QR для СБП забираем сами и показываем на своей странице. Иначе человек уходит
+ * на платёжную страницу банка, где кроме СБП доступна оплата картой, и такой
+ * карточный платёж проходит через СБП-терминал, попадая не в тот банк.
+ */
+function getQr(string $paymentId, string $terminalKey, string $password, string $dataType): ?string
+{
+    $payload = [
+        'TerminalKey' => $terminalKey,
+        'PaymentId' => $paymentId,
+        'DataType' => $dataType,
+    ];
+
+    $payload['Token'] = makeToken($payload, $password);
+
+    $result = callBank(TBANK_GETQR_URL, $payload);
+
+    if ($result === null || empty($result['Success']) || empty($result['Data'])) {
+        $message = $result['Message'] ?? 'нет ответа';
+        error_log("payment.php: GetQr $dataType не удался - $message");
+        return null;
+    }
+
+    return $result['Data'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     fail(405, 'Метод не поддерживается');
 }
@@ -96,6 +162,10 @@ $amount = $input['amount'] ?? null;
 
 if ($method !== 'card' && $method !== 'fps') {
     fail(400, 'Неизвестный способ оплаты');
+}
+
+if ($method === 'fps' && !IS_FPS_ENABLED) {
+    fail(503, 'Оплата через СБП временно недоступна. Оплатите картой или по реквизитам.');
 }
 
 if ($name === '' || $contractId === '') {
@@ -190,33 +260,10 @@ if ($password !== '') {
 $payload['DATA'] = $data;
 $payload['Receipt'] = $receipt;
 
-$ch = curl_init(TBANK_INIT_URL);
+$result = callBank(TBANK_INIT_URL, $payload);
 
-curl_setopt_array($ch, [
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-    CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 20,
-    CURLOPT_CONNECTTIMEOUT => 10,
-]);
-
-$response = curl_exec($ch);
-$curlError = curl_error($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-curl_close($ch);
-
-if ($response === false) {
-    error_log('payment.php: запрос в банк не выполнен - ' . $curlError);
+if ($result === null) {
     fail(502, 'Банк не отвечает. Попробуйте позже или оплатите по реквизитам.');
-}
-
-$result = json_decode($response, true);
-
-if (!is_array($result)) {
-    error_log("payment.php: банк вернул неразбираемый ответ (HTTP $httpCode): $response");
-    fail(502, 'Банк вернул неожиданный ответ. Попробуйте позже или оплатите по реквизитам.');
 }
 
 if (empty($result['Success']) || empty($result['PaymentURL'])) {
@@ -226,8 +273,29 @@ if (empty($result['Success']) || empty($result['PaymentURL'])) {
     fail(502, 'Не удалось создать платёж. Проверьте данные или оплатите по реквизитам.');
 }
 
-echo json_encode([
+$answer = [
     'ok' => true,
     'paymentUrl' => $result['PaymentURL'],
     'paymentId' => $result['PaymentId'] ?? null,
-], JSON_UNESCAPED_UNICODE);
+];
+
+// Если QR получить не вышло, отдаём только ссылку - фронт уведёт на страницу
+// банка, как раньше. Хуже, чем QR, но лучше, чем отказ в оплате.
+if ($method === 'fps' && $password !== '' && !empty($result['PaymentId'])) {
+    $paymentId = (string) $result['PaymentId'];
+
+    $image = getQr($paymentId, $terminalKey, $password, 'IMAGE');
+    $link = getQr($paymentId, $terminalKey, $password, 'PAYLOAD');
+
+    // Банк отдаёт сырой SVG. Заворачиваем в data-URI, чтобы фронт показал его
+    // обычным <img> и нам не пришлось вставлять чужую разметку через v-html.
+    if ($image !== null) {
+        $answer['qrImage'] = 'data:image/svg+xml;base64,' . base64_encode($image);
+    }
+
+    if ($link !== null) {
+        $answer['qrLink'] = $link;
+    }
+}
+
+echo json_encode($answer, JSON_UNESCAPED_UNICODE);
