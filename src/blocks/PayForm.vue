@@ -90,14 +90,38 @@ const inputRefs = ref([])
 const contactInput = ref([])
 
 // без этого о проблеме знали только по жалобам, без цифр
-function reportPaymentIssue(reason) {
+function reportPaymentEvent(goal, reason) {
     try {
         if (typeof window.ym === 'function') {
-            window.ym(METRIKA_ID, 'reachGoal', 'payment_unavailable', {reason})
+            window.ym(METRIKA_ID, 'reachGoal', goal, {reason})
         }
     } catch (e) {
         // метрика не должна ломать оплату
     }
+}
+
+// Перед уходом на страницу банка ждём отправки хита, иначе браузер уводит
+// страницу раньше, чем метрика успевает достучаться, и события теряются.
+// Секунда - потолок ожидания: оплата важнее статистики.
+function reportAndLeave(goal, reason, url) {
+    let left = false
+    const leave = () => {
+        if (left) return
+        left = true
+        window.location.href = url
+    }
+
+    try {
+        if (typeof window.ym === 'function') {
+            window.ym(METRIKA_ID, 'reachGoal', goal, {reason}, leave)
+            setTimeout(leave, 1000)
+            return
+        }
+    } catch (e) {
+        // метрика не должна ломать оплату
+    }
+
+    leave()
 }
 
 function isFormValid() {
@@ -155,6 +179,7 @@ async function paymentPay() {
             qrAmount.value = userAmount.value
             isQrVisible.value = true
             isPayLoading.value = false
+            reportPaymentEvent('payment_qr_shown', paymentType.value)
             return
         }
 
@@ -166,13 +191,13 @@ async function paymentPay() {
         }
 
         // Карта: уводим в банк. На успехе браузер уходит туда, загрузку не снимаем.
-        window.location.href = result.paymentUrl
+        reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl)
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
         payError.value = err.message && err.message !== 'Failed to fetch'
             ? err.message
             : PAY_FAILED_TEXT
-        reportPaymentIssue(paymentType.value)
+        reportPaymentEvent('payment_unavailable', paymentType.value)
         isPayLoading.value = false
     }
 }
