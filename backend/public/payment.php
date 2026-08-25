@@ -4,11 +4,12 @@
  * Регистрация платежа в Т-Банке со стороны сервера.
  *
  * Зачем так, а не виджетом на фронте: скрипт виджета раздаётся с домена
- * securepay.tinkoff.ru, а он работает по сертификату УЦ Минцифры. На устройствах
- * без этого корневого сертификата (обычные iPhone и Android) соединение не
- * устанавливается, скрипт не грузится и оплата не работает вовсе.
- * Домен securepay.tbank.ru отдаёт то же API по общедоверенному сертификату,
- * а серверу браузерное хранилище сертификатов и не нужно.
+ * securepay.tinkoff.ru, который работает по сертификату УЦ Минцифры. На
+ * устройствах без этого корневого сертификата (обычные iPhone и Android)
+ * соединение не устанавливается, скрипт не грузится и оплата не работает.
+ *
+ * Сервер тот же сертификат принимает без проблем: корень лежит рядом,
+ * в backend/certs, и передаётся в cURL явно.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -16,8 +17,14 @@ require __DIR__ . '/../../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-const TBANK_INIT_URL = 'https://securepay.tbank.ru/v2/Init';
-const TBANK_GETQR_URL = 'https://securepay.tbank.ru/v2/GetQr';
+const TBANK_INIT_URL = 'https://securepay.tinkoff.ru/v2/Init';
+const TBANK_GETQR_URL = 'https://securepay.tinkoff.ru/v2/GetQr';
+
+// securepay.tinkoff.ru работает по сертификату УЦ Минцифры, которого нет
+// в стандартном хранилище Linux. Возим корень с собой, иначе cURL не
+// установит соединение. Домен tbank.ru не используем: поддержка банка
+// подтвердила, что методов на нём официально не существует.
+const TBANK_CA_BUNDLE = __DIR__ . '/../certs/russian-trusted-ca.pem';
 
 // Куда банк присылает статусы платежей, включая возвраты по СБП.
 // Домен зашит намеренно: адрес уходит в банк и должен быть публичным.
@@ -101,6 +108,12 @@ function callBank(string $url, array $payload): ?array
         CURLOPT_TIMEOUT => 20,
         CURLOPT_CONNECTTIMEOUT => 10,
     ]);
+
+    if (is_readable(TBANK_CA_BUNDLE)) {
+        curl_setopt($ch, CURLOPT_CAINFO, TBANK_CA_BUNDLE);
+    } else {
+        error_log('payment.php: нет файла сертификатов ' . TBANK_CA_BUNDLE . ', соединение с банком может не установиться');
+    }
 
     $raw = curl_exec($ch);
     $curlError = curl_error($ch);
