@@ -125,28 +125,67 @@
 </script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
-	try {
-		(function (m, e, t, r, i, k, a) {
-			m[i] = m[i] || function () {
-				(m[i].a = m[i].a || []).push(arguments)
-			};
-			m[i].l = 1 * new Date();
-			for (var j = 0; j < document.scripts.length; j++) {
-				if (document.scripts[j].src === r) {
-					return;
-				}
-			}
-			k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-		})
-		(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+	/*
+	 * Отключение счётчика для своих. Сотрудник один раз открывает
+	 * caforward.ru/?no-metrika=1 на своём устройстве - в браузере остаётся
+	 * метка, и дальше счётчик там не запускается вовсе, визиты сотрудников
+	 * не искажают статистику. Обратно включается адресом ?no-metrika=0.
+	 *
+	 * Метка живёт в браузере, поэтому ставится отдельно на каждом устройстве
+	 * и слетает при очистке данных сайта.
+	 */
+	var metrikaDisabled = false;
 
-		ym(95726509, "init", {
-			clickmap: true,
-			trackLinks: true,
-			accurateTrackBounce: true,
-			webvisor: true,
-			ecommerce: "dataLayer"
+	function showMetrikaNotice(text) {
+		document.addEventListener("DOMContentLoaded", function () {
+			var box = document.createElement("div");
+			box.textContent = text;
+			box.style.cssText = "position:fixed;z-index:99999;left:50%;top:20px;transform:translateX(-50%);max-width:90vw;padding:14px 20px;border-radius:12px;background:#1f2937;color:#fff;font:14px/20px system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)";
+			document.body.appendChild(box);
+			setTimeout(function () { box.remove(); }, 6000);
 		});
+	}
+
+	try {
+		var noMetrikaParam = new URLSearchParams(location.search).get("no-metrika");
+
+		if (noMetrikaParam === "1") {
+			localStorage.setItem("noMetrika", "1");
+			showMetrikaNotice("Готово. Ваши визиты с этого браузера больше не учитываются в статистике.");
+		} else if (noMetrikaParam === "0") {
+			localStorage.removeItem("noMetrika");
+			showMetrikaNotice("Готово. Визиты с этого браузера снова учитываются.");
+		}
+
+		metrikaDisabled = localStorage.getItem("noMetrika") === "1";
+	} catch (e) {
+		// приватный режим может запрещать localStorage - тогда считаем как обычно
+	}
+
+	try {
+		if (!metrikaDisabled) {
+			(function (m, e, t, r, i, k, a) {
+				m[i] = m[i] || function () {
+					(m[i].a = m[i].a || []).push(arguments)
+				};
+				m[i].l = 1 * new Date();
+				for (var j = 0; j < document.scripts.length; j++) {
+					if (document.scripts[j].src === r) {
+						return;
+					}
+				}
+				k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+			})
+			(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+			ym(95726509, "init", {
+				clickmap: true,
+				trackLinks: true,
+				accurateTrackBounce: true,
+				webvisor: true,
+				ecommerce: "dataLayer"
+			});
+		}
 	} catch (e) {
 		console.log('Яндекс метрика ошибка')
 	}
