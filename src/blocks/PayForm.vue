@@ -96,7 +96,7 @@ const contactInput = ref([])
 function reportPaymentEvent(goal, reason) {
     try {
         if (typeof window.ym === 'function') {
-            window.ym(METRIKA_ID, 'reachGoal', goal, {reason})
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason})
         }
     } catch (e) {
         // метрика не должна ломать оплату
@@ -116,7 +116,7 @@ function reportAndLeave(goal, reason, url) {
 
     try {
         if (typeof window.ym === 'function') {
-            window.ym(METRIKA_ID, 'reachGoal', goal, {reason}, leave)
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason}, leave)
             setTimeout(leave, 1000)
             return
         }

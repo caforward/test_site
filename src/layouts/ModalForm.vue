@@ -115,7 +115,12 @@ async function sendData(formData, formInputRefs) {
             })
 
             // Отправка метрики (отвправка формы)
-            window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId, from: 'modal'})
+            let formId = props.formMetrikaId;
+            if (!formId) {
+                const messageTypeInput = props.inputs.find(input => input.name === 'messageType');
+                formId = messageTypeInput?.value || 'unknown';
+            }
+            window.ym(95726509, 'reachGoal', 'form_submitted', {form: formId, from: 'modal'})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
