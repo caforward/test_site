@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import {ref, watch} from 'vue'
 import BaseBreadcrumb from "@/blocks/BaseBreadcrumb.vue";
 import IntroBlock from "@/blocks/IntroBlock.vue";
 import ModalForm from '@/layouts/ModalForm.vue';
@@ -18,7 +18,7 @@ function scrollToCalculate() {
             <IntroBlock>
                 <template v-slot:content>
                     <div class="intro-content">
-                        <BaseBreadcrumb class="breadcrumb" />
+                        <BaseBreadcrumb class="breadcrumb"/>
                         <div class="heading-2 mb-5">Получить рассрочку</div>
                         <p class="text-body mb-5">
                             Рассрочка платежей – один из вариантов взаимодействия с коллекторами, который может стать
@@ -34,7 +34,7 @@ function scrollToCalculate() {
                 </template>
                 <template v-slot:img>
                     <div class="intro__img">
-                        <img src="/images/blocks/installment/intro/01.png" alt="" />
+                        <img src="/images/blocks/installment/intro/01.png" alt=""/>
                     </div>
                 </template>
             </IntroBlock>

@@ -2,6 +2,7 @@
 import {ref} from 'vue';
 import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const overlayThankVisible = ref(false)
 const response = ref(null)
@@ -60,7 +61,8 @@ async function sendData(formData, formInputRefs) {
             })
 
             // Отправка метрики (отвправка формы)
-            window.ym(95726509, 'reachGoal', 'form_submitted', {form: 'calculator', from: 'body'})
+            const url = window.location.href.split('#')[0];
+            sendMetrikaEvent('form_submitted', {form: 'calculator', from: 'body', url})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false

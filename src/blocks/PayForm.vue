@@ -75,6 +75,7 @@ const paymentType = ref(IS_FPS_ENABLED ? 'fps' : 'card')
 const contactType = ref('email')
 const showFPSInfoModal = ref(false)
 const isModalVisible = ref(false)
+const modalType = ref('get-contract-id')
 const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
 const payError = ref('')
@@ -96,7 +97,8 @@ const contactInput = ref([])
 function reportPaymentEvent(goal, reason) {
     try {
         if (typeof window.ym === 'function') {
-            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason})
+            const url = window.location.href.split('#')[0];
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url})
         }
     } catch (e) {
         // метрика не должна ломать оплату
@@ -116,7 +118,8 @@ function reportAndLeave(goal, reason, url) {
 
     try {
         if (typeof window.ym === 'function') {
-            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason}, leave)
+            const url = window.location.href.split('#')[0];
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url}, leave)
             setTimeout(leave, 1000)
             return
         }

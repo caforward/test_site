@@ -110,7 +110,7 @@ onBeforeMount(() => {
                         <div class="logo">
                             <router-link to="/">
                                 <img class="imgForward" src="/images/footer/forward.png"
-                                    alt="there was a logo CaForward" />
+                                     alt="there was a logo CaForward"/>
                             </router-link>
                         </div>
                         <address class="address">
@@ -125,7 +125,7 @@ onBeforeMount(() => {
                                 </a>
 
                                 <a v-else-if="link.modalName" :href="link.href" class="link link_white"
-                                    @click.prevent="modalVisible[link.modalName] = true">
+                                   @click.prevent="modalVisible[link.modalName] = true">
                                     {{ link.name }}
                                 </a>
 
@@ -175,12 +175,13 @@ onBeforeMount(() => {
                                 <ul class="social mb-auto">
                                     <li v-for="link in socialLinks" :key="link.name">
                                         <a :href="link.href" :target="link.target" :aria-label="link.name"
-                                            v-html="link.icon"></a>
+                                           v-html="link.icon"></a>
                                     </li>
                                 </ul>
 
                                 <router-link to="/complaint">
-                                    <div class="flex items-bottom gap-2 text-sky-400 text-sm hover:text-sky-300 transition-colors">
+                                    <div
+                                        class="flex items-bottom gap-2 text-sky-400 text-sm hover:text-sky-300 transition-colors">
                                         <i class="pi pi-exclamation-circle text-sm !flex items-center"></i>
                                         <span>
                                             Защитите ваши права
@@ -222,8 +223,8 @@ onBeforeMount(() => {
             </div>
         </div>
     </footer>
-    <ModalForm v-model="modalVisible.modalForm" />
-    <ModalDocs v-model="modalVisible.modalDocs" :toShowIndex="modalDocsIndex" />
+    <ModalForm v-model="modalVisible.modalForm"/>
+    <ModalDocs v-model="modalVisible.modalDocs" :toShowIndex="modalDocsIndex"/>
 </template>
 
 
@@ -278,7 +279,7 @@ onBeforeMount(() => {
                 font-size: 14px;
                 font-weight: 500;
 
-                &>li:not(:last-child) {
+                & > li:not(:last-child) {
                     width: calc(50% - 15px);
                 }
             }
@@ -320,7 +321,7 @@ onBeforeMount(() => {
                         gap: 15px;
                         width: 100%;
 
-                        &>* {
+                        & > * {
                             font-size: 14px;
                             height: 40px;
                             width: 200px;
@@ -341,7 +342,7 @@ onBeforeMount(() => {
                             border-radius: 50%;
                             transition: .2s ease;
 
-                            &>* {
+                            & > * {
                                 width: 18px;
                             }
 
@@ -390,7 +391,8 @@ onBeforeMount(() => {
                     row-gap: 5px;
                 }
 
-                &__right {}
+                &__right {
+                }
             }
         }
     }
@@ -411,7 +413,7 @@ onBeforeMount(() => {
             &__nav {
                 max-width: 30%;
 
-                ul>li {
+                ul > li {
                     width: 100%;
 
                     &:not(:last-child) {
@@ -422,7 +424,7 @@ onBeforeMount(() => {
 
             &__contacts {
                 & .contacts__buttons {
-                    .buttons>* {
+                    .buttons > * {
                         width: 180px;
                     }
                 }
@@ -446,7 +448,7 @@ onBeforeMount(() => {
                 width: 100%;
                 max-width: unset;
 
-                & ul>li:not(:last-child) {
+                & ul > li:not(:last-child) {
                     width: calc(50% - 15px);
                 }
             }
@@ -459,7 +461,7 @@ onBeforeMount(() => {
                     width: 100%;
                     justify-content: space-between;
 
-                    &>* {
+                    & > * {
                         width: calc(50% - 15px);
                     }
 
@@ -470,7 +472,7 @@ onBeforeMount(() => {
                     }
 
                     &__buttons {
-                        .buttons>* {
+                        .buttons > * {
                             width: 180px;
                         }
                     }
@@ -488,7 +490,7 @@ onBeforeMount(() => {
                 ul {
                     gap: 25px;
 
-                    &>li:not(:last-child) {
+                    & > li:not(:last-child) {
                         width: 100%;
                     }
                 }
@@ -496,12 +498,12 @@ onBeforeMount(() => {
 
             &__contacts {
                 .contacts {
-                    &>* {
+                    & > * {
                         width: 100%;
                     }
 
                     &__buttons {
-                        .buttons>* {
+                        .buttons > * {
                             width: 100%;
                             max-width: 260px;
                         }

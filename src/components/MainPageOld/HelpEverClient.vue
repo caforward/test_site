@@ -7,7 +7,7 @@
             <div class="flexContainer">
 
                 <div v-if="!isLaptop" v-for="item in items" :key="item.id"
-                    :style="{ backgroundColor: item.background }" class="ContentItems">
+                     :style="{ backgroundColor: item.background }" class="ContentItems">
                     <div class="content">
                         <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
                         <div class="textElements">
@@ -16,12 +16,13 @@
                         </div>
                     </div>
                     <div class="wrapButt">
-                        <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее</button>
+                        <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее
+                        </button>
                     </div>
                 </div>
 
                 <div v-if="isLaptop" v-for="item in items" :key="item.id" :style="{ backgroundColor: item.background }"
-                    class="ContentItems">
+                     class="ContentItems">
                     <div class="imgContainer"><img :src=item.imageUrl alt="There was a img :( "></div>
                     <div class="content">
                         <div class="textElements">
@@ -29,18 +30,20 @@
                             <p>{{ item.textParagr }}</p>
                         </div>
                         <div class="wrapButt">
-                            <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее</button>
+                            <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">
+                                Подробнее
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <ModalForm v-model="modalVisible" :type="defaultOption" />
+        <ModalForm v-model="modalVisible" :type="defaultOption"/>
     </section>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import {defineComponent, watch} from 'vue'
 import ModalForm from '@/layouts/ModalForm.vue';
 
 export default defineComponent({
@@ -290,7 +293,6 @@ h3 {
     }
 
 
-
     .imgContainer {
         margin-top: 0;
         padding-top: 32px;
@@ -303,7 +305,6 @@ h3 {
             max-height: 230px;
         }
     }
-
 
 
     .textElements {

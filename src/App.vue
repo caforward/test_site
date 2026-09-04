@@ -3,6 +3,22 @@ import TheHeader from "@/layouts/TheHeader.vue";
 import TheFooter from "@/layouts/TheFooter.vue";
 import TheMenuBottom from "@/layouts/TheMenuBottom.vue";
 import BaseCookie from "@/blocks/modals/BaseCookie.vue";
+import {onMounted} from "vue";
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+
+onMounted(() => {
+    document.addEventListener('click', function (e) {
+        const target = e.target.closest('[data-id]');
+        if (!target) return;
+        if (target.closest('.accordion-trigger')) return; // аккордеоны отдельно
+
+        const id = target.dataset.id;
+        const url = window.location.href.split('#')[0];
+        if (typeof window.ym === 'function') {
+            sendMetrikaEvent('click', {id, url});
+        }
+    });
+})
 </script>
 
 <template>

@@ -3,6 +3,7 @@ import {onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 const response = ref(null)
@@ -116,11 +117,12 @@ async function sendData(formData, formInputRefs) {
 
             // Отправка метрики (отвправка формы)
             let formId = props.formMetrikaId;
+            const url = window.location.href.split('#')[0];
             if (!formId) {
                 const messageTypeInput = props.inputs.find(input => input.name === 'messageType');
                 formId = messageTypeInput?.value || 'unknown';
             }
-            window.ym(95726509, 'reachGoal', 'form_submitted', {form: formId, from: 'modal'})
+            sendMetrikaEvent('form_submitted', {form: formId, from: 'modal', url})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
