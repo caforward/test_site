@@ -1,8 +1,9 @@
 <script setup>
-import { watch, ref } from 'vue'
+import {watch, ref} from 'vue'
 import BaseModal from '@/blocks/BaseModal.vue';
 import {useRoute} from "vue-router";
 import Button from "primevue/button";
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 const moreInfo = ref(false);
@@ -24,6 +25,12 @@ watch(
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
             document.body.style.paddingRight = browserScrollbarWidth + 'px'
+
+            // Метрика
+            if (newVal) {
+                const url = window.location.href.split('#')[0]
+                sendMetrikaEvent('modal_open', {id: 'requisites_modal', url})
+            }
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
@@ -101,8 +108,9 @@ watch(
                             30101810450040000861
                         </li>
                     </ul>
-                    <div v-if="moreInfo" class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
-                        @click="showQR = !showQR">
+                    <div v-if="moreInfo"
+                         class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
+                         @click="showQR = !showQR">
                         <span v-if="!showQR">
                             Оплатить в приложении банка
                         </span>
@@ -115,7 +123,8 @@ watch(
                             <img src="/images/QR-code.png" alt="">
                         </div>
                     </div>
-                    <div class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
+                    <div
+                        class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
                         @click="toggleInfo">
                         <span v-if="moreInfo">
                             Скрыть
@@ -176,11 +185,11 @@ watch(
                     margin-bottom: 20px;
                 }
 
-                &>:nth-child(2n) {
+                & > :nth-child(2n) {
                     font-weight: 400;
                 }
 
-                &>* {
+                & > * {
                     width: 50%;
                     margin-bottom: 20px;
                 }
@@ -222,12 +231,12 @@ watch(
                     font-size: 14px;
                     font-weight: bold;
 
-                    &>* {
+                    & > * {
                         width: 100%;
                         margin-bottom: 10px;
                     }
 
-                    &>:nth-child(2n) {
+                    & > :nth-child(2n) {
                         font-weight: 400;
                     }
                 }

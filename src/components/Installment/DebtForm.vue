@@ -3,7 +3,8 @@ import Popover from 'primevue/popover';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import PayForm from '@/blocks/PayForm.vue';
 import BaseModal from '@/blocks/BaseModal.vue';
-import { ref, watch } from 'vue';
+import {ref, watch} from 'vue';
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const secureTextModal = ref(false)
 const securePopover = ref(null)
@@ -33,6 +34,14 @@ watch(
         }
     }
 )
+
+watch(secureTextModal, (newVal) => {
+    // Метрика
+    if (newVal) {
+        const url = window.location.href.split('#')[0]
+        sendMetrikaEvent('modal_open', {id: 'secure_text', url})
+    }
+})
 </script>
 
 <template>
@@ -47,13 +56,13 @@ watch(
                             </h2>
 
                             <div @click="toggle"
-                                class="rounded-full transition-colors flex items-center justify-center border w-10 h-10 border-green-500 text-green-500 hover:cursor-pointer hover:bg-green-500 hover:text-white">
+                                 class="rounded-full transition-colors flex items-center justify-center border w-10 h-10 border-green-500 text-green-500 hover:cursor-pointer hover:bg-green-500 hover:text-white">
                                 <i class="pi pi-shield !text-xl"></i>
                             </div>
                         </div>
 
                         <!-- Форма оплаты -->
-                        <PayForm class="payform" />
+                        <PayForm class="payform"/>
                     </div>
                     <div class="block__right">
                         <div class="card">
@@ -188,7 +197,7 @@ watch(
     }
 
     input[type='checkbox'] {
-        border: 1px solid#EAECEE;
+        border: 1px solid #EAECEE;
     }
 }
 
@@ -264,7 +273,7 @@ watch(
         display: flex;
         gap: 30px;
 
-        &>* {
+        & > * {
             width: 50%;
         }
     }
@@ -278,12 +287,13 @@ watch(
             display: flex;
             gap: 30px;
 
-            &>* {
+            & > * {
                 width: 50%;
             }
         }
 
-        &__tab {}
+        &__tab {
+        }
     }
 
     &__tabs {
@@ -384,7 +394,7 @@ watch(
     &__inputs {
         margin-bottom: 30px;
 
-        &>* {
+        & > * {
             &:not(:last-child) {
                 margin-bottom: 20px;
             }
@@ -469,7 +479,7 @@ watch(
         line-height: 24px;
         margin-bottom: 24px;
 
-        &>p {
+        & > p {
             margin-bottom: 15px;
         }
     }
@@ -551,7 +561,7 @@ watch(
         &__inner {
             flex-direction: column;
 
-            &>* {
+            & > * {
                 width: 100%;
             }
         }
@@ -559,7 +569,8 @@ watch(
 
     .switcher {
         &-body {
-            &__wrapper {}
+            &__wrapper {
+            }
         }
 
         &-tab {

@@ -7,6 +7,7 @@ import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useScreenResize} from "@/composable/useScreenResize.js";
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const props = defineProps({
     visible: {
@@ -138,6 +139,12 @@ watch(
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden';
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
+
+            // Метрика
+            if (newVal) {
+                const url = window.location.href.split('#')[0]
+                sendMetrikaEvent('modal_open', {id: 'sbp_payment', url})
+            }
         } else {
             // Разблокировка скролла
             document.body.style.paddingRight = '';

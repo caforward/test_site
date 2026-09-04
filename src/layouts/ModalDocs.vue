@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onUpdated } from 'vue'
+import {ref, onUpdated, watch} from 'vue'
 import BaseModal from '@/blocks/BaseModal.vue';
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const emits = defineEmits(['close'])
 
@@ -168,6 +169,12 @@ onUpdated(() => {
         const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden'
         document.body.style.paddingRight = browserScrollbarWidth + 'px'
+
+        // Метрика
+        if (newVal) {
+            const url = window.location.href.split('#')[0]
+            sendMetrikaEvent('modal_open', {id: 'docs_modal', url})
+        }
     } else {
         document.body.style.paddingRight = ''
         document.body.style.overflow = ''
@@ -254,7 +261,7 @@ onUpdated(() => {
                     gap: 20px;
                 }
 
-                &>li {
+                & > li {
                     display: flex;
                     flex-direction: column;
                     gap: 5px;
@@ -304,12 +311,12 @@ onUpdated(() => {
                     font-size: 14px;
                     font-weight: bold;
 
-                    &>* {
+                    & > * {
                         width: 100%;
                         margin-bottom: 10px;
                     }
 
-                    &>:nth-child(2n) {
+                    & > :nth-child(2n) {
                         font-weight: 400;
                     }
                 }

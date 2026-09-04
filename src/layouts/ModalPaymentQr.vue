@@ -1,6 +1,8 @@
 <script setup>
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
+import {watch} from "vue";
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 
@@ -17,6 +19,14 @@ defineProps({
         type: [String, Number],
         default: null
     },
+})
+
+watch(visible, (newVal) => {
+    // Метрика
+    if (newVal) {
+        const url = window.location.href.split('#')[0]
+        sendMetrikaEvent('modal_open', {id: 'sbp_payment', url})
+    }
 })
 </script>
 

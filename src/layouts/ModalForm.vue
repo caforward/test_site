@@ -199,6 +199,14 @@ watch(
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
             document.body.style.paddingRight = browserScrollbarWidth + 'px'
+
+            const url = window.location.href.split('#')[0];
+            let formId = props.formMetrikaId;
+            if (!formId) {
+                const messageTypeInput = props.inputs.find(input => input.name === 'messageType');
+                formId = messageTypeInput?.value || 'unknown';
+            }
+            sendMetrikaEvent('form_open', {form: formId, url})
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
