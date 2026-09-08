@@ -147,7 +147,7 @@ const formAttributeType = computed(() => {
                 <div class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
                     Проверить задолженность:
                     <div class="flex gap-1.5 items-center">
-                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link" data-id="form_fssp_link">https://fssp.gov.ru/iss/ip/</a>
                         <div class="w-8">
                             <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
                         </div>
@@ -191,7 +191,7 @@ const formAttributeType = computed(() => {
                      class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
                     Проверить задолженность:
                     <div class="flex gap-1.5 items-center">
-                        <a href="https://fssp.gov.ru/iss/ip/" class="link">https://fssp.gov.ru/iss/ip/</a>
+                        <a href="https://fssp.gov.ru/iss/ip/" class="link" data-id="form_fssp_link">https://fssp.gov.ru/iss/ip/</a>
                         <div class="w-8">
                             <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
                         </div>

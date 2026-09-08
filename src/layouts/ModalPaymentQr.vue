@@ -48,7 +48,7 @@ watch(visible, (newVal) => {
                     Отсканируйте код камерой телефона или в приложении вашего банка
                 </p>
 
-                <a v-if="link" :href="link" class="link underline">
+                <a v-if="link" :href="link" class="link underline" data-id="modal_qr_open_bank_link">
                     Открыть в приложении банка
                 </a>
 

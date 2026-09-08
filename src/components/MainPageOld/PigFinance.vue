@@ -16,7 +16,7 @@
                            Наши специалисты бесплатно Вас проконсультируют и 
                            расскажут, как исправить ситуацию.
                     </p>
-                    <div><button><a href="tel:+78043334133">Связаться с нами</a></button></div>
+                    <div><button><a href="tel:+78043334133" data-id="pig_finance_phone_link">Связаться с нами</a></button></div>
                 </div>
                 <div class="imageContainer"><img src="/images/PigImg/1img.png" alt="there was a pig :(">
                 </div>

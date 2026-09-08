@@ -72,7 +72,11 @@ const onHide = () => {
     <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
         <template v-slot:toolbar="{ toolbarMethods }">
             <a href="/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.pdf" target="_blank"
-               class="lightbox-button button button_blue">Загрузить</a>
+               class="lightbox-button button button_blue"
+               data-id="documents_reestr_link"
+            >
+                Загрузить
+            </a>
         </template>
     </vue-easy-lightbox>
 

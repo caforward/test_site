@@ -431,7 +431,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
 
                 <p class="payform__meta">
                     Нажимая кнопку «Оплатить картой» или «Оплатить через СБП», вы соглашаетесь с
-                    <a href="/policy" target="_blank" class="link underline inline">
+                    <a href="/policy" target="_blank" class="link underline inline" data-id="payform_policy_link">
                         политикой конфиденциальности.
                     </a>
                 </p>

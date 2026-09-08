@@ -221,7 +221,7 @@ watch(
                 </ul>
                 <div class="menu-footer">
                     <div class="flex items-center gap-4 justify-between mb-3">
-                        <a href="tel:+78043334133" class="menu-footer-contacts__tel">
+                        <a href="tel:+78043334133" class="menu-footer-contacts__tel" data-id="mobile_menu_phone_link">
                             + 7 (804) 333-41-33
                         </a>
                         <a

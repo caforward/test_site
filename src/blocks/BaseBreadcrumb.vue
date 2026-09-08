@@ -1,6 +1,6 @@
 <template>
     <div class="breadcrumb">
-        <a :href="mainPage.href" class="breadcrumb-link">
+        <a :href="mainPage.href" class="breadcrumb-link" data-id="breadcrumb_link">
             {{ mainPage.name }}
         </a>
         <span class="breadcrumb__delimeter">
@@ -12,7 +12,7 @@
         </span>
         <template v-for="(matched, idx) in $route.matched" :key="idx" class="breadcrumb-link__wrapper">
             <template v-if="idx != $route.matched.length - 1">
-                <a :href="matched.path" class="breadcrumb-link">
+                <a :href="matched.path" class="breadcrumb-link" data-id="breadcrumb_link">
                     {{ matched.name }}
                 </a>
                 <span class="breadcrumb__delimeter">

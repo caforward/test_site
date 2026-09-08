@@ -90,7 +90,9 @@ onUnmounted(() => {
         <ul class="bottom-menu-list">
             <li v-for="link in menuItems" :key="link.id" class="bottom-menu-list__item">
                 <a v-if="link.modal && link.modal.name" :href="link.href" class="group/link bottom-menu-list-link"
-                   @click.prevent="showModalHandler(link.modal)">
+                   @click.prevent="showModalHandler(link.modal)"
+                   :data-id="`mobile_menu_${link.modal.type}_open_modal`"
+                >
                     <i
                         :class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
                     <span class="text-nowrap">
@@ -98,7 +100,9 @@ onUnmounted(() => {
 					</span>
                 </a>
 
-                <a v-else-if="link.href.startsWith('tel:')" :href="link.href" class="group/link bottom-menu-list-link">
+                <a v-else-if="link.href.startsWith('tel:')" :href="link.href" class="group/link bottom-menu-list-link"
+                   data-id="mobile_menu_phone_link"
+                >
                     <i
                         :class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
                     <span class="text-nowrap">
@@ -106,7 +110,9 @@ onUnmounted(() => {
 					</span>
                 </a>
 
-                <a v-else :href="link.href" class="group/link bottom-menu-list-link">
+                <a v-else :href="link.href" class="group/link bottom-menu-list-link"
+                   data-id="mobile_menu_navigation_link"
+                >
                     <i
                         :class="`${link.icon} text-sky-500 !text-xl group-hover/link:text-white max-[600px]:!text-base`"></i>
                     <span class="text-nowrap">

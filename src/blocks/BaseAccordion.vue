@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const accordions = ref(null)
 
@@ -17,6 +18,9 @@ const props = defineProps({
 function openAccordion(e) {
     const accordion = e.target.closest(".accordion");
     accordion.classList.toggle("accordion_opened");
+    const type = newVal ? 'open' : 'close';
+    const url = window.location.href.split('#')[0];
+    sendMetrikaEvent('accordion', { id: 'faq', type, url });
 }
 
 onMounted(() => {
@@ -35,7 +39,7 @@ onMounted(() => {
 <template>
     <ul ref="accordions" class="accordions">
         <li class="accordion" v-for="(item, idx) in props.accordionData" :key="idx">
-            <h3 class="font-bold accordion-title" @click="openAccordion">
+            <h3 class="font-bold accordion-title" @click="openAccordion" data-id="accordion_trigger_faq">
                 {{ item.title }}
                 <span class="accordion-title__icon">
                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">

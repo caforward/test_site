@@ -18,7 +18,8 @@
                 Новосибирская обл., г. Новосибирск, ул. Урицкого, д. 21, 3 этаж, помещ. 7-16)
                 (далее — <strong>Оператор</strong>) получает от физических лиц (далее — <strong>Пользователи</strong>)
                 при использовании сайта:
-                <a href="https://caforward.ru" target="_blank" class="text-blue-600 hover:underline break-all">https://caforward.ru</a>.
+                <a href="https://caforward.ru" target="_blank" class="text-blue-600 hover:underline break-all"
+                   data-id="policy_home_link">https://caforward.ru</a>.
             </p>
 
             <h2 class="heading-3 mb-4">1. Цели обработки персональных данных</h2>
@@ -70,7 +71,10 @@
             </ul>
             <p class="text-body mb-4">
                 Веб-аналитика осуществляется через
-                <a href="https://yandex.ru/legal/confidential/" target="_blank" class="text-blue-600 hover:underline">Яндекс.Метрику</a>.
+                <a href="https://yandex.ru/legal/confidential/" target="_blank" class="text-blue-600 hover:underline"
+                   data-id="policy_ymetric_confidential_link">
+                    Яндекс.Метрику
+                </a>.
             </p>
             <p class="text-body mb-6">
                 Использование сайта с включёнными cookie считается согласием на их использование.
@@ -134,7 +138,7 @@ export default defineComponent({
 @use '@/assets/scss/base/mixins.scss' as mixin;
 
 .blue-dot-list {
-    &>li {
+    & > li {
         position: relative;
         padding-left: 20px;
 

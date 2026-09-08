@@ -177,7 +177,7 @@ function showModal(option) {
             <div class="custom-container">
                 <div class="header-bottom__inner">
                     <div class="header-bottom__logo">
-                        <a href="/">
+                        <a href="/" data-id="header_logo_link">
                             <img src="/images/logo.svg" alt=""/>
                         </a>
                     </div>
@@ -227,7 +227,7 @@ function showModal(option) {
 
 
                     <div class="header-bottom__right">
-                        <a href="tel:+78043334133" class="header-bottom__phone">
+                        <a href="tel:+78043334133" class="header-bottom__phone" data-id="header_phone_link">
                             + 7 (804) 333-41-33
                         </a>
 
@@ -262,7 +262,7 @@ function showModal(option) {
                     </div>
 
                     <div class="header-button__menu">
-                        <a href="#" @click.prevent="isMobileMenuVisible = !isMobileMenuVisible">
+                        <a href="#" @click.prevent="isMobileMenuVisible = !isMobileMenuVisible" data-id="header_open_mobile_menu_btn">
                             <Icon v-if="!isMobileMenuVisible" icon="radix-icons:hamburger-menu" width="24"/>
                             <Icon v-if="isMobileMenuVisible" icon="material-symbols:close-rounded" width="24"/>
                         </a>

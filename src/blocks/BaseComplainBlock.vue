@@ -9,7 +9,7 @@ import BaseButton from './ui/BaseButton.vue';
             <div class="flex flex-col items-center md:text-left text-center gap-4 items-start text-white lg:flex-row lg:items-center">
                 <!-- <i class="pi pi-exclamation-circle !text-4xl"></i> -->
                 <p class="text-base flex-1 xl:text-lg">
-                    Свяжитесь с нами: <a class="text-blue-950 font-medium" href="tel:+78043334133">8 804 333 41 33</a> или отправьте заявку через форму выше.
+                    Свяжитесь с нами: <a class="text-blue-950 font-medium" href="tel:+78043334133" data-id="complain_page_phone_link">8 804 333 41 33</a> или отправьте заявку через форму выше.
                 </p>
 
                 <div class="flex gap-4 flex-wrap justify-center">

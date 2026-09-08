@@ -47,7 +47,8 @@ const onHide = () => {
                         задолженности и о внесении изменений в ФЗ «О микрофинансовой
                         деятельности и микрофинансовых организациях».
                     </p>
-                    <button @click="$router.push('/about')" class="button" data-id="btn_route_about_page">Подробнее</button>
+                    <button @click="$router.push('/about')" class="button" data-id="btn_route_about_page">Подробнее
+                    </button>
                 </div>
                 <div class="imgContainer">
                     <div class="img-thumbnail">
@@ -68,7 +69,11 @@ const onHide = () => {
     <vue-easy-lightbox :visible="visibleRef" :imgs="imgsRef" :index="indexRef" @hide="onHide" class="lightbox">
         <template v-slot:toolbar="{ toolbarMethods }">
             <a href="/images/AboutCompany/svo.pdf" target="_blank"
-               class="lightbox-button button button_blue">Загрузить</a>
+               class="lightbox-button button button_blue"
+               data-id="about_company_svo_image_lightbox"
+            >
+                Загрузить
+            </a>
         </template>
     </vue-easy-lightbox>
 </template>

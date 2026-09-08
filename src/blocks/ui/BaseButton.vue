@@ -86,7 +86,7 @@ const sizeClass = computed(() => {
     </template>
 
     <template v-else-if="props.as === 'link'">
-        <a :href="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
+        <a :href="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass" :data-id="`${props.to.split('/')[0]}_link`">
             <slot></slot>
         </a>
     </template>

@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#join-crew-form" class="vacancy-item__button button button_blue">
+                        <a href="#join-crew-form" class="vacancy-item__button button button_blue" data-id="jobs_more_link">
                             <span>
                                 Подробнее
                             </span>

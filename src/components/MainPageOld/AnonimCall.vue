@@ -19,11 +19,11 @@ const modalVisibleCall = ref(false)
                     </p>
                     <div class="phoneEmailContainer">
                         <div class="phoneInfo">
-                            <a href="tel:78043334133" class="phone">+7 (804) 333-41-33</a>
+                            <a href="tel:78043334133" class="phone" data-id="anonim_call_phone_link">+7 (804) 333-41-33</a>
                             <p class="bottParagraph">Ежедневно с 9:00 до 18:00</p>
                         </div>
                         <div class="mailInfo">
-                            <a href="mailto:dolg.info@caforward.ru" class="mail">dolg.info@caforward.ru</a>
+                            <a href="mailto:dolg.info@caforward.ru" class="mail" data-id="anonim_call_email_link">dolg.info@caforward.ru</a>
                             <p class="bottParagraph">или напишите нам на почту</p>
                         </div>
                     </div>

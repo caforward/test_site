@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onBeforeMount, reactive } from 'vue'
-import { useRouter } from 'vue-router';
+import {ref, onBeforeMount, reactive} from 'vue'
+import {useRouter} from 'vue-router';
 import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
 
@@ -120,17 +120,22 @@ onBeforeMount(() => {
                     <div class="footer-top__nav">
                         <ul>
                             <li v-for="link in navbarLinks" :key="link.name">
-                                <a v-if="link.target" :href="link.href" :target="link.target" class="link link_white">
+                                <a v-if="link.target" :href="link.href" :target="link.target" class="link link_white"
+                                   data-id="footer_navigation_link"
+                                >
                                     {{ link.name }}
                                 </a>
 
                                 <a v-else-if="link.modalName" :href="link.href" class="link link_white"
                                    @click.prevent="modalVisible[link.modalName] = true"
+                                   data-id="footer_navigation_link"
                                 >
                                     {{ link.name }}
                                 </a>
 
-                                <router-link v-else :to="link.href" class="link link_white">
+                                <router-link v-else :to="link.href" class="link link_white"
+                                             data-id="footer_navigation_link"
+                                >
                                     {{ link.name }}
                                 </router-link>
                             </li>
@@ -144,7 +149,7 @@ onBeforeMount(() => {
                                         Обратная связь
                                     </li>
                                     <li>
-                                        <a href="tel:+78043334133" class="link link_white">
+                                        <a href="tel:+78043334133" class="link link_white" data-id="footer_phone_link">
                                             + 7 (804) 333-41-33
                                         </a>
                                     </li>
@@ -160,7 +165,7 @@ onBeforeMount(() => {
                                         Написать на почту
                                     </li>
                                     <li>
-                                        <a href="#" class="link link_white" @click.prevent>
+                                        <a href="#" class="link link_white" @click.prevent data-id="footer_email_link">
                                             dolg.info@caforward.ru
                                         </a>
                                     </li>
@@ -168,7 +173,7 @@ onBeforeMount(() => {
                             </div>
                             <div class="contacts__buttons">
                                 <div class="buttons">
-                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true">
+                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true" data-id="footer_callback_open_modal">
                                         Обратная связь
                                     </a>
                                 </div>
@@ -176,7 +181,9 @@ onBeforeMount(() => {
                                 <ul class="social mb-auto">
                                     <li v-for="link in socialLinks" :key="link.name">
                                         <a :href="link.href" :target="link.target" :aria-label="link.name"
-                                           v-html="link.icon"></a>
+                                           v-html="link.icon"
+                                           data-id="footer_social_link"
+                                        ></a>
                                     </li>
                                 </ul>
 
@@ -200,7 +207,7 @@ onBeforeMount(() => {
                 <div class="footer-bottom__inner">
                     <ul class="docs">
                         <li v-for="(link, idx) in docsLinks" :key="idx">
-                            <a href="#" class="link link_white" @click.prevent="openDocsModal(idx)">
+                            <a href="#" class="link link_white" @click.prevent="openDocsModal(idx)" data-id="footer_documents_open_modal_link">
                                 {{ link }}
                             </a>
                         </li>
@@ -209,14 +216,14 @@ onBeforeMount(() => {
                         <div class="meta__left">
                             <span>ООО ПКО "Форвард"</span>
 
-                            <a target="_blank" href="/policy" class="link link_white">
+                            <a target="_blank" href="/policy" class="link link_white" data-id="footer_policy_link">
                                 Политика конфиденциальности
                             </a>
-                            <a target="_blank" href="/docs/PPK.pdf" class="link link_white">
+                            <a target="_blank" href="/docs/PPK.pdf" class="link link_white" data-id="footer_policy_corruption_link">
                                 Политика по противодействию коррупции
                             </a>
                         </div>
-                        <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo">
+                        <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo" data-id="footer_freepik_source_link">
                             Design by freepik
                         </a>
                     </div>
