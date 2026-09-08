@@ -4,6 +4,7 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import ModalForm from '@/layouts/ModalForm.vue';
 import {ref} from 'vue';
 import BaseButton from "@/blocks/ui/BaseButton.vue";
+import ActionTile from "@/components/MainPage/ActionTiles/ActionTile.vue";
 
 const props = defineProps({
     light: {
@@ -72,6 +73,7 @@ function showCancelIPModal() {
                                     size="large"
                                     metrika-id="Оставить обращение"
                                     @click.prevent="showModal"
+                                    data-id="btn_open_form_modal"
                                 >
                                     Оставить обращение
                                 </BaseButton>
@@ -114,6 +116,7 @@ function showCancelIPModal() {
                                     size="large"
                                     metrika-id="Разблокировать счет"
                                     @click.prevent="showUnblockAccauntModal"
+                                    data-id="btn_open_get_unblock_account_form_modal"
                                 >
                                     Разблокировать счет
                                 </BaseButton>
@@ -157,6 +160,7 @@ function showCancelIPModal() {
                                     size="large"
                                     metrika-id="Отозвать производство"
                                     @click.prevent="showCancelIPModal"
+                                    data-id="btn_open_get_cancel_ip_form_modal"
                                 >
                                     Отозвать производство
                                 </BaseButton>
@@ -200,6 +204,7 @@ function showCancelIPModal() {
                                     size="large"
                                     metrika-id="Получить консультацию"
                                     @click.stop="showModal"
+                                    data-id="btn_open_form_modal"
                                 >
                                     Получить консультацию
                                 </BaseButton>

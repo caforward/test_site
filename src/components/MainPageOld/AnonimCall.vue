@@ -27,7 +27,7 @@ const modalVisibleCall = ref(false)
                             <p class="bottParagraph">или напишите нам на почту</p>
                         </div>
                     </div>
-                    <button @click="modalVisibleCall = true" class="button_blue callOrderButt">Заказать звонок</button>
+                    <button @click="modalVisibleCall = true" class="button_blue callOrderButt" data-id="btn_open_form_modal">Заказать звонок</button>
                 </div>
                 <!-- <div class="imgContent"><img src="/images/AnonimCall/1Img.png" alt="there was a pic"></div> -->
                 <div>

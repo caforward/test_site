@@ -47,7 +47,7 @@ const onHide = () => {
                         задолженности и о внесении изменений в ФЗ «О микрофинансовой
                         деятельности и микрофинансовых организациях».
                     </p>
-                    <button @click="$router.push('/about')" class="button">Подробнее</button>
+                    <button @click="$router.push('/about')" class="button" data-id="btn_route_about_page">Подробнее</button>
                 </div>
                 <div class="imgContainer">
                     <div class="img-thumbnail">
@@ -57,6 +57,7 @@ const onHide = () => {
                             <img src="/images/AboutCompany/svo.jpg"
                                  alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
                                  @click="showImg()"
+                                 data-id="image_document_open"
                             />
                         </picture>
                     </div>

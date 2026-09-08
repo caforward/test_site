@@ -186,7 +186,7 @@ onUpdated(() => {
     <transition name="fade">
         <BaseModal v-if="visible">
             <div class="modal-body">
-                <div class="close-button" @click="visible = false">
+                <div class="close-button" @click="visible = false" data-id="area_close_documents_modal">
                     <i class="pi pi-times !text-xl"></i>
                 </div>
                 <h2 class="modal-body__title">

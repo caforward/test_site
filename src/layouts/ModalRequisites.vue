@@ -43,7 +43,9 @@ watch(
     <transition name="fade">
         <BaseModal id="requisites" v-if="visible">
             <div class="modal-body">
-                <div class="close-button" @click="visible = false">
+                <div class="close-button" @click="visible = false"
+                     data-id="btn_close_requisites_payment_modal"
+                >
                     <i class="pi pi-times !text-xl"></i>
                 </div>
                 <h2 class="mb-2">
@@ -110,7 +112,9 @@ watch(
                     </ul>
                     <div v-if="moreInfo"
                          class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
-                         @click="showQR = !showQR">
+                         @click="showQR = !showQR"
+                         data-id="btn_show_more_requisites_info"
+                    >
                         <span v-if="!showQR">
                             Оплатить в приложении банка
                         </span>
@@ -125,7 +129,9 @@ watch(
                     </div>
                     <div
                         class="px-1 py-2 text-center text-sky-500 transition-colors hover:text-cyan-400 hover:cursor-pointer"
-                        @click="toggleInfo">
+                        @click="toggleInfo"
+                        data-id="btn_show_more_more_requisites_info"
+                    >
                         <span v-if="moreInfo">
                             Скрыть
                         </span>
@@ -140,6 +146,7 @@ watch(
                             size="large"
                             :href="route.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
                             @click="visible = false"
+                            data-id="btn_anchor_payment_form"
                         />
                     </div>
                 </div>

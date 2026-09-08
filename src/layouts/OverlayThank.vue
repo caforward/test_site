@@ -95,25 +95,33 @@ function sendRatingAndCloseModal() {
                                      class="flex flex-wrap gap-3 max-w-lg justify-center mb-5">
                                     <BaseButton size="small" severity="secondary"
                                                 :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Ошибка на сайте'}"
-                                                @click.prevent="chooseRatingFeedback('Ошибка на сайте')">
+                                                @click.prevent="chooseRatingFeedback('Ошибка на сайте')"
+                                        data-id="btn_rating_feedback_site_error"
+                                    >
                                         Ошибка на сайте
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
                                                 :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Неудобно пользоваться'}"
-                                                @click.prevent="chooseRatingFeedback('Неудобно пользоваться')">
+                                                @click.prevent="chooseRatingFeedback('Неудобно пользоваться')"
+                                                data-id="btn_rating_feedback_bad_ui"
+                                    >
                                         Неудобно пользоваться
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
                                                 :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Не загружается или тормозит'}"
-                                                @click.prevent="chooseRatingFeedback('Не загружается или тормозит')">
+                                                @click.prevent="chooseRatingFeedback('Не загружается или тормозит')"
+                                                data-id="btn_rating_feedback_bad_performance"
+                                    >
                                         Не загружается или тормозит
                                     </BaseButton>
 
                                     <BaseButton size="small" severity="secondary"
                                                 :class="{'!bg-sky-500 text-white hover:text-white active:text-white': ratingFeedback === 'Другое'}"
-                                                @click.prevent="chooseRatingFeedback('Другое')">
+                                                @click.prevent="chooseRatingFeedback('Другое')"
+                                                data-id="btn_rating_feedback_other"
+                                    >
                                         Другое
                                     </BaseButton>
                                 </div>
@@ -129,7 +137,7 @@ function sendRatingAndCloseModal() {
                                 <!-- <a v-if="rating" href="#" @click.prevent="sendRating">
                                     Подтвердить
                                 </a> -->
-                                <BaseButton v-if="rating" size="large" @click="sendRatingAndCloseModal">
+                                <BaseButton v-if="rating" size="large" @click="sendRatingAndCloseModal" data-id="btn_submit_rating">
                                     Оценить
                                 </BaseButton>
                             </transition>
@@ -137,7 +145,7 @@ function sendRatingAndCloseModal() {
                     </transition>
 
                     <div class="flex gap-4">
-                        <BaseButton v-if="inBlock" size="large" @click="closeOverlay">
+                        <BaseButton v-if="inBlock" size="large" @click="closeOverlay" data-id="btn_close_thank_overlay">
                             <div class="flex items-center gap-2">
                                 <i class="pi pi-times"></i>
                                 <span>
@@ -151,7 +159,9 @@ function sendRatingAndCloseModal() {
                         </BaseButton> -->
 
                         <BaseButton v-else-if="isModal" as="router-link" to="/" severity="secondary" size="large"
-                                    @click="closeModal">
+                                    @click="closeModal"
+                            data-id="btn_close_thank_overlay_and_route_home"
+                        >
                             Вернуться на главную
                         </BaseButton>
                     </div>
@@ -172,7 +182,9 @@ function sendRatingAndCloseModal() {
                     <div class="flex gap-4 flex-wrap max-sm:justify-center">
 
                         <template v-if="inBlock">
-                            <BaseButton size="large" @click="closeOverlay">
+                            <BaseButton size="large" @click="closeOverlay"
+                                        data-id="btn_close_thank_overlay_and_back_to_form_modal"
+                            >
                                 <div class="flex items-center gap-2">
                                     <span>
                                         К форме
@@ -183,11 +195,15 @@ function sendRatingAndCloseModal() {
                         </template>
 
                         <template v-else-if="!isModal">
-                            <BaseButton size="large" severity="secondary" @click="closeModal">
+                            <BaseButton size="large" severity="secondary" @click="closeModal"
+                                        data-id="btn_close_thank_overlay_and_back_to_page"
+                            >
                                 Вернуться на страницу
                             </BaseButton>
 
-                            <BaseButton size="large" @click="closeOverlay">
+                            <BaseButton size="large" @click="closeOverlay"
+                                        data-id="btn_close_thank_overlay_and_back_to_form_modal"
+                            >
                                 <div class="flex items-center gap-2">
                                     <span>
                                         К форме
@@ -198,11 +214,15 @@ function sendRatingAndCloseModal() {
                         </template>
 
                         <template v-else>
-                            <BaseButton as="router-link" to="/" severity="secondary" size="large" @click="closeModal">
+                            <BaseButton as="router-link" to="/" severity="secondary" size="large" @click="closeModal"
+                                        data-id="btn_close_thank_overlay_and_back_to_page"
+                            >
                                 Вернуться на главную
                             </BaseButton>
 
-                            <BaseButton size="large" @click="closeModal">
+                            <BaseButton size="large" @click="closeModal"
+                                        data-id="btn_close_thank_overlay_and_back_to_form_modal"
+                            >
                                 <div class="flex items-center gap-2">
                                     <span>
                                         К форме

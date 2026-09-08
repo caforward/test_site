@@ -43,7 +43,7 @@ watch(visible, (newVal) => {
                 </ul>
 
                 <div class="flex justify-center">
-                    <BaseButton class="button button_blue" @click="visible = false">
+                    <BaseButton class="button button_blue" @click="visible = false" data-id="btn_clos_about_fps_modal">
                         Закрыть
                     </BaseButton>
                 </div>

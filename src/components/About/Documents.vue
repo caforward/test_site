@@ -51,6 +51,7 @@ const onHide = () => {
                         <img src="/images/AboutCompany/svidetelstvo_o_vkluchenii_v_reestr.jpg"
                              alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
                              @click="showImg()"
+                             data-id="document_img_open"
                         />
                     </picture>
                 </div>
@@ -60,6 +61,7 @@ const onHide = () => {
                         <img src="/images/AboutCompany/svidetelstvo_protocol_ARKA.jpg"
                              alt="Свидетельство о включении в Реестр юридических лиц, осуществляющих деятельность по возврату просроченной задолженности"
                              @click="showImg()"
+                             data-id="document_img_open"
                         />
                     </picture>
                 </div>

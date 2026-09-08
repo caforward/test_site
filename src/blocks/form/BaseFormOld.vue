@@ -271,7 +271,11 @@ const formAttributeType = computed(() => {
                 </BaseCheckbox>
 
                 <!-- submit button -->
-                <BaseButton class="sm:w-fit w-full min-w-60" size="large" @click.prevent="submitForm">
+                <BaseButton
+                    class="sm:w-fit w-full min-w-60"
+                    size="large"
+                    @click.prevent="submitForm"
+                >
                     Отправить
                 </BaseButton>
             </div>

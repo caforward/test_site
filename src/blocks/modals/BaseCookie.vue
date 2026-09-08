@@ -45,8 +45,9 @@ onMounted(() => {
             <div>
                 <Button
                     label="Согласен"
-                    @click="onAcceptCookies"
                     class="w-full bg-orange-500 border-none hover:bg-orange-600 transition text-white px-5 py-2 rounded !text-sm md:!text-base"
+                    @click="onAcceptCookies"
+                    data-id="btn_accept_cookies"
                 />
             </div>
         </div>

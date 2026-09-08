@@ -16,7 +16,9 @@
                         </div>
                     </div>
                     <div class="wrapButt">
-                        <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button">Подробнее
+                        <button :data-type="item.type" @click="redirectModalPage(item.id)" class="button"
+                                data-id="btn_open_form_modal">
+                            Подробнее
                         </button>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from 'vue';
+import {watch} from 'vue';
 import BaseModal from '@/blocks/BaseModal.vue'
 import BaseFormRate from '@/blocks/form/BaseFormRate.vue';
 
@@ -43,9 +43,9 @@ watch(
                         Ваше обращение отправлено
                     </p>
 
-                    <BaseFormRate v-if="needRate" @close="visible = false" />
+                    <BaseFormRate v-if="needRate" @close="visible = false"/>
 
-                    <button v-else class="button button_blue" @click="visible = false">
+                    <button v-else class="button button_blue" @click="visible = false" data-id="btn_close_thanks_modal">
                         Вернуться на сайт
                     </button>
                 </div>

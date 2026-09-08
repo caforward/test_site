@@ -9,10 +9,10 @@ const emit = defineEmits(['closeModal'])
 </script>
 
 <template>
-    <div class="modal" @click.self="emit('closeModal')">
+    <div class="modal" @click.self="emit('closeModal')" data-id="area_close_modal">
         <slot></slot>
         <div v-if="$slots.body" class="modal__body">
-            <button class="modal__close" @click="emit('closeModal')">
+            <button class="modal__close" @click="emit('closeModal')" data-id="btn_close_modal">
                 <i class="pi pi-times !text-xl"></i>
             </button>
 

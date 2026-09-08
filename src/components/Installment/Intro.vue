@@ -26,7 +26,7 @@ function scrollToCalculate() {
                             сможете погасить долг частями в установленные сроки
                         </p>
                         <div class="intro-content__buttons">
-                            <button class="button button_blue intro-content__button" @click="scrollToCalculate">
+                            <button class="button button_blue intro-content__button" @click="scrollToCalculate" data-id="btn_anchor_to_calculator_form">
                                 Получить рассрочку
                             </button>
                         </div>

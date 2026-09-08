@@ -226,6 +226,7 @@ watch(
                     class="sm:w-fit w-full min-w-60"
                     size="large"
                     @click.prevent="submitForm"
+                    data-id="btn_submit_form_modal"
                 >
                     Отправить
                 </BaseButton>

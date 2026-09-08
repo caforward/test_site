@@ -259,7 +259,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
 <template>
     <div>
         <div class="mb-4">
-            <BaseButton class="w-full mb-2" @click="isRequisitesVisible = true">
+            <BaseButton class="w-full mb-2" @click="isRequisitesVisible = true" data-id="btn_open_requisites_payment">
                 Оплатить по реквизитам
             </BaseButton>
             <div class="text-center">или</div>
@@ -295,7 +295,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 <img src="/images/sbp.svg" alt="СБП" class="w-5">
                             </label>
                         </div>
-                        <span @click="showFPSInfoModal = true">
+                        <span @click="showFPSInfoModal = true" data-id="btn_open_fps_modal">
                             <i class="pi pi-question-circle !text-xl transition-colors text-sky-500 hover:cursor-pointer hover:text-sky-700">
                             </i>
                         </span>
@@ -345,6 +345,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 class="!rounded-2xl h-auto text-lg w-[45px]"
                                 circle
                                 @click.prevent="isModalVisible = true"
+                                data-id="btn_open_form_modal_get_contract_id"
                             >
                                 ?
                             </BaseButton>
@@ -422,6 +423,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         type="button"
                         class="link underline w-fit"
                         @click.prevent="isRequisitesVisible = true"
+                        data-id="btn_open_requisites_payment"
                     >
                         Оплатить по реквизитам
                     </button>

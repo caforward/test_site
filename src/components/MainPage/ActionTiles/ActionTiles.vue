@@ -29,6 +29,7 @@ function scrollToPayment() {
                         text="ООО ПКО «Форвард» работает на основании законодательства Российской Федерации. Мы
                                     готовы согласовать индивидуальные условия для погашения задолженности."
                         @click="scrollToPayment"
+                        data-id="btn_anchor_to_payment_form"
                     />
                     <ActionTile
                         class="group bg-[#DDF5FF] transition-shadow shadow-[0_2px_0_0_#ABD6E9] hover:shadow-[0_4px_0_0_#ABD6E9]"
@@ -37,6 +38,7 @@ function scrollToPayment() {
                         title="Получить рассрочку"
                         text="Не можете выплатить всю сумму долга? ПКО «Форвард» поможет вам полностью избавиться от долгов. Заключите договор с нами и получите скидку на свой долг."
                         @click="openModal('installment')"
+                        data-id="btn_open_installment_form_modal"
                     />
                 </div>
                 <div class="tiles-group">
@@ -46,6 +48,7 @@ function scrollToPayment() {
                         title="Оставить обращение"
                         text="Если ваш вопрос не относится к указанным категориям, воспользуйтесь данным разделом для выбора другой темы обращения."
                         @click="openModal()"
+                        data-id="btn_open_form_modal"
                     />
                     <ActionTile
                         class="group bg-[#FFF3E3] transition-shadow shadow-[0_2px_0_0_#F6D9B3] hover:shadow-[0_4px_0_0_#F6D9B3]"
@@ -53,6 +56,7 @@ function scrollToPayment() {
                         title="Отозвать ИП"
                         text="Как взыскатель, мы вправе отозвать исполнительное производство при наличии соответствующих оснований. Оставьте обращение, и мы рассмотрим вашу ситуацию в индивидуальном порядке."
                         @click="openModal('cancel-ip')"
+                        data-id="btn_open_cancel_ip_form_modal"
                     />
                 </div>
 
@@ -63,6 +67,7 @@ function scrollToPayment() {
                         title="Разблокировать счет"
                         text="В нашей компании имеются практики и опыт, которые позволяют нам быстро и эффективно разблокировать счета должника."
                         @click="openModal('account-unblock')"
+                        data-id="btn_open_account_unblock_form_modal"
                     />
                     <ActionTile
                         class="group bg-[#E2F0FF] transition-shadow shadow-[0_2px_0_0_#74A9E0] hover:shadow-[0_4px_0_0_#74A9E0]"
@@ -70,6 +75,7 @@ function scrollToPayment() {
                         title="Узнать номер вашего договора"
                         text="Не знаете номер своего договора? Оставьте свои контактные данные,  и наши специалисты со всем разберутся. "
                         @click="openModal('get-contract-id')"
+                        data-id="btn_open_get_contract_id_form_modal"
                     />
                 </div>
             </div>

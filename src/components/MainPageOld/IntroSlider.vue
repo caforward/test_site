@@ -92,7 +92,9 @@ function showCancelIPModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                   @click.prevent="showModal">
+                                   @click.prevent="showModal"
+                                    data-id="btn_open_form_modal"
+                                >
                                     Оставить обращение
                                 </a>
                             </div>
@@ -138,7 +140,9 @@ function showCancelIPModal() {
                             </div>
                             <div class="slide-content__buttons">
                                 <a href="#" class="button button_blue slide__button"
-                                   @click.prevent="showUnblockAccauntModal">
+                                   @click.prevent="showUnblockAccauntModal"
+                                   data-id="btn_open_unblock_account_form_modal"
+                                >
                                     Разблокировать счет
                                 </a>
                             </div>
@@ -183,7 +187,9 @@ function showCancelIPModal() {
                                 </ol>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.prevent="showCancelIPModal">
+                                <a href="#" class="button button_blue slide__button" @click.prevent="showCancelIPModal"
+                                    data-id="btn_open_cancel_ip_modal"
+                                >
                                     Отозвать производство
                                 </a>
                             </div>
@@ -228,7 +234,9 @@ function showCancelIPModal() {
                                 </p>
                             </div>
                             <div class="slide-content__buttons">
-                                <a href="#" class="button button_blue slide__button" @click.stop="showModal">
+                                <a href="#" class="button button_blue slide__button" @click.stop="showModal"
+                                   data-id="btn_open_form_modal"
+                                >
                                     Получить консультацию
                                 </a>
                             </div>

@@ -2,6 +2,7 @@
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {computed, ref} from "vue";
 import {Icon} from "@iconify/vue";
+import Button from "primevue/button";
 
 const props = defineProps({
     label: {
@@ -67,6 +68,7 @@ defineExpose({
         <BaseButton
             type="button"
             class="gap-1"
+            data-id="btn_open_file_input"
             @click="triggerFileInput"
         >
             <Icon class="text-xl" icon="mage:file"/>

@@ -158,6 +158,7 @@ function showModal(option) {
                             class="header-top-nav__link"
                             :class="link.class"
                             @click="showModal(link.option)"
+                            :data-id="`btn_route_to_${link.option}`"
                         >
                             <Icon
                                 v-if="link.icon"
@@ -212,6 +213,7 @@ function showModal(option) {
                                 class="flex gap-1 items-center"
                                 :href="link.href"
                                 @click="showModal(link.option)"
+                                :data-id="`btn_route_to_${link.option}`"
                             >
                                 <Icon
                                     v-if="link.name === 'Разблокировать счет'"

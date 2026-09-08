@@ -125,7 +125,8 @@ onBeforeMount(() => {
                                 </a>
 
                                 <a v-else-if="link.modalName" :href="link.href" class="link link_white"
-                                   @click.prevent="modalVisible[link.modalName] = true">
+                                   @click.prevent="modalVisible[link.modalName] = true"
+                                >
                                     {{ link.name }}
                                 </a>
 

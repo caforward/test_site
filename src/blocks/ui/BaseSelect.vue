@@ -1,5 +1,6 @@
 <script setup>
 import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
+import Button from "primevue/button";
 
 const value = defineModel()
 
@@ -108,19 +109,24 @@ onBeforeUnmount(() => {
 <template>
     <div ref="inputWrapperRef" class="custom-select relative" :class="{ 'hidden': props.visible === false }">
         <!-- input wrapper -->
-        <div class="py-3 px-5 border rounded-md relative bg-white transition-colors hover:border-gray-400 hover:cursor-pointer select-none"
+        <div
+            class="py-3 px-5 border rounded-md relative bg-white transition-colors hover:border-gray-400 hover:cursor-pointer select-none"
             :class="{ 'border-sky-500 hover:border-sky-300': state.selectedOption !== null, 'border-red-500 hover:border-red-300': props.invalid === true, 'border-sky-500 !bg-gray-50 pointer-events-none': props.disabled === true }"
-            @click="handleInput">
+            @click="handleInput"
+            data-id="area_trigger_select"
+        >
 
             <!-- input -->
             <input ref="inputRef" type="text" class="pointer-events-none w-full placeholder:text-gray-500"
-                :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder" :value="value.label"
-                readonly>
+                   :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder"
+                   :value="value.label"
+                   data-id="select_input"
+                   readonly>
 
             <!-- icons -->
             <div class="absolute right-3 top-0 h-full flex gap-3 items-center"
-                :class="{ 'hidden': props.disabled === true }">
-                <i class="pi pi-times text-gray-400 transition-colors hover:text-gray-600" @click.stop="clearInput"></i>
+                 :class="{ 'hidden': props.disabled === true }">
+                <i class="pi pi-times text-gray-400 transition-colors hover:text-gray-600" @click.stop="clearInput" data-id="icon_clear_select"></i>
                 <i class="pi pi-chevron-down text-gray-400"></i>
             </div>
         </div>
@@ -128,7 +134,7 @@ onBeforeUnmount(() => {
         <!-- option list -->
         <transition name="fade">
             <div v-if="state.optionMenuOpened"
-                class="absolute mt-0.5 p-1 left-0 z-10 border rounded-md bg-white w-full">
+                 class="absolute mt-0.5 p-1 left-0 z-10 border rounded-md bg-white w-full">
 
                 <ul class="flex gap-1 flex-col overflow-auto max-h-56">
 
@@ -136,7 +142,9 @@ onBeforeUnmount(() => {
                         class="py-2 px-3 rounded-md hover:cursor-pointer" :class="{
                             'bg-sky-500 text-white': option.value === state.selectedOption,
                             'transition-colors hover:bg-gray-200': option.value !== state.selectedOption
-                        }">
+                        }"
+                        data-id="select_option"
+                    >
 
                         {{ option.label ? option.label : option }}
 

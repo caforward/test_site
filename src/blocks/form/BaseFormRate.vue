@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
+import BaseButton from "@/blocks/ui/BaseButton.vue";
 // import { useFetchPost } from '@/composable/useFetch.js'
 
 const emits = defineEmits(['close'])
@@ -89,20 +90,24 @@ onMounted(() => {
                             Напишите что мы могли бы изменить
                         </label>
                         <textarea class="rate-input" name="" id="rate-message" v-model="messageRate"
-                            placeholder="Ваши предложения для улучшения сайта"></textarea>
+                                  placeholder="Ваши предложения для улучшения сайта"></textarea>
                     </div>
                 </div>
             </transition>
 
             <div class="rate__buttons">
-                <button class="button button_blue" @click.prevent="emits('close')">
+                <button class="button button_blue" @click.prevent="emits('close')"
+                        data-id="btn_back_to_site"
+                >
                     Вернуться на сайт
                 </button>
 
                 <!-- if user pick the rate then show send button -->
                 <transition name="fade">
                     <button v-if="rateClicked" type="submit" class="rate__button button button_blue"
-                        @click.prevent="sendRate">
+                            @click.prevent="sendRate"
+                            data-id="btn_send_rate_modal"
+                    >
                         Отправить оценку
                     </button>
                 </transition>

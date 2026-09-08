@@ -52,7 +52,7 @@ watch(visible, (newVal) => {
                     Открыть в приложении банка
                 </a>
 
-                <BaseButton class="button button_blue" @click="visible = false">
+                <BaseButton class="button button_blue" @click="visible = false" data-id="btn_clos_qr_payment_modal">
                     Закрыть
                 </BaseButton>
             </div>

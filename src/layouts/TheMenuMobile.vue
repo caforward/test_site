@@ -181,6 +181,7 @@ watch(
                             class="nav-link"
                             :to="link.href"
                             @click="closeMobileMenu"
+                            data-id="btn_close_mobile_menu"
                         >
                             {{ link.name }}
                         </router-link>
@@ -207,6 +208,7 @@ watch(
                             v-else-if="link.type === 'modal'"
                             class="nav-link"
                             @click="openModal(link.option)"
+                            :data-id="`btn_open_modal_${link.option}`"
                         >
                             <Icon
                                 v-if="link.option === 'account-unblock'"
@@ -236,6 +238,7 @@ watch(
                             class="flex gap-2 items-center justify-center h-10 !text-sky-600 hover:!text-white"
                             severity="secondary"
                             @click="showModalForm('callback')"
+                            data-id="btn_open_callback_form_modal"
                         >
                             <Icon class="text-xl" icon="mage:phone-call"/>
                             <span>Заказать звонок</span>
@@ -246,6 +249,7 @@ watch(
                             class="h-10"
                             :href="routes['Получить рассрочку'] + '#debt-form'"
                             @click="closeMobileMenu"
+                            data-id="btn_close_mobile_menu"
                         >
                             Внести платёж
                         </BaseButton>

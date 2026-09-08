@@ -56,6 +56,7 @@ watch(secureTextModal, (newVal) => {
                             </h2>
 
                             <div @click="toggle"
+                                 data-id="area_open_secure_info_popover"
                                  class="rounded-full transition-colors flex items-center justify-center border w-10 h-10 border-green-500 text-green-500 hover:cursor-pointer hover:bg-green-500 hover:text-white">
                                 <i class="pi pi-shield !text-xl"></i>
                             </div>
@@ -75,7 +76,7 @@ watch(secureTextModal, (newVal) => {
                                     погашения
                                     – и вы увидите, каким будет ежемесячный платеж.
                                 </div>
-                                <button @click="scrollToCalc" class="button">
+                                <button @click="scrollToCalc" class="button" data-id="btn_anchor_to_calculator_form">
                                     Раcсчитать график платежей
                                 </button>
                             </div>
@@ -113,7 +114,7 @@ watch(secureTextModal, (newVal) => {
                     отправляет банк, который выпустил карту, и ответственность за отправку лежит на нем.
                 </p>
 
-                <BaseButton size="large" @click="secureTextModal = false">
+                <BaseButton size="large" @click="secureTextModal = false" data-id="btn_close_secure_popover">
                     Понятно
                 </BaseButton>
             </template>

@@ -45,8 +45,12 @@
                 </div>
 
             </div>
-            <button @click="showMore" class="vacancy-button button"><img src="/images/jobs/img5.png"
-                                                                         alt="there was a img">
+            <button
+                class="vacancy-button button"
+                data-id="btn_show_more_vacancies"
+                @click="showMore"
+            >
+                <img src="/images/jobs/img5.png" alt="there was a img">
                 {{ btnText }}
             </button>
         </div>
