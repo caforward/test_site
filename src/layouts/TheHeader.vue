@@ -260,10 +260,11 @@ function showModal(option) {
                             О компании
                         </BaseButton>
 
+                        {{isMetrikaDisabled()}}
                         <BaseButton
                             as="link"
                             class="payment-button"
-                            :class="{'bg-red-500' : isMetrikaDisabled()}"
+                            :class="{'!bg-red-500' : isMetrikaDisabled()}"
                             :size="screenWidth < LG_BREAKPOINT ? 'small' : null"
                             :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
                             data-id="header_payment_btn"
