@@ -260,7 +260,6 @@ function showModal(option) {
                             О компании
                         </BaseButton>
 
-                        {{isMetrikaDisabled()}}
                         <BaseButton
                             as="link"
                             class="payment-button"
