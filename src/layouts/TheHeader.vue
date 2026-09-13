@@ -255,6 +255,7 @@ function showModal(option) {
                             size="small"
                             to="/about"
                             class="about-company-button"
+                            :class="{'!bg-red-500' : isMetrikaDisabled()}"
                             data-id="header_about_btn"
                         >
                             О компании
