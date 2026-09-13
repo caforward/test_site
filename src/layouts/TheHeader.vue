@@ -8,6 +8,7 @@ import {Icon} from "@iconify/vue";
 import useScrollHeader from "@/composable/useScrollHeader.js";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {useScreenResize} from "@/composable/useScreenResize.js";
+import {isMetrikaDisabled} from "@/service/utils/metrika.js";
 
 const LG_BREAKPOINT = 1024;
 
@@ -120,6 +121,7 @@ function showModal(option) {
                             v-if="link.type === 'router-link'"
                             class="header-top-nav__link"
                             :to="link.href"
+                            :data-id="`header_top_nav_${link.id}`"
                             exact
                         >
                             <Icon
@@ -133,6 +135,7 @@ function showModal(option) {
                             v-else-if="link.type === 'link'"
                             class="header-top-nav__link"
                             :href="link.href"
+                            :data-id="`header_top_nav_${link.id}`"
                         >
                             <Icon
                                 v-if="link.icon"
@@ -145,6 +148,7 @@ function showModal(option) {
                             v-else-if="link.type === 'anchor'"
                             class="header-top-nav__link"
                             :href="link.href"
+                            :data-id="`header_top_nav_${link.id}`"
                         >
                             <Icon
                                 v-if="link.icon"
@@ -158,7 +162,7 @@ function showModal(option) {
                             class="header-top-nav__link"
                             :class="link.class"
                             @click="showModal(link.option)"
-                            :data-id="`btn_route_to_${link.option}`"
+                            :data-id="`btn_open_modal_${link.option}`"
                         >
                             <Icon
                                 v-if="link.icon"
@@ -190,6 +194,7 @@ function showModal(option) {
                             <router-link
                                 v-if="link.type === 'router-link'"
                                 :to="link.href"
+                                :data-id="`header_bottom_nav_${link.id}`"
                             >
                                 {{ link.name }}
                             </router-link>
@@ -197,6 +202,7 @@ function showModal(option) {
                             <a
                                 v-else-if="link.type === 'link'"
                                 :href="link.href"
+                                :data-id="`header_bottom_nav_${link.id}`"
                             >
                                 {{ link.name }}
                             </a>
@@ -204,6 +210,7 @@ function showModal(option) {
                             <a
                                 v-else-if="link.type === 'anchor'"
                                 :href="link.href"
+                                :data-id="`header_bottom_nav_${link.id}`"
                             >
                                 {{ link.name }}
                             </a>
@@ -213,7 +220,7 @@ function showModal(option) {
                                 class="flex gap-1 items-center"
                                 :href="link.href"
                                 @click="showModal(link.option)"
-                                :data-id="`btn_route_to_${link.option}`"
+                                :data-id="`btn_open_modal_${link.option}`"
                             >
                                 <Icon
                                     v-if="link.name === 'Разблокировать счет'"
@@ -238,6 +245,7 @@ function showModal(option) {
                             circle
                             title="Мах"
                             class="mah-messenger-link"
+                            data-id="header_mah_link"
                         >
                             <img src="/images/mah.svg" alt="мах" style="width: 24px">
                         </BaseButton>
@@ -247,6 +255,7 @@ function showModal(option) {
                             size="small"
                             to="/about"
                             class="about-company-button"
+                            data-id="header_about_btn"
                         >
                             О компании
                         </BaseButton>
@@ -254,15 +263,18 @@ function showModal(option) {
                         <BaseButton
                             as="link"
                             class="payment-button"
+                            :class="{'bg-red-500' : isMetrikaDisabled()}"
                             :size="screenWidth < LG_BREAKPOINT ? 'small' : null"
                             :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
+                            data-id="header_payment_btn"
                         >
                             Внести платёж
                         </BaseButton>
                     </div>
 
                     <div class="header-button__menu">
-                        <a href="#" @click.prevent="isMobileMenuVisible = !isMobileMenuVisible" data-id="header_open_mobile_menu_btn">
+                        <a href="#" @click.prevent="isMobileMenuVisible = !isMobileMenuVisible"
+                           data-id="header_open_mobile_menu_btn">
                             <Icon v-if="!isMobileMenuVisible" icon="radix-icons:hamburger-menu" width="24"/>
                             <Icon v-if="isMobileMenuVisible" icon="material-symbols:close-rounded" width="24"/>
                         </a>
@@ -274,7 +286,7 @@ function showModal(option) {
 
     <TheMenuMobile :visible="isMobileMenuVisible" @close="isMobileMenuVisible = false"/>
     <ModalRequisites v-model="isMobileRequisitesVisible"/>
-    <ModalForm v-model="isModalVisible" :type="modalType"/>
+    <ModalForm v-model="isModalVisible" :type="modalType" :form-metrika-id="modalType"/>
 </template>
 
 

@@ -130,7 +130,7 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-        <BaseModal v-if="overlayThankVisible" @closeModal="overlayThankVisible = false">
+        <BaseModal v-if="overlayThankVisible" modal-id="complaint_thanks" @closeModal="overlayThankVisible = false">
             <template #body>
                 <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response" :isModal="true"
                               @sendRating="sendRating"/>

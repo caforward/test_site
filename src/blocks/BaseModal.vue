@@ -3,16 +3,20 @@ const props = defineProps({
     isOverlay: {
         type: Boolean,
         default: true
+    },
+    modalId: {
+        type: String,
+        default: 'base_modal'
     }
 })
 const emit = defineEmits(['closeModal'])
 </script>
 
 <template>
-    <div class="modal" @click.self="emit('closeModal')" data-id="area_close_modal">
+    <div class="modal" @click.self="emit('closeModal')" :data-id="`area_close_modal_${modalId}`">
         <slot></slot>
         <div v-if="$slots.body" class="modal__body">
-            <button class="modal__close" @click="emit('closeModal')" data-id="btn_close_modal">
+            <button class="modal__close" @click="emit('closeModal')" :data-id="`btn_close_modal_${modalId}`">
                 <i class="pi pi-times !text-xl"></i>
             </button>
 

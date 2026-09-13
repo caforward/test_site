@@ -3,6 +3,7 @@ import {ref, onBeforeMount, reactive} from 'vue'
 import {useRouter} from 'vue-router';
 import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
+import {toggleMetrikaByRedirect} from "@/service/utils/metrika.js";
 
 const router = useRouter()
 const modalVisible = reactive({
@@ -16,32 +17,39 @@ const navbarLinks = ref([
     {
         name: "О Компании",
         href: "#",
+        metrikaId: "footer_nav_about",
     },
     {
         name: "Получить рассрочку",
         href: "#",
+        metrikaId: "footer_nav_installment",
     },
     {
         name: "Вакансии",
         href: "#",
+        metrikaId: "footer_nav_vacancies",
     },
     {
         name: "Получить консультацию",
         href: "#",
-        modalName: 'modalForm'
+        modalName: 'modalForm',
+        metrikaId: "footer_open_modal_consultation",
     },
     {
         name: "Партнёрам",
         href: "#",
+        metrikaId: "footer_nav_partners",
     },
     {
         name: "Внести платеж",
-        href: "/installment-plan#debt-form"
+        href: "/installment-plan#debt-form",
+        metrikaId: "footer_nav_payment",
     },
     {
         name: "Получить квитанцию для оплаты",
         href: "/assets/docs/Квитанция.pdf",
-        target: "_blank"
+        target: "_blank",
+        metrikaId: "footer_nav_receipt",
     },
 ])
 
@@ -74,15 +82,33 @@ const socialLinks = [
 ]
 
 const docsLinks = ref([
-    "Общие сведения",
-    "Учредительные документы",
-    "Эмиссионные документы",
-    "Сообщения",
+    {name: "Общие сведения", metrikaId: "footer_docs_general",},
+    {name: "Учредительные документы", metrikaId: "footer_docs_statutory",},
+    {name: "Эмиссионные документы", metrikaId: "footer_docs_emission",},
+    {name: "Сообщения", metrikaId: "footer_docs_messages",},
 ])
 
 function openDocsModal(index) {
     modalVisible.modalDocs = true
     modalDocsIndex.value = index
+}
+
+const PRESS_DURATION = 1500;
+const pressTimer = ref(null);
+
+function startPress() {
+    if (pressTimer.value) return;
+    pressTimer.value = setTimeout(() => {
+        pressTimer.value = null;
+        toggleMetrikaByRedirect();
+    }, PRESS_DURATION);
+}
+
+function cancelPress() {
+    if (pressTimer.value) {
+        clearTimeout(pressTimer.value);
+        pressTimer.value = null;
+    }
 }
 
 onBeforeMount(() => {
@@ -108,7 +134,7 @@ onBeforeMount(() => {
                 <div class="footer-top__inner">
                     <div class="footer-top__logo">
                         <div class="logo">
-                            <router-link to="/">
+                            <router-link to="/" data-id="footer_logo_link">
                                 <img class="imgForward" src="/images/footer/forward.png"
                                      alt="there was a logo CaForward"/>
                             </router-link>
@@ -121,20 +147,20 @@ onBeforeMount(() => {
                         <ul>
                             <li v-for="link in navbarLinks" :key="link.name">
                                 <a v-if="link.target" :href="link.href" :target="link.target" class="link link_white"
-                                   data-id="footer_navigation_link"
+                                   :data-id="link.metrikaId"
                                 >
                                     {{ link.name }}
                                 </a>
 
                                 <a v-else-if="link.modalName" :href="link.href" class="link link_white"
                                    @click.prevent="modalVisible[link.modalName] = true"
-                                   data-id="footer_navigation_link"
+                                   :data-id="link.metrikaId"
                                 >
                                     {{ link.name }}
                                 </a>
 
                                 <router-link v-else :to="link.href" class="link link_white"
-                                             data-id="footer_navigation_link"
+                                             :data-id="link.metrikaId"
                                 >
                                     {{ link.name }}
                                 </router-link>
@@ -173,7 +199,8 @@ onBeforeMount(() => {
                             </div>
                             <div class="contacts__buttons">
                                 <div class="buttons">
-                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true" data-id="footer_callback_open_modal">
+                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true"
+                                       data-id="footer_callback_open_modal">
                                         Обратная связь
                                     </a>
                                 </div>
@@ -182,12 +209,12 @@ onBeforeMount(() => {
                                     <li v-for="link in socialLinks" :key="link.name">
                                         <a :href="link.href" :target="link.target" :aria-label="link.name"
                                            v-html="link.icon"
-                                           data-id="footer_social_link"
+                                           :data-id="`footer_social_link_${link.name}`"
                                         ></a>
                                     </li>
                                 </ul>
 
-                                <router-link to="/complaint">
+                                <router-link to="/complaint" data-id="footer_complaint_link">
                                     <div
                                         class="flex items-bottom gap-2 text-sky-400 text-sm hover:text-sky-300 transition-colors">
                                         <i class="pi pi-exclamation-circle text-sm !flex items-center"></i>
@@ -207,23 +234,36 @@ onBeforeMount(() => {
                 <div class="footer-bottom__inner">
                     <ul class="docs">
                         <li v-for="(link, idx) in docsLinks" :key="idx">
-                            <a href="#" class="link link_white" @click.prevent="openDocsModal(idx)" data-id="footer_documents_open_modal_link">
-                                {{ link }}
+                            <a href="#" class="link link_white" @click.prevent="openDocsModal(idx)"
+                               :data-id="link.metrikaId">
+                                {{ link.name }}
                             </a>
                         </li>
                     </ul>
                     <div class="meta">
                         <div class="meta__left">
-                            <span>ООО ПКО "Форвард"</span>
+                            <span
+                                @mousedown="startPress"
+                                @mouseup="cancelPress"
+                                @mouseleave="cancelPress"
+                                @touchstart.prevent="startPress"
+                                @touchend="cancelPress"
+                                @touchcancel="cancelPress"
+                                @contextmenu.prevent
+                            >
+                                ООО ПКО "Форвард"
+                            </span>
 
                             <a target="_blank" href="/policy" class="link link_white" data-id="footer_policy_link">
                                 Политика конфиденциальности
                             </a>
-                            <a target="_blank" href="/docs/PPK.pdf" class="link link_white" data-id="footer_policy_corruption_link">
+                            <a target="_blank" href="/docs/PPK.pdf" class="link link_white"
+                               data-id="footer_policy_corruption_link">
                                 Политика по противодействию коррупции
                             </a>
                         </div>
-                        <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo" data-id="footer_freepik_source_link">
+                        <a class="meta__right link link_white" target="_blank" href="https://ru.freepik.com/free-photo"
+                           data-id="footer_freepik_source_link">
                             Design by freepik
                         </a>
                     </div>

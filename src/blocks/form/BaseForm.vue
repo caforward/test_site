@@ -92,6 +92,10 @@ const formAttributeType = computed(() => {
     return messageType || FORM_TYPES[props.formType];
 })
 
+const metrikaSuffix = computed(() => {
+    return props.formMetrikaId || formAttributeType.value || 'form'
+})
+
 const formTypeMeta = computed(() => {
     return FORM_TYPE_META[formAttributeType.value] || {
         title: 'Заполните поля в форме ниже, и мы свяжемся с Вами.',
@@ -132,7 +136,7 @@ watch(
         <div v-if="formTypeMeta.showFSSP" class="text-lg mb-4 flex flex-wrap gap-x-1.5 items-baseline">
             Проверить задолженность:
             <div class="flex gap-1.5 items-center">
-                <a href="https://fssp.gov.ru/iss/ip/" class="link" data-id="form_fssp_link">https://fssp.gov.ru/iss/ip/</a>
+                <a href="https://fssp.gov.ru/iss/ip/" class="link" :data-id="`form_fssp_link_${metrikaSuffix}`">https://fssp.gov.ru/iss/ip/</a>
                 <div class="w-8">
                     <img src="/images/fssp_logo.svg" alt="ФССП" title="ФССП">
                 </div>
@@ -216,8 +220,8 @@ watch(
                 >
                     <template #label>
                         Даю согласие на
-                        <a href="#" class="link" data-id="form_personal_link">обработку своих персональных данных</a>,
-                        <a target="_blank" href="/policy" class="link" data-id="form_confidential_link">политика конфиденциальности</a>
+                        <a href="#" class="link" :data-id="`form_personal_link_${metrikaSuffix}`">обработку своих персональных данных</a>,
+                        <a target="_blank" href="/policy" class="link" :data-id="`form_confidential_link_${metrikaSuffix}`">политика конфиденциальности</a>
                     </template>
                 </BaseCheckbox>
 
@@ -226,7 +230,7 @@ watch(
                     class="sm:w-fit w-full min-w-60"
                     size="large"
                     @click.prevent="submitForm"
-                    data-id="btn_submit_form_modal"
+                    :data-id="`btn_submit_form_${metrikaSuffix}`"
                 >
                     Отправить
                 </BaseButton>

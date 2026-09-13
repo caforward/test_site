@@ -91,7 +91,7 @@ watch(secureTextModal, (newVal) => {
     </div>
 
     <transition name="fade">
-        <BaseModal v-if="secureTextModal" @closeModal="secureTextModal = false">
+        <BaseModal v-if="secureTextModal" modal-id="about_secure" @closeModal="secureTextModal = false">
             <template #body>
                 <div class="mb-4">
                     <span class="text-2xl font-bold">

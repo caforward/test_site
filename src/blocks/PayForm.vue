@@ -450,6 +450,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                     size="large"
                     class="w-fit text-md !bg-green-500 !border-green-500 hover:!bg-emerald-500 hover:!border-emerald-500 active:!bg-green-600 active:!border-green-600"
                     :is-loading="isPayLoading"
+                    data-id="btn_init_fps_payment"
                 >
                     Оплатить через СБП
                 </BaseButton>

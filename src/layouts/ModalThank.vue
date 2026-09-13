@@ -33,7 +33,7 @@ watch(
 
 <template>
     <transition name="fade">
-        <BaseModal v-if="visible" @closeModal="visible = false">
+        <BaseModal v-if="visible" modal-id="thanks_overlay" @closeModal="visible = false">
             <template #body>
                 <div class="content">
                     <div class="modal__title">

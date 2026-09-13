@@ -4,6 +4,7 @@ import BaseModal from '@/blocks/BaseModal.vue';
 import {useRoute} from "vue-router";
 import Button from "primevue/button";
 import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import BaseButton from "@/blocks/ui/BaseButton.vue";
 
 const visible = defineModel()
 const moreInfo = ref(false);
@@ -20,20 +21,17 @@ function toggleInfo() {
 
 watch(
     () => visible.value,
-    () => {
-        if (visible.value) {
+    (isVisible) => {
+        if (isVisible) {
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.overflow = 'hidden'
-            document.body.style.paddingRight = browserScrollbarWidth + 'px'
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = browserScrollbarWidth + 'px';
 
-            // Метрика
-            if (newVal) {
-                const url = window.location.href.split('#')[0]
-                sendMetrikaEvent('modal_open', {id: 'requisites_modal', url})
-            }
+            const url = window.location.href.split('#')[0];
+            sendMetrikaEvent('form_open', {id: 'requisites', url});
         } else {
-            document.body.style.paddingRight = ''
-            document.body.style.overflow = ''
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
         }
     }
 )
@@ -41,7 +39,7 @@ watch(
 
 <template>
     <transition name="fade">
-        <BaseModal id="requisites" v-if="visible">
+        <BaseModal id="requisites" modal-id="requisites_payment" v-if="visible">
             <div class="modal-body">
                 <div class="close-button" @click="visible = false"
                      data-id="btn_close_requisites_payment_modal"
@@ -140,14 +138,15 @@ watch(
                         </span>
                     </div>
                     <div class="flex justify-center mt-6">
-                        <Button
-                            as="a"
-                            label="К оплате"
-                            size="large"
+                        <BaseButton
+                            as="link"
+                            class="p-button p-button-lg"
                             :href="route.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
                             @click="visible = false"
                             data-id="btn_anchor_payment_form"
-                        />
+                        >
+                            К оплате
+                        </BaseButton>
                     </div>
                 </div>
             </div>

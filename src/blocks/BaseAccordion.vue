@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted} from 'vue'
 import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const accordions = ref(null)
@@ -16,11 +16,25 @@ const props = defineProps({
 })
 
 function openAccordion(e) {
-    const accordion = e.target.closest(".accordion");
-    accordion.classList.toggle("accordion_opened");
-    const type = newVal ? 'open' : 'close';
+    const title = e.currentTarget;               // заголовок, по которому кликнули
+    const accordion = e.target.closest('.accordion');
+    if (!accordion || !title) return;
+
+    // Запоминаем, был ли он открыт ДО переключения
+    const wasOpened = accordion.classList.contains('accordion_opened');
+
+    // Переключаем класс
+    accordion.classList.toggle('accordion_opened');
+
+    // Определяем тип события
+    const type = wasOpened ? 'close' : 'open';
+
+    // Уникальный ID из data-id заголовка (accordion_faq_1, accordion_faq_2, ...)
+    const id = title.dataset.id || 'accordion_unknown';
+
     const url = window.location.href.split('#')[0];
-    sendMetrikaEvent('accordion', { id: 'faq', type, url });
+
+    sendMetrikaEvent('accordion', { id, type, url });
 }
 
 onMounted(() => {
@@ -38,14 +52,14 @@ onMounted(() => {
 
 <template>
     <ul ref="accordions" class="accordions">
-        <li class="accordion" v-for="(item, idx) in props.accordionData" :key="idx">
-            <h3 class="font-bold accordion-title" @click="openAccordion" data-id="accordion_trigger_faq">
+        <li class="accordion" v-for="(item, idx) in props.accordionData" :key="idx" :data-accordion="`faq_${item.id}`">
+            <h3 class="font-bold accordion-title" @click="openAccordion" :data-id="`accordion_faq_${item.id}`">
                 {{ item.title }}
                 <span class="accordion-title__icon">
                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.88388 7.53033C7.39573 8.01848 6.60427 8.01849 6.11612 7.53033L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z"
-                            fill="#0096D8" />
+                              d="M0.292893 0.292893C0.683417 -0.0976311 1.31658 -0.0976311 1.70711 0.292893L7 5.58579L12.2929 0.292893C12.6834 -0.0976311 13.3166 -0.0976311 13.7071 0.292893C14.0976 0.683417 14.0976 1.31658 13.7071 1.70711L7.88388 7.53033C7.39573 8.01848 6.60427 8.01849 6.11612 7.53033L0.292893 1.70711C-0.0976311 1.31658 -0.0976311 0.683417 0.292893 0.292893Z"
+                              fill="#0096D8"/>
                     </svg>
                 </span>
             </h3>
@@ -103,7 +117,7 @@ onMounted(() => {
 
         transition: grid-template-rows 0.2s, padding-bottom 0.2s;
 
-        &>div {
+        & > div {
             overflow: hidden;
         }
     }

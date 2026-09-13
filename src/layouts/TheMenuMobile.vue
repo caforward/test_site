@@ -40,61 +40,71 @@ const links = computed(() => [
         id: 0,
         href: routes['Главная'],
         name: 'Главная',
-        type: 'router-link'
+        type: 'router-link',
+        metrikaId: 'mobile_menu_home',
     },
     {
         id: 1,
         href: routes['Получить рассрочку'] + '#debt-form',
         name: 'Внести платёж',
-        type: 'link'
+        type: 'link',
+        metrikaId: 'mobile_menu_payment',
     },
     {
         id: 2,
         href: routes['Получить рассрочку'],
         name: 'Получить рассрочку',
-        type: 'router-link'
+        type: 'router-link',
+        metrikaId: 'mobile_menu_installment',
     },
     {
         id: 3,
         option: 'account-unblock',
         name: 'Разблокировать счёт',
-        type: 'modal'
+        type: 'modal',
+        metrikaId: 'mobile_menu_account_unblock',
     },
     {
         id: 4,
         href: routes['О компании'],
         name: 'О компании',
-        type: 'router-link'
+        type: 'router-link',
+        metrikaId: 'mobile_menu_about',
     },
     {
         id: 5,
         href: '#contacts',
         name: 'Документы',
-        type: 'anchor'
+        type: 'anchor',
+        metrikaId: 'mobile_menu_docs',
     },
     {
         id: 6,
         href: '#contacts',
         name: 'Контакты',
-        type: 'anchor'
+        type: 'anchor',
+        metrikaId: 'mobile_menu_contacts',
     },
     {
         id: 7,
         href: routes['Партнёрам'],
         name: 'Партнёрам',
-        type: 'router-link'
+        type: 'router-link',
+        metrikaId: 'mobile_menu_partners',
     },
     {
         id: 8,
         href: routes['Вакансии'],
         name: 'Вакансии',
-        type: 'router-link'
+        type: 'router-link',
+        metrikaId: 'mobile_menu_vacancies',
     },
     {
         id: 9,
         option: 'requisites',
         name: 'Реквизиты для оплаты',
-        type: 'modal'
+        type: 'modal',
+        metrikaId: 'mobile_menu_requisites',
     },
 ])
 
@@ -139,12 +149,6 @@ watch(
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden';
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
-
-            // Метрика
-            if (newVal) {
-                const url = window.location.href.split('#')[0]
-                sendMetrikaEvent('modal_open', {id: 'sbp_payment', url})
-            }
         } else {
             // Разблокировка скролла
             document.body.style.paddingRight = '';
@@ -172,7 +176,7 @@ watch(
 
 <template>
     <transition name="slide">
-        <BaseModal id="mobile-menu" v-if="visible">
+        <BaseModal id="mobile-menu" modal-id="mobile_menu" v-if="visible">
             <div class="menu">
                 <ul class="menu-links">
                     <li v-for="link in links" :key="link.id">
@@ -181,7 +185,7 @@ watch(
                             class="nav-link"
                             :to="link.href"
                             @click="closeMobileMenu"
-                            data-id="btn_close_mobile_menu"
+                            :data-id="link.metrikaId"
                         >
                             {{ link.name }}
                         </router-link>
@@ -191,6 +195,7 @@ watch(
                             class="nav-link"
                             :href="link.href"
                             @click="closeMobileMenu"
+                            :data-id="link.metrikaId"
                         >
                             {{ link.name }}
                         </a>
@@ -200,6 +205,7 @@ watch(
                             class="nav-link"
                             :href="link.href"
                             @click.prevent="scrollToAnchor(link.href)"
+                            :data-id="link.metrikaId"
                         >
                             {{ link.name }}
                         </a>
@@ -208,7 +214,7 @@ watch(
                             v-else-if="link.type === 'modal'"
                             class="nav-link"
                             @click="openModal(link.option)"
-                            :data-id="`btn_open_modal_${link.option}`"
+                            :data-id="link.metrikaId"
                         >
                             <Icon
                                 v-if="link.option === 'account-unblock'"
@@ -229,6 +235,7 @@ watch(
                             target="_blank"
                             class="w-9 h-9 flex items-center justify-center rounded-full bg-sky-600 text-white"
                             title="Мах"
+                            data-id="mobile_menu_mah_link"
                         >
                             <img src="/images/mah.svg" alt="мах" style="width: 24px">
                         </a>
@@ -249,7 +256,7 @@ watch(
                             class="h-10"
                             :href="routes['Получить рассрочку'] + '#debt-form'"
                             @click="closeMobileMenu"
-                            data-id="btn_close_mobile_menu"
+                            data-id="mobile_menu_footer_payment"
                         >
                             Внести платёж
                         </BaseButton>
@@ -260,7 +267,7 @@ watch(
     </transition>
 
     <ModalRequisites v-model="isRequisitesModalVisible"/>
-    <ModalForm v-model="isModalVisible" :type="modalType"/>
+    <ModalForm v-model="isModalVisible" :type="modalType" :modal-id="modalType"/>
 </template>
 
 

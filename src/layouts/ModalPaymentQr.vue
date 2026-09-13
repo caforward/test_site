@@ -31,7 +31,7 @@ watch(visible, (newVal) => {
 </script>
 
 <template>
-    <BaseModal v-if="visible" @closeModal="visible = false">
+    <BaseModal v-if="visible" modal-id="fps_payment" @closeModal="visible = false">
         <template #body>
             <div class="qr">
                 <div class="text-xl font-bold md:text-2xl">

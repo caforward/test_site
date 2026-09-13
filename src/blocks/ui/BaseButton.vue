@@ -1,5 +1,7 @@
 <script setup>
-import {computed} from 'vue';
+import {computed, useAttrs} from 'vue';
+
+defineOptions({inheritAttrs: false});
 
 const props = defineProps({
     as: {
@@ -8,7 +10,7 @@ const props = defineProps({
     },
     to: {
         type: String,
-        default: '#'
+        default: ''
     },
     severity: {
         type: String,
@@ -22,15 +24,14 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    metrikaId: { // для яндекс метрики (только для <button>)
-        type: String,
-        default: ''
-    },
     isLoading: {
         type: Boolean,
         default: false
     }
 })
+
+const attrs = useAttrs();
+const linkHref = computed(() => props.to || attrs.href || undefined);
 
 const baseClass = 'flex items-center justify-center font-medium border rounded-full relative transition-colors hover:cursor-pointer disabled:opacity-75 disabled:pointer-events-none'
 
@@ -70,8 +71,8 @@ const sizeClass = computed(() => {
 <template>
     <template v-if="props.as === 'button'">
         <button
+            v-bind="attrs"
             :class="baseClass + ' ' + colorsClass + ' ' + sizeClass"
-            :data-metrika-id="props.metrikaId"
             :disabled="props.isLoading"
         >
             <i
@@ -86,13 +87,17 @@ const sizeClass = computed(() => {
     </template>
 
     <template v-else-if="props.as === 'link'">
-        <a :href="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass" :data-id="`${props.to.split('/')[0]}_link`">
+        <a
+            v-bind="attrs"
+            :href="linkHref"
+            :class="baseClass + ' ' + colorsClass + ' ' + sizeClass"
+        >
             <slot></slot>
         </a>
     </template>
 
     <template v-else-if="props.as === 'router-link'">
-        <router-link :to="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
+        <router-link v-bind="attrs" :to="props.to" :class="baseClass + ' ' + colorsClass + ' ' + sizeClass">
             <slot></slot>
         </router-link>
     </template>

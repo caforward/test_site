@@ -1,9 +1,9 @@
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {resolveFormId, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 const response = ref(null)
@@ -96,6 +96,10 @@ const props = defineProps({
     }
 })
 
+const modalId = computed(() =>
+    resolveFormId(props.formMetrikaId, props.inputs)
+);
+
 async function sendData(formData, formInputRefs) {
     overlayThankVisible.value = true
     userName.value = formData.get('name')
@@ -116,13 +120,12 @@ async function sendData(formData, formInputRefs) {
             })
 
             // Отправка метрики (отвправка формы)
-            let formId = props.formMetrikaId;
             const url = window.location.href.split('#')[0];
-            if (!formId) {
-                const messageTypeInput = props.inputs.find(input => input.name === 'messageType');
-                formId = messageTypeInput?.value || 'unknown';
-            }
-            sendMetrikaEvent('form_submitted', {form: formId, from: 'modal', url})
+            sendMetrikaEvent('form_submitted', {
+                form: resolveFormId(props.formMetrikaId, props.inputs),
+                from: 'modal',
+                url
+            });
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
@@ -201,12 +204,10 @@ watch(
             document.body.style.paddingRight = browserScrollbarWidth + 'px'
 
             const url = window.location.href.split('#')[0];
-            let formId = props.formMetrikaId;
-            if (!formId) {
-                const messageTypeInput = props.inputs.find(input => input.name === 'messageType');
-                formId = messageTypeInput?.value || 'unknown';
-            }
-            sendMetrikaEvent('form_open', {form: formId, url})
+            sendMetrikaEvent('form_open', {
+                form: resolveFormId(props.formMetrikaId, props.inputs),
+                url
+            });
         } else {
             document.body.style.paddingRight = ''
             document.body.style.overflow = ''
@@ -220,6 +221,7 @@ watch(
         <BaseModal
             id="requisites"
             v-if="visible"
+            :modal-id="modalId"
             @closeModal="visible = false"
         >
             <template #body>
