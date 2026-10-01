@@ -45,3 +45,27 @@ export function resolveFormId(formMetrikaId, inputs) {
 				}
 				return formId ? String(formId) : 'unknown';
 }
+
+// отслеживание полей форм
+const tracked = new Set();
+const FIELD_THRESHOLD = 3;
+
+export function trackFieldStart(formId, fieldId, value) {
+				if (!formId || !fieldId) return;
+
+				const str = value == null ? '' : String(value);
+				if (str.length < FIELD_THRESHOLD) return;
+
+				const key = `${formId}_${fieldId}`;
+				if (tracked.has(key)) return;
+
+				tracked.add(key);
+				const url = window.location.href.split('#')[0];
+				sendMetrikaEvent('form_start_field', { form: formId, field: fieldId, url });
+}
+
+export function resetFormTracking(formId) {
+				for (const key of [...tracked]) {
+								if (key.startsWith(`${formId}_`)) tracked.delete(key);
+				}
+}

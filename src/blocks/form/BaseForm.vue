@@ -10,6 +10,7 @@ import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 // composables
 import {useInputValidation, createFormData} from '@/composable/useForm.js'
 import {FORM_TYPE_META, FORM_TYPES} from "@/constants/formTypes.js";
+import {trackFieldStart} from "@/service/utils/metrika.js";
 
 // variables
 
@@ -104,6 +105,11 @@ const formTypeMeta = computed(() => {
     }
 })
 
+const handleFieldInput = (fieldId, value) => {
+    const formId = formAttributeType.value;
+    trackFieldStart(formId, fieldId, value);
+}
+
 // Обнуление ссылок при обновлении DOM
 onBeforeUpdate(() => {
     inputRefs.value = []
@@ -178,6 +184,7 @@ watch(
                         :options="input.options"
                         :minDate="input.minDate"
                         :max="input.maxLength"
+                        @update:model-value="(value) => handleFieldInput(input.name, value)"
                     />
                 </template>
 
@@ -187,6 +194,7 @@ watch(
                     <BaseFormInstallment
                         v-if="formAttributeType === 'installment'"
                         ref="additionalFormBlock"
+                        @field-input="handleFieldInput"
                     />
 
                     <!-- refund download button -->

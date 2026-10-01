@@ -7,7 +7,7 @@ import Textarea from 'primevue/textarea';
 
 import BaseSelect from './BaseSelect.vue';
 
-import { onMounted, ref, watch, computed } from 'vue';
+import {onMounted, ref, watch, computed} from 'vue';
 import BaseInputFile from "@/blocks/ui/BaseInputFile.vue";
 
 const props = defineProps({
@@ -49,7 +49,8 @@ const props = defineProps({
     },
     minDate: {
         type: Object,
-        default: () => {}
+        default: () => {
+        }
     }
 })
 
@@ -190,20 +191,15 @@ function validateInputValue(inputValue) {
             }
 
             validateInputUserName(inputValue)
-        }
-        else if (props.type === 'email') {
+        } else if (props.type === 'email') {
             validateInputEmail(inputValue)
-        }
-        else if (props.type === 'tel') {
+        } else if (props.type === 'tel') {
             validateInputTel(inputValue)
-        }
-        else if (props.type === 'file') {
+        } else if (props.type === 'file') {
             validateInputFile(inputValue)
-        }
-        else if (props.type === 'number' && props.min > 0) {
+        } else if (props.type === 'number' && props.min > 0) {
             validateInputMin(inputValue)
-        }
-        else {
+        } else {
             if (typeof inputValue === 'string') {
                 inputValue = inputValue.trim()
             }
@@ -296,60 +292,139 @@ function isEmpty(value) {
     <div class="input__wrapper" :class="{ 'input__wrapper_file': props.type === 'file' }">
         <slot name="inputTitle"></slot>
         <!-- ФИО -->
-        <InputText ref="input" v-if="props.type === 'text'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="text" class="t-input w-full" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+        <InputText
+            ref="input"
+            v-if="props.type === 'text'"
+            v-model="value"
+            :data-field-id="props.name"
+            :name="props.name"
+            :invalid="isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            type="text" class="t-input w-full"
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- E-mail -->
-        <InputText ref="input" v-if="props.type === 'email'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="email" class="t-input w-full" :placeholder="props.placeholder" :disabled='props.disabled'
-            @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+        <InputText
+            ref="input"
+            v-if="props.type === 'email'"
+            v-model="value"
+            class="t-input w-full"
+            :data-field-id="props.name"
+            :name="props.name"
+            :invalid="isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            type="email"
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- Number !name is not supported, so here is used pass through option! -->
-        <InputNumber ref="input" v-if="props.type === 'number'" :pt="{ pcinputtext: { root: { name: props.name } } }"
-            :invalid="isInvalid" v-model="value" type="text" class="t-input w-full" :placeholder="props.placeholder"
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler"
-            :minFractionDigits="0" :maxFractionDigits="2" />
+        <InputNumber
+            ref="input"
+            v-if="props.type === 'number'"
+            v-model="value"
+            class="t-input w-full"
+            :pt="{ pcinputtext: { root: { name: props.name, 'data-field-id': props.name } } }"
+            :invalid="isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            :minFractionDigits="0"
+            :maxFractionDigits="2"
+            type="text"
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- Телефон -->
-        <InputMask ref="input" v-if="props.type === 'tel'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="tel" class="t-input w-full" mask="+7 999 999-99-99" :autoClear="false"
-            :placeholder="props.placeholder" :disabled='props.disabled' @update:modelValue="validateInputValue"
-            @blur="showErrorHandler" />
+        <InputMask
+            ref="input"
+            v-if="props.type === 'tel'"
+            v-model="value"
+            class="t-input w-full"
+            :data-field-id="props.name"
+            :name="props.name"
+            :invalid="isInvalid"
+            :autoClear="false"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            type="tel"
+            mask="+7 999 999-99-99"
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- Select -->
         <!-- <Select ref="input" v-if="props.type === 'select'" :name="props.name" :invalid="isInvalid" v-model="value"
             class="t-input w-full" :options="inputOptions" optionLabel="name" :placeholder="props.placeholder" showClear
             :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" /> -->
 
-        <BaseSelect v-if="props.type === 'select'" v-model="value" :invalid="isInvalid" :options="props.options"
-            :placeholder="props.placeholder" :name="props.name" :disabled='props.disabled' :visible="props.visible"
-            @update:modelValue="validateInputValue" />
+        <BaseSelect
+            v-if="props.type === 'select'"
+            v-model="value"
+            :invalid="isInvalid"
+            :options="props.options"
+            :placeholder="props.placeholder"
+            :data-field-id="props.name"
+            :name="props.name"
+            :disabled='props.disabled'
+            :visible="props.visible"
+            @update:modelValue="validateInputValue"
+        />
 
         <!-- Textarea -->
-        <Textarea ref="input" v-if="props.type === 'textarea'" :name="props.name" :invalid="isInvalid" v-model="value"
-            type="textarea" class="t-input w-full max-h-48 min-h-28" :placeholder="props.placeholder" :maxlength="props.max"
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler" />
+        <Textarea
+            ref="input"
+            v-if="props.type === 'textarea'"
+            v-model="value"
+            class="t-input w-full max-h-48 min-h-28"
+            :data-field-id="props.name"
+            :name="props.name"
+            :invalid="isInvalid"
+            :placeholder="props.placeholder"
+            :maxlength="props.max"
+            :disabled='props.disabled'
+            type="textarea"
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- Date picker -->
-        <DatePicker ref="input" v-if="props.type === 'date'" :name="props.name" :invalid="isInvalid" v-model="value"
-            class="t-input" showIcon fluid iconDisplay="input" :placeholder="props.placeholder"
-            :disabled='props.disabled' @update:modelValue="validateInputValue" @blur="showErrorHandler"
-            :minDate="minDate" />
+        <DatePicker
+            ref="input"
+            v-if="props.type === 'date'"
+            v-model="value"
+            class="t-input"
+            :data-field-id="props.name"
+            :name="props.name"
+            :invalid="isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            iconDisplay="input"
+            :minDate="minDate"
+            showIcon
+            fluid
+            @update:modelValue="validateInputValue"
+            @blur="showErrorHandler"
+        />
 
         <!-- File input. Лимит 5 мегабайт -->
         <BaseInputFile
             ref="input"
             v-if="props.type === 'file'"
-            class="t-input"
             v-model="value"
-            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            label="Прикрепить заявление"
+            class="t-input"
+            :data-field-id="props.name"
             :name="props.name"
             :invalid="isInvalid"
             :maxFileSize="5242880"
             :auto="false"
             :multiple="false"
+            label="Прикрепить заявление"
+            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             @update:modelValue="validateInputValue"
         >
         </BaseInputFile>
