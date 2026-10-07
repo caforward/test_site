@@ -93,6 +93,43 @@ const qrAmount = ref(null)
 const inputRefs = ref([])
 const contactInput = ref([])
 
+// Повторное нажатие «Оплатить» с теми же данными не создаёт в банке новый платёж.
+// Раньше каждое нажатие давало ещё одну попытку, а брошенные копии через сутки
+// попадали в выгрузку банка как истёкшие. Платёж помним в sessionStorage, чтобы
+// он пережил и возврат со страницы банка кнопкой «назад».
+const REUSE_STORAGE_KEY = 'payform:lastPayment'
+const REUSE_TTL_MS = 10 * 60 * 1000
+
+function readReusablePayment(fingerprint) {
+    try {
+        const saved = JSON.parse(sessionStorage.getItem(REUSE_STORAGE_KEY) || 'null')
+
+        if (saved && saved.fingerprint === fingerprint && Date.now() - saved.createdAt < REUSE_TTL_MS) {
+            return saved.result
+        }
+    } catch (e) {
+        // без sessionStorage просто создаём платёж заново
+    }
+
+    return null
+}
+
+function rememberPayment(fingerprint, result) {
+    try {
+        sessionStorage.setItem(REUSE_STORAGE_KEY, JSON.stringify({fingerprint, result, createdAt: Date.now()}))
+    } catch (e) {
+        // не запомнили - при следующем нажатии будет новый платёж, как раньше
+    }
+}
+
+function forgetPayment() {
+    try {
+        sessionStorage.removeItem(REUSE_STORAGE_KEY)
+    } catch (e) {
+        // нечего забывать
+    }
+}
+
 // без этого о проблеме знали только по жалобам, без цифр
 function reportPaymentEvent(goal, reason) {
     try {
@@ -158,25 +195,45 @@ async function paymentPay() {
     isPayLoading.value = true
 
     const {name, userAmount, contractId, email, phone} = formInputs
+    const contact = contactType.value === 'email' ? email.value : phone.value
+
+    // Любое изменение в форме - уже другой платёж
+    const fingerprint = JSON.stringify([
+        paymentType.value,
+        String(userAmount.value),
+        String(contractId.value).trim(),
+        String(name.value).trim(),
+        String(contact).trim(),
+    ])
 
     try {
-        const response = await fetch(PAYMENT_INIT_URL, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                method: paymentType.value,
-                name: name.value,
-                amount: userAmount.value,
-                contractId: contractId.value,
-                email: contactType.value === 'email' ? email.value : '',
-                phone: contactType.value === 'phone' ? phone.value : '',
-            }),
-        })
+        let result = readReusablePayment(fingerprint)
+        const isReused = result !== null
 
-        const result = await response.json().catch(() => null)
+        if (!isReused) {
+            const response = await fetch(PAYMENT_INIT_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    method: paymentType.value,
+                    name: name.value,
+                    amount: userAmount.value,
+                    contractId: contractId.value,
+                    email: contactType.value === 'email' ? email.value : '',
+                    phone: contactType.value === 'phone' ? phone.value : '',
+                }),
+            })
 
-        if (!response.ok || !result?.ok || !result.paymentUrl) {
-            throw new Error(result?.message || 'Банк не принял заказ')
+            result = await response.json().catch(() => null)
+
+            if (!response.ok || !result?.ok || !result.paymentUrl) {
+                throw new Error(result?.message || 'Банк не принял заказ')
+            }
+
+            // СБП без QR оплатить нельзя, такой ответ не запоминаем, пусть повтор спросит банк снова
+            if (paymentType.value !== 'fps' || result.qrImage) {
+                rememberPayment(fingerprint, result)
+            }
         }
 
         if (result.qrImage) {
@@ -185,7 +242,10 @@ async function paymentPay() {
             qrAmount.value = userAmount.value
             isQrVisible.value = true
             isPayLoading.value = false
-            reportPaymentEvent('payment_qr_shown', paymentType.value)
+            // тот же QR второй раз в воронку не считаем
+            if (!isReused) {
+                reportPaymentEvent('payment_qr_shown', paymentType.value)
+            }
             return
         }
 
@@ -197,6 +257,11 @@ async function paymentPay() {
         }
 
         // Карта: уводим в банк. На успехе браузер уходит туда, загрузку не снимаем.
+        if (isReused) {
+            window.location.href = result.paymentUrl
+            return
+        }
+
         reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl)
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
@@ -221,6 +286,9 @@ onMounted(() => {
     const paid = params.get('paid')
 
     if (paid === null) return
+
+    // попытка завершилась в банке, следующее нажатие создаст новый платёж
+    forgetPayment()
 
     const method = params.get('m') || 'card'
 
