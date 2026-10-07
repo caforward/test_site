@@ -24,6 +24,10 @@ test.beforeEach(async ({ context }) => {
     await context.route(/mc\.yandex\.|mc\.webvisor\./, route => route.abort());
 });
 
+// Страница оплаты картой у банка. С 23.09.2026 банк уводит на pay.tbank-online.com
+// вместо pay.tbank.ru, принимаем оба адреса.
+const BANK_PAYMENT_PAGE = /^https:\/\/pay\.tbank(-online)?\.(ru|com)\//;
+
 async function fillForm(page: Page, { name = 'test test', amount = '1000', contract = '111' } = {}) {
     await page.getByRole('textbox', { name: 'ФИО*' }).fill(name);
     await page.getByRole('spinbutton', { name: 'Сумма' }).fill(amount);
@@ -42,7 +46,7 @@ test('Способ оплаты: картой; Контакт: Телефон. �
 
     await page.getByRole('button', { name: 'Оплатить картой' }).click();
 
-    await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 20000 });
+    await expect(page).toHaveURL(BANK_PAYMENT_PAGE, { timeout: 20000 });
 });
 
 test('Способ оплаты: картой; Контакт: E-mail. Успешный переход в банк.', async ({ page }) => {
@@ -51,11 +55,11 @@ test('Способ оплаты: картой; Контакт: E-mail. Успе�
     await page.getByRole('radio', { name: 'Оплата картой' }).check();
 
     await fillForm(page);
-    await page.getByRole('textbox', { name: 'E-mail' }).fill('test@test.test');
+    await page.getByRole('textbox', { name: 'E-mail' }).fill('test@test.ru');
 
     await page.getByRole('button', { name: 'Оплатить картой' }).click();
 
-    await expect(page).toHaveURL(/.*pay\.tbank\.ru.*/, { timeout: 20000 });
+    await expect(page).toHaveURL(BANK_PAYMENT_PAGE, { timeout: 20000 });
 });
 
 test('Способ оплаты: СБП; Контакт: телефон. Показывается QR на сайте.', async ({ page }) => {
