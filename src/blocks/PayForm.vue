@@ -2,7 +2,7 @@
 import BaseInput from '@/blocks/ui/BaseInput.vue'
 import RadioButton from 'primevue/radiobutton';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
-import {ref, reactive, watch, onBeforeUpdate, onMounted} from 'vue';
+import {ref, reactive, watch, onBeforeUpdate, onMounted, onBeforeUnmount} from 'vue';
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
@@ -29,6 +29,14 @@ const FPS_MIN_AMOUNT = 10
 const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
 
 const METRIKA_ID = 95726509
+
+// У способа оплаты и у контакта свои группы переключателей. Раньше у всех
+// четырёх был один name, и браузер считал их одной группой. Восстанавливать
+// отметки браузеру тоже не даём: при возврате «назад» со страницы банка он
+// отмечал в DOM «Оплата картой», а форма оставалась на СБП. Кнопка была от
+// другого способа, а клик по карте ничего не менял: уже отмеченный
+// переключатель не шлёт change.
+const RADIO_PT = {input: {autocomplete: 'off'}}
 
 const props = defineProps({
     inputs: {
@@ -308,6 +316,19 @@ onMounted(() => {
     history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : ''))
 })
 
+// Из bfcache страница возвращается целиком, вместе с кнопкой в загрузке: перед
+// уходом в банк по карте загрузку намеренно не снимаем. Без сброса кнопка так
+// и крутится и не нажимается.
+function onPageShow(event) {
+    if (!event.persisted) return
+
+    isPayLoading.value = false
+    payError.value = ''
+}
+
+onMounted(() => window.addEventListener('pageshow', onPageShow))
+onBeforeUnmount(() => window.removeEventListener('pageshow', onPageShow))
+
 watch(
     () => props.inputs,
     (newInputs) => {
@@ -351,8 +372,9 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 v-model="paymentType"
                                 type="radio"
                                 inputId="payment-payment-type-fps"
-                                name="payment-contact-type"
+                                name="payment-method"
                                 value="fps"
+                                :pt="RADIO_PT"
                             />
                             <label
                                 for="payment-payment-type-fps"
@@ -373,8 +395,9 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             type="radio"
                             v-model="paymentType"
                             inputId="payment-payment-type-card"
-                            name="payment-contact-type"
+                            name="payment-method"
                             value="card"
+                            :pt="RADIO_PT"
                         />
                         <label
                             for="payment-payment-type-card"
@@ -431,6 +454,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             inputId="payment-contact-type-email"
                             name="payment-contact-type"
                             value="email"
+                            :pt="RADIO_PT"
                         />
                         <label
                             for="payment-contact-type-email"
@@ -447,6 +471,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                             inputId="payment-contact-type-phone"
                             name="payment-contact-type"
                             value="phone"
+                            :pt="RADIO_PT"
                         />
                         <label
                             for="payment-contact-type-phone"
