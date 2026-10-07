@@ -9,6 +9,21 @@
 
 import { test, expect, type Page } from '@playwright/test';
 
+// Тесты каждый день ходят на боевой сайт, и их визиты не должны попадать в Метрику.
+// Ставим флаг сотрудника из index.html до загрузки страницы, а сам счётчик
+// дополнительно блокируем на случай, если логику флага поменяют.
+test.beforeEach(async ({ context }) => {
+    await context.addInitScript(() => {
+        if (!location.hostname.endsWith('caforward.ru')) return;
+        try {
+            localStorage.setItem('noMetrika', '1');
+        } catch (e) {
+            // без localStorage счётчик всё равно не загрузится из-за блокировки ниже
+        }
+    });
+    await context.route(/mc\.yandex\.|mc\.webvisor\./, route => route.abort());
+});
+
 async function fillForm(page: Page, { name = 'test test', amount = '1000', contract = '111' } = {}) {
     await page.getByRole('textbox', { name: 'ФИО*' }).fill(name);
     await page.getByRole('spinbutton', { name: 'Сумма' }).fill(amount);
