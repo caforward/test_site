@@ -286,6 +286,35 @@ function isEmpty(value) {
     }
 }
 
+// Разделитель дробной части, который ждёт InputNumber. Он берёт его из локали
+// браузера: в русской это запятая, в английской - точка. Символ считаем тем же
+// способом, что и сам компонент, чтобы они не разошлись.
+const decimalSeparator = new Intl.NumberFormat().format(1.1).replace(/\d/g, '')
+
+/**
+ * InputNumber гасит любую клавишу, кроме цифр, минуса и "своего" разделителя.
+ * Из-за этого точка в русской локали пропадала молча: 10.50 превращалось в 1050,
+ * то есть в сумму в сто раз больше. Numpad усугубляет - там всегда точка.
+ *
+ * Подменяем чужой разделитель на ожидаемый: отменяем клавишу (после отмены
+ * keydown браузер keypress уже не породит) и шлём keypress с нужным символом.
+ */
+function normalizeDecimalKey(event) {
+    const typed = event.key
+
+    if (typed !== '.' && typed !== ',') return
+    if (typed === decimalSeparator) return
+
+    event.preventDefault()
+
+    event.target.dispatchEvent(new KeyboardEvent('keypress', {
+        key: decimalSeparator,
+        code: decimalSeparator === ',' ? 'Comma' : 'Period',
+        bubbles: true,
+        cancelable: true,
+    }))
+}
+
 </script>
 
 <template>
@@ -337,6 +366,7 @@ function isEmpty(value) {
             type="text"
             @update:modelValue="validateInputValue"
             @blur="showErrorHandler"
+            @keydown.capture="normalizeDecimalKey"
         />
 
         <!-- Телефон -->
