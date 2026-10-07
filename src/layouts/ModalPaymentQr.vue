@@ -21,6 +21,10 @@ defineProps({
     },
 })
 
+// На телефоне свой экран не отсканировать, поэтому там главная кнопка открывает
+// приложение банка, а QR остаётся для оплаты с другого устройства
+const isTouchDevice = typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches
+
 watch(visible, (newVal) => {
     // Метрика
     if (newVal) {
@@ -42,17 +46,41 @@ watch(visible, (newVal) => {
                     {{ amount }} ₽
                 </div>
 
-                <img v-if="image" :src="image" alt="QR-код для оплаты через СБП" class="qr__code">
+                <template v-if="isTouchDevice && link">
+                    <BaseButton as="link" :href="link" size="large" class="w-full" data-id="modal_qr_open_bank_link">
+                        Открыть приложение банка
+                    </BaseButton>
 
-                <p class="qr__hint">
-                    Отсканируйте код камерой телефона или в приложении вашего банка
-                </p>
+                    <p class="qr__hint">
+                        Выберите свой банк и подтвердите оплату в приложении
+                    </p>
 
-                <a v-if="link" :href="link" class="link underline" data-id="modal_qr_open_bank_link">
-                    Открыть в приложении банка
-                </a>
+                    <img v-if="image" :src="image" alt="QR-код для оплаты через СБП" class="qr__code qr__code_small">
 
-                <BaseButton class="button button_blue" @click="visible = false" data-id="btn_clos_qr_payment_modal">
+                    <p class="qr__note">
+                        Оплачиваете с другого устройства? Отсканируйте QR-код
+                    </p>
+                </template>
+
+                <template v-else>
+                    <img v-if="image" :src="image" alt="QR-код для оплаты через СБП" class="qr__code">
+
+                    <p class="qr__hint">
+                        Отсканируйте код камерой телефона или в приложении вашего банка
+                    </p>
+
+                    <a v-if="link" :href="link" class="link underline" data-id="modal_qr_open_bank_link">
+                        Открыть в приложении банка
+                    </a>
+                </template>
+
+                <BaseButton
+                    :class="isTouchDevice && link ? 'w-full' : 'button button_blue'"
+                    :severity="isTouchDevice && link ? 'secondary' : 'primary'"
+                    :size="isTouchDevice && link ? 'large' : 'medium'"
+                    @click="visible = false"
+                    data-id="btn_clos_qr_payment_modal"
+                >
                     Закрыть
                 </BaseButton>
             </div>
@@ -70,10 +98,18 @@ watch(visible, (newVal) => {
 
     &__code {
         @apply w-full max-w-[260px] rounded-lg bg-white p-3;
+
+        &_small {
+            @apply max-w-[160px];
+        }
     }
 
     &__hint {
         @apply text-base md:text-lg;
+    }
+
+    &__note {
+        @apply text-sm text-slate-500;
     }
 }
 </style>
