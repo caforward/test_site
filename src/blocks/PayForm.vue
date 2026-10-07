@@ -431,8 +431,10 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 :min="input.name === 'userAmount' && paymentType === 'fps' ? FPS_MIN_AMOUNT : 0"
                             />
 
+                            <!-- type="button": без него «?» была первой кнопкой отправки формы, и Enter в любом поле открывал это окно вместо оплаты -->
                             <BaseButton
                                 v-if="input.name === 'contractId'"
+                                type="button"
                                 class="!rounded-2xl h-auto text-lg w-[45px]"
                                 circle
                                 @click.prevent="isModalVisible = true"
