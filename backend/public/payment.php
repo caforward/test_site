@@ -13,6 +13,7 @@
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../payment-log.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -44,8 +45,14 @@ const MAX_AMOUNT = 1000000;
 
 header('Content-Type: application/json; charset=utf-8');
 
+// Что известно о текущем запросе: попадает в каждую запись журнала платежей
+$logContext = [];
+
 function fail(int $code, string $message): void
 {
+    global $logContext;
+
+    paymentLog('init_rejected', ['http' => $code, 'message' => $message] + $logContext);
     http_response_code($code);
     echo json_encode(['ok' => false, 'message' => $message], JSON_UNESCAPED_UNICODE);
     exit;
@@ -112,7 +119,7 @@ function callBank(string $url, array $payload): ?array
     if (is_readable(TBANK_CA_BUNDLE)) {
         curl_setopt($ch, CURLOPT_CAINFO, TBANK_CA_BUNDLE);
     } else {
-        error_log('payment.php: нет файла сертификатов ' . TBANK_CA_BUNDLE . ', соединение с банком может не установиться');
+        paymentLog('bank_error', ['url' => $url, 'error' => 'нет файла сертификатов ' . TBANK_CA_BUNDLE]);
     }
 
     $raw = curl_exec($ch);
@@ -122,14 +129,14 @@ function callBank(string $url, array $payload): ?array
     curl_close($ch);
 
     if ($raw === false) {
-        error_log("payment.php: запрос $url не выполнен - $curlError");
+        paymentLog('bank_error', ['url' => $url, 'error' => $curlError]);
         return null;
     }
 
     $decoded = json_decode($raw, true);
 
     if (!is_array($decoded)) {
-        error_log("payment.php: неразбираемый ответ от $url (HTTP $httpCode): $raw");
+        paymentLog('bank_error', ['url' => $url, 'http' => $httpCode, 'error' => 'неразбираемый ответ', 'raw' => mb_substr($raw, 0, 300)]);
         return null;
     }
 
@@ -154,8 +161,12 @@ function getQr(string $paymentId, string $terminalKey, string $password, string 
     $result = callBank(TBANK_GETQR_URL, $payload);
 
     if ($result === null || empty($result['Success']) || empty($result['Data'])) {
-        $message = $result['Message'] ?? 'нет ответа';
-        error_log("payment.php: GetQr $dataType не удался - $message");
+        paymentLog('qr_failed', [
+            'paymentId' => $paymentId,
+            'dataType' => $dataType,
+            'errorCode' => (string) ($result['ErrorCode'] ?? ''),
+            'message' => trim(($result['Message'] ?? 'нет ответа') . ' ' . ($result['Details'] ?? '')),
+        ]);
         return null;
     }
 
@@ -178,6 +189,13 @@ $contractId = trim((string) ($input['contractId'] ?? ''));
 $email = trim((string) ($input['email'] ?? ''));
 $phone = normalizePhone((string) ($input['phone'] ?? ''));
 $amount = $input['amount'] ?? null;
+
+// ФИО и контакты в журнал не пишем: для разбора хватает договора и суммы
+$logContext = [
+    'method' => is_string($method) ? $method : '',
+    'amount' => is_scalar($amount) ? (string) $amount : null,
+    'contract' => mb_substr($contractId, 0, 50),
+];
 
 if ($method !== 'card' && $method !== 'fps') {
     fail(400, 'Неизвестный способ оплаты');
@@ -223,7 +241,7 @@ $password = $method === 'fps'
     : ($_ENV['TBANK_PASSWORD_CARD'] ?? '');
 
 if ($terminalKey === '') {
-    error_log('payment.php: не задан ключ терминала для способа ' . $method);
+    $logContext['error'] = 'не задан ключ терминала в .env';
     fail(500, 'Оплата временно недоступна. Попробуйте позже или оплатите по реквизитам.');
 }
 
@@ -284,6 +302,9 @@ if ($password !== '') {
 $payload['DATA'] = $data;
 $payload['Receipt'] = $receipt;
 
+$logContext['amount'] = $amount;
+$logContext['orderId'] = $payload['OrderId'];
+
 $result = callBank(TBANK_INIT_URL, $payload);
 
 if ($result === null) {
@@ -291,11 +312,12 @@ if ($result === null) {
 }
 
 if (empty($result['Success']) || empty($result['PaymentURL'])) {
-    $errorCode = $result['ErrorCode'] ?? '?';
-    $bankMessage = trim(($result['Message'] ?? '') . ' ' . ($result['Details'] ?? ''));
-    error_log("payment.php: банк отклонил заказ - код $errorCode, $bankMessage");
+    $logContext['bankErrorCode'] = (string) ($result['ErrorCode'] ?? '?');
+    $logContext['bankMessage'] = trim(($result['Message'] ?? '') . ' ' . ($result['Details'] ?? ''));
     fail(502, 'Не удалось создать платёж. Проверьте данные или оплатите по реквизитам.');
 }
+
+$logContext['paymentId'] = (string) ($result['PaymentId'] ?? '');
 
 $answer = [
     'ok' => true,
@@ -321,5 +343,7 @@ if ($method === 'fps' && $password !== '' && !empty($result['PaymentId'])) {
         $answer['qrLink'] = $link;
     }
 }
+
+paymentLog('init', $logContext + ['qr' => isset($answer['qrImage'])]);
 
 echo json_encode($answer, JSON_UNESCAPED_UNICODE);

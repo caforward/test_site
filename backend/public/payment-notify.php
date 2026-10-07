@@ -8,10 +8,12 @@
  * не дольше 10 секунд. Ответить нужно ровно "OK" с кодом 200, иначе банк
  * будет повторять доставку раз в час сутки, затем раз в день месяц.
  *
- * Ничего тяжёлого тут делать нельзя: только проверить подпись и записать.
+ * Ничего тяжёлого тут делать нельзя: только проверить подпись и записать
+ * уведомление в журнал платежей (backend/payment-log.php).
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../payment-log.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -41,6 +43,34 @@ function notificationToken(array $params, string $password): string
     return hash('sha256', implode('', $flat));
 }
 
+/*
+ * Что из уведомления попадает в журнал. Данные карты и контакты не пишем,
+ * терминал называем по назначению, а не по ключу.
+ */
+function notifySummary(array $data): array
+{
+    $terminalKey = (string) ($data['TerminalKey'] ?? '');
+
+    $terminal = match ($terminalKey) {
+        (string) ($_ENV['TBANK_TERMINAL_KEY_CARD'] ?? '~') => 'card',
+        (string) ($_ENV['TBANK_TERMINAL_KEY_FPS'] ?? '~') => 'fps',
+        '' => 'unknown',
+        default => 'other:' . $terminalKey,
+    };
+
+    return [
+        'terminal' => $terminal,
+        'status' => (string) ($data['Status'] ?? ''),
+        // в form-urlencoded банк присылает строки "true"/"false"
+        'success' => filter_var($data['Success'] ?? false, FILTER_VALIDATE_BOOLEAN),
+        'amount' => isset($data['Amount']) ? ((int) $data['Amount']) / 100 : null,
+        'orderId' => (string) ($data['OrderId'] ?? ''),
+        'paymentId' => (string) ($data['PaymentId'] ?? ''),
+        'errorCode' => (string) ($data['ErrorCode'] ?? ''),
+        'message' => trim((string) ($data['Message'] ?? '') . ' ' . (string) ($data['Details'] ?? '')),
+    ];
+}
+
 function respondOk(): void
 {
     header('Content-Type: text/plain; charset=utf-8');
@@ -49,9 +79,9 @@ function respondOk(): void
     exit;
 }
 
-function reject(int $code, string $reason): void
+function reject(int $code, string $reason, array $fields = []): void
 {
-    error_log("payment-notify.php: уведомление отклонено - $reason");
+    paymentLog('notify_rejected', ['reason' => $reason] + $fields);
     http_response_code($code);
     echo 'ERROR';
     exit;
@@ -84,28 +114,17 @@ $password = match ($terminalKey) {
 if ($terminalKey === '' || $password === '') {
     /*
      * Пароль терминала не задан - проверить подлинность нечем. Отвечаем OK,
-     * чтобы банк не долбил ретраями месяц, но пишем в лог погромче.
+     * чтобы банк не долбил ретраями месяц, а в журнале помечаем, что подпись
+     * не проверялась.
      */
-    error_log("payment-notify.php: нет пароля для терминала '$terminalKey', подпись не проверена: $raw");
+    paymentLog('notify', notifySummary($data) + ['signature' => 'not_checked']);
     respondOk();
 }
 
 if (!hash_equals(notificationToken($data, $password), (string) ($data['Token'] ?? ''))) {
-    reject(403, "неверная подпись, терминал $terminalKey");
+    reject(403, 'неверная подпись', notifySummary($data));
 }
 
-$status = (string) ($data['Status'] ?? '?');
-$paymentId = (string) ($data['PaymentId'] ?? '?');
-$orderId = (string) ($data['OrderId'] ?? '?');
-$amount = isset($data['Amount']) ? ((int) $data['Amount']) / 100 : 0;
-$success = !empty($data['Success']) ? 'да' : 'нет';
-$errorCode = (string) ($data['ErrorCode'] ?? '');
-$message = trim((string) ($data['Message'] ?? '') . ' ' . (string) ($data['Details'] ?? ''));
-
-error_log(
-    "payment-notify.php: статус=$status успех=$success сумма=$amount терминал=$terminalKey"
-    . " платёж=$paymentId заказ=$orderId"
-    . ($errorCode !== '' && $errorCode !== '0' ? " ошибка=$errorCode $message" : '')
-);
+paymentLog('notify', notifySummary($data) + ['signature' => 'ok']);
 
 respondOk();
