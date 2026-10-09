@@ -26,6 +26,8 @@ const routes = [
     {path: "/notFound", name: 'Ошибка 404', component: NotFound},
     {path: "/complaint", name: 'Отправить жалобу', component: PageComplaint},
     {path: "/payment", name: 'Оплатить', component: PagePayment},
+    // Любой другой адрес - страница 404, адрес в строке остаётся тем, по которому пришли
+    {path: "/:pathMatch(.*)*", name: 'Страница не найдена', component: NotFound},
 ];
 
 const router = createRouter({
