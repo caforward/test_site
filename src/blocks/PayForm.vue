@@ -7,6 +7,7 @@ import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
+import {createFieldStartTracker} from "@/service/utils/metrika.js";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -29,6 +30,9 @@ const FPS_MIN_AMOUNT = 10
 const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
 
 const METRIKA_ID = 95726509
+
+// id формы в событии form_start_field
+const METRIKA_FORM_ID = 'payment'
 
 // У способа оплаты и у контакта свои группы переключателей. Раньше у всех
 // четырёх был один name, и браузер считал их одной группой. Восстанавливать
@@ -100,6 +104,9 @@ const qrAmount = ref(null)
 // Валидация
 const inputRefs = ref([])
 const contactInput = ref([])
+
+// Начало заполнения полей, событие form_start_field
+const fieldStartTracker = createFieldStartTracker(() => METRIKA_FORM_ID)
 
 // Повторное нажатие «Оплатить» с теми же данными не создаёт в банке новый платёж.
 // Раньше каждое нажатие давало ещё одну попытку, а брошенные копии через сутки
@@ -354,7 +361,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
             <div class="text-center">или</div>
         </div>
 
-        <form ref="form" name="TinkoffPayForm" novalidate class="payform" @submit.prevent="validateForm">
+        <form ref="form" name="TinkoffPayForm" novalidate class="payform" :data-form-id="METRIKA_FORM_ID" @submit.prevent="validateForm">
             <div class="payform__inputs">
                 <!-- radio for phone/email -->
                 <p v-if="paidNotice" :class="isPaidOk ? 'payform__paid' : 'payform__notice'">
@@ -429,6 +436,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                                 :disabled="input.disabled"
                                 :options="input.options"
                                 :min="input.name === 'userAmount' && paymentType === 'fps' ? FPS_MIN_AMOUNT : 0"
+                                @field-start="fieldStartTracker.start"
                             />
 
                             <!-- type="button": без него «?» была первой кнопкой отправки формы, и Enter в любом поле открывал это окно вместо оплаты -->
@@ -495,6 +503,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         :placeholder="input.placeholder"
                         :required="input.required"
                         :disabled="input.disabled"
+                        @field-start="fieldStartTracker.start"
                     />
 
                     <BaseInput
@@ -506,6 +515,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
                         :placeholder="input.placeholder"
                         :required="input.required"
                         :disabled="input.disabled"
+                        @field-start="fieldStartTracker.start"
                     />
                 </template>
             </div>

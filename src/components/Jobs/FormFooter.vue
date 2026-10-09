@@ -81,7 +81,7 @@ export default {
                     </div>
                 </div>
 
-                <FormBlock :inputs=inputs @submitted="showThankModal">
+                <FormBlock :inputs=inputs start-field-form-id="footer-jobs" @submitted="showThankModal">
                     <template v-slot:info>
                         <div class="form-block-info">
                             <div class="heading-3 mb-2">

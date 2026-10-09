@@ -9,6 +9,7 @@ import BaseSelect from './BaseSelect.vue';
 
 import {onMounted, ref, watch, computed} from 'vue';
 import BaseInputFile from "@/blocks/ui/BaseInputFile.vue";
+import {isFieldStarted, resolveFieldId} from '@/service/utils/metrika.js';
 
 const props = defineProps({
     name: {
@@ -55,6 +56,8 @@ const props = defineProps({
 })
 
 const value = defineModel()
+// fieldStart - человек начал заполнять поле, fieldReset - поле очистили после отправки формы
+const emit = defineEmits(['fieldStart', 'fieldReset'])
 const isInvalid = ref(null)
 
 const input = ref(null)
@@ -66,6 +69,9 @@ const minDate = ref(null)
 
 const skipValidation = ref(false)
 const defaultValue = value.value
+
+// id поля для Метрики, в html виден как data-field-id
+const fieldId = computed(() => resolveFieldId(props.name))
 
 const readyToSubmit = (computed(() => {
     if (props.required) {
@@ -94,6 +100,8 @@ function showErrorHandler() {
 
 function clearValue() {
     skipValidation.value = true
+    // очищенное поле снова может дать событие о начале заполнения
+    emit('fieldReset', fieldId.value)
 
     if (props.type === 'file') {
         input.value.clear()
@@ -212,6 +220,31 @@ function validateInputValue(inputValue) {
     }
 }
 
+// Ввод человека. Сюда приходят события самих полей, а не изменения v-model,
+// поэтому очистка формы и значения, подставленные кодом, начала заполнения не дают
+function onUserInput(inputValue) {
+    validateInputValue(inputValue)
+
+    if (isFieldStarted(props.type, inputValue, fieldId.value)) {
+        emit('fieldStart', fieldId.value)
+    }
+}
+
+// Сумма уходит в модель только при уходе из поля, набранное число приходит в событии input
+function onNumberTyped(event) {
+    if (isFieldStarted('number', event.value, fieldId.value)) {
+        emit('fieldStart', fieldId.value)
+    }
+}
+
+// Дату можно ввести руками. Пока текст не стал датой, модель не меняется,
+// поэтому считаем набранные символы
+function onDateTyped(event) {
+    if (isFieldStarted('text', event.target.value, fieldId.value)) {
+        emit('fieldStart', fieldId.value)
+    }
+}
+
 function validateInputUserName(value) {
     const hasAtLeastTwoWords = /\D{2,}\s+\D{2,}/g.test(value)
 
@@ -325,13 +358,13 @@ function normalizeDecimalKey(event) {
             ref="input"
             v-if="props.type === 'text'"
             v-model="value"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
             :disabled='props.disabled'
             type="text" class="t-input w-full"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
             @blur="showErrorHandler"
         />
 
@@ -341,13 +374,13 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'email'"
             v-model="value"
             class="t-input w-full"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
             :disabled='props.disabled'
             type="email"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
             @blur="showErrorHandler"
         />
 
@@ -357,14 +390,15 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'number'"
             v-model="value"
             class="t-input w-full"
-            :pt="{ pcinputtext: { root: { name: props.name, 'data-field-id': props.name } } }"
+            :pt="{ pcinputtext: { root: { name: props.name, 'data-field-id': fieldId } } }"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
             :disabled='props.disabled'
             :minFractionDigits="0"
             :maxFractionDigits="2"
             type="text"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
+            @input="onNumberTyped"
             @blur="showErrorHandler"
             @keydown.capture="normalizeDecimalKey"
         />
@@ -375,7 +409,7 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'tel'"
             v-model="value"
             class="t-input w-full"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :autoClear="false"
@@ -383,7 +417,7 @@ function normalizeDecimalKey(event) {
             :disabled='props.disabled'
             type="tel"
             mask="+7 999 999-99-99"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
             @blur="showErrorHandler"
         />
 
@@ -398,11 +432,11 @@ function normalizeDecimalKey(event) {
             :invalid="isInvalid"
             :options="props.options"
             :placeholder="props.placeholder"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :disabled='props.disabled'
             :visible="props.visible"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
         />
 
         <!-- Textarea -->
@@ -411,14 +445,14 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'textarea'"
             v-model="value"
             class="t-input w-full max-h-48 min-h-28"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
             :maxlength="props.max"
             :disabled='props.disabled'
             type="textarea"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
             @blur="showErrorHandler"
         />
 
@@ -428,7 +462,7 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'date'"
             v-model="value"
             class="t-input"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
@@ -437,7 +471,8 @@ function normalizeDecimalKey(event) {
             :minDate="minDate"
             showIcon
             fluid
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
+            @input="onDateTyped"
             @blur="showErrorHandler"
         />
 
@@ -447,7 +482,7 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'file'"
             v-model="value"
             class="t-input"
-            :data-field-id="props.name"
+            :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
             :maxFileSize="5242880"
@@ -455,7 +490,7 @@ function normalizeDecimalKey(event) {
             :multiple="false"
             label="Прикрепить заявление"
             accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            @update:modelValue="validateInputValue"
+            @update:modelValue="onUserInput"
         >
         </BaseInputFile>
 

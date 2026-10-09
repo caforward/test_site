@@ -2,6 +2,25 @@ export const METRIKA_STORAGE_KEY = 'noMetrika';
 export const METRIKA_QUERY_KEY = 'no-metrika';
 const METRIKA_ID = 95726509;
 
+// Настройки события form_start_field: человек начал заполнять поле формы
+
+// С какого символа считается начатым поле, куда вводят текст: ФИО, телефон
+// (только цифры после +7), почта, сумма, номер договора, текст обращения,
+// дата, набранная руками. Список, файл и дата из календаря - сразу при выборе
+export const FIELD_START_MIN_LENGTH = 1;
+
+// Свой порог для отдельных полей, ключ - id поля из атрибута data-field-id.
+// Например {name: 3, contractId: 2} - ФИО с третьего символа, номер договора со второго
+export const FIELD_START_MIN_LENGTH_BY_FIELD = {};
+
+// Однотипные поля в разных формах получают один id. name, по которому
+// бэкенд собирает письмо, не меняется
+const FIELD_ID_ALIASES = {
+				phone: 'tel',
+				claim: 'message',
+				complaintMessage: 'message',
+};
+
 export const sendMetrikaEvent = (eventName, params = {}) => {
 				if (typeof window.ym !== 'undefined') {
 								window.ym(METRIKA_ID, 'reachGoal', eventName, params);
@@ -46,26 +65,51 @@ export function resolveFormId(formMetrikaId, inputs) {
 				return formId ? String(formId) : 'unknown';
 }
 
-// отслеживание полей форм
-const tracked = new Set();
-const FIELD_THRESHOLD = 3;
+// Начало заполнения полей форм, событие form_start_field. Настройки - в начале файла
 
-export function trackFieldStart(formId, fieldId, value) {
-				if (!formId || !fieldId) return;
-
-				const str = value == null ? '' : String(value);
-				if (str.length < FIELD_THRESHOLD) return;
-
-				const key = `${formId}_${fieldId}`;
-				if (tracked.has(key)) return;
-
-				tracked.add(key);
-				const url = window.location.href.split('#')[0];
-				sendMetrikaEvent('form_start_field', { form: formId, field: fieldId, url });
+export function resolveFieldId(name) {
+				return FIELD_ID_ALIASES[name] || name;
 }
 
-export function resetFormTracking(formId) {
-				for (const key of [...tracked]) {
-								if (key.startsWith(`${formId}_`)) tracked.delete(key);
+// Хватает ли введённого, чтобы считать поле начатым
+export function isFieldStarted(type, value, fieldId) {
+				if (value === null || value === undefined || value === '') return false;
+
+				const minLength = FIELD_START_MIN_LENGTH_BY_FIELD[fieldId] ?? FIELD_START_MIN_LENGTH;
+
+				switch (type) {
+								case 'tel':
+												// маска сама пишет +7 и подчёркивания, считаем только цифры после +7
+												return String(value).replace(/\D/g, '').replace(/^7/, '').length >= minLength;
+								case 'number':
+												return String(value).replace(/\D/g, '').length >= minLength;
+								case 'text':
+								case 'email':
+								case 'textarea':
+												return String(value).trim().length >= minLength;
+								default:
+												return true;
 				}
+}
+
+/**
+	* Учёт начатых полей одной формы, у каждой формы свой.
+	* Форма закрылась и пропала со страницы - пропал и учёт, при новом открытии
+	* события пойдут снова. Поля, очищенные после отправки, возвращает reset.
+	*/
+export function createFieldStartTracker(getFormId) {
+				const started = new Set();
+
+				return {
+								start(fieldId) {
+												if (!fieldId || started.has(fieldId)) return;
+
+												started.add(fieldId);
+												const url = window.location.href.split('#')[0];
+												sendMetrikaEvent('form_start_field', { form: getFormId(), field: fieldId, url });
+								},
+								reset(fieldId) {
+												started.delete(fieldId);
+								},
+				};
 }

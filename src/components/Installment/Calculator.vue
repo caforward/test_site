@@ -100,7 +100,7 @@ async function sendRating(rateData) {
         <div class="custom-container">
             <div class="flex flex-col lg:flex-row gap-5 -mx-4 sm:m-0">
                 <div class="bg-white w-full p-6 lg:w-6/12 sm:p-9 rounded-3xl shadow-[0_20px_30px_#0037911a] relative">
-                    <BaseForm :showTitle="true" :inputs="inputs" @submitted="sendData"/>
+                    <BaseForm :showTitle="true" :inputs="inputs" start-field-form-id="calculator" @submitted="sendData"/>
                     <OverlayThank v-model:visible="overlayThankVisible" v-model:status="response"
                                   @sendRating="sendRating" :inBlock="true"/>
                 </div>

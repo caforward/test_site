@@ -77,7 +77,7 @@ export default {
 <template>
     <section>
         <div class="custom-container">
-            <FormBlock :inputs=inputs @submitted="showThankModal">
+            <FormBlock :inputs=inputs start-field-form-id="footer-about" @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">
                         <h2 class="form-block-info__title">

@@ -100,7 +100,7 @@ onMounted(() => {
                 <div class="flex gap-10 max-lg:flex-col max-xl:gap-8">
                     <div
                         class="p-10 border rounded-xl max-sm:p-0 max-sm:border-0 w-1/2 max-xl:w-7/12 max-xl:p-8 max-lg:order-last max-lg:w-full max-lg:border-0 max-lg:p-0">
-                        <BaseForm :inputs="inputs" @submitted="sendData"/>
+                        <BaseForm :inputs="inputs" start-field-form-id="complaint" @submitted="sendData"/>
                     </div>
                     <div
                         class="flex flex-col items-center justify-center p-10 bg-sky-500 text-white rounded-xl w-1/2 max-xl:w-5/12 max-xl:p-8 max-lg:w-full max-lg:p-6">

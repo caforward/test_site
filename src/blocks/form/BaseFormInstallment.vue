@@ -5,7 +5,8 @@ import {useValueFormat} from '@/composable/useValueFormat.js';
 import {getDottedDate} from '@/composable/useCalendar.js';
 
 const inputRefs = ref(null)
-const emit = defineEmits(['fieldInput']);
+// начало заполнения полей блока передаём в форму, учёт ведёт она
+const emit = defineEmits(['fieldStart', 'fieldReset']);
 
 const minMonthlyPayment = 1500
 const maxPeriod = 24
@@ -72,10 +73,6 @@ const exposeData = computed(() => ({
     paymentMonthly: paymentMonthly.value
 }))
 
-function handleFieldUpdate(name, value) {
-    emit('fieldInput', name, value);
-}
-
 watch(
     paymentPeriodRange,
     (newOptions) => {
@@ -115,7 +112,8 @@ defineExpose({
                 :disabled="input.disabled"
                 :options="input.name === 'paymentPeriod' ? paymentPeriodRange : input.options"
                 :minDate="input.minDate"
-                @update:model-value="(value) => handleFieldUpdate(input.name, value)"
+                @field-start="(fieldId) => emit('fieldStart', fieldId)"
+                @field-reset="(fieldId) => emit('fieldReset', fieldId)"
             >
                 <template #inputTitle>
                     {{ input.placeholder }}

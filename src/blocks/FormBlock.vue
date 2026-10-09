@@ -2,7 +2,6 @@
 import {onMounted, ref} from "vue";
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
-import {resetFormTracking, resolveFormId} from "@/service/utils/metrika.js";
 
 const response = ref(null)
 const overlayThankVisible = ref(false)
@@ -16,6 +15,11 @@ const props = defineProps({
     showTitle: {
         type: Boolean,
         default: true,
+    },
+    // id формы в событии form_start_field
+    startFieldFormId: {
+        type: String,
+        default: ''
     },
     fetchUrl: {
         type: String,
@@ -142,9 +146,6 @@ async function sendData(formData, formInputRefs) {
                 inputRef.clearValue()
             })
 
-            // const formId = resolveFormId(props.formMetrikaId, props.inputs);
-            // resetFormTracking(formId);
-
             // Отправка метрики (отвправка формы)
             // window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId})
         } else {
@@ -220,7 +221,7 @@ onMounted(() => {
         <slot name="info"></slot>
 
         <div class="relative">
-            <BaseForm :inputs="inputs" @submitted="sendData"/>
+            <BaseForm :inputs="inputs" :start-field-form-id="startFieldFormId" @submitted="sendData"/>
 
             <OverlayThank
                 v-model:visible="overlayThankVisible"

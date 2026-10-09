@@ -10,7 +10,7 @@ import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 // composables
 import {useInputValidation, createFormData} from '@/composable/useForm.js'
 import {FORM_TYPE_META, FORM_TYPES} from "@/constants/formTypes.js";
-import {trackFieldStart} from "@/service/utils/metrika.js";
+import {createFieldStartTracker, resolveFormId} from "@/service/utils/metrika.js";
 
 // variables
 
@@ -37,6 +37,12 @@ const props = defineProps({
         type: String,
     },
     formMetrikaId: {
+        type: String,
+        default: '',
+    },
+    // id формы в событии form_start_field. Не задан - как form в form_open
+    // и form_submitted модального окна: formMetrikaId или тема обращения
+    startFieldFormId: {
         type: String,
         default: '',
     }
@@ -105,10 +111,10 @@ const formTypeMeta = computed(() => {
     }
 })
 
-const handleFieldInput = (fieldId, value) => {
-    const formId = formAttributeType.value;
-    trackFieldStart(formId, fieldId, value);
-}
+// Начало заполнения полей. Учёт свой у каждой формы: закрыли окно - форма
+// пропала вместе с учётом, при новом открытии события пойдут снова
+const fieldsFormId = computed(() => props.startFieldFormId || resolveFormId(props.formMetrikaId, props.inputs))
+const fieldStartTracker = createFieldStartTracker(() => fieldsFormId.value)
 
 // Обнуление ссылок при обновлении DOM
 onBeforeUpdate(() => {
@@ -157,6 +163,7 @@ watch(
         :id="formAttributeType"
         :class="[ 'form', { 'form_gray': props.grayForm } ]"
         :data-metrika-id="formMetrikaId || undefined"
+        :data-form-id="fieldsFormId"
     >
         <div class="form-container">
 
@@ -184,7 +191,8 @@ watch(
                         :options="input.options"
                         :minDate="input.minDate"
                         :max="input.maxLength"
-                        @update:model-value="(value) => handleFieldInput(input.name, value)"
+                        @field-start="fieldStartTracker.start"
+                        @field-reset="fieldStartTracker.reset"
                     />
                 </template>
 
@@ -194,7 +202,8 @@ watch(
                     <BaseFormInstallment
                         v-if="formAttributeType === 'installment'"
                         ref="additionalFormBlock"
-                        @field-input="handleFieldInput"
+                        @field-start="fieldStartTracker.start"
+                        @field-reset="fieldStartTracker.reset"
                     />
 
                     <!-- refund download button -->
