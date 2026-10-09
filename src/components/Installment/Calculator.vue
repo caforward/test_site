@@ -2,7 +2,7 @@
 import {ref} from 'vue';
 import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
-import {resetFormTracking, resolveFormId, sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const overlayThankVisible = ref(false)
 const response = ref(null)
@@ -59,9 +59,6 @@ async function sendData(formData, formInputRefs) {
             formInputRefs.forEach(inputRef => {
                 inputRef.clearValue()
             })
-
-            const formId = resolveFormId(props.formMetrikaId, props.inputs);
-            resetFormTracking(formId);
 
             // Отправка метрики (отвправка формы)
             const url = window.location.href.split('#')[0];
