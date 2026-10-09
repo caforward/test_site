@@ -205,7 +205,7 @@ watch(
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
 
             const url = window.location.href.split('#')[0];
-            sendMetrikaEvent('form_open', {id: 'documents', url});
+            sendMetrikaEvent('form_open', {form: 'documents', url});
         } else {
             document.body.style.paddingRight = '';
             document.body.style.overflow = '';

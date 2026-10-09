@@ -44,7 +44,7 @@ export default {
 <template>
     <section id="join-team-form">
         <div class="custom-container">
-            <FormBlock :inputs=inputs start-field-form-id="footer-partners" @submitted="showThankModal">
+            <FormBlock :inputs=inputs form-metrika-id="footer-partners" @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">
                         <div class="heading-3 mb-4">

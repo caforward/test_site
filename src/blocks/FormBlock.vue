@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
+import {sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const response = ref(null)
 const overlayThankVisible = ref(false)
@@ -16,8 +17,8 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
-    // id формы в событии form_start_field
-    startFieldFormId: {
+    // id формы в событиях form_start_field и form_submitted
+    formMetrikaId: {
         type: String,
         default: ''
     },
@@ -128,6 +129,10 @@ const inputs = ref([
 */
 
 async function sendData(formData, formInputRefs) {
+    // Повторный Enter или клик, пока идёт отправка, второго письма не шлёт:
+    // форма уже закрыта заставкой
+    if (overlayThankVisible.value) return
+
     overlayThankVisible.value = true
     userName.value = formData.get('name')
 
@@ -147,7 +152,8 @@ async function sendData(formData, formInputRefs) {
             })
 
             // Отправка метрики (отвправка формы)
-            // window.ym(95726509, 'reachGoal', 'form_submitted', {form: props.formMetrikaId})
+            const url = window.location.href.split('#')[0];
+            sendMetrikaEvent('form_submitted', {form: props.formMetrikaId, from: 'body', url})
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
@@ -221,7 +227,7 @@ onMounted(() => {
         <slot name="info"></slot>
 
         <div class="relative">
-            <BaseForm :inputs="inputs" :start-field-form-id="startFieldFormId" @submitted="sendData"/>
+            <BaseForm :inputs="inputs" :start-field-form-id="formMetrikaId" @submitted="sendData"/>
 
             <OverlayThank
                 v-model:visible="overlayThankVisible"

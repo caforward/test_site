@@ -101,6 +101,10 @@ const modalId = computed(() =>
 );
 
 async function sendData(formData, formInputRefs) {
+    // Повторный Enter или клик, пока идёт отправка, второго письма не шлёт:
+    // форма уже закрыта заставкой
+    if (overlayThankVisible.value) return
+
     overlayThankVisible.value = true
     userName.value = formData.get('name')
 

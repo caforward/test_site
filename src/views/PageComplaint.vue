@@ -36,6 +36,10 @@ const inputs = ref([
 ])
 
 async function sendData(formData) {
+    // Повторный Enter или клик, пока идёт отправка, второго письма не шлёт:
+    // форма уже закрыта заставкой
+    if (overlayThankVisible.value) return
+
     overlayThankVisible.value = true
     userName.value = formData.get('name')
 
