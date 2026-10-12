@@ -2,6 +2,7 @@
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import {onMounted} from "vue";
 import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 onMounted(() => {
     window.scrollTo(0, 0)
@@ -18,13 +19,19 @@ onMounted(() => {
                 <span class="font-bold text-sky-500 text-[100px]">
                     404
                 </span>
-                <p class="mb-6 font-bold">
+                <p class="mb-6 font-bold text-center">
                     Кажется такой страницы не существует. <br>
                 </p>
 
-                <BaseButton as="router-link" to="/" size="large">
-                    Перейти на главную
-                </BaseButton>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <BaseButton as="link" :href="PAYMENT_FORM_URL" size="large" data-id="btn_404_payment_form">
+                        Оплатить задолженность
+                    </BaseButton>
+
+                    <BaseButton as="router-link" to="/" severity="secondary" size="large">
+                        Перейти на главную
+                    </BaseButton>
+                </div>
             </div>
         </div>
     </section>
