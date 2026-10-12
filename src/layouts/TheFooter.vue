@@ -4,6 +4,7 @@ import {useRouter} from 'vue-router';
 import ModalForm from "./ModalForm.vue";
 import ModalDocs from "./ModalDocs.vue";
 import {toggleMetrikaByRedirect} from "@/service/utils/metrika.js";
+import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 const router = useRouter()
 const modalVisible = reactive({
@@ -12,6 +13,15 @@ const modalVisible = reactive({
 })
 
 const modalDocsIndex = ref(0)
+
+// Окно формы из подвала: «Получить рассрочку» открывает его с темой рассрочки,
+// остальные кнопки - с темой по умолчанию
+const modalFormType = ref(null)
+
+function openModalForm(type = null) {
+    modalFormType.value = type
+    modalVisible.modalForm = true
+}
 
 const navbarLinks = ref([
     {
@@ -22,6 +32,8 @@ const navbarLinks = ref([
     {
         name: "Получить рассрочку",
         href: "#",
+        modalName: 'modalForm',
+        modalType: 'installment',
         metrikaId: "footer_nav_installment",
     },
     {
@@ -42,7 +54,9 @@ const navbarLinks = ref([
     },
     {
         name: "Внести платеж",
-        href: "/installment-plan#debt-form",
+        href: PAYMENT_FORM_URL,
+        // обычная ссылка, а не router-link: при переходе внутри сайта прокрутка проскакивала форму оплаты
+        target: '_self',
         metrikaId: "footer_nav_payment",
     },
     {
@@ -115,6 +129,9 @@ onBeforeMount(() => {
     const routes = router.getRoutes()
 
     navbarLinks.value.forEach(item => {
+        // пункты, которые открывают окно, на страницы не ведут
+        if (item.modalName) return
+
         routes.forEach(route => {
             const routeName = String(route.name).toLowerCase()
             const itemName = item.name.toLowerCase()
@@ -153,7 +170,7 @@ onBeforeMount(() => {
                                 </a>
 
                                 <a v-else-if="link.modalName" :href="link.href" class="link link_white"
-                                   @click.prevent="modalVisible[link.modalName] = true"
+                                   @click.prevent="openModalForm(link.modalType)"
                                    :data-id="link.metrikaId"
                                 >
                                     {{ link.name }}
@@ -199,7 +216,7 @@ onBeforeMount(() => {
                             </div>
                             <div class="contacts__buttons">
                                 <div class="buttons">
-                                    <a href="#" class="button" @click.prevent="modalVisible.modalForm = true"
+                                    <a href="#" class="button" @click.prevent="openModalForm()"
                                        data-id="footer_callback_open_modal">
                                         Обратная связь
                                     </a>
@@ -271,7 +288,7 @@ onBeforeMount(() => {
             </div>
         </div>
     </footer>
-    <ModalForm v-model="modalVisible.modalForm"/>
+    <ModalForm v-model="modalVisible.modalForm" :type="modalFormType"/>
     <ModalDocs v-model="modalVisible.modalDocs" :toShowIndex="modalDocsIndex"/>
 </template>
 

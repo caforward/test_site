@@ -3,19 +3,19 @@ import TheMenuMobile from './TheMenuMobile.vue';
 import ModalRequisites from './ModalRequisites.vue';
 import ModalForm from './ModalForm.vue'
 import {ref, computed} from 'vue';
-import {useRouter, useRoute} from 'vue-router';
+import {useRouter} from 'vue-router';
 import {Icon} from "@iconify/vue";
 import useScrollHeader from "@/composable/useScrollHeader.js";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {useScreenResize} from "@/composable/useScreenResize.js";
 import {isMetrikaDisabled} from "@/service/utils/metrika.js";
+import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 const LG_BREAKPOINT = 1024;
 
 const {headerMinimized} = useScrollHeader()
 const {width: screenWidth} = useScreenResize()
 const router = useRouter()
-const route = useRoute()
 
 const routesEntries = router
     .getRoutes()
@@ -97,7 +97,6 @@ const bottomNav = computed(() => [
 ])
 
 // functions
-const currentRoute = computed(() => route)
 
 function showModal(option) {
     if (option === 'requisites') {
@@ -266,7 +265,7 @@ function showModal(option) {
                             class="payment-button"
                             :class="{'!bg-red-500' : isMetrikaDisabled()}"
                             :size="screenWidth < LG_BREAKPOINT ? 'small' : null"
-                            :href="currentRoute.path === '/' ? '/#payment' : '/installment-plan#debt-form'"
+                            :href="PAYMENT_FORM_URL"
                             data-id="header_payment_btn"
                         >
                             Внести платёж

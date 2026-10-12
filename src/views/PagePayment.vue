@@ -1,6 +1,11 @@
 <script setup>
 import PayForm from '@/blocks/PayForm.vue';
 import BaseButton from '@/blocks/ui/BaseButton.vue';
+import ModalForm from '@/layouts/ModalForm.vue';
+import {ref} from 'vue';
+
+// «Рассчитать график платежей» открывает окно рассрочки с калькулятором, а не уводит на страницу рассрочки
+const installmentModalVisible = ref(false)
 
 </script>
 
@@ -39,7 +44,7 @@ import BaseButton from '@/blocks/ui/BaseButton.vue';
                             детали заключения оферты и получить скидку!
                         </p>
 
-                        <BaseButton as="router-link" to="/installment-plan" severity="secondary" size="large"
+                        <BaseButton severity="secondary" size="large" @click="installmentModalVisible = true"
                             class="hover:!bg-slate-300">
                             Раcсчитать график платежей
                         </BaseButton>
@@ -51,6 +56,8 @@ import BaseButton from '@/blocks/ui/BaseButton.vue';
                 </div>
             </div>
         </div>
+
+        <ModalForm v-model="installmentModalVisible" type="installment"/>
     </section>
 </template>
 

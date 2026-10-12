@@ -2,6 +2,7 @@
 import {ref, onMounted, onUnmounted} from "vue";
 import ModalRequisites from "./ModalRequisites.vue";
 import ModalForm from "./ModalForm.vue";
+import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 const emit = defineEmits(['showModal'])
 
@@ -36,7 +37,7 @@ const menuItems = ref([
     },
     {
         id: 3,
-        href: "/installment-plan#debt-form",
+        href: PAYMENT_FORM_URL,
         title: "Оплатить",
         icon: 'pi pi-calculator'
     },

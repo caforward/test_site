@@ -8,6 +8,7 @@ import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useScreenResize} from "@/composable/useScreenResize.js";
 import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 const props = defineProps({
     visible: {
@@ -45,16 +46,16 @@ const links = computed(() => [
     },
     {
         id: 1,
-        href: routes['Получить рассрочку'] + '#debt-form',
+        href: PAYMENT_FORM_URL,
         name: 'Внести платёж',
         type: 'link',
         metrikaId: 'mobile_menu_payment',
     },
     {
         id: 2,
-        href: routes['Получить рассрочку'],
+        option: 'installment',
         name: 'Получить рассрочку',
-        type: 'router-link',
+        type: 'modal',
         metrikaId: 'mobile_menu_installment',
     },
     {
@@ -254,7 +255,7 @@ watch(
                         <BaseButton
                             as="link"
                             class="h-10"
-                            :href="routes['Получить рассрочку'] + '#debt-form'"
+                            :href="PAYMENT_FORM_URL"
                             @click="closeMobileMenu"
                             data-id="mobile_menu_footer_payment"
                         >
