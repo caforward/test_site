@@ -6,7 +6,6 @@ import MainPage from "../views/MainPage.vue";
 import About from "../views/About.vue";
 import Jobs from "../views/Jobs.vue"
 import PartnerPage from "../views/PartnerPage.vue";
-import Installment from "../views/Installment.vue";
 import Policy from "../components/PrivacyPolicy/Policy.vue";
 import NotFound from "../views/NotFound.vue";
 import PageComplaint from "../views/PageComplaint.vue";
@@ -18,11 +17,9 @@ const routes = [
     {path: "/about", name: 'О компании', component: About},
     {path: "/for-partners", name: 'Партнёрам', component: PartnerPage},
     {path: "/policy", name: 'Политика конфиденциальности', component: Policy},
-    {
-        path: "/installment-plan",
-        name: 'Получить рассрочку',
-        component: Installment
-    },
+    // Страница рассрочки /installment-plan отключена, адрес показывает 404, рассрочка везде открывается окном с формой.
+    // Код страницы оставлен в views/Installment.vue, чтобы вернуть: импорт Installment и маршрут
+    // {path: "/installment-plan", name: 'Получить рассрочку', component: Installment}
     {path: "/notFound", name: 'Ошибка 404', component: NotFound},
     {path: "/complaint", name: 'Отправить жалобу', component: PageComplaint},
     {path: "/payment", name: 'Оплатить', component: PagePayment},
