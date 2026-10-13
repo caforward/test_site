@@ -20,7 +20,7 @@ onMounted(() => {
                     404
                 </span>
                 <p class="mb-6 font-bold text-center">
-                    Кажется такой страницы не существует. <br>
+                    Страница не существует.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -28,7 +28,7 @@ onMounted(() => {
                         Оплатить задолженность
                     </BaseButton>
 
-                    <BaseButton as="router-link" to="/" severity="secondary" size="large">
+                    <BaseButton as="router-link" to="/" severity="secondary" size="large" data-id="btn_404_home">
                         Перейти на главную
                     </BaseButton>
                 </div>
