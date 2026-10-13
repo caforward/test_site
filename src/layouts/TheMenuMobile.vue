@@ -268,7 +268,7 @@ watch(
     </transition>
 
     <ModalRequisites v-model="isRequisitesModalVisible"/>
-    <ModalForm v-model="isModalVisible" :type="modalType" :modal-id="modalType"/>
+    <ModalForm v-model="isModalVisible" :type="modalType" :form-metrika-id="modalType"/>
 </template>
 
 
