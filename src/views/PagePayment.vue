@@ -45,7 +45,7 @@ const installmentModalVisible = ref(false)
                         </p>
 
                         <BaseButton severity="secondary" size="large" @click="installmentModalVisible = true"
-                            class="hover:!bg-slate-300">
+                            class="hover:!bg-slate-300" data-id="payment_page_installment_btn">
                             Раcсчитать график платежей
                         </BaseButton>
                     </div>

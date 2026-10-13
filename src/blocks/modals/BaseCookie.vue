@@ -37,7 +37,8 @@ onMounted(() => {
             <p class="sm:text-base xs:text-sm text-xs text-gray-800 flex-1">
                 Сайт ООО ПКО «Форвард» обрабатывает персональные данные с использованием Cookies.
                 Нажимая кнопку “Принять”, вы соглашаетесь с
-                <router-link to="/policy" class="text-sky-500 hover:text-sky-600 transition-colors">
+                <router-link to="/policy" class="text-sky-500 hover:text-sky-600 transition-colors"
+                             data-id="cookie_policy_link">
                     Условиями обработки персональных данных
                 </router-link>
                 и Cookies.
