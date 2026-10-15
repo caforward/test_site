@@ -82,10 +82,10 @@ function scrollToPayment() {
         </div>
     </section>
 
+    <!-- form берётся из темы, как у остальных окон обращения: «Оставить обращение» шлёт debt-info -->
     <ModalForm
         v-model="isModalVisible"
         :type="modalDefaultOption"
-        :form-metrika-id="modalDefaultOption === null ? 'callback' : undefined"
     />
 </template>
 
