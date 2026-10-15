@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
@@ -96,9 +96,10 @@ const props = defineProps({
     }
 })
 
-const modalId = computed(() =>
-    resolveFormId(props.formMetrikaId, props.inputs)
-);
+// id окна для кликов закрытия (btn_close_modal_<form>, area_close_modal_<form>).
+// Считается при каждом открытии, как form в form_open: тема меняется прямо в массиве inputs,
+// а он не реактивный, поэтому computed запоминал форму первого открытого окна
+const modalId = ref(resolveFormId(props.formMetrikaId, props.inputs))
 
 async function sendData(formData, formInputRefs) {
     // Повторный Enter или клик, пока идёт отправка, второго письма не шлёт:
@@ -202,6 +203,7 @@ watch(
     () => {
         if (visible.value) {
             setSelectorByType(props.type);
+            modalId.value = resolveFormId(props.formMetrikaId, props.inputs);
 
             const browserScrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden'
