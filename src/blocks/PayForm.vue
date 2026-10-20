@@ -6,6 +6,7 @@ import {ref, reactive, watch, onBeforeUpdate, onMounted, onBeforeUnmount} from '
 import ModalForm from "@/layouts/ModalForm.vue";
 import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
+import ModalDigitalRuble from "@/layouts/ModalDigitalRuble.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
 import {createFieldStartTracker} from "@/service/utils/metrika.js";
 
@@ -90,6 +91,7 @@ const isModalVisible = ref(false)
 const modalType = ref('get-contract-id')
 const isPayLoading = ref(false)
 const isRequisitesVisible = ref(false)
+const isDigitalRubleVisible = ref(false)
 const payError = ref('')
 const paidNotice = ref('')
 const isPaidOk = ref(false)
@@ -358,6 +360,9 @@ defineExpose({validateForm, isFormValid, paymentPay})
             <BaseButton class="w-full mb-2" @click="isRequisitesVisible = true" data-id="btn_open_requisites_payment">
                 Оплатить по реквизитам
             </BaseButton>
+            <BaseButton class="w-full mb-2" @click="isDigitalRubleVisible = true" data-id="btn_open_digital_ruble_payment">
+                Оплатить цифровым рублём
+            </BaseButton>
             <div class="text-center">или</div>
         </div>
 
@@ -564,6 +569,7 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <ModalAboutFPS v-model="showFPSInfoModal"/>
         <ModalForm v-model="isModalVisible" type="get-contract-id"/>
         <ModalRequisites v-model="isRequisitesVisible"/>
+        <ModalDigitalRuble v-model="isDigitalRubleVisible"/>
         <ModalPaymentQr v-model="isQrVisible" :image="qrImage" :link="qrLink" :amount="qrAmount"/>
     </div>
 </template>
