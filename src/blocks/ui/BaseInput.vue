@@ -390,7 +390,7 @@ function normalizeDecimalKey(event) {
             v-if="props.type === 'number'"
             v-model="value"
             class="t-input w-full"
-            :pt="{ pcinputtext: { root: { name: props.name, 'data-field-id': fieldId } } }"
+            :pt="{ pcinputtext: { root: { name: props.name, 'data-field-id': fieldId, inputmode: 'decimal' } } }"
             :invalid="isInvalid"
             :placeholder="props.placeholder"
             :disabled='props.disabled'
