@@ -1,12 +1,12 @@
 <script setup>
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
-import {watch} from "vue";
+import {onBeforeUnmount, ref, watch} from "vue";
 import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 
-defineProps({
+const props = defineProps({
     image: {
         type: String,
         default: ''
@@ -19,18 +19,95 @@ defineProps({
         type: [String, Number],
         default: null
     },
+    // По ним окно спрашивает у сервера статус платежа
+    paymentId: {
+        type: String,
+        default: ''
+    },
+    orderId: {
+        type: String,
+        default: ''
+    },
 })
+
+const emit = defineEmits(['paid'])
 
 // На телефоне свой экран не отсканировать, поэтому там главная кнопка открывает
 // приложение банка, а QR остаётся для оплаты с другого устройства
 const isTouchDevice = typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches
 
+// По СБП человек платит в приложении банка, и на сайт его никто не возвращает.
+// Пока окно открыто, раз в несколько секунд спрашиваем у сервера статус, при оплате
+// показываем «спасибо». Дольше 15 минут не спрашиваем: QR к тому времени уже не нужен
+const PAYMENT_STATUS_URL = '/backend/public/payment-status.php'
+const POLL_INTERVAL_MS = 3000
+const POLL_LIMIT_MS = 15 * 60 * 1000
+const FAILED_STATUSES = ['REJECTED', 'DEADLINE_EXPIRED', 'CANCELED', 'AUTH_FAIL']
+
+// waiting - ждём оплату, paid - оплачено, failed - банк отказал
+const paymentState = ref('waiting')
+let pollTimer = null
+let pollStartedAt = 0
+// номер открытия окна: ответ, пришедший после закрытия, к новому открытию не относится
+let pollRun = 0
+
+function stopPolling() {
+    clearTimeout(pollTimer)
+    pollTimer = null
+}
+
+async function checkStatus(run) {
+    try {
+        const response = await fetch(PAYMENT_STATUS_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({paymentId: props.paymentId, orderId: props.orderId}),
+        })
+        const result = await response.json().catch(() => null)
+
+        if (run !== pollRun || !visible.value) return
+
+        if (result?.ok && result.status === 'CONFIRMED') {
+            paymentState.value = 'paid'
+            emit('paid')
+            return
+        }
+
+        if (result?.ok && FAILED_STATUSES.includes(result.status)) {
+            paymentState.value = 'failed'
+            return
+        }
+    } catch (e) {
+        // сеть моргнула - спросим ещё раз
+    }
+
+    if (run === pollRun && visible.value && Date.now() - pollStartedAt < POLL_LIMIT_MS) {
+        pollTimer = setTimeout(() => checkStatus(run), POLL_INTERVAL_MS)
+    }
+}
+
 watch(visible, (newVal) => {
-    // Метрика
+    stopPolling()
+    pollRun++
+
     if (newVal) {
+        // Метрика
         const url = getPageUrl()
         sendMetrikaEvent('modal_open', {id: 'sbp_payment', url})
+
+        paymentState.value = 'waiting'
+
+        if (props.paymentId && props.orderId) {
+            const run = pollRun
+            pollStartedAt = Date.now()
+            pollTimer = setTimeout(() => checkStatus(run), POLL_INTERVAL_MS)
+        }
     }
+})
+
+onBeforeUnmount(() => {
+    stopPolling()
+    pollRun++
 })
 </script>
 
@@ -42,11 +119,19 @@ watch(visible, (newVal) => {
                     Оплата через СБП
                 </div>
 
-                <div v-if="amount" class="qr__amount">
+                <div v-if="amount && paymentState !== 'failed'" class="qr__amount">
                     {{ amount }} ₽
                 </div>
 
-                <template v-if="isTouchDevice && link">
+                <p v-if="paymentState === 'paid'" class="qr__hint qr__paid">
+                    Платёж прошёл, спасибо. Квитанция придёт на указанные вами контакты.
+                </p>
+
+                <p v-else-if="paymentState === 'failed'" class="qr__hint">
+                    Платёж не прошёл. Попробуйте ещё раз или оплатите по реквизитам.
+                </p>
+
+                <template v-else-if="isTouchDevice && link">
                     <BaseButton as="link" :href="link" size="large" class="w-full" data-id="modal_qr_open_bank_link">
                         Открыть приложение банка
                     </BaseButton>
@@ -110,6 +195,10 @@ watch(visible, (newVal) => {
 
     &__note {
         @apply text-sm text-slate-500;
+    }
+
+    &__paid {
+        @apply font-semibold text-green-600;
     }
 }
 </style>

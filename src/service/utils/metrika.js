@@ -27,6 +27,19 @@ export function getPageUrl() {
 				return window.location.origin + window.location.pathname;
 }
 
+// Идентификатор для связи визита Метрики с данными в 1С: время в миллисекундах и четыре
+// заглавные латинские буквы, например 1792357050061AKRP. Новый перед каждым действием,
+// которое потом надо связать с визитом, и сразу уходит в Метрику событием track_id
+export function sendTrackId() {
+				let letters = '';
+				for (let i = 0; i < 4; i++) {
+								letters += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+				}
+				const tid = Date.now() + letters;
+				sendMetrikaEvent('track_id', { tid });
+				return tid;
+}
+
 // id темы обращения для параметра theme. У тем без своего value id задан полем theme
 export function resolveThemeId(option) {
 				if (!option || typeof option !== 'object') return undefined;

@@ -8,7 +8,7 @@ import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
 import ModalDigitalRuble from "@/layouts/ModalDigitalRuble.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
-import {createFieldStartTracker, getPageUrl} from "@/service/utils/metrika.js";
+import {createFieldStartTracker, getPageUrl, sendTrackId} from "@/service/utils/metrika.js";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -29,6 +29,7 @@ const FPS_DISABLED_TEXT = 'Оплата через СБП временно не�
 const FPS_MIN_AMOUNT = 10
 
 const PAY_FAILED_TEXT = 'Не удалось начать оплату. Попробуйте ещё раз или оплатите по реквизитам.'
+const PAID_OK_TEXT = 'Платёж прошёл, спасибо. Квитанция придёт на указанные вами контакты.'
 
 const METRIKA_ID = 95726509
 
@@ -102,6 +103,10 @@ const isQrVisible = ref(false)
 const qrImage = ref('')
 const qrLink = ref('')
 const qrAmount = ref(null)
+// По ним окно с QR спрашивает статус и при оплате отправляет payment_success
+const qrPaymentId = ref('')
+const qrOrderId = ref('')
+const qrTid = ref('')
 
 // Валидация
 const inputRefs = ref([])
@@ -147,12 +152,13 @@ function forgetPayment() {
     }
 }
 
-// без этого о проблеме знали только по жалобам, без цифр
-function reportPaymentEvent(goal, reason) {
+// без этого о проблеме знали только по жалобам, без цифр.
+// extra - параметры успешной оплаты: tid, number (номер заказа), type
+function reportPaymentEvent(goal, reason, extra = {}) {
     try {
         if (typeof window.ym === 'function') {
             const url = getPageUrl();
-            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url})
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url, ...extra})
         }
     } catch (e) {
         // метрика не должна ломать оплату
@@ -228,6 +234,10 @@ async function paymentPay() {
         const isReused = result !== null
 
         if (!isReused) {
+            // Новый идентификатор на каждый новый платёж, сразу событием track_id.
+            // Он вернётся с номером заказа в payment_success и свяжет оплату с визитом
+            const tid = sendTrackId()
+
             const response = await fetch(PAYMENT_INIT_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -238,6 +248,7 @@ async function paymentPay() {
                     contractId: contractId.value,
                     email: contactType.value === 'email' ? email.value : '',
                     phone: contactType.value === 'phone' ? phone.value : '',
+                    tid,
                 }),
             })
 
@@ -246,6 +257,9 @@ async function paymentPay() {
             if (!response.ok || !result?.ok || !result.paymentUrl) {
                 throw new Error(result?.message || 'Банк не принял заказ')
             }
+
+            // запоминается вместе с платежом: повторный показ того же QR с тем же tid
+            result.tid = tid
 
             // СБП без QR оплатить нельзя, такой ответ не запоминаем, пусть повтор спросит банк снова
             if (paymentType.value !== 'fps' || result.qrImage) {
@@ -257,6 +271,9 @@ async function paymentPay() {
             qrImage.value = result.qrImage
             qrLink.value = result.qrLink || ''
             qrAmount.value = userAmount.value
+            qrPaymentId.value = String(result.paymentId || '')
+            qrOrderId.value = result.orderId || ''
+            qrTid.value = result.tid || ''
             isQrVisible.value = true
             isPayLoading.value = false
             // тот же QR второй раз в воронку не считаем
@@ -295,7 +312,24 @@ onBeforeUpdate(() => {
     contactInput.value = []
 })
 
-// Банк возвращает человека на /payment?paid=1&m=card после оплаты.
+// Оплата по СБП: окно с QR узнало у банка, что платёж прошёл
+function onQrPaid() {
+    forgetPayment()
+    paidNotice.value = PAID_OK_TEXT
+    isPaidOk.value = true
+    reportPaymentEvent('payment_success', 'fps', successParams(qrTid.value, qrOrderId.value, 'fps'))
+}
+
+function successParams(tid, number, type) {
+    const params = {}
+    if (tid) params.tid = tid
+    if (number) params.number = number
+    params.type = type
+    return params
+}
+
+// Банк возвращает человека на главную ?paid=1&m=card&order=...&tid=...#payment
+// после оплаты картой (до 21.10 возвращал на /payment, без order и tid).
 // Это единственный момент, когда об успехе можно сказать в браузере:
 // уведомление о статусе приходит на сервер и до метрики не доходит.
 onMounted(() => {
@@ -310,19 +344,20 @@ onMounted(() => {
     const method = params.get('m') || 'card'
 
     if (paid === '1') {
-        paidNotice.value = 'Платёж прошёл, спасибо. Квитанция придёт на указанные вами контакты.'
+        paidNotice.value = PAID_OK_TEXT
         isPaidOk.value = true
-        reportPaymentEvent('payment_success', method)
+        reportPaymentEvent('payment_success', method, successParams(params.get('tid'), params.get('order'), method))
     } else {
         paidNotice.value = 'Платёж не завершён. Попробуйте ещё раз или оплатите по реквизитам.'
     }
 
     // убираем метку из адреса, иначе обновление страницы засчитает оплату повторно
-    params.delete('paid')
-    params.delete('m')
+    for (const key of ['paid', 'm', 'order', 'tid']) {
+        params.delete(key)
+    }
 
     const rest = params.toString()
-    history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : ''))
+    history.replaceState(history.state, '', window.location.pathname + (rest ? '?' + rest : '') + window.location.hash)
 })
 
 // Из bfcache страница возвращается целиком, вместе с кнопкой в загрузке: перед
@@ -570,7 +605,15 @@ defineExpose({validateForm, isFormValid, paymentPay})
         <ModalForm v-model="isModalVisible" type="get-contract-id"/>
         <ModalRequisites v-model="isRequisitesVisible"/>
         <ModalDigitalRuble v-model="isDigitalRubleVisible"/>
-        <ModalPaymentQr v-model="isQrVisible" :image="qrImage" :link="qrLink" :amount="qrAmount"/>
+        <ModalPaymentQr
+            v-model="isQrVisible"
+            :image="qrImage"
+            :link="qrLink"
+            :amount="qrAmount"
+            :payment-id="qrPaymentId"
+            :order-id="qrOrderId"
+            @paid="onQrPaid"
+        />
     </div>
 </template>
 
