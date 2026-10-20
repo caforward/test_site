@@ -35,15 +35,18 @@ const router = createRouter({
             return savedPosition
         }
 
-        if (from && from.path === to.path) {
-            return {top: 0}
-        }
-
+        // Якорь проверяем раньше, чем ту же страницу: клик по /#payment на главной -
+        // переход на ту же страницу, и наверх роутер уводил её уже после того, как
+        // браузер докрутил до формы. В Firefox так якорь срабатывал только со второго раза
         if (to.hash) {
             return {
                 el: to.hash,
                 behavior: 'smooth',
             }
+        }
+
+        if (from && from.path === to.path) {
+            return {top: 0}
         }
 
         return {}
