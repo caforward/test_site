@@ -14,6 +14,7 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../payment-log.php';
+require __DIR__ . '/../tbank-api.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -21,17 +22,14 @@ $dotenv->load();
 const TBANK_INIT_URL = 'https://securepay.tinkoff.ru/v2/Init';
 const TBANK_GETQR_URL = 'https://securepay.tinkoff.ru/v2/GetQr';
 
-// securepay.tinkoff.ru работает по сертификату УЦ Минцифры, которого нет
-// в стандартном хранилище Linux. Возим корень с собой, иначе cURL не
-// установит соединение. Домен tbank.ru не используем: поддержка банка
-// подтвердила, что методов на нём официально не существует.
-const TBANK_CA_BUNDLE = __DIR__ . '/../certs/russian-trusted-ca.pem';
-
 // Куда банк присылает статусы платежей, включая возвраты по СБП.
 // Домен зашит намеренно: адрес уходит в банк и должен быть публичным.
 const SITE_URL = 'https://caforward.ru';
 const NOTIFICATION_URL = SITE_URL . '/backend/public/payment-notify.php';
-const RETURN_URL = SITE_URL . '/payment';
+// После оплаты банк возвращает на главную к форме оплаты, она сама показывает
+// результат. Страница /payment остаётся для старых ссылок и платежей, начатых
+// до переключения, по решению заказчика 15.10
+const RETURN_URL = SITE_URL . '/';
 
 // Рубильник для СБП. Был выключен, пока платежи разворачивались: причина
 // оказалась в неофициальном домене securepay.tbank.ru, на официальном
@@ -59,28 +57,6 @@ function fail(int $code, string $message): void
 }
 
 /*
- * Подпись запроса. Считается только по полям верхнего уровня, вложенные
- * DATA и Receipt в неё не входят. Если пароль терминала не задан, подпись
- * не отправляем - терминал настроен без неё.
- */
-function makeToken(array $params, string $password): string
-{
-    $params['Password'] = $password;
-
-    unset($params['DATA'], $params['Receipt'], $params['Token']);
-
-    ksort($params);
-
-    $concatenated = '';
-
-    foreach ($params as $value) {
-        $concatenated .= is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
-    }
-
-    return hash('sha256', $concatenated);
-}
-
-/*
  * С фронта телефон приходит в виде маски "+7 999 111-22-33", а банк для чека
  * ждёт сплошные цифры с плюсом.
  */
@@ -101,46 +77,6 @@ function normalizePhone(string $phone): string
     }
 
     return '+' . $digits;
-}
-
-function callBank(string $url, array $payload): ?array
-{
-    $ch = curl_init($url);
-
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 20,
-        CURLOPT_CONNECTTIMEOUT => 10,
-    ]);
-
-    if (is_readable(TBANK_CA_BUNDLE)) {
-        curl_setopt($ch, CURLOPT_CAINFO, TBANK_CA_BUNDLE);
-    } else {
-        paymentLog('bank_error', ['url' => $url, 'error' => 'нет файла сертификатов ' . TBANK_CA_BUNDLE]);
-    }
-
-    $raw = curl_exec($ch);
-    $curlError = curl_error($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    curl_close($ch);
-
-    if ($raw === false) {
-        paymentLog('bank_error', ['url' => $url, 'error' => $curlError]);
-        return null;
-    }
-
-    $decoded = json_decode($raw, true);
-
-    if (!is_array($decoded)) {
-        paymentLog('bank_error', ['url' => $url, 'http' => $httpCode, 'error' => 'неразбираемый ответ', 'raw' => mb_substr($raw, 0, 300)]);
-        return null;
-    }
-
-    return $decoded;
 }
 
 /*
@@ -190,11 +126,20 @@ $email = trim((string) ($input['email'] ?? ''));
 $phone = normalizePhone((string) ($input['phone'] ?? ''));
 $amount = $input['amount'] ?? null;
 
+// Идентификатор визита для Метрики (track_id): время в миллисекундах и четыре
+// заглавные буквы. Его нет - платёж всё равно создаём, просто без связи с визитом
+$tid = (string) ($input['tid'] ?? '');
+
+if (!preg_match('/^\d{10,13}[A-Z]{4}$/', $tid)) {
+    $tid = '';
+}
+
 // ФИО и контакты в журнал не пишем: для разбора хватает договора и суммы
 $logContext = [
     'method' => is_string($method) ? $method : '',
     'amount' => is_scalar($amount) ? (string) $amount : null,
     'contract' => mb_substr($contractId, 0, 50),
+    'tid' => $tid,
 ];
 
 if ($method !== 'card' && $method !== 'fps') {
@@ -282,17 +227,23 @@ if ($phone !== '') {
     $receipt['Phone'] = $phone;
 }
 
+$orderId = date('YmdHis') . '-' . bin2hex(random_bytes(3));
+
+// Номер заказа и tid в адресе возврата: по ним сайт отправит payment_success
+// с параметрами number и tid. #payment - сразу к форме, где виден результат
+$returnQuery = ['m' => $method, 'order' => $orderId] + ($tid !== '' ? ['tid' => $tid] : []);
+
 // NotificationURL, SuccessURL и FailURL - поля корневого объекта, поэтому
 // добавляем их до расчёта подписи, иначе банк её не примет.
 $payload = [
     'TerminalKey' => $terminalKey,
     'Amount' => $amountInCents,
-    'OrderId' => date('YmdHis') . '-' . bin2hex(random_bytes(3)),
+    'OrderId' => $orderId,
     'Description' => $contractId,
     'Language' => 'ru',
     'NotificationURL' => NOTIFICATION_URL,
-    'SuccessURL' => RETURN_URL . '?paid=1&m=' . $method,
-    'FailURL' => RETURN_URL . '?paid=0&m=' . $method,
+    'SuccessURL' => RETURN_URL . '?' . http_build_query(['paid' => 1] + $returnQuery) . '#payment',
+    'FailURL' => RETURN_URL . '?' . http_build_query(['paid' => 0] + $returnQuery) . '#payment',
 ];
 
 if ($password !== '') {
@@ -323,6 +274,7 @@ $answer = [
     'ok' => true,
     'paymentUrl' => $result['PaymentURL'],
     'paymentId' => $result['PaymentId'] ?? null,
+    'orderId' => $orderId,
 ];
 
 // Если QR получить не вышло, отдаём только ссылку - фронт уведёт на страницу
