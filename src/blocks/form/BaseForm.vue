@@ -10,7 +10,7 @@ import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 // composables
 import {useInputValidation, createFormData} from '@/composable/useForm.js'
 import {FORM_TYPE_META, FORM_TYPES} from "@/constants/formTypes.js";
-import {createFieldStartTracker, resolveFormId} from "@/service/utils/metrika.js";
+import {createFieldStartTracker, getPageUrl, resolveFormId, resolveThemeId, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 // variables
 
@@ -45,6 +45,11 @@ const props = defineProps({
     startFieldFormId: {
         type: String,
         default: '',
+    },
+    // Где форма, для параметра from в событиях: body - в теле страницы, modal - в окне
+    metrikaFrom: {
+        type: String,
+        default: 'body',
     }
 })
 
@@ -86,7 +91,7 @@ function submitForm() {
             }
         }
 
-        emit('submitted', formData, formInputRefs)
+        emit('submitted', formData, formInputRefs, {theme: themeId.value})
 
     } else {
         // console.log('form is not valid')
@@ -114,7 +119,23 @@ const formTypeMeta = computed(() => {
 // Начало заполнения полей. Учёт свой у каждой формы: закрыли окно - форма
 // пропала вместе с учётом, при новом открытии события пойдут снова
 const fieldsFormId = computed(() => props.startFieldFormId || resolveFormId(props.formMetrikaId, props.inputs))
-const fieldStartTracker = createFieldStartTracker(() => fieldsFormId.value)
+
+// Тема обращения для параметра theme. Только у формы debt-info, где тему выбирает человек
+const themeId = computed(() => fieldsFormId.value === 'debt-info' ? resolveThemeId(formInputs.messageType?.value) : undefined)
+
+const fieldStartTracker = createFieldStartTracker(() => ({form: fieldsFormId.value, theme: themeId.value, from: props.metrikaFrom}))
+
+// Человек сам выбрал тему в форме debt-info. Тема по умолчанию и подставленная кодом события не дают
+function onUserSelect(name, option) {
+    if (name !== 'messageType' || fieldsFormId.value !== 'debt-info') return
+
+    sendMetrikaEvent('form_choice_theme', {
+        form: fieldsFormId.value,
+        theme: resolveThemeId(option),
+        from: props.metrikaFrom,
+        url: getPageUrl(),
+    })
+}
 
 // Обнуление ссылок при обновлении DOM
 onBeforeUpdate(() => {
@@ -193,6 +214,7 @@ watch(
                         :max="input.maxLength"
                         @field-start="fieldStartTracker.start"
                         @field-reset="fieldStartTracker.reset"
+                        @user-select="onUserSelect(input.name, $event)"
                     />
                 </template>
 

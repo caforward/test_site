@@ -1,14 +1,14 @@
 <script setup>
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import {onMounted} from "vue";
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
 onMounted(() => {
     window.scrollTo(0, 0)
 
     // Метрика: человек попал на несуществующую страницу, url - адрес, по которому он пришёл
-    sendMetrikaEvent('page_404', {url: window.location.href.split('#')[0]})
+    sendMetrikaEvent('page_404', {url: getPageUrl()})
 })
 </script>
 

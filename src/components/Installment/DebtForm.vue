@@ -4,7 +4,7 @@ import BaseButton from '@/blocks/ui/BaseButton.vue';
 import PayForm from '@/blocks/PayForm.vue';
 import BaseModal from '@/blocks/BaseModal.vue';
 import {ref, watch} from 'vue';
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const secureTextModal = ref(false)
 const securePopover = ref(null)
@@ -38,7 +38,7 @@ watch(
 watch(secureTextModal, (newVal) => {
     // Метрика
     if (newVal) {
-        const url = window.location.href.split('#')[0]
+        const url = getPageUrl()
         sendMetrikaEvent('modal_open', {id: 'secure_text', url})
     }
 })

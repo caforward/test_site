@@ -2,7 +2,7 @@
 import {watch, ref} from 'vue'
 import BaseModal from '@/blocks/BaseModal.vue';
 import Button from "primevue/button";
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {PAYMENT_FORM_URL} from "@/constants/links.js";
 
@@ -26,7 +26,7 @@ watch(
             document.body.style.overflow = 'hidden';
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
 
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             sendMetrikaEvent('form_open', {form: 'requisites', url});
         } else {
             document.body.style.paddingRight = '';

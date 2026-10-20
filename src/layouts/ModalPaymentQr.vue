@@ -2,7 +2,7 @@
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {watch} from "vue";
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 
@@ -28,7 +28,7 @@ const isTouchDevice = typeof window.matchMedia === 'function' && window.matchMed
 watch(visible, (newVal) => {
     // Метрика
     if (newVal) {
-        const url = window.location.href.split('#')[0]
+        const url = getPageUrl()
         sendMetrikaEvent('modal_open', {id: 'sbp_payment', url})
     }
 })

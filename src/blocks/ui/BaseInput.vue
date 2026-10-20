@@ -57,7 +57,7 @@ const props = defineProps({
 
 const value = defineModel()
 // fieldStart - человек начал заполнять поле, fieldReset - поле очистили после отправки формы
-const emit = defineEmits(['fieldStart', 'fieldReset'])
+const emit = defineEmits(['fieldStart', 'fieldReset', 'userSelect'])
 const isInvalid = ref(null)
 
 const input = ref(null)
@@ -224,6 +224,11 @@ function validateInputValue(inputValue) {
 // поэтому очистка формы и значения, подставленные кодом, начала заполнения не дают
 function onUserInput(inputValue) {
     validateInputValue(inputValue)
+
+    // выбор в списке, например темы обращения
+    if (props.type === 'select') {
+        emit('userSelect', inputValue)
+    }
 
     if (isFieldStarted(props.type, inputValue, fieldId.value)) {
         emit('fieldStart', fieldId.value)

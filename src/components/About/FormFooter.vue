@@ -46,14 +46,14 @@ export default {
                         // {value: 'callback', label: 'Прошу перезвонить'},
                         {value: 'debt-info', label: 'Информация о долге'},
                         {value: 'installment', label: 'Запрос на оферту'},
-                        {value: '', label: 'Внесение изменений в БКИ'},
-                        {value: '', label: 'Информация о мобилизации'},
+                        {value: '', theme: 'bki', label: 'Внесение изменений в БКИ'},
+                        {value: '', theme: 'mobilization', label: 'Информация о мобилизации'},
                         {value: 'refund', label: 'О возврате денежных средств'},
                         {value: 'account-unblock', label: 'Разблокировка счетов'},
-                        {value: '', label: 'Отказ от взаимодействия'},
-                        {value: '', label: 'Претензия'},
-                        {value: '', label: 'Справка о погашении задолженности'},
-                        {value: '', label: 'Справка о состоянии задолженности'},
+                        {value: '', theme: 'refusal', label: 'Отказ от взаимодействия'},
+                        {value: '', theme: 'claim', label: 'Претензия'},
+                        {value: '', theme: 'repayment-certificate', label: 'Справка о погашении задолженности'},
+                        {value: '', theme: 'debt-status-certificate', label: 'Справка о состоянии задолженности'},
                         {value: 'cancel-ip', label: 'Отозвать ИП'},
                         {value: 'get-contract-id', label: 'Узнать номер договора'},
                     ],
@@ -77,7 +77,7 @@ export default {
 <template>
     <section>
         <div class="custom-container">
-            <FormBlock :inputs=inputs form-metrika-id="footer-about" @submitted="showThankModal">
+            <FormBlock :inputs=inputs form-metrika-id="debt-info" @submitted="showThankModal">
                 <template v-slot:info>
                     <div class="form-block-info">
                         <h2 class="form-block-info__title">

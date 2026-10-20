@@ -1,6 +1,6 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const accordions = ref(null)
 
@@ -32,7 +32,7 @@ function openAccordion(e) {
     // Уникальный ID из data-id заголовка (accordion_faq_1, accordion_faq_2, ...)
     const id = title.dataset.id || 'accordion_unknown';
 
-    const url = window.location.href.split('#')[0];
+    const url = getPageUrl();
 
     sendMetrikaEvent('accordion', { id, type, url });
 }

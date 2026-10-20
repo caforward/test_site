@@ -2,7 +2,7 @@
 import BaseModal from "@/blocks/BaseModal.vue";
 import BaseButton from "@/blocks/ui/BaseButton.vue";
 import {watch} from "vue";
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 import qrImage from "@/assets/images/digital-ruble-qr.png";
 
 const visible = defineModel()
@@ -22,7 +22,7 @@ watch(
             document.body.style.overflow = 'hidden';
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
 
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             sendMetrikaEvent('form_open', {form: 'digital-ruble', url});
         } else {
             document.body.style.paddingRight = '';

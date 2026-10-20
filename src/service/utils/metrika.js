@@ -21,6 +21,18 @@ const FIELD_ID_ALIASES = {
 				complaintMessage: 'message',
 };
 
+// Адрес страницы для параметра url: без якоря и без хвоста после «?» (utm, ysclid, pv_id),
+// иначе одна и та же страница расходится в отчёте на разные адреса
+export function getPageUrl() {
+				return window.location.origin + window.location.pathname;
+}
+
+// id темы обращения для параметра theme. У тем без своего value id задан полем theme
+export function resolveThemeId(option) {
+				if (!option || typeof option !== 'object') return undefined;
+				return option.theme || option.value || undefined;
+}
+
 export const sendMetrikaEvent = (eventName, params = {}) => {
 				if (typeof window.ym !== 'undefined') {
 								window.ym(METRIKA_ID, 'reachGoal', eventName, params);
@@ -97,7 +109,7 @@ export function isFieldStarted(type, value, fieldId) {
 	* Форма закрылась и пропала со страницы - пропал и учёт, при новом открытии
 	* события пойдут снова. Поля, очищенные после отправки, возвращает reset.
 	*/
-export function createFieldStartTracker(getFormId) {
+export function createFieldStartTracker(getFormInfo) {
 				const started = new Set();
 
 				return {
@@ -105,8 +117,15 @@ export function createFieldStartTracker(getFormId) {
 												if (!fieldId || started.has(fieldId)) return;
 
 												started.add(fieldId);
-												const url = window.location.href.split('#')[0];
-												sendMetrikaEvent('form_start_field', { form: getFormId(), field: fieldId, url });
+												// getFormInfo отдаёт id формы строкой или {form, theme, from}; theme есть только у debt-info
+												const info = getFormInfo();
+												const { form, theme, from } = typeof info === 'string' ? { form: info } : info;
+												const params = { form };
+												if (theme) params.theme = theme;
+												if (from) params.from = from;
+												params.url = getPageUrl();
+												params.field = fieldId;
+												sendMetrikaEvent('form_start_field', params);
 								},
 								reset(fieldId) {
 												started.delete(fieldId);

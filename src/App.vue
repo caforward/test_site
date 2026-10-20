@@ -4,7 +4,7 @@ import TheFooter from "@/layouts/TheFooter.vue";
 import TheMenuBottom from "@/layouts/TheMenuBottom.vue";
 import BaseCookie from "@/blocks/modals/BaseCookie.vue";
 import {onMounted, onUnmounted} from "vue";
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 function clickHandler(e) {
     const target = e.target.closest('[data-id]');
@@ -14,7 +14,7 @@ function clickHandler(e) {
     if (target.closest('[data-accordion]')) return;
 
     const id = target.dataset.id;
-    const url = window.location.href.split('#')[0];
+    const url = getPageUrl();
 
     sendMetrikaEvent('click', {id, url});
 }

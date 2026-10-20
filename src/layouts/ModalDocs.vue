@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onUpdated, watch} from 'vue'
 import BaseModal from '@/blocks/BaseModal.vue';
-import {sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const emits = defineEmits(['close'])
 
@@ -204,7 +204,7 @@ watch(
             document.body.style.overflow = 'hidden';
             document.body.style.paddingRight = browserScrollbarWidth + 'px';
 
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             sendMetrikaEvent('form_open', {form: 'documents', url});
         } else {
             document.body.style.paddingRight = '';

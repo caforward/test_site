@@ -3,7 +3,7 @@ import {onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
-import {resolveFormId, sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, resolveFormId, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 const response = ref(null)
@@ -68,14 +68,14 @@ const props = defineProps({
                     // "Другое",
                     {value: 'debt-info', label: 'Информация о долге'},
                     {value: 'installment', label: 'Запрос на оферту'},
-                    {value: '', label: 'Внесение изменений в БКИ'},
-                    {value: '', label: 'Информация о мобилизации'},
+                    {value: '', theme: 'bki', label: 'Внесение изменений в БКИ'},
+                    {value: '', theme: 'mobilization', label: 'Информация о мобилизации'},
                     {value: 'refund', label: 'О возврате денежных средств'},
                     {value: 'account-unblock', label: 'Разблокировка счетов'},
-                    {value: '', label: 'Отказ от взаимодействия'},
+                    {value: '', theme: 'refusal', label: 'Отказ от взаимодействия'},
                     {value: 'claim', label: 'Претензия'},
-                    {value: '', label: 'Справка о погашении задолженности'},
-                    {value: '', label: 'Справка о состоянии задолженности'},
+                    {value: '', theme: 'repayment-certificate', label: 'Справка о погашении задолженности'},
+                    {value: '', theme: 'debt-status-certificate', label: 'Справка о состоянии задолженности'},
                     {value: 'cancel-ip', label: 'Отозвать ИП'},
                     {value: 'get-contract-id', label: 'Узнать номер договора'},
                 ],
@@ -101,7 +101,7 @@ const props = defineProps({
 // а он не реактивный, поэтому computed запоминал форму первого открытого окна
 const modalId = ref(resolveFormId(props.formMetrikaId, props.inputs))
 
-async function sendData(formData, formInputRefs) {
+async function sendData(formData, formInputRefs, meta = {}) {
     // Повторный Enter или клик, пока идёт отправка, второго письма не шлёт:
     // форма уже закрыта заставкой
     if (overlayThankVisible.value) return
@@ -124,13 +124,12 @@ async function sendData(formData, formInputRefs) {
                 inputRef.clearValue()
             })
 
-            // Отправка метрики (отвправка формы)
-            const url = window.location.href.split('#')[0];
-            sendMetrikaEvent('form_submitted', {
-                form: resolveFormId(props.formMetrikaId, props.inputs),
-                from: 'modal',
-                url
-            });
+            // Отправка метрики (отвправка формы). theme есть только у debt-info
+            const params = {form: resolveFormId(props.formMetrikaId, props.inputs)}
+            if (meta.theme) params.theme = meta.theme
+            params.from = 'modal'
+            params.url = getPageUrl()
+            sendMetrikaEvent('form_submitted', params);
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
             overlayThankVisible.value = false
@@ -209,7 +208,7 @@ watch(
             document.body.style.overflow = 'hidden'
             document.body.style.paddingRight = browserScrollbarWidth + 'px'
 
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             sendMetrikaEvent('form_open', {
                 form: resolveFormId(props.formMetrikaId, props.inputs),
                 url
@@ -238,6 +237,7 @@ watch(
                     :inputs="inputs"
                     :grayForm="true"
                     :form-metrika-id="props.formMetrikaId"
+                    metrika-from="modal"
                     @submitted="sendData"
                 />
                 <OverlayThank

@@ -8,7 +8,7 @@ import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
 import ModalDigitalRuble from "@/layouts/ModalDigitalRuble.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
-import {createFieldStartTracker} from "@/service/utils/metrika.js";
+import {createFieldStartTracker, getPageUrl} from "@/service/utils/metrika.js";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -108,7 +108,7 @@ const inputRefs = ref([])
 const contactInput = ref([])
 
 // Начало заполнения полей, событие form_start_field
-const fieldStartTracker = createFieldStartTracker(() => METRIKA_FORM_ID)
+const fieldStartTracker = createFieldStartTracker(() => ({form: METRIKA_FORM_ID, from: 'body'}))
 
 // Повторное нажатие «Оплатить» с теми же данными не создаёт в банке новый платёж.
 // Раньше каждое нажатие давало ещё одну попытку, а брошенные копии через сутки
@@ -151,7 +151,7 @@ function forgetPayment() {
 function reportPaymentEvent(goal, reason) {
     try {
         if (typeof window.ym === 'function') {
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url})
         }
     } catch (e) {
@@ -172,7 +172,7 @@ function reportAndLeave(goal, reason, url) {
 
     try {
         if (typeof window.ym === 'function') {
-            const url = window.location.href.split('#')[0];
+            const url = getPageUrl();
             window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url}, leave)
             setTimeout(leave, 1000)
             return

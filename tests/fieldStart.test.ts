@@ -172,16 +172,16 @@ describe('учёт начатых полей формы', () => {
         expect(sentFields()).toEqual(['callback:name', 'callback:tel'])
     })
 
-    it('параметры события: form, field и адрес страницы без якоря', () => {
+    it('параметры события: form, field и адрес страницы без якоря и без хвоста после ?', () => {
         window.history.replaceState(null, '', '/about?utm_source=x#contacts')
-        const tracker = createFieldStartTracker(() => 'footer-about')
+        const tracker = createFieldStartTracker(() => 'footer-jobs')
 
         tracker.start('email')
 
         expect(ym).toHaveBeenCalledWith(95726509, 'reachGoal', 'form_start_field', {
-            form: 'footer-about',
+            form: 'footer-jobs',
             field: 'email',
-            url: `${window.location.origin}/about?utm_source=x`,
+            url: `${window.location.origin}/about`,
         })
     })
 
