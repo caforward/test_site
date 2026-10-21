@@ -177,6 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'birthdayDate' => 'День рождения',
         'messageType' => 'Выбрана тема',
         'claim' => 'Претензия',
+        'message' => 'Вопрос',
         'companyName' => 'Наименование компании',
         'paymentAmount' => 'Сумма вашего долга',
         'paymentPeriod' => 'Срок погашения',
