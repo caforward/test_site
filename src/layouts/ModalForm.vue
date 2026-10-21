@@ -3,7 +3,7 @@ import {onMounted, ref, watch} from "vue";
 import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
-import {getPageUrl, resolveFormId, sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {getPageUrl, resolveFormId, sendMetrikaEvent, sendTrackId} from "@/service/utils/metrika.js";
 
 const visible = defineModel()
 const response = ref(null)
@@ -113,6 +113,12 @@ async function sendData(formData, formInputRefs, meta = {}) {
     formData.append('fromComponent', 'ModalForm')
     // Для тестирования пустых писем
 
+    // УИД заявки на рассрочку: tid уходит в Метрику событием track_id, в письмо строкой «УИД»
+    // и в form_submitted - по нему письмо связывается с визитом. Пока только у рассрочки (заказчик 21.10)
+    const formId = resolveFormId(props.formMetrikaId, props.inputs)
+    const tid = formId === 'installment' ? sendTrackId() : undefined
+    if (tid) formData.append('tid', tid)
+
     try {
         response.value = await fetch(props.fetchUrl, {
             method: 'POST',
@@ -124,11 +130,12 @@ async function sendData(formData, formInputRefs, meta = {}) {
                 inputRef.clearValue()
             })
 
-            // Отправка метрики (отвправка формы). theme есть только у debt-info
-            const params = {form: resolveFormId(props.formMetrikaId, props.inputs)}
+            // Отправка метрики (отвправка формы). theme есть только у debt-info, tid только у installment
+            const params = {form: formId}
             if (meta.theme) params.theme = meta.theme
             params.from = 'modal'
             params.url = getPageUrl()
+            if (tid) params.tid = tid
             sendMetrikaEvent('form_submitted', params);
         } else {
             console.warn('Ошибка отправки, статус:', response.value.status);
