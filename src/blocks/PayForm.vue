@@ -9,6 +9,7 @@ import ModalRequisites from "@/layouts/ModalRequisites.vue";
 import ModalDigitalRuble from "@/layouts/ModalDigitalRuble.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
 import {createFieldStartTracker, getPageUrl, sendTrackId} from "@/service/utils/metrika.js";
+import {checkPaymentResponse, paymentError, paymentFailureParams} from "@/service/utils/paymentError.js";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
 // Скрипт виджета раздавался с securepay.tinkoff.ru по сертификату УЦ Минцифры,
@@ -238,24 +239,31 @@ async function paymentPay() {
             // Он вернётся с номером заказа в payment_success и свяжет оплату с визитом
             const tid = sendTrackId()
 
-            const response = await fetch(PAYMENT_INIT_URL, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    method: paymentType.value,
-                    name: name.value,
-                    amount: userAmount.value,
-                    contractId: contractId.value,
-                    email: contactType.value === 'email' ? email.value : '',
-                    phone: contactType.value === 'phone' ? phone.value : '',
-                    tid,
-                }),
-            })
+            let response
+            try {
+                response = await fetch(PAYMENT_INIT_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        method: paymentType.value,
+                        name: name.value,
+                        amount: userAmount.value,
+                        contractId: contractId.value,
+                        email: contactType.value === 'email' ? email.value : '',
+                        phone: contactType.value === 'phone' ? phone.value : '',
+                        tid,
+                    }),
+                })
+            } catch (e) {
+                // до сервера не дошли: такие ошибки не видны в журнале платежей, только в Метрике
+                throw paymentError(PAY_FAILED_TEXT, 'network', e?.message)
+            }
 
             result = await response.json().catch(() => null)
 
-            if (!response.ok || !result?.ok || !result.paymentUrl) {
-                throw new Error(result?.message || 'Банк не принял заказ')
+            const failure = checkPaymentResponse(response, result)
+            if (failure) {
+                throw failure
             }
 
             // запоминается вместе с платежом: повторный показ того же QR с тем же tid
@@ -287,7 +295,7 @@ async function paymentPay() {
         // и такой платёж уйдёт через СБП-терминал не в тот банк. Честный отказ
         // с предложением реквизитов лучше, чем деньги не на том счёте.
         if (paymentType.value === 'fps') {
-            throw new Error('Не удалось получить QR-код. Попробуйте ещё раз или оплатите по реквизитам.')
+            throw paymentError('Не удалось получить QR-код. Попробуйте ещё раз или оплатите по реквизитам.', 'no_qr')
         }
 
         // Карта: уводим в банк. На успехе браузер уходит туда, загрузку не снимаем.
@@ -302,7 +310,8 @@ async function paymentPay() {
         payError.value = err.message && err.message !== 'Failed to fetch'
             ? err.message
             : PAY_FAILED_TEXT
-        reportPaymentEvent('payment_unavailable', paymentType.value)
+        // error - код причины, message - текст ошибки, см. paymentError.js
+        reportPaymentEvent('payment_unavailable', paymentType.value, paymentFailureParams(err))
         isPayLoading.value = false
     }
 }
