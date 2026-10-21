@@ -120,8 +120,9 @@ const formTypeMeta = computed(() => {
 // пропала вместе с учётом, при новом открытии события пойдут снова
 const fieldsFormId = computed(() => props.startFieldFormId || resolveFormId(props.formMetrikaId, props.inputs))
 
-// Тема обращения для параметра theme. Только у формы debt-info, где тему выбирает человек
-const themeId = computed(() => fieldsFormId.value === 'debt-info' ? resolveThemeId(formInputs.messageType?.value) : undefined)
+// Тема обращения для параметра theme. Только у форм, где тему выбирает человек: debt-info и форма вакансий jobs
+const THEME_FORMS = ['debt-info', 'jobs']
+const themeId = computed(() => THEME_FORMS.includes(fieldsFormId.value) ? resolveThemeId(formInputs.messageType?.value) : undefined)
 
 const fieldStartTracker = createFieldStartTracker(() => ({form: fieldsFormId.value, theme: themeId.value, from: props.metrikaFrom}))
 

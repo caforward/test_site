@@ -34,10 +34,11 @@ export default {
                     type: 'select',
                     placeholder: 'Тема обращения*',
                     required: true,
-                    value: "Прошу перезвонить",
+                    // темы объектами, как в остальных формах: подпись уходит в письмо, theme - в Метрику
+                    value: {value: '', theme: 'callback', label: 'Прошу перезвонить'},
                     options: [
-                        "Прошу перезвонить",
-                        "Другое",
+                        {value: '', theme: 'callback', label: 'Прошу перезвонить'},
+                        {value: '', theme: 'other', label: 'Другое'},
                     ],
                 },
                 {
@@ -81,7 +82,7 @@ export default {
                     </div>
                 </div>
 
-                <FormBlock :inputs=inputs form-metrika-id="footer-jobs" @submitted="showThankModal">
+                <FormBlock :inputs=inputs form-metrika-id="jobs" @submitted="showThankModal">
                     <template v-slot:info>
                         <div class="form-block-info">
                             <div class="heading-3 mb-2">

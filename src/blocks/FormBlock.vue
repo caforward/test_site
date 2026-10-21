@@ -152,7 +152,7 @@ async function sendData(formData, formInputRefs, meta = {}) {
             })
 
             // Отправка метрики (отвправка формы)
-            // theme есть только у debt-info
+            // theme есть только у debt-info и jobs
             const params = {form: props.formMetrikaId}
             if (meta.theme) params.theme = meta.theme
             params.from = 'body'

@@ -130,7 +130,7 @@ export function createFieldStartTracker(getFormInfo) {
 												if (!fieldId || started.has(fieldId)) return;
 
 												started.add(fieldId);
-												// getFormInfo отдаёт id формы строкой или {form, theme, from}; theme есть только у debt-info
+												// getFormInfo отдаёт id формы строкой или {form, theme, from}; theme есть только у debt-info и jobs
 												const info = getFormInfo();
 												const { form, theme, from } = typeof info === 'string' ? { form: info } : info;
 												const params = { form };

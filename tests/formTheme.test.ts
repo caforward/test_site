@@ -1,7 +1,7 @@
 /*
  * Метрика форм, задача заказчика от 19.10:
  * - url во всех событиях без якоря и без хвоста после «?» (utm, ysclid, pv_id);
- * - form_start_field: form, theme, from, url, field; theme только у формы debt-info;
+ * - form_start_field: form, theme, from, url, field; theme только у форм debt-info и jobs (вакансии);
  * - form_choice_theme, когда человек сам выбрал тему в debt-info: form, theme, from, url;
  * - у каждой темы свой id в theme, у тем без своего value он задан полем theme.
  */
@@ -127,14 +127,41 @@ describe('форма debt-info', () => {
 
 describe('форма не debt-info', () => {
     it('выбор в списке не даёт form_choice_theme, у начатых полей нет theme', () => {
-        const wrapper = mountForm({startFieldFormId: 'footer-jobs'})
+        const wrapper = mountForm({startFieldFormId: 'partners'})
 
         field(wrapper, 'messageType').vm.$emit('userSelect', THEMES[2])
         field(wrapper, 'name').vm.$emit('fieldStart', 'name')
 
         expect(sent('form_choice_theme')).toEqual([])
         expect(sent('form_start_field')).toEqual([
-            {form: 'footer-jobs', from: 'body', url: pageUrl(), field: 'name'},
+            {form: 'partners', from: 'body', url: pageUrl(), field: 'name'},
+        ])
+    })
+})
+
+describe('форма вакансий jobs', () => {
+    it('у начатых полей есть theme, form_choice_theme нет (заказчику нужен только theme)', () => {
+        const JOBS_THEMES = [
+            {value: '', theme: 'callback', label: 'Прошу перезвонить'},
+            {value: '', theme: 'other', label: 'Другое'},
+        ]
+        const wrapper = mount(BaseForm, {
+            props: {
+                inputs: [
+                    {name: 'name', type: 'text', placeholder: 'ФИО*', required: true},
+                    {name: 'messageType', type: 'select', placeholder: 'Тема обращения*', required: true, value: JOBS_THEMES[0], options: JOBS_THEMES},
+                ],
+                startFieldFormId: 'jobs',
+            },
+            global: {plugins: [PrimeVue], stubs: {RouterLink: true}},
+        })
+
+        field(wrapper, 'messageType').vm.$emit('userSelect', JOBS_THEMES[1])
+        field(wrapper, 'name').vm.$emit('fieldStart', 'name')
+
+        expect(sent('form_choice_theme')).toEqual([])
+        expect(sent('form_start_field')).toEqual([
+            {form: 'jobs', theme: 'callback', from: 'body', url: pageUrl(), field: 'name'},
         ])
     })
 })
