@@ -50,7 +50,7 @@ async function sendRate() {
 
         let response = await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: formRequestBody(postData)
+            body: await formRequestBody(postData)
         })
 
         // if (response.ok) {

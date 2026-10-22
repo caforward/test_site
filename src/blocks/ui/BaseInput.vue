@@ -10,6 +10,7 @@ import BaseSelect from './BaseSelect.vue';
 import {onMounted, ref, watch, computed} from 'vue';
 import BaseInputFile from "@/blocks/ui/BaseInputFile.vue";
 import {isFieldStarted, resolveFieldId} from '@/service/utils/metrika.js';
+import {fileError} from '@/service/utils/formRequest.js';
 
 const props = defineProps({
     name: {
@@ -287,14 +288,12 @@ function validateInputTel() {
     }
 }
 
-function validateInputFile() {
-    if (value) {
-        isInvalid.value = false
-        errorText.value = ''
-    } else {
-        isInvalid.value = true
-        errorText.value = 'Прикрепите файл'
-    }
+function validateInputFile(file) {
+    errorText.value = fileError(file)
+    isInvalid.value = errorText.value !== ''
+
+    // слишком большой файл сервер не примет - говорим сразу у поля, а не после «Отправить»
+    if (file && isInvalid.value) showError.value = true
 }
 
 function validateInputMin(value) {
@@ -481,7 +480,7 @@ function normalizeDecimalKey(event) {
             @blur="showErrorHandler"
         />
 
-        <!-- File input. Лимит 5 мегабайт -->
+        <!-- File input. Лимит 5 мегабайт: MAX_FILE_SIZE в formRequest.js, проверка в validateInputFile -->
         <BaseInputFile
             ref="input"
             v-if="props.type === 'file'"
@@ -490,7 +489,6 @@ function normalizeDecimalKey(event) {
             :data-field-id="fieldId"
             :name="props.name"
             :invalid="isInvalid"
-            :maxFileSize="5242880"
             :auto="false"
             :multiple="false"
             label="Прикрепить заявление"

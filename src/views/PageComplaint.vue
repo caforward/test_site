@@ -47,7 +47,7 @@ async function sendData(formData) {
     try {
         response.value = await fetch('/backend/public/complaint.php', {
             method: 'POST',
-            body: formRequestBody(formData)
+            body: await formRequestBody(formData)
         })
 
         if (response.value.ok) {
@@ -77,7 +77,7 @@ async function sendRating(rateData) {
     try {
         await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: formRequestBody(postData)
+            body: await formRequestBody(postData)
         })
     } catch (err) {
         console.log('error rate', err.message)

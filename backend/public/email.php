@@ -164,6 +164,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    /*
+     * Вложение. С 22.10.2026 хостинг после уязвимостей PHP CVE-2026-109618 и
+     * CVE-2026-109619 отвечает 403 на любой POST multipart/form-data, поэтому
+     * сайт присылает файл в обычной форме строкой base64: содержимое в
+     * file_attachment_b64, имя в file_attachment_name (formRequest.js).
+     * Файл через multipart ($_FILES) принимается как раньше.
+     */
+    $attachment = null;
+
+    if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
+        $attachment = [
+            'name' => $_FILES['file_attachment']['name'],
+            'path' => $_FILES['file_attachment']['tmp_name'],
+        ];
+    } elseif ($post('file_attachment_b64') !== '') {
+        $fileData = base64_decode($post('file_attachment_b64'), true);
+
+        if ($fileData === false || $fileData === '') {
+            http_response_code(400);
+            echo json_encode(["message" => "Ошибка загрузки файла"]);
+            exit;
+        }
+
+        // Лимит как MAX_FILE_SIZE в formRequest.js, файл больше сайт не отправляет. В base64
+        // файл вырастает на треть, запрос с 5 МБ укладывается в post_max_size 8M
+        if (strlen($fileData) > 5 * 1024 * 1024) {
+            http_response_code(413);
+            echo json_encode(["message" => "Файл больше 5 МБ"]);
+            exit;
+        }
+
+        // Имя от браузера: без пути и управляющих символов, PHP так же чистит имя в $_FILES
+        $fileName = preg_replace(['~[\x00-\x1F\x7F]~u', '~^.*[/\\\\]~u'], '', $post('file_attachment_name')) ?? '';
+
+        $attachment = [
+            'name' => $fileName !== '' ? mb_substr($fileName, -200) : 'file',
+            'data' => $fileData,
+        ];
+    }
+
     $fields = [
         'name' => 'Имя',
         'tel' => 'Телефон',
@@ -191,8 +231,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Добавляем инфо о вложении в текст письма, если оно есть
-    if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
-        $htmlContent .= '<p><strong>Вложение:</strong> ' . htmlspecialchars($_FILES['file_attachment']['name']) . '</p>';
+    if ($attachment !== null) {
+        $htmlContent .= '<p><strong>Вложение:</strong> ' . htmlspecialchars($attachment['name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>';
     }
 
     $component = !empty($_POST['fromComponent'])
@@ -227,11 +267,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->addAddress($_ENV['SMTP_ADDRESS']);
 
         // Прикрепляем файл
-        if (isset($_FILES['file_attachment']) && $_FILES['file_attachment']['error'] === UPLOAD_ERR_OK) {
-            $mail->addAttachment(
-                $_FILES['file_attachment']['tmp_name'],
-                $_FILES['file_attachment']['name']
-            );
+        if ($attachment !== null && isset($attachment['path'])) {
+            $mail->addAttachment($attachment['path'], $attachment['name']);
+        } elseif ($attachment !== null) {
+            $mail->addStringAttachment($attachment['data'], $attachment['name']);
         }
 
         $subject = 'Новое сообщение с сайта';
