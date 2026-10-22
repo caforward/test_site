@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import BaseButton from "@/blocks/ui/BaseButton.vue";
+import {formRequestBody} from "@/service/utils/formRequest.js";
 // import { useFetchPost } from '@/composable/useFetch.js'
 
 const emits = defineEmits(['close'])
@@ -49,7 +50,7 @@ async function sendRate() {
 
         let response = await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: postData
+            body: formRequestBody(postData)
         })
 
         // if (response.ok) {

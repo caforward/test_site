@@ -19,6 +19,11 @@ const props = defineProps({
     inBlock: {
         type: Boolean,
         default: false,
+    },
+    // свой текст ошибки, например когда хостинг не пропустил форму с файлом. Пусто - общий текст
+    errorText: {
+        type: String,
+        default: '',
     }
 })
 
@@ -175,7 +180,10 @@ function sendRatingAndCloseModal() {
                         <div class="font-bold text-2xl">
                             Ошибка
                         </div>
-                        <p class="text-xl text-center">
+                        <p v-if="errorText" class="text-xl text-center max-w-md">
+                            {{ errorText }}
+                        </p>
+                        <p v-else class="text-xl text-center">
                             Кажется что-то пошло не так, попробуйте<br> отправить обращение ещё раз.
                         </p>
                     </div>

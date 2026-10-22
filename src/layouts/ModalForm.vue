@@ -4,11 +4,13 @@ import BaseModal from '@/blocks/BaseModal.vue';
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import {getPageUrl, resolveFormId, sendMetrikaEvent, sendTrackId} from "@/service/utils/metrika.js";
+import {FILE_BLOCKED_TEXT, formHasFile, formRequestBody, isFileBlocked} from "@/service/utils/formRequest.js";
 
 const visible = defineModel()
 const response = ref(null)
 const overlayThankVisible = ref(false)
 const userName = ref(null)
+const errorText = ref('')
 
 const props = defineProps({
     type: {
@@ -119,10 +121,13 @@ async function sendData(formData, formInputRefs, meta = {}) {
     const tid = formId === 'installment' ? sendTrackId() : undefined
     if (tid) formData.append('tid', tid)
 
+    const withFile = formHasFile(formData)
+    errorText.value = ''
+
     try {
         response.value = await fetch(props.fetchUrl, {
             method: 'POST',
-            body: formData
+            body: formRequestBody(formData)
         })
 
         if (response.value.ok) {
@@ -138,8 +143,9 @@ async function sendData(formData, formInputRefs, meta = {}) {
             if (tid) params.tid = tid
             sendMetrikaEvent('form_submitted', params);
         } else {
+            // экран ошибки остаётся на месте: раньше он сразу закрывался, и казалось, что кнопка ничего не делает
             console.warn('Ошибка отправки, статус:', response.value.status);
-            overlayThankVisible.value = false
+            if (isFileBlocked(response.value, withFile)) errorText.value = FILE_BLOCKED_TEXT
         }
     } catch {
         response.value = {ok: false}
@@ -160,7 +166,7 @@ async function sendRating(rateData) {
     try {
         await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: postData
+            body: formRequestBody(postData)
         })
     } catch (err) {
         console.log('error rate', err.message)
@@ -250,6 +256,7 @@ watch(
                 <OverlayThank
                     v-model:visible="overlayThankVisible"
                     v-model:status="response"
+                    :error-text="errorText"
                     @closeParentModal="visible = false"
                     @sendRating="sendRating"
                 />

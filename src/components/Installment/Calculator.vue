@@ -3,6 +3,7 @@ import {ref} from 'vue';
 import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {formRequestBody} from "@/service/utils/formRequest.js";
 
 const overlayThankVisible = ref(false)
 const response = ref(null)
@@ -56,7 +57,7 @@ async function sendData(formData, formInputRefs) {
     try {
         response.value = await fetch('/backend/public/email.php', {
             method: 'POST',
-            body: formData
+            body: formRequestBody(formData)
         })
 
         if (response.value.ok) {
@@ -68,8 +69,8 @@ async function sendData(formData, formInputRefs) {
             const url = getPageUrl();
             sendMetrikaEvent('form_submitted', {form: 'calculator', from: 'body', url})
         } else {
+            // экран ошибки остаётся на месте: раньше он сразу закрывался, и казалось, что кнопка ничего не делает
             console.warn('Ошибка отправки, статус:', response.value.status);
-            overlayThankVisible.value = false
         }
     } catch {
         response.value = {ok: false}
@@ -90,7 +91,7 @@ async function sendRating(rateData) {
     try {
         await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: postData
+            body: formRequestBody(postData)
         })
     } catch (err) {
         console.log('error rate', err.message)

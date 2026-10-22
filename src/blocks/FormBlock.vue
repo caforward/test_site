@@ -3,10 +3,12 @@ import {onMounted, ref} from "vue";
 import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
+import {FILE_BLOCKED_TEXT, formHasFile, formRequestBody, isFileBlocked} from "@/service/utils/formRequest.js";
 
 const response = ref(null)
 const overlayThankVisible = ref(false)
 const userName = ref(null)
+const errorText = ref('')
 
 const props = defineProps({
     type: {
@@ -140,10 +142,13 @@ async function sendData(formData, formInputRefs, meta = {}) {
     formData.append('fromComponent', 'ModalForm')
     // Для тестирования пустых писем
 
+    const withFile = formHasFile(formData)
+    errorText.value = ''
+
     try {
         response.value = await fetch(props.fetchUrl, {
             method: 'POST',
-            body: formData
+            body: formRequestBody(formData)
         })
 
         if (response.value.ok) {
@@ -159,8 +164,9 @@ async function sendData(formData, formInputRefs, meta = {}) {
             params.url = getPageUrl()
             sendMetrikaEvent('form_submitted', params)
         } else {
+            // экран ошибки остаётся на месте: раньше он сразу закрывался, и казалось, что кнопка ничего не делает
             console.warn('Ошибка отправки, статус:', response.value.status);
-            overlayThankVisible.value = false
+            if (isFileBlocked(response.value, withFile)) errorText.value = FILE_BLOCKED_TEXT
         }
     } catch {
         response.value = {ok: false}
@@ -181,7 +187,7 @@ async function sendRating(rateData) {
     try {
         await fetch('/backend/public/rate.php', {
             method: 'POST',
-            body: postData
+            body: formRequestBody(postData)
         })
     } catch (err) {
         console.log('error rate', err.message)
@@ -236,6 +242,7 @@ onMounted(() => {
             <OverlayThank
                 v-model:visible="overlayThankVisible"
                 v-model:status="response"
+                :error-text="errorText"
                 class="!rounded-lg"
                 @closeParentModal="overlayThankVisible = false"
                 @sendRating="sendRating"
