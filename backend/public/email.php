@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      * Проверки построены на том, чего живая форма не делает НИКОГДА. Если
      * запрос отбит - отвечаем обычным успехом, чтобы отправитель не понял,
      * что его отсекли, и не начал подбирать. Причина пишется в лог PHP.
+     * В лог пишется только причина, без полей формы и IP: журнал сервера
+     * видят все, у кого есть доступ к хостингу, персональных данных там быть не должно.
      */
 
     // Форма шлёт подпись темы, а не внутренний код: см. useForm.js,
@@ -51,18 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //    с августа 2025: ModalForm.vue, FormBlock.vue, Calculator.vue
     $allowedComponents = ['ModalForm', 'Calculator'];
     if ($rejectReason === null && !in_array($post('fromComponent'), $allowedComponents, true)) {
-        $rejectReason = 'неизвестный компонент-инициатор: "' . $post('fromComponent') . '"';
+        $rejectReason = 'неизвестный компонент-инициатор';
     }
 
     // 3. Тема прислана внутренним кодом вместо подписи
     if ($rejectReason === null && in_array(mb_strtolower($post('messageType')), $internalTypes, true)) {
-        $rejectReason = 'тема прислана кодом, а не подписью: "' . $post('messageType') . '"';
+        $rejectReason = 'тема прислана кодом, а не подписью';
     }
 
     // 4. Претензия заполнена при другой теме. В интерфейсе это поле
     //    показывается только когда выбрана тема "Претензия"
     if ($rejectReason === null && $post('claim') !== '' && $post('messageType') !== 'Претензия') {
-        $rejectReason = 'претензия заполнена при теме "' . $post('messageType') . '"';
+        $rejectReason = 'претензия заполнена при другой теме';
     }
 
     // 5. Обязательные поля: их требуют все три формы
@@ -75,12 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $post('email');
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $rejectReason = 'некорректный адрес почты: "' . $email . '"';
+            $rejectReason = 'некорректный адрес почты';
         } else {
             $tld = mb_strtolower(substr(strrchr($email, '.') ?: '', 1));
 
             if (in_array($tld, $reservedTlds, true)) {
-                $rejectReason = 'почта в зарезервированной зоне: "' . $email . '"';
+                $rejectReason = 'почта в зарезервированной зоне';
             }
         }
     }
@@ -90,17 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $digits = preg_replace('/\D+/', '', $post('tel'));
 
         if (strlen($digits) >= 10 && preg_match('/^(\d)\1+$/', substr($digits, 1)) === 1) {
-            $rejectReason = 'телефон-заглушка: "' . $post('tel') . '"';
+            $rejectReason = 'телефон-заглушка';
         }
     }
 
     if ($rejectReason !== null) {
-        error_log(sprintf(
-            'email.php: отправка отклонена (%s), IP %s, поля: %s',
-            $rejectReason,
-            $_SERVER['REMOTE_ADDR'] ?? 'неизвестен',
-            json_encode($_POST, JSON_UNESCAPED_UNICODE)
-        ));
+        error_log('email.php: отправка отклонена (' . $rejectReason . ')');
 
         http_response_code(200);
         echo json_encode(["message" => "Сообщение успешно отправлено!"]);
@@ -150,10 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($rateLimitExceeded) {
-        error_log(sprintf(
-            'email.php: превышена частота отправок, IP %s',
-            $_SERVER['REMOTE_ADDR'] ?? 'неизвестен'
-        ));
+        error_log('email.php: превышена частота отправок');
 
         http_response_code(429);
         echo json_encode(["message" => "Слишком много отправок подряд. Попробуйте через несколько минут."]);

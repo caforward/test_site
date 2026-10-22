@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      * то, что оценка - величина из очень узкого набора.
      *
      * Отбитый запрос получает обычный ответ об успехе, причина идёт в лог.
+     * В лог пишется только причина, без полей формы и IP: журнал сервера
+     * видят все, у кого есть доступ к хостингу, персональных данных там быть не должно.
      */
 
     // Кнопка "Оценить" появляется только после выбора звезды, звёзд ровно пять
@@ -44,13 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Оценка. Живая форма без неё письмо не отправляет
     if (!in_array($post('rate'), $allowedRates, true)) {
-        $rejectReason = 'оценка вне набора 1-5: "' . $post('rate') . '"';
+        $rejectReason = 'оценка вне набора 1-5';
     }
 
     // 2. Быстрый отзыв, если прислан, должен быть одним из четырёх
     if ($rejectReason === null && $post('feedback') !== ''
         && !in_array($post('feedback'), $allowedFeedback, true)) {
-        $rejectReason = 'неизвестный вариант отзыва: "' . $post('feedback') . '"';
+        $rejectReason = 'неизвестный вариант отзыва';
     }
 
     // 3. Отзыв при пятёрке: кнопки в интерфейсе в этом случае не показываются
@@ -68,12 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($rejectReason !== null) {
-        error_log(sprintf(
-            'rate.php: отправка отклонена (%s), IP %s, поля: %s',
-            $rejectReason,
-            $_SERVER['REMOTE_ADDR'] ?? 'неизвестен',
-            json_encode($_POST, JSON_UNESCAPED_UNICODE)
-        ));
+        error_log('rate.php: отправка отклонена (' . $rejectReason . ')');
 
         http_response_code(200);
         echo json_encode(["message" => "Сообщение успешно отправлено!"]);
@@ -123,10 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($rateLimitExceeded) {
-        error_log(sprintf(
-            'rate.php: превышена частота отправок, IP %s',
-            $_SERVER['REMOTE_ADDR'] ?? 'неизвестен'
-        ));
+        error_log('rate.php: превышена частота отправок');
 
         http_response_code(429);
         echo json_encode(["message" => "Слишком много отправок подряд. Попробуйте через несколько минут."]);
