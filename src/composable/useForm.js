@@ -7,7 +7,9 @@ export const createFormData = (inputRefs) => {
         const inputName = inputRef.inputName
         let value = inputRef.value
 
-        if (value && (inputRef.inputName === "paymentDate" || inputRef.inputName === "birthdayDate")) {
+        // Дата из календаря - объект Date, её приводим к дд.мм.гггг. Дата рождения с 26.10.2026
+        // вводится руками и уже строка дд.мм.гггг: new Date('01.09.1990') прочитал бы её как 9 января
+        if (value instanceof Date) {
             value = getDottedDate(value)
         }
 		if (value && (inputRef.inputName === "messageType" || inputRef.inputName === "paymentPeriod")) {

@@ -19,6 +19,13 @@ export default {
                     required: true,
                 },
                 {
+                    name: 'birthdayDate',
+                    type: 'birthdate',
+                    value: '',
+                    placeholder: 'Дата рождения*',
+                    required: true
+                },
+                {
                     name: 'tel',
                     type: 'tel',
                     placeholder: 'Номер телефона*',
@@ -28,13 +35,6 @@ export default {
                     name: 'email',
                     type: 'email',
                     placeholder: 'E-mail*',
-                },
-                {
-                    name: 'birthdayDate',
-                    type: 'date',
-                    value: '',
-                    placeholder: 'Дата рождения*',
-                    required: true
                 },
                 {
                     name: 'messageType',

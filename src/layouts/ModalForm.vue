@@ -39,6 +39,13 @@ const props = defineProps({
                 required: true,
             },
             {
+                name: 'birthdayDate',
+                type: 'birthdate',
+                value: '',
+                placeholder: 'Дата рождения*',
+                required: true
+            },
+            {
                 name: 'tel',
                 type: 'tel',
                 placeholder: 'Номер телефона*',
@@ -48,13 +55,6 @@ const props = defineProps({
                 name: 'email',
                 type: 'email',
                 placeholder: 'E-mail*',
-                required: true
-            },
-            {
-                name: 'birthdayDate',
-                type: 'date',
-                value: '',
-                placeholder: 'Дата рождения*',
                 required: true
             },
             {

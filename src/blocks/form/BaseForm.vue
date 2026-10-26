@@ -1,6 +1,6 @@
 <script setup>
 // imports
-import {ref, reactive, computed, watch, onBeforeUpdate} from 'vue'
+import {ref, reactive, computed, watch} from 'vue'
 
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import BaseFormInstallment from './BaseFormInstallment.vue';
@@ -10,6 +10,7 @@ import BaseCheckbox from '@/blocks/ui/BaseCheckbox.vue';
 // composables
 import {useInputValidation, createFormData} from '@/composable/useForm.js'
 import {FORM_TYPE_META, FORM_TYPES} from "@/constants/formTypes.js";
+import {CONSENT_ERROR_TEXT, CONSENT_LABEL} from "@/constants/formFields.js";
 import {createFieldStartTracker, getPageUrl, resolveFormId, resolveThemeId, sendMetrikaEvent} from "@/service/utils/metrika.js";
 
 // variables
@@ -63,10 +64,12 @@ const additionalInput = ref(null)
 const consentRef = ref(null)
 const consentValue = ref(null)
 
+// Была неудачная попытка отправить: с этого момента над кнопкой виден список ошибок
+const submitAttempted = ref(false)
+
 // functions
-function submitForm() {
-    // collect input refs from form
-    let formInputRefs = inputRefs.value
+function collectInputRefs() {
+    const formInputRefs = inputRefs.value
         ? inputRefs.value.filter(ref => ref && ref.$el || ref)
         : [];
 
@@ -77,8 +80,18 @@ function submitForm() {
         formInputRefs.push(additionalInput.value)
     }
 
+    return formInputRefs
+}
+
+function submitForm() {
+    const formInputRefs = collectInputRefs()
+
+    // по нажатию «Отправить» каждое поле проверяет своё текущее значение заново
+    formInputRefs.forEach(inputRef => inputRef.validate?.())
+
     // check inputs validation and emit submit
     const isFormValid = useInputValidation([consentRef.value, ...formInputRefs])
+    submitAttempted.value = !isFormValid
 
     if (isFormValid) {
         const formData = createFormData(inputRefs.value)
@@ -97,6 +110,25 @@ function submitForm() {
         // console.log('form is not valid')
     }
 }
+
+// Ошибки над кнопкой «Отправить» с названием поля: «Дата рождения: Заполните поле»
+// (требование заказчика от 26.10.2026). Видны после неудачной попытки отправить
+// и пропадают по мере исправления полей
+const errorSummary = computed(() => {
+    if (!submitAttempted.value) return []
+
+    const list = collectInputRefs()
+        .filter(inputRef => inputRef && !inputRef.readyToSubmit && inputRef.errorText)
+        // в порядке полей на странице: в массиве ссылок поля стоят в порядке появления
+        .sort((a, b) => a.$el && b.$el && a.$el.compareDocumentPosition(b.$el) & Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1)
+        .map(inputRef => `${inputRef.label}: ${inputRef.errorText}`)
+
+    if (consentRef.value && !consentRef.value.readyToSubmit) {
+        list.push(`${CONSENT_LABEL}: ${CONSENT_ERROR_TEXT}`)
+    }
+
+    return list
+})
 
 // computed
 const formAttributeType = computed(() => {
@@ -138,10 +170,9 @@ function onUserSelect(name, option) {
     })
 }
 
-// Обнуление ссылок при обновлении DOM
-onBeforeUpdate(() => {
-    inputRefs.value = []
-})
+// Ссылки на поля из v-for Vue ведёт сам: поле появилось - добавил, пропало - убрал.
+// Прежнее обнуление массива перед каждой перерисовкой теперь зациклило бы список ошибок,
+// который от этого массива зависит
 
 watch(
     () => props.inputs,
@@ -259,11 +290,15 @@ watch(
                     :required="true"
                 >
                     <template #label>
-                        Даю согласие на
-                        <a href="#" class="link" :data-id="`form_personal_link_${metrikaSuffix}`">обработку своих персональных данных</a>,
+                        Даю согласие на обработку своих персональных данных,
                         <a target="_blank" href="/policy" class="link" :data-id="`form_confidential_link_${metrikaSuffix}`">политика конфиденциальности</a>
                     </template>
                 </BaseCheckbox>
+
+                <!-- ошибки полей над кнопкой -->
+                <ul v-if="errorSummary.length" class="form-errors">
+                    <li v-for="error in errorSummary" :key="error">{{ error }}</li>
+                </ul>
 
                 <!-- submit button -->
                 <BaseButton
@@ -336,6 +371,15 @@ watch(
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
+
+    &-errors {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+        line-height: 1.3;
+        color: #FF6464;
     }
 
     &-bottom {
