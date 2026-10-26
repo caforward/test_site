@@ -134,9 +134,13 @@ function clearValue() {
 }
 
 // Повторная проверка по нажатию «Отправить» (требование заказчика от 26.10.2026):
-// поле проверяет своё текущее значение, а не помнит результат прошлой проверки
+// поле проверяет своё текущее значение, а не помнит результат прошлой проверки.
+// Телефон, дата и сумма сначала приводят набранное к виду, как после ухода из поля:
+// Enter в поле отправляет форму, не уводя из него фокус. Своё value у поля внутри формы
+// обновится только со следующей перерисовкой, поэтому проверяем то, что вернул commit
 function validate() {
-    if (props.required) validateInputValue(value.value)
+    const committed = input.value?.commit?.()
+    if (props.required) validateInputValue(committed !== undefined ? committed : value.value)
 
     return readyToSubmit.value
 }

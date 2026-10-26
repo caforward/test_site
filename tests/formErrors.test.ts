@@ -142,6 +142,31 @@ describe('что уходит в письмо', () => {
     })
 })
 
+describe('отправка по Enter, не уходя из поля', () => {
+    // набор в поле без ухода из него: значение ещё не приведено к виду
+    async function typeWithoutBlur(wrapper: Wrapper, name: string, text: string) {
+        const el = field(wrapper, name).find('input').element as HTMLInputElement
+        el.value = text
+        el.dispatchEvent(new InputEvent('input', {inputType: 'insertText', data: text.slice(-1), bubbles: true}))
+        await nextTick()
+    }
+
+    it('дата рождения всё равно уходит в письмо как ДД.ММ.ГГГГ', async () => {
+        const wrapper = mountForm()
+        await field(wrapper, 'name').find('input').setValue('Иван Петров')
+        await enter(wrapper, 'tel', '9991234567')
+        await wrapper.find('input[type="checkbox"]').setValue(true)
+        await typeWithoutBlur(wrapper, 'birthdayDate', '1.9.1990')
+
+        // Enter в поле нажимает кнопку отправки, поле при этом фокус не теряет
+        await submit(wrapper)
+        await nextTick()
+
+        const formData = wrapper.emitted('submitted')![0][0] as FormData
+        expect(formData.get('birthdayDate')).toBe('01.09.1990')
+    })
+})
+
 describe('согласие', () => {
     it('«обработку своих персональных данных» - обычный текст, ссылка только на политику', () => {
         const label = mountForm().find('label[for="personal-data-consent"]')

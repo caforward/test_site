@@ -1,6 +1,6 @@
 <script setup>
 // imports
-import {ref, reactive, computed, watch} from 'vue'
+import {ref, reactive, computed, watch, nextTick} from 'vue'
 
 import BaseButton from '@/blocks/ui/BaseButton.vue';
 import BaseFormInstallment from './BaseFormInstallment.vue';
@@ -83,7 +83,7 @@ function collectInputRefs() {
     return formInputRefs
 }
 
-function submitForm() {
+async function submitForm() {
     const formInputRefs = collectInputRefs()
 
     // по нажатию «Отправить» каждое поле проверяет своё текущее значение заново
@@ -94,6 +94,10 @@ function submitForm() {
     submitAttempted.value = !isFormValid
 
     if (isFormValid) {
+        // Значения, которые проверка привела к виду (дата, телефон, сумма при отправке по Enter),
+        // доходят до полей со следующей перерисовкой - собираем форму после неё
+        await nextTick()
+
         const formData = createFormData(inputRefs.value)
 
         if (additionalFormBlock.value) {

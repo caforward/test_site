@@ -90,15 +90,23 @@ function onInput(event) {
     value.value = phoneValue(phoneDigits(next))
 }
 
-function onBlur() {
-    focused.value = false
-
+// Номер к виду после ввода. Зовёт и проверка по «Отправить»: Enter в поле отправляет
+// форму, не уводя из него фокус. Возвращает значение для формы
+function commit() {
     const digits = phoneDigits(text.value)
     text.value = formatPhoneDisplay(digits)
     value.value = phoneValue(digits)
 
+    return value.value
+}
+
+function onBlur() {
+    focused.value = false
+    commit()
     emit('blur')
 }
+
+defineExpose({commit})
 </script>
 
 <template>

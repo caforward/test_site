@@ -51,12 +51,21 @@ function onInput(event) {
     value.value = next
 }
 
-function onBlur() {
+// Дата к виду ДД.ММ.ГГГГ после ввода. Зовёт и проверка по «Отправить»: Enter в поле отправляет
+// форму, не уводя из него фокус, и в письмо иначе ушла бы дата как набрана. Возвращает значение
+function commit() {
     const {text} = parseBirthDate(value.value)
     if (text !== (value.value ?? '')) value.value = text
 
+    return text
+}
+
+function onBlur() {
+    commit()
     emit('blur')
 }
+
+defineExpose({commit})
 </script>
 
 <template>

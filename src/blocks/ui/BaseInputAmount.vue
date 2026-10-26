@@ -65,13 +65,22 @@ function onInput(event) {
     emit('typed', next)
 }
 
-function onBlur() {
+// Сумма в модель и к виду после ввода. Зовёт и проверка по «Отправить»: Enter в поле отправляет
+// форму, не уводя из него фокус, и сумма иначе не дошла бы до модели. Возвращает число
+function commit() {
     const amount = parseAmount(text.value)
     text.value = formatAmount(amount)
     value.value = amount
 
+    return amount
+}
+
+function onBlur() {
+    commit()
     emit('blur')
 }
+
+defineExpose({commit})
 </script>
 
 <template>

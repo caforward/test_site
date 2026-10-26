@@ -195,6 +195,16 @@ describe('телефон', () => {
         expect(input(wrapper).value).toBe('')
     })
 
+    it('проверка по «Отправить» без ухода из поля (Enter) приводит номер к виду', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '+79991234567')
+
+        expect((wrapper.vm as any).validate()).toBe(true)
+        await wrapper.vm.$nextTick()
+        expect(input(wrapper).value).toBe('999 123-45-67')
+        expect(lastModel(wrapper)).toBe('+7 999 123-45-67')
+    })
+
     it('повторная проверка по «Отправить»: пустое поле - «Заполните поле»', async () => {
         const wrapper = mountPhone()
         const vm = wrapper.vm as any
@@ -272,6 +282,16 @@ describe('дата рождения', () => {
     it('название в списке ошибок', () => {
         expect((mountDate().vm as any).label).toBe('Дата рождения')
     })
+
+    it('проверка по «Отправить» без ухода из поля (Enter) приводит дату к виду', async () => {
+        const wrapper = mountDate()
+        await typeText(wrapper, input(wrapper), '1.9.1990')
+
+        expect((wrapper.vm as any).validate()).toBe(true)
+        await wrapper.vm.$nextTick()
+        expect(input(wrapper).value).toBe('01.09.1990')
+        expect(lastModel(wrapper)).toBe('01.09.1990')
+    })
 })
 
 describe('сумма долга', () => {
@@ -302,6 +322,16 @@ describe('сумма долга', () => {
 
         expect(input(wrapper).value).toBe('1 500 000')
         expect(lastModel(wrapper)).toBe(1500000)
+    })
+
+    it('проверка по «Отправить» без ухода из поля (Enter) берёт набранную сумму', async () => {
+        const wrapper = mountAmount()
+        await typeText(wrapper, input(wrapper), '150000')
+
+        expect((wrapper.vm as any).validate()).toBe(true)
+        await wrapper.vm.$nextTick()
+        expect(input(wrapper).value).toBe('150 000')
+        expect(lastModel(wrapper)).toBe(150000)
     })
 
     it('пустая сумма после ухода - «Заполните поле»', async () => {
