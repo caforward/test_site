@@ -1,6 +1,5 @@
 <script setup>
 import DatePicker from 'primevue/datepicker';
-import InputMask from 'primevue/inputmask';
 import InputNumber from 'primevue/inputnumber';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
@@ -9,8 +8,13 @@ import BaseSelect from './BaseSelect.vue';
 
 import {onMounted, ref, watch, computed} from 'vue';
 import BaseInputFile from "@/blocks/ui/BaseInputFile.vue";
+import BaseInputPhone from "@/blocks/ui/BaseInputPhone.vue";
+import BaseInputBirthDate from "@/blocks/ui/BaseInputBirthDate.vue";
+import BaseInputAmount from "@/blocks/ui/BaseInputAmount.vue";
 import {isFieldStarted, resolveFieldId} from '@/service/utils/metrika.js';
 import {fileError} from '@/service/utils/formRequest.js';
+import {parseBirthDate, phoneDigits, phoneError} from '@/service/utils/fieldFormat.js';
+import {FIELD_LABELS} from '@/constants/formFields.js';
 
 const props = defineProps({
     name: {
@@ -68,11 +72,13 @@ const showError = ref(false)
 const inputOptions = ref([])
 const minDate = ref(null)
 
-const skipValidation = ref(false)
 const defaultValue = value.value
 
 // id поля для Метрики, в html виден как data-field-id
 const fieldId = computed(() => resolveFieldId(props.name))
+
+// Название поля в списке ошибок над кнопкой «Отправить»
+const label = computed(() => FIELD_LABELS[props.name] ?? props.placeholder.replace(/\*/g, '').trim())
 
 const readyToSubmit = (computed(() => {
     if (props.required) {
@@ -100,7 +106,6 @@ function showErrorHandler() {
 }
 
 function clearValue() {
-    skipValidation.value = true
     // очищенное поле снова может дать событие о начале заполнения
     emit('fieldReset', fieldId.value)
 
@@ -128,13 +133,24 @@ function clearValue() {
 
 }
 
+// Повторная проверка по нажатию «Отправить» (требование заказчика от 26.10.2026):
+// поле проверяет своё текущее значение, а не помнит результат прошлой проверки
+function validate() {
+    if (props.required) validateInputValue(value.value)
+
+    return readyToSubmit.value
+}
+
 defineExpose({
     input,
     value,
     inputName,
+    label,
+    errorText,
     readyToSubmit,
     showErrorHandler,
     clearValue,
+    validate,
 })
 
 onMounted(() => {
@@ -204,6 +220,8 @@ function validateInputValue(inputValue) {
             validateInputEmail(inputValue)
         } else if (props.type === 'tel') {
             validateInputTel(inputValue)
+        } else if (props.type === 'birthdate') {
+            validateInputBirthDate(inputValue)
         } else if (props.type === 'file') {
             validateInputFile(inputValue)
         } else if (props.type === 'number' && props.min > 0) {
@@ -243,6 +261,13 @@ function onNumberTyped(event) {
     }
 }
 
+// Сумма долга тоже уходит в модель только после ввода, набранный текст приходит отдельно
+function onAmountTyped(text) {
+    if (isFieldStarted('number', text, fieldId.value)) {
+        emit('fieldStart', fieldId.value)
+    }
+}
+
 // Дату можно ввести руками. Пока текст не стал датой, модель не меняется,
 // поэтому считаем набранные символы
 function onDateTyped(event) {
@@ -273,19 +298,14 @@ function validateInputEmail(value) {
     }
 }
 
-function validateInputTel() {
-    if (skipValidation.value) {
-        skipValidation.value = false
-        return
-    }
+function validateInputTel(value) {
+    errorText.value = phoneError(phoneDigits(value))
+    isInvalid.value = errorText.value !== ''
+}
 
-    if (input.value.isCompleted()) {
-        isInvalid.value = false
-        errorText.value = ''
-    } else {
-        isInvalid.value = true
-        errorText.value = 'Заполните поле'
-    }
+function validateInputBirthDate(value) {
+    errorText.value = parseBirthDate(value).error
+    isInvalid.value = errorText.value !== ''
 }
 
 function validateInputFile(file) {
@@ -407,21 +427,46 @@ function normalizeDecimalKey(event) {
             @keydown.capture="normalizeDecimalKey"
         />
 
-        <!-- Телефон -->
-        <InputMask
+        <!-- Телефон: +7 подписью, в поле только цифры номера -->
+        <BaseInputPhone
             ref="input"
             v-if="props.type === 'tel'"
             v-model="value"
-            class="t-input w-full"
-            :data-field-id="fieldId"
+            :field-id="fieldId"
             :name="props.name"
-            :invalid="isInvalid"
-            :autoClear="false"
+            :invalid="!!isInvalid"
             :placeholder="props.placeholder"
             :disabled='props.disabled'
-            type="tel"
-            mask="+7 999 999-99-99"
             @update:modelValue="onUserInput"
+            @blur="showErrorHandler"
+        />
+
+        <!-- Дата рождения: без календаря, вводится руками -->
+        <BaseInputBirthDate
+            ref="input"
+            v-if="props.type === 'birthdate'"
+            v-model="value"
+            :field-id="fieldId"
+            :name="props.name"
+            :invalid="!!isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            @update:modelValue="onUserInput"
+            @blur="showErrorHandler"
+        />
+
+        <!-- Сумма долга в рассрочке: вид 150 000 после ввода -->
+        <BaseInputAmount
+            ref="input"
+            v-if="props.type === 'amount'"
+            v-model="value"
+            :field-id="fieldId"
+            :name="props.name"
+            :invalid="!!isInvalid"
+            :placeholder="props.placeholder"
+            :disabled='props.disabled'
+            @update:modelValue="onUserInput"
+            @typed="onAmountTyped"
             @blur="showErrorHandler"
         />
 
