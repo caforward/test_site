@@ -5,6 +5,7 @@ import BaseForm from "@/blocks/form/BaseForm.vue";
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import {getPageUrl, resolveFormId, sendMetrikaEvent, sendTrackId} from "@/service/utils/metrika.js";
 import {FILE_BLOCKED_TEXT, formHasFile, formRequestBody, isFileBlocked} from "@/service/utils/formRequest.js";
+import {acceptCookies} from "@/service/utils/cookieConsent.js";
 
 const visible = defineModel()
 const response = ref(null)
@@ -131,6 +132,9 @@ async function sendData(formData, formInputRefs, meta = {}) {
         })
 
         if (response.value.ok) {
+            // форма отправлена - согласие с cookies получено, баннер больше не нужен
+            acceptCookies()
+
             formInputRefs.forEach(inputRef => {
                 inputRef.clearValue()
             })

@@ -4,6 +4,7 @@ import BaseForm from '@/blocks/form/BaseForm.vue';
 import OverlayThank from '@/layouts/OverlayThank.vue';
 import {getPageUrl, sendMetrikaEvent} from "@/service/utils/metrika.js";
 import {formRequestBody} from "@/service/utils/formRequest.js";
+import {acceptCookies} from "@/service/utils/cookieConsent.js";
 
 const overlayThankVisible = ref(false)
 const response = ref(null)
@@ -61,6 +62,9 @@ async function sendData(formData, formInputRefs) {
         })
 
         if (response.value.ok) {
+            // форма отправлена - согласие с cookies получено, баннер больше не нужен
+            acceptCookies()
+
             formInputRefs.forEach(inputRef => {
                 inputRef.clearValue()
             })

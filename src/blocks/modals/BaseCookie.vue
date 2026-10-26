@@ -1,30 +1,26 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
-
-const isVisible = ref(false);
-
-function onAcceptCookies() {
-    localStorage.setItem('cookiesAccepted', 'true');
-    isVisible.value = false;
-    window.cookiePlateVisible = false // Дикий колхоз
-    window.checkCookiesAccepted() // Колхоз
-}
+import {acceptCookies, cookieBannerVisible, showCookieBannerIfNeeded} from "@/service/utils/cookieConsent.js";
 
 function onClose() {
     window.cookiePlateVisible = false // Дикий колхоз
-    window.checkCookiesAccepted() // Колхоз
+    window.checkCookiesAccepted?.() // Колхоз
 }
 
 onMounted(() => {
-    isVisible.value = !localStorage.getItem('cookiesAccepted')
+    showCookieBannerIfNeeded()
 })
 </script>
 
 <template>
+    <!-- Уровень 9: выше страницы, но ниже окна с формой (BaseModal, 10), окно открывается поверх баннера.
+         Свой уровень PrimeVue (около 1100) отключён -->
     <Dialog
-        v-model:visible="isVisible"
+        v-model:visible="cookieBannerVisible"
+        :autoZIndex="false"
+        :pt="{ mask: { style: 'z-index: 9' } }"
         class="w-full border border-gray-300 !shadow-none !rounded-none !mb-[4.5rem] md:!mb-24 mx-0 lg:!m-0"
         position="bottomright"
         :draggable="false"
@@ -47,7 +43,7 @@ onMounted(() => {
                 <Button
                     label="Согласен"
                     class="w-full bg-orange-500 border-none hover:bg-orange-600 transition text-white px-5 py-2 rounded !text-sm md:!text-base"
-                    @click="onAcceptCookies"
+                    @click="acceptCookies"
                     data-id="btn_accept_cookies"
                 />
             </div>
