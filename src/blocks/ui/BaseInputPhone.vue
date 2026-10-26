@@ -140,8 +140,9 @@ function onBlur() {
         line-height: 1;
     }
 
+    // ширина «+7 » с пробелом: номер стоит через пробел после подписи, как в +7 999 123-45-67
     &_prefixed .p-inputtext {
-        padding-left: calc(var(--p-inputtext-padding-x, 0.75rem) + 1.75em);
+        padding-left: calc(var(--p-inputtext-padding-x, 0.75rem) + 1.45em);
     }
 }
 </style>

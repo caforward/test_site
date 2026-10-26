@@ -555,8 +555,14 @@ function normalizeDecimalKey(event) {
 .input__wrapper {
     @apply relative flex flex-col gap-1;
 
+    // Плашка ошибки накрывает низ поля одной строкой (высота строки text-xs - 1rem). Длинная ошибка,
+    // которая на телефоне не влезает в строку (формат даты), растёт вниз, а не вверх, и не закрывает
+    // само поле; нажатие проходит сквозь плашку в поле
     .error_span {
-        @apply absolute bottom-0 left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md;
+        @apply absolute left-0 w-full bg-red-400 px-5 text-xs text-white rounded-b-md;
+        top: calc(100% - 1rem);
+        z-index: 1;
+        pointer-events: none;
     }
 
     &_file {
