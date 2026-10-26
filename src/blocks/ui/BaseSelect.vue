@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
             <!-- input -->
             <input ref="inputRef" type="text" class="pointer-events-none w-full placeholder:text-gray-500"
                    :class="{ 'bg-gray-50': props.disabled === true }" :placeholder="props.placeholder"
-                   :value="value.label"
+                   :value="value?.label"
                    data-id="select_input"
                    readonly>
 

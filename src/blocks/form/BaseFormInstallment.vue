@@ -11,25 +11,26 @@ const emit = defineEmits(['fieldStart', 'fieldReset']);
 const minMonthlyPayment = 1500
 const maxPeriod = 24
 
+// Сумма, срок и дата платежа по умолчанию пустые (требование заказчика от 26.10.2026)
 const inputs = reactive([
     {
         name: 'paymentAmount',
-        type: 'number',
+        type: 'amount',
         placeholder: 'Введите сумму вашего долга',
-        value: 150000,
+        value: null,
         required: true
     },
     {
         name: 'paymentPeriod',
         type: 'select',
         placeholder: 'Выберите срок погашения',
-        value: {value: 6, label: 6},
+        value: null,
         required: true
     },
     {
         name: 'paymentDate',
         type: 'date',
-        value: new Date(),
+        value: null,
         minDate: new Date(),
         placeholder: 'Дата ежемесячного платежа',
         required: true
@@ -37,16 +38,19 @@ const inputs = reactive([
 ])
 
 const inputData = reactive({
-    paymentAmount: 150000,
-    paymentPeriod: {value: 6, label: 6},
-    paymentDate: new Date(),
+    paymentAmount: null,
+    paymentPeriod: null,
+    paymentDate: null,
 })
 
+// Ежемесячный платёж, пока нет суммы или срока - null, вместо суммы показываем подсказку
 const paymentMonthly = computed(() => {
     const amount = inputData.paymentAmount
-    const period = inputData.paymentPeriod?.value || 1
+    const period = inputData.paymentPeriod?.value
+    if (!amount || !period) return null
+
     const monthly = amount / period
-    return isFinite(monthly) ? monthly.toFixed(2) : "0.00"
+    return isFinite(monthly) ? monthly.toFixed(2) : null
 })
 
 const paymentPeriodRange = computed(() => {
@@ -66,11 +70,12 @@ const paymentPeriodRange = computed(() => {
     )
 })
 
+// Пустое поле уходит пустой строкой: null стал бы в письме словом null, а пустая дата - 01.01.1970
 const exposeData = computed(() => ({
-    paymentAmount: inputData.paymentAmount,
-    paymentPeriod: inputData.paymentPeriod?.value,
-    paymentDate: getDottedDate(inputData.paymentDate),
-    paymentMonthly: paymentMonthly.value
+    paymentAmount: inputData.paymentAmount ?? '',
+    paymentPeriod: inputData.paymentPeriod?.value ?? '',
+    paymentDate: inputData.paymentDate ? getDottedDate(inputData.paymentDate) : '',
+    paymentMonthly: paymentMonthly.value ?? ''
 }))
 
 watch(
@@ -94,9 +99,10 @@ defineExpose({
 <template>
     <div class="installment">
         <div class="installment-title">
-            <span>Ежемесячный платеж <strong class="text-sky-500">без учёта скидки</strong>:</span>
+            <span>Ежемесячный платеж:</span>
             <div class="flex flex-wrap gap-4 items-center font-bold text-xl text-sky-500 sm:text-2xl">
-                {{ useValueFormat(paymentMonthly) }} ₽
+                <template v-if="paymentMonthly">{{ useValueFormat(paymentMonthly) }} ₽</template>
+                <template v-else>Укажите сумму и срок</template>
             </div>
         </div>
 
