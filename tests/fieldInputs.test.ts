@@ -48,6 +48,14 @@ async function pressBackspace(wrapper: Wrapper, el: HTMLInputElement) {
     await wrapper.vm.$nextTick()
 }
 
+async function pressDelete(wrapper: Wrapper, el: HTMLInputElement) {
+    const caret = el.selectionStart ?? el.value.length
+    el.value = el.value.slice(0, caret) + el.value.slice(caret + 1)
+    el.setSelectionRange(caret, caret)
+    el.dispatchEvent(new InputEvent('input', { inputType: 'deleteContentForward', bubbles: true }))
+    await wrapper.vm.$nextTick()
+}
+
 async function paste(wrapper: Wrapper, el: HTMLInputElement, text: string) {
     const start = el.selectionStart ?? el.value.length
     const end = el.selectionEnd ?? start
@@ -94,12 +102,16 @@ describe('телефон', () => {
         expect(wrapper.find('input').attributes('placeholder')).toBe('')
     })
 
-    it('во время набора номер не форматируется, после ухода из поля - 999 123-45-67', async () => {
+    it('номер разбивается прямо при вводе: 999, 999 1 ... 999 123-45-67 (заказчик 27.10)', async () => {
         const wrapper = mountPhone()
         await focus(wrapper)
-        await typeText(wrapper, input(wrapper), '9991234567')
+        const shown: string[] = []
+        for (const digit of '9991234567') {
+            await typeText(wrapper, input(wrapper), digit)
+            shown.push(input(wrapper).value)
+        }
 
-        expect(input(wrapper).value).toBe('9991234567')
+        expect(shown).toEqual(['9', '99', '999', '999 1', '999 12', '999 123', '999 123-4', '999 123-45', '999 123-45-6', '999 123-45-67'])
         expect(lastModel(wrapper)).toBe('+7 999 123-45-67')
 
         await blur(wrapper)
@@ -118,23 +130,23 @@ describe('телефон', () => {
         const wrapper = mountPhone()
         await typeText(wrapper, input(wrapper), '+79991234567')
 
-        expect(input(wrapper).value).toBe('9991234567')
+        expect(input(wrapper).value).toBe('999 123-45-67')
         expect(lastModel(wrapper)).toBe('+7 999 123-45-67')
     })
 
     it('на одиннадцатой цифре ведущая 8 удаляется', async () => {
         const wrapper = mountPhone()
         await typeText(wrapper, input(wrapper), '8999123456')
-        expect(input(wrapper).value).toBe('8999123456')
+        expect(input(wrapper).value).toBe('899 912-34-56')
 
         await typeText(wrapper, input(wrapper), '7')
-        expect(input(wrapper).value).toBe('9991234567')
+        expect(input(wrapper).value).toBe('999 123-45-67')
     })
 
     it('больше 11 цифр не набрать, 11 цифр с 7 - лишние цифры', async () => {
         const wrapper = mountPhone()
         await typeText(wrapper, input(wrapper), '799912345678')
-        expect(input(wrapper).value).toBe('79991234567')
+        expect(input(wrapper).value).toBe('7 999 123-45-67')
 
         await blur(wrapper)
         expect(shownError(wrapper)).toBe('Номер телефона содержит лишние цифры')
@@ -145,7 +157,7 @@ describe('телефон', () => {
         await typeText(wrapper, input(wrapper), '99912')
         await blur(wrapper)
 
-        expect(input(wrapper).value).toBe('99912')
+        expect(input(wrapper).value).toBe('999 12')
         expect(shownError(wrapper)).toBe('Номер телефона указан не полностью')
     })
 
@@ -158,16 +170,73 @@ describe('телефон', () => {
         expect(lastModel(wrapper)).toBe('+7 999 123-45-67')
     })
 
-    it('правка отформатированного номера не сбивает пробелы и дефисы', async () => {
+    it('Backspace с конца стирает цифры, пробел и дефис стирать отдельно не нужно (заказчик 27.10)', async () => {
         const wrapper = mountPhone()
         await typeText(wrapper, input(wrapper), '9991234567')
         await blur(wrapper)
         await focus(wrapper)
         input(wrapper).setSelectionRange(13, 13)
+        const shown: string[] = []
+        for (let i = 0; i < 4; i++) {
+            await pressBackspace(wrapper, input(wrapper))
+            shown.push(input(wrapper).value)
+        }
+
+        expect(shown).toEqual(['999 123-45-6', '999 123-45', '999 123-4', '999 123'])
+        expect(lastModel(wrapper)).toBe('+7 999 123')
+    })
+
+    it('Backspace сразу после дефиса в середине стирает цифру перед ним, курсор на месте', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '9991234567')
+        input(wrapper).setSelectionRange(8, 8)
         await pressBackspace(wrapper, input(wrapper))
 
-        expect(input(wrapper).value).toBe('999 123-45-6')
-        expect(lastModel(wrapper)).toBe('+7 999123456')
+        expect(input(wrapper).value).toBe('999 124-56-7')
+        expect(input(wrapper).selectionStart).toBe(6)
+    })
+
+    it('Delete прямо перед пробелом стирает цифру после него', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '9991234567')
+        input(wrapper).setSelectionRange(3, 3)
+        await pressDelete(wrapper, input(wrapper))
+
+        expect(input(wrapper).value).toBe('999 234-56-7')
+        expect(input(wrapper).selectionStart).toBe(3)
+    })
+
+    it('цифра в начало полного номера: 5 999 123-45-67, следующая не набирается и не стирает конец (заказчик 27.10)', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '9991234567')
+        input(wrapper).setSelectionRange(0, 0)
+        await typeText(wrapper, input(wrapper), '5')
+        expect(input(wrapper).value).toBe('5 999 123-45-67')
+        expect(input(wrapper).selectionStart).toBe(1)
+
+        await typeText(wrapper, input(wrapper), '5')
+        expect(input(wrapper).value).toBe('5 999 123-45-67')
+    })
+
+    it('цифра в середину: курсор остаётся после неё', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '999123456')
+        input(wrapper).setSelectionRange(5, 5)
+        await typeText(wrapper, input(wrapper), '0')
+
+        expect(input(wrapper).value).toBe('999 102-34-56')
+        expect(input(wrapper).selectionStart).toBe(6)
+    })
+
+    it('клик по подписи +7 ставит курсор в конец номера, а не в начало (заказчик 27.10)', async () => {
+        const wrapper = mountPhone()
+        await typeText(wrapper, input(wrapper), '9991234567')
+        await blur(wrapper)
+        input(wrapper).blur()
+        await wrapper.find('.phone-input__prefix').trigger('mousedown')
+
+        expect(document.activeElement).toBe(input(wrapper))
+        expect(input(wrapper).selectionStart).toBe(13)
     })
 
     it('выделенный номер заменяется набором', async () => {

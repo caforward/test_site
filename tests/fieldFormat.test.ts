@@ -18,6 +18,7 @@ import {
     parseAmount,
     parseBirthDate,
     phoneDigits,
+    phoneEdit,
     phoneError,
     phoneTypingText,
     phoneValue,
@@ -73,16 +74,18 @@ describe('телефон: цифры, вид и значение', () => {
         expect(phoneDigits(undefined)).toBe('')
     })
 
-    it('10 цифр показываются как 999 123-45-67, иначе как набраны', () => {
-        expect(formatPhoneDisplay('9991234567')).toBe('999 123-45-67')
-        expect(formatPhoneDisplay('99912')).toBe('99912')
-        expect(formatPhoneDisplay('79991234567')).toBe('79991234567')
-        expect(formatPhoneDisplay('')).toBe('')
+    it('разбивка по мере ввода: 999, 999 1, 999 123-4, 999 123-45-67', () => {
+        expect(['', '9', '999', '9991', '999123', '9991234', '99912345', '999123456', '9991234567'].map(formatPhoneDisplay))
+            .toEqual(['', '9', '999', '999 1', '999 123', '999 123-4', '999 123-45', '999 123-45-6', '999 123-45-67'])
+    })
+
+    it('11 цифр: лишняя цифра отдельно впереди - видно, какую убрать', () => {
+        expect(formatPhoneDisplay('79991234567')).toBe('7 999 123-45-67')
     })
 
     it('значение для формы и письма - как с прежней маской', () => {
         expect(phoneValue('9991234567')).toBe('+7 999 123-45-67')
-        expect(phoneValue('99912')).toBe('+7 99912')
+        expect(phoneValue('99912')).toBe('+7 999 12')
         expect(phoneValue('')).toBe('')
     })
 
@@ -93,6 +96,75 @@ describe('телефон: цифры, вид и значение', () => {
         expect(phoneError('9991234567')).toBe('')
         expect(PHONE_SHORT_TEXT).toBe('Номер телефона указан не полностью')
         expect(PHONE_LONG_TEXT).toBe('Номер телефона содержит лишние цифры')
+    })
+})
+
+/*
+ * Правка поля телефона с разбивкой по мере ввода (заказчик 27.10): браузер уже применил ввод,
+ * phoneEdit(текст до правки, текст после, курсор, тип ввода) возвращает текст с разбивкой и курсор.
+ * Позиции курсора: «999 123-45-67» - 0..2 цифры, 3 пробел, 4..6 цифры, 7 дефис, 8..9, 10 дефис, 11..12.
+ */
+describe('телефон: правка с разбивкой', () => {
+    it('набор по одной цифре: разбивка сразу, курсор после набранной цифры', () => {
+        expect(phoneEdit('', '9', 1, 'insertText')).toEqual({ text: '9', caret: 1 })
+        expect(phoneEdit('999', '9991', 4, 'insertText')).toEqual({ text: '999 1', caret: 5 })
+        expect(phoneEdit('999 123', '999 1234', 8, 'insertText')).toEqual({ text: '999 123-4', caret: 9 })
+        expect(phoneEdit('999 123-45-6', '999 123-45-67', 13, 'insertText')).toEqual({ text: '999 123-45-67', caret: 13 })
+    })
+
+    it('цифра в начало полного номера: 11 цифр, лишняя видна впереди, курсор после неё', () => {
+        expect(phoneEdit('999 123-45-67', '5999 123-45-67', 1, 'insertText')).toEqual({ text: '5 999 123-45-67', caret: 1 })
+    })
+
+    it('двенадцатая цифра не принимается, набранные не стираются', () => {
+        expect(phoneEdit('5 999 123-45-67', '55 999 123-45-67', 1, 'insertText')).toEqual({ text: '5 999 123-45-67', caret: 0 })
+        expect(phoneEdit('7 999 123-45-67', '7 999 123-45-678', 16, 'insertText')).toEqual({ text: '7 999 123-45-67', caret: 15 })
+    })
+
+    it('вставка слишком длинного номера обрезается до 11 цифр', () => {
+        expect(phoneEdit('', '8 (999) 123-45-67 доб. 123', 26, 'insertFromPaste')).toEqual({ text: '999 123-45-67', caret: 13 })
+    })
+
+    it('цифра в середину: курсор остаётся после неё', () => {
+        expect(phoneEdit('999 123-45-6', '999 1023-45-6', 6, 'insertText')).toEqual({ text: '999 102-34-56', caret: 6 })
+    })
+
+    it('Backspace с конца стирает цифры, висящих пробелов и дефисов не остаётся', () => {
+        expect(phoneEdit('999 123-45-67', '999 123-45-6', 12, 'deleteContentBackward')).toEqual({ text: '999 123-45-6', caret: 12 })
+        expect(phoneEdit('999 123-45-6', '999 123-45-', 11, 'deleteContentBackward')).toEqual({ text: '999 123-45', caret: 10 })
+        expect(phoneEdit('999 1', '999 ', 4, 'deleteContentBackward')).toEqual({ text: '999', caret: 3 })
+    })
+
+    it('Backspace сразу после дефиса или пробела стирает цифру перед ним', () => {
+        expect(phoneEdit('999 123-45-67', '999 12345-67', 7, 'deleteContentBackward')).toEqual({ text: '999 124-56-7', caret: 6 })
+        expect(phoneEdit('999 123-45-67', '999123-45-67', 3, 'deleteContentBackward')).toEqual({ text: '991 234-56-7', caret: 2 })
+    })
+
+    it('Delete прямо перед дефисом или пробелом стирает цифру после него', () => {
+        expect(phoneEdit('999 123-45-67', '999123-45-67', 3, 'deleteContentForward')).toEqual({ text: '999 234-56-7', caret: 3 })
+    })
+
+    it('на одиннадцатой цифре ведущая 8 удаляется, курсор остаётся в конце', () => {
+        expect(phoneEdit('899 912-34-56', '899 912-34-567', 14, 'insertText')).toEqual({ text: '999 123-45-67', caret: 13 })
+    })
+
+    it('11 цифр с 7 впереди: 7 отдельно', () => {
+        expect(phoneEdit('799 912-34-56', '799 912-34-567', 14, 'insertText')).toEqual({ text: '7 999 123-45-67', caret: 15 })
+    })
+
+    it('+7 в начале отбрасывается, одиночный «+» ждёт следующего символа', () => {
+        expect(phoneEdit('', '+', 1, 'insertText')).toEqual({ text: '+', caret: 1 })
+        expect(phoneEdit('+', '+7', 2, 'insertText')).toEqual({ text: '', caret: 0 })
+        expect(phoneEdit('+', '+9', 2, 'insertText')).toEqual({ text: '9', caret: 1 })
+        expect(phoneEdit('', '+7 (999) 123-45-67', 18, 'insertFromPaste')).toEqual({ text: '999 123-45-67', caret: 13 })
+    })
+
+    it('прочие символы не остаются', () => {
+        expect(phoneEdit('99', '99a', 3, 'insertText')).toEqual({ text: '99', caret: 2 })
+    })
+
+    it('автозаполнение без типа ввода - как вставка', () => {
+        expect(phoneEdit('', '+79991234567', 12, '')).toEqual({ text: '999 123-45-67', caret: 13 })
     })
 })
 

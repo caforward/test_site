@@ -45,10 +45,84 @@ export function phoneDigits(text) {
     return phoneTypingText(text).replace(/\D/g, '')
 }
 
-// Полный номер, 10 цифр, показывается как 999 123-45-67, остальное - как набрано
+// Разбивка номера по мере ввода: 999, 999 1, 999 123-4, 999 123-45-67. Цифры сверх десяти
+// стоят отдельно впереди: 11 цифр - 7 999 123-45-67, так видно, какую убрать
 export function formatPhoneDisplay(digits) {
-    if (digits.length !== 10) return digits
-    return `${digits.slice(0, 3)} ${digits.slice(3, 6)}-${digits.slice(6, 8)}-${digits.slice(8)}`
+    if (digits.length > 10) {
+        const extra = digits.length - 10
+        return `${digits.slice(0, extra)} ${formatPhoneDisplay(digits.slice(extra))}`
+    }
+
+    let text = digits.slice(0, 3)
+    if (digits.length > 3) text += ' ' + digits.slice(3, 6)
+    if (digits.length > 6) text += '-' + digits.slice(6, 8)
+    if (digits.length > 8) text += '-' + digits.slice(8, 10)
+    return text
+}
+
+// Позиция в тексте сразу после count-й цифры
+function positionAfterDigits(text, count) {
+    if (count <= 0) return 0
+
+    let seen = 0
+    for (let i = 0; i < text.length; i++) {
+        if (/\d/.test(text[i]) && ++seen === count) return i + 1
+    }
+    return text.length
+}
+
+/**
+ * Правка поля телефона с разбивкой по мере ввода (заказчик 27.10.2026: разбивать при вводе,
+ * если это не мешает вводу и правке). Браузер уже применил ввод: raw - текст поля после него,
+ * caret - курсор, prev - текст до правки, inputType - тип ввода из события input.
+ * - Курсор остаётся после того же числа цифр, что и до разбивки.
+ * - Пробел и дефис ставит поле само: их стирание стирает соседнюю цифру, иначе разбивка
+ *   вернула бы их на место и Backspace топтался бы на месте.
+ * - Двенадцатая цифра при наборе не принимается, набранные не трогаются; из вставки лишние
+ *   цифры отбрасываются. Когда цифр 11 и первая из них 8, она удаляется.
+ * - «+7» в начале - код страны, он показан подписью; одиночный «+» ждёт следующего символа.
+ * Возвращает {text, caret}.
+ */
+export function phoneEdit(prev, raw, caret, inputType = '') {
+    const before = String(prev ?? '')
+    let text = String(raw ?? '')
+    let position = Math.max(0, Math.min(caret ?? text.length, text.length))
+
+    const countryCode = text.match(PHONE_COUNTRY_CODE)
+    if (countryCode) {
+        text = text.slice(countryCode[0].length)
+        position = Math.max(0, position - countryCode[0].length)
+    }
+    if (/^\s*\+\s*$/.test(text)) return { text: '+', caret: 1 }
+
+    let digits = text.replace(/\D/g, '')
+    let digitsBefore = text.slice(0, position).replace(/\D/g, '').length
+
+    if (digits === before.replace(/\D/g, '') && text !== before) {
+        if (inputType === 'deleteContentBackward' && digitsBefore > 0) {
+            digits = digits.slice(0, digitsBefore - 1) + digits.slice(digitsBefore)
+            digitsBefore -= 1
+        } else if (inputType === 'deleteContentForward' && digitsBefore < digits.length) {
+            digits = digits.slice(0, digitsBefore) + digits.slice(digitsBefore + 1)
+        }
+    }
+
+    if (digits.length > PHONE_MAX_DIGITS) {
+        // вставка, перетаскивание и автозаполнение приходят без типа insertText
+        const bulk = inputType !== 'insertText'
+        if (!bulk) return { text: before, caret: Math.max(0, position - (text.length - before.length)) }
+
+        digits = digits.slice(0, PHONE_MAX_DIGITS)
+        digitsBefore = Math.min(digitsBefore, PHONE_MAX_DIGITS)
+    }
+
+    if (digits.length === PHONE_MAX_DIGITS && digits[0] === '8') {
+        digits = digits.slice(1)
+        if (digitsBefore > 0) digitsBefore -= 1
+    }
+
+    const formatted = formatPhoneDisplay(digits)
+    return { text: formatted, caret: positionAfterDigits(formatted, digitsBefore) }
 }
 
 // Значение для формы и письма: +7 999 123-45-67, как с прежней маской; пустое поле - пустая строка

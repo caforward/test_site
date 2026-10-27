@@ -1,11 +1,13 @@
 <script setup>
 // Поле телефона (требования заказчика от 26.10.2026). Код страны +7 - подпись перед полем,
 // а не часть текста: её нельзя стереть, и она не мешает выделять и править номер.
-// В поле набираются только цифры, вид 999 123-45-67 номер получает после ввода и при вставке.
+// В поле набираются только цифры. С 27.10.2026 по просьбе заказчика номер разбивается
+// прямо при вводе (999 123-45-67), правка при этом не мешает: курсор остаётся на месте,
+// Backspace и Delete перескакивают пробел и дефис. Логика правки - phoneEdit в fieldFormat.js.
 // Обычный input с классами PrimeVue: у InputText своё внутреннее значение, и после
-// чистки набранного текста оно расходилось бы с тем, что видно в поле
+// разбивки текста оно расходилось бы с тем, что видно в поле
 import {computed, ref, watch} from 'vue'
-import {formatPhoneDisplay, phoneDigits, phoneTypingText, phoneValue} from '@/service/utils/fieldFormat.js'
+import {formatPhoneDisplay, phoneDigits, phoneEdit, phoneValue, PHONE_MAX_DIGITS} from '@/service/utils/fieldFormat.js'
 
 const props = defineProps({
     name: {
@@ -34,6 +36,7 @@ const props = defineProps({
 const value = defineModel()
 const emit = defineEmits(['blur'])
 
+const inputEl = ref(null)
 const text = ref(formatPhoneDisplay(phoneDigits(value.value)))
 const focused = ref(false)
 const showPrefix = computed(() => focused.value || text.value !== '')
@@ -45,49 +48,50 @@ watch(value, newValue => {
     }
 })
 
-// Позиция в тексте сразу после count-й цифры
-function positionAfterDigits(str, count) {
-    if (count <= 0) return 0
-
-    let seen = 0
-    for (let i = 0; i < str.length; i++) {
-        if (/\d/.test(str[i]) && ++seen === count) return i + 1
-    }
-    return str.length
-}
-
-// Набирать можно только цифры, «+» - только первым символом: так набирают +7
+// Набирать можно только цифры, «+» - только первым символом: так набирают +7.
+// Двенадцатая цифра не набирается, если не заменяет выделенное
 function onBeforeInput(event) {
     if (event.inputType !== 'insertText' || !event.data) return
 
     const el = event.target
-    const atStart = el.value.slice(0, el.selectionStart ?? 0).trim() === ''
-    if (/^\d+$/.test(event.data) || (event.data === '+' && atStart)) return
+    const start = el.selectionStart ?? el.value.length
+    const atStart = el.value.slice(0, start).trim() === ''
+    if (event.data === '+' && atStart) return
+
+    const full = el.value.replace(/\D/g, '').length >= PHONE_MAX_DIGITS && start === el.selectionEnd
+    if (/^\d+$/.test(event.data) && !full) return
 
     event.preventDefault()
 }
 
-function onInput(event) {
-    const el = event.target
-    const raw = el.value
-    const caret = el.selectionStart ?? raw.length
+function applyEdit(el, inputType) {
+    const {text: next, caret} = phoneEdit(text.value, el.value, el.selectionStart, inputType)
 
-    // Вставка, перетаскивание и автозаполнение: сразу тот же вид, что после ввода
-    const bulk = !event.inputType || /^insertFrom|^insertReplacementText/.test(event.inputType)
-    let next = phoneTypingText(raw)
-    if (bulk) next = formatPhoneDisplay(phoneDigits(next))
-
-    if (next !== raw) {
-        el.value = next
-        const digitsBefore = raw.slice(0, caret).replace(/\D/g, '').length
-        const position = bulk || caret >= raw.length
-            ? next.length
-            : positionAfterDigits(next, Math.min(digitsBefore, next.replace(/\D/g, '').length))
-        el.setSelectionRange(position, position)
-    }
+    if (next !== el.value) el.value = next
+    if (el.selectionStart !== caret || el.selectionEnd !== caret) el.setSelectionRange(caret, caret)
 
     text.value = next
     value.value = phoneValue(phoneDigits(next))
+}
+
+function onInput(event) {
+    // пока клавиатура телефона собирает символ, текст не трогаем - разберём по compositionend
+    if (event.isComposing) return
+
+    applyEdit(event.target, event.inputType || '')
+}
+
+function onCompositionEnd(event) {
+    applyEdit(event.target, 'insertText')
+}
+
+// Клик по подписи +7: курсор в конец номера, а не перед первой цифрой
+function focusAtEnd() {
+    const el = inputEl.value
+    if (!el || props.disabled) return
+
+    el.focus()
+    el.setSelectionRange(el.value.length, el.value.length)
 }
 
 // Номер к виду после ввода. Зовёт и проверка по «Отправить»: Enter в поле отправляет
@@ -111,8 +115,9 @@ defineExpose({commit})
 
 <template>
     <div class="phone-input" :class="{ 'phone-input_prefixed': showPrefix }">
-        <span v-show="showPrefix" class="phone-input__prefix" aria-hidden="true">+7</span>
+        <span v-show="showPrefix" class="phone-input__prefix" aria-hidden="true" @mousedown.prevent="focusAtEnd">+7</span>
         <input
+            ref="inputEl"
             :value="text"
             class="p-inputtext p-component t-input w-full"
             :class="{ 'p-filled': text !== '', 'p-invalid': props.invalid }"
@@ -126,6 +131,7 @@ defineExpose({commit})
             autocomplete="tel"
             @beforeinput="onBeforeInput"
             @input="onInput"
+            @compositionend="onCompositionEnd"
             @focus="focused = true"
             @blur="onBlur"
         />
@@ -137,12 +143,19 @@ defineExpose({commit})
     position: relative;
     width: 100%;
 
+    // подпись закрывает левый край поля до номера: клик туда ставит курсор в конец номера
     &__prefix {
         position: absolute;
-        top: 50%;
-        left: var(--p-inputtext-padding-x, 0.75rem);
-        transform: translateY(-50%);
-        pointer-events: none;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        padding-left: var(--p-inputtext-padding-x, 0.75rem);
+        padding-right: 0.25em;
+        cursor: text;
+        user-select: none;
         color: var(--p-inputtext-color, inherit);
         font-size: var(--p-inputtext-font-size, 1rem);
         line-height: 1;
