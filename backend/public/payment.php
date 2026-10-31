@@ -15,6 +15,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../payment-log.php';
 require __DIR__ . '/../tbank-api.php';
+require __DIR__ . '/../metrika-mp.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -134,12 +135,24 @@ if (!preg_match('/^\d{10,13}[A-Z]{4}$/', $tid)) {
     $tid = '';
 }
 
-// ФИО и контакты в журнал не пишем: для разбора хватает договора и суммы
+// ClientID посетителя в Метрике: по нему payment-notify.php отправит цель
+// payment_confirmed, когда банк подтвердит оплату. Метрика принимает только целое
+// число. Его нет - платёж всё равно создаём, просто без этой цели
+$clientId = $input['clientId'] ?? '';
+$clientId = is_int($clientId) ? (string) $clientId : $clientId;
+
+if (!is_string($clientId) || !preg_match('/^[1-9]\d{0,19}$/', $clientId)) {
+    $clientId = '';
+}
+
+// ФИО и контакты в журнал не пишем: для разбора хватает договора и суммы.
+// ClientID тоже не пишем, только есть ли он
 $logContext = [
     'method' => is_string($method) ? $method : '',
     'amount' => is_scalar($amount) ? (string) $amount : null,
     'contract' => mb_substr($contractId, 0, 50),
     'tid' => $tid,
+    'clientId' => $clientId !== '',
 ];
 
 if ($method !== 'card' && $method !== 'fps') {
@@ -269,6 +282,10 @@ if (empty($result['Success']) || empty($result['PaymentURL'])) {
 }
 
 $logContext['paymentId'] = (string) ($result['PaymentId'] ?? '');
+
+if ($clientId !== '') {
+    saveMetrikaVisit($orderId, $clientId, $tid, $method);
+}
 
 $answer = [
     'ok' => true,

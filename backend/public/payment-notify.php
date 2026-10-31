@@ -8,12 +8,14 @@
  * не дольше 10 секунд. Ответить нужно ровно "OK" с кодом 200, иначе банк
  * будет повторять доставку раз в час сутки, затем раз в день месяц.
  *
- * Ничего тяжёлого тут делать нельзя: только проверить подпись и записать
- * уведомление в журнал платежей (backend/payment-log.php).
+ * Ничего тяжёлого до ответа делать нельзя: только проверить подпись и записать
+ * уведомление в журнал платежей (backend/payment-log.php). Цель payment_confirmed
+ * в Метрику (backend/metrika-mp.php) отправляется уже после ответа банку.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../payment-log.php';
+require __DIR__ . '/../metrika-mp.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -71,11 +73,45 @@ function notifySummary(array $data): array
     ];
 }
 
-function respondOk(): void
+/*
+ * Отдаёт ответ банку до работы с Метрикой. С PHP-FPM соединение закрывается сразу,
+ * без него ответ уходит из PHP, и его статус и тело уже не поменяются.
+ */
+function finishResponse(): void
+{
+    // предупреждение после ответа дописалось бы к "OK", а банк ждёт ровно "OK"
+    ini_set('display_errors', '0');
+    ignore_user_abort(true);
+
+    if (function_exists('fastcgi_finish_request')) {
+        fastcgi_finish_request();
+        return;
+    }
+
+    while (ob_get_level() > 0) {
+        ob_end_flush();
+    }
+
+    flush();
+}
+
+// $afterResponse - работа уже после ответа банку, её сбой ответ не ломает
+function respondOk(?callable $afterResponse = null): void
 {
     header('Content-Type: text/plain; charset=utf-8');
     http_response_code(200);
     echo 'OK';
+
+    if ($afterResponse !== null) {
+        finishResponse();
+
+        try {
+            $afterResponse();
+        } catch (Throwable $e) {
+            // банк ответ уже получил
+        }
+    }
+
     exit;
 }
 
@@ -125,6 +161,14 @@ if (!hash_equals(notificationToken($data, $password), (string) ($data['Token'] ?
     reject(403, 'неверная подпись', notifySummary($data));
 }
 
-paymentLog('notify', notifySummary($data) + ['signature' => 'ok']);
+$summary = notifySummary($data);
+
+paymentLog('notify', $summary + ['signature' => 'ok']);
+
+// Банк подтвердил оплату: цель payment_confirmed в Метрику, и по карте, и по СБП,
+// даже если человек уже закрыл сайт
+if ($summary['status'] === 'CONFIRMED' && $summary['success']) {
+    respondOk(fn() => reportPaymentConfirmed($summary['orderId'], $summary['terminal']));
+}
 
 respondOk();
