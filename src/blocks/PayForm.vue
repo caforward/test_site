@@ -8,7 +8,7 @@ import ModalAboutFPS from "@/layouts/ModalAboutFPS.vue";
 import ModalRequisites from "@/layouts/ModalRequisites.vue";
 import ModalDigitalRuble from "@/layouts/ModalDigitalRuble.vue";
 import ModalPaymentQr from "@/layouts/ModalPaymentQr.vue";
-import {createFieldStartTracker, getPageUrl, sendTrackId} from "@/service/utils/metrika.js";
+import {createFieldStartTracker, getClientId, getPageUrl, sendTrackId} from "@/service/utils/metrika.js";
 import {checkPaymentResponse, paymentError, paymentFailureParams} from "@/service/utils/paymentError.js";
 
 // Заказ регистрирует наш бэкенд, а не виджет Т-Банка.
@@ -238,6 +238,9 @@ async function paymentPay() {
             // Новый идентификатор на каждый новый платёж, сразу событием track_id.
             // Он вернётся с номером заказа в payment_success и свяжет оплату с визитом
             const tid = sendTrackId()
+            // По ClientID сервер сам отправит payment_confirmed, когда банк подтвердит оплату.
+            // Не пришёл - платёж создаётся как раньше, только без этой цели
+            const clientId = await getClientId()
 
             let response
             try {
@@ -252,6 +255,7 @@ async function paymentPay() {
                         email: contactType.value === 'email' ? email.value : '',
                         phone: contactType.value === 'phone' ? phone.value : '',
                         tid,
+                        clientId,
                     }),
                 })
             } catch (e) {

@@ -40,6 +40,35 @@ export function sendTrackId() {
 				return tid;
 }
 
+// Сколько ждать ClientID перед созданием платежа. Загруженный счётчик отвечает сразу,
+// заблокированный не ответит никогда - оплату дольше не держим
+export const CLIENT_ID_TIMEOUT_MS = 500;
+
+// ClientID посетителя в Метрике. По нему сервер отправит цель payment_confirmed, когда банк
+// подтвердит оплату, даже если человек к тому времени закрыл сайт. Счётчик отключён,
+// заблокирован или не ответил за timeoutMs - пустая строка, оплата идёт как раньше
+export function getClientId(timeoutMs = CLIENT_ID_TIMEOUT_MS) {
+				return new Promise(resolve => {
+								if (typeof window.ym !== 'function') {
+												resolve('');
+												return;
+								}
+
+								const timer = setTimeout(() => resolve(''), timeoutMs);
+								const answer = clientId => {
+												clearTimeout(timer);
+												resolve(/^\d+$/.test(String(clientId)) ? String(clientId) : '');
+								};
+
+								try {
+												window.ym(METRIKA_ID, 'getClientID', answer);
+								} catch (e) {
+												// счётчик не должен ломать оплату
+												answer('');
+								}
+				});
+}
+
 // id темы обращения для параметра theme. У тем без своего value id задан полем theme
 export function resolveThemeId(option) {
 				if (!option || typeof option !== 'object') return undefined;
