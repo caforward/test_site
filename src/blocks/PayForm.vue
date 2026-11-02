@@ -169,7 +169,8 @@ function reportPaymentEvent(goal, reason, extra = {}) {
 // Перед уходом на страницу банка ждём отправки хита, иначе браузер уводит
 // страницу раньше, чем метрика успевает достучаться, и события теряются.
 // Секунда - потолок ожидания: оплата важнее статистики.
-function reportAndLeave(goal, reason, url) {
+// extra - дополнительные параметры события, например tid
+function reportAndLeave(goal, reason, url, extra = {}) {
     let left = false
     const leave = () => {
         if (left) return
@@ -180,7 +181,7 @@ function reportAndLeave(goal, reason, url) {
     try {
         if (typeof window.ym === 'function') {
             const url = getPageUrl();
-            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url}, leave)
+            window.ym(METRIKA_ID, 'reachGoal', goal, {form: 'payment_form', reason, url, ...extra}, leave)
             setTimeout(leave, 1000)
             return
         }
@@ -290,7 +291,7 @@ async function paymentPay() {
             isPayLoading.value = false
             // тот же QR второй раз в воронку не считаем
             if (!isReused) {
-                reportPaymentEvent('payment_qr_shown', paymentType.value)
+                reportPaymentEvent('payment_qr_shown', paymentType.value, tidParams(result.tid))
             }
             return
         }
@@ -308,7 +309,7 @@ async function paymentPay() {
             return
         }
 
-        reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl)
+        reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl, tidParams(result.tid))
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
         payError.value = err.message && err.message !== 'Failed to fetch'
@@ -331,6 +332,11 @@ function onQrPaid() {
     paidNotice.value = PAID_OK_TEXT
     isPaidOk.value = true
     reportPaymentEvent('payment_success', 'fps', successParams(qrTid.value, qrOrderId.value, 'fps'))
+}
+
+// tid платежа в payment_qr_shown и payment_redirect: тот же, что в track_id и payment_success
+function tidParams(tid) {
+    return tid ? {tid} : {}
 }
 
 function successParams(tid, number, type) {
