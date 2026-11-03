@@ -291,7 +291,7 @@ async function paymentPay() {
             isPayLoading.value = false
             // тот же QR второй раз в воронку не считаем
             if (!isReused) {
-                reportPaymentEvent('payment_qr_shown', paymentType.value, tidParams(result.tid))
+                reportPaymentEvent('payment_qr_shown', paymentType.value, startParams(result.tid, result.orderId))
             }
             return
         }
@@ -309,7 +309,7 @@ async function paymentPay() {
             return
         }
 
-        reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl, tidParams(result.tid))
+        reportAndLeave('payment_redirect', paymentType.value, result.paymentUrl, startParams(result.tid, result.orderId))
     } catch (err) {
         console.error('Ошибка регистрации платежа', err)
         payError.value = err.message && err.message !== 'Failed to fetch'
@@ -334,9 +334,13 @@ function onQrPaid() {
     reportPaymentEvent('payment_success', 'fps', successParams(qrTid.value, qrOrderId.value, 'fps'))
 }
 
-// tid платежа в payment_qr_shown и payment_redirect: тот же, что в track_id и payment_success
-function tidParams(tid) {
-    return tid ? {tid} : {}
+// tid и номер заказа в payment_qr_shown и payment_redirect: те же, что в payment_success
+// и payment_confirmed. Номер заказа - OrderId из payment.php, его банк показывает как «Номер заказа»
+function startParams(tid, number) {
+    const params = {}
+    if (tid) params.tid = tid
+    if (number) params.number = number
+    return params
 }
 
 function successParams(tid, number, type) {

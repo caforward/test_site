@@ -42,8 +42,11 @@ describe('track_id', () => {
     })
 })
 
-// Просьба заказчика 02.11: тот же tid и в payment_qr_shown, и в payment_redirect
-describe('tid в событиях начала оплаты', () => {
+// Просьба заказчика 02.11: тот же tid и в payment_qr_shown, и в payment_redirect.
+// 03.11: и номер заказа (number), как в payment_success и payment_confirmed
+describe('tid и номер заказа в событиях начала оплаты', () => {
+    const ORDER_ID = '20261102120000-abc123'
+
     const INPUTS = [
         { name: 'name', type: 'text', placeholder: 'ФИО*', required: true, value: 'test test' },
         { name: 'userAmount', type: 'number', placeholder: 'Сумма', required: true, value: 1000 },
@@ -57,7 +60,7 @@ describe('tid в событиях начала оплаты', () => {
         ym.mockImplementation((_counter: number, method: string, callback?: unknown) => {
             if (method === 'getClientID') (callback as (id: string) => void)('1761900000123456789')
         })
-        const fetchMock = vi.fn(async () => ({ ok: true, status: 200, json: async () => ({ ok: true, paymentId: '7001', orderId: '20261102120000-abc123', ...answer }) }))
+        const fetchMock = vi.fn(async () => ({ ok: true, status: 200, json: async () => ({ ok: true, paymentId: '7001', orderId: ORDER_ID, ...answer }) }))
         vi.stubGlobal('fetch', fetchMock)
 
         const wrapper = mount(PayForm, {
@@ -77,7 +80,7 @@ describe('tid в событиях начала оплаты', () => {
         document.body.innerHTML = ''
     })
 
-    it('СБП: payment_qr_shown с тем же tid, что track_id и платёж', async () => {
+    it('СБП: payment_qr_shown с тем же tid, что track_id и платёж, и номером заказа', async () => {
         const { wrapper, sentTid, goal } = mountPayForm({ paymentUrl: 'https://pay.test/1', qrImage: 'data:image/svg+xml;base64,PHN2Zy8+' })
 
         await (wrapper.vm as any).paymentPay()
@@ -86,11 +89,11 @@ describe('tid в событиях начала оплаты', () => {
         const tid = sentTid()
         expect(tid).toMatch(/^\d{13}[A-Z]{4}$/)
         expect(goal('track_id')?.[3]).toEqual({ tid })
-        expect(goal('payment_qr_shown')?.[3]).toMatchObject({ form: 'payment_form', reason: 'fps', tid })
+        expect(goal('payment_qr_shown')?.[3]).toMatchObject({ form: 'payment_form', reason: 'fps', tid, number: ORDER_ID })
         wrapper.unmount()
     })
 
-    it('карта: payment_redirect с тем же tid, что track_id и платёж', async () => {
+    it('карта: payment_redirect с тем же tid, что track_id и платёж, и номером заказа', async () => {
         // уход на страницу банка - по таймеру, в тесте до него не доходит
         vi.useFakeTimers()
         const { wrapper, sentTid, goal } = mountPayForm({ paymentUrl: 'https://pay.test/1' })
@@ -101,7 +104,7 @@ describe('tid в событиях начала оплаты', () => {
 
         const tid = sentTid()
         expect(goal('track_id')?.[3]).toEqual({ tid })
-        expect(goal('payment_redirect')?.[3]).toMatchObject({ form: 'payment_form', reason: 'card', tid })
+        expect(goal('payment_redirect')?.[3]).toMatchObject({ form: 'payment_form', reason: 'card', tid, number: ORDER_ID })
         wrapper.unmount()
     })
 })
